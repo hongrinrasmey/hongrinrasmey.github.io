@@ -244,6 +244,15 @@ Owner asked for a section that shows what they know instead of "About me" (the h
 - Checks: lint 0/0; CDP at 360/390/768/1024/1440/1920: no horizontal scroll, no TODO text, links land at 88px, no console errors.
 - Still open: education details, LinkedIn URL, résumé PDF.
 
+### Update 2026-11-12: honest AI wording, Tech + Education sections
+Owner said the projects were built with AI and they do not yet know the foundations of Kotlin, Node.js etc. Owner chose to **say it openly**. Owner degree: Bachelor's in Business Information Technology (BIT), National University of Management, 2023–2026. No work experience yet.
+- Hero intro + meta/og/twitter descriptions: "I design and ship web and mobile apps, using AI tools to build them." Card text (all 3, two inside HTML comments): "I designed it and built it with AI tools." Work heading "Apps I designed and shipped".
+- `02 · SKILLS` → `02 · TECH` "What I build with" (`#tech`, nav "Tech"): left one honest sentence (`.tech__note`), right the tool groups plus "How I build: AI-assisted development". The "What I can do" column was removed (owner: it repeated the Work section). Owner asked about skill percentages: advised against (CLAUDE.md §5 bans them, and they would claim knowledge the owner says they don't have).
+- `03 · EDUCATION` "Where I studied" (`#education`, nav link added), one `.timeline` item. The old commented-out Experience block was replaced; `.education*` CSS removed. JSON-LD `alumniOf` added.
+- **Do not** add levels, percentages or "expert" words to Tech (DESIGN.md §8.4 honesty rule).
+- Another session was adding animations to `css/style.css` + `js/main.js` at the same time (photo wipe, phone screen cycling, pill pop-in, label roll). Those were NOT part of this commit (only my CSS lines were staged). With them the CSS is ~32.4 KB, over the 30,000 budget.
+- Checks: lint 0/0 (run before the other session's edits); CDP 360–1920 no horizontal scroll, no TODO text, labels 01–04, nav links land under the header, no console errors.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

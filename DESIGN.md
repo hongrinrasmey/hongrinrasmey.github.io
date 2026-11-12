@@ -183,10 +183,10 @@ Site
 
 ## 8. Page structure (one page)
 
-Order: Header → Hero → Work → Skills → Experience (if provided) → Contact → Footer.
+Order: Header → Hero → Work → Tech → Education → Experience (if provided) → Contact → Footer.
 
 ### 8.1 Header
-- Left: my name (or initials mark). Right: Work · Skills · Experience (only if provided) · Contact, a small outline "Résumé" button (if résumé exists, desktop only), and the theme toggle.
+- Left: my name (or initials mark). Right: Work · Tech · Education · Experience (only if provided) · Contact, a small outline "Résumé" button (if résumé exists, desktop only), and the theme toggle.
 - Transparent at the top; after ~20px of scroll: `--bg` at 80% opacity, 12px backdrop blur, 1px bottom border.
 - Active section link highlighted while scrolling (IntersectionObserver).
 - Mobile (<768px): hamburger → full-screen menu; locks scroll; closes on link click, Esc or outside click; `aria-expanded` updates.
@@ -217,11 +217,10 @@ Order: Header → Hero → Work → Skills → Experience (if provided) → Cont
 - **Demo login** (only if one exists): small mono line with a copy button.
 - **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
 
-### 8.4 Skills (was About; owner 2026-11-12)
-- Section label `02 / SKILLS`, heading "What I work with". Nav link "Skills" (`#skills`). The hero photo, name, role and intro already say who I am, so there is no separate bio.
-- ≥1024px: two equal columns (1fr 1fr, same split as Contact). Left: "What I can do", 3 items (bold title, one muted line, links to the project cards that prove it: `#kh-halal`, `#idevo`, `#rieltrack`). Right: the tool groups. Stacked below 1024px.
-- Every "What I can do" line must come from the real projects. No made-up skills.
-- **Tools:** grouped (Languages / Frontend & mobile / Backend / Tools) as pill tags (Geist Mono 14px, padding 6×12) with 18px monochrome logos (`currentColor`, 75% opacity so solid and outlined logos weigh the same). Location is shown once, in the hero. Only skills I listed. No percentage bars or ratings.
+### 8.4 Tech (was About, then Skills; owner 2026-11-12)
+- Section label `02 / TECH`, heading "What I build with", nav "Tech" (`#tech`).
+- **Honesty rule (owner 2026-11-12):** the owner builds with AI coding tools and has not yet learned the foundations of these languages. The site says so openly. Never present the tools as mastered skills: no levels, no percentages, no "expert" wording.
+- ≥1024px: two equal columns. Left: one sentence, "I build my apps with AI coding tools. These are the technologies used in the apps I've shipped." Right: groups "How I build" (AI-assisted development), Languages, Frontend & mobile, Backend, Tools, as pill tags (Geist Mono 14px, padding 6×12, 18px monochrome logos at 75% opacity). Stacked below 1024px.
 
 ### 8.5 Experience (only if provided)
 - Section label `03 / EXPERIENCE`.
@@ -357,7 +356,7 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 - No horizontal scroll at any width; long words/URLs wrap (`overflow-wrap: anywhere`).
 - Tap targets ≥ 44×44px; body text ≥ 16px.
 - Work: featured card split on ≥1024px, stacked below; other cards 2 columns on ≥768px.
-- Skills: 2 columns on ≥1024px, stacked below.
+- Tech: 2 columns on ≥1024px, stacked below.
 - Media uses fixed `aspect-ratio` boxes so nothing jumps while loading.
 
 ---

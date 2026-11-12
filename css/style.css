@@ -130,14 +130,14 @@ p { max-width: 65ch; text-wrap: pretty; }
 
 /* Text links: underline grows on hover */
 a { color: inherit; }
-:is(.caps, .contact__text) a, .contact__email {
+.contact__text a, .contact__email {
   position: relative;
   color: var(--text);
   text-decoration: underline 1px var(--border);
   text-underline-offset: 0.2em;
   transition: color var(--dur-fast) var(--ease-out);
 }
-:is(.caps, .contact__text) a::after, .contact__email::after {
+.contact__text a::after, .contact__email::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 2px;
@@ -146,8 +146,8 @@ a { color: inherit; }
   transform-origin: left;
   transition: transform var(--dur-base) var(--ease-out);
 }
-:is(.caps, .contact__text) a:hover, .contact__email:hover { color: var(--accent-text); }
-:is(.caps, .contact__text) a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
+.contact__text a:hover, .contact__email:hover { color: var(--accent-text); }
+.contact__text a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
 
 ::selection { background: var(--accent); color: var(--accent-fg); }
 
@@ -576,10 +576,7 @@ main { counter-reset: section; }
 
 /* --- About --- */
 .about__grid { display: grid; gap: var(--s-6); }
-.caps { display: grid; gap: var(--s-4); }
-.caps strong { display: block; font-weight: 600; }
-.caps p { color: var(--muted); }
-.caps a { font-size: var(--fs-small); }
+.tech__note { font-size: var(--fs-h3); line-height: 1.55; max-width: 34rem; }
 .about__skills { display: grid; gap: var(--s-4); align-content: start; }
 .skill-group__title {
   margin-bottom: 12px;
@@ -598,9 +595,6 @@ main { counter-reset: section; }
 .timeline__role { margin-top: var(--s-1); font-size: var(--fs-h3); }
 .timeline__company { color: var(--muted); }
 .timeline__text { margin-top: var(--s-2); }
-.education { margin-top: var(--s-6); }
-.education__title { font-size: var(--fs-body); margin-bottom: var(--s-2); }
-.education__list { color: var(--muted); }
 
 /* --- Contact --- */
 .contact__grid {
