@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ===== PAGE INFO (shows in Google and browser tab) ===== -->
+  <title>[TODO: Your Name] — [TODO: Your Role]</title>
+  <meta name="description" content="[TODO: one sentence about you, e.g. your role and what you build]">
+
+  <!-- ===== SHARING PREVIEW (Facebook, LinkedIn, Telegram...) ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="[TODO: Your Name] — [TODO: Your Role]">
+  <meta property="og:description" content="[TODO: one sentence about you]">
+  <!-- TODO: add a 1200x630 image at assets/images/og.png, then remove the comment marks below.
+       Use the full address once the site is live, e.g. https://yourname.github.io/assets/images/og.png -->
+  <!-- <meta property="og:image" content="assets/images/og.png"> -->
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Sets the colour theme before the page draws, so there is no flash of the wrong theme. -->
+  <script>
+    (function () {
+      var d = document.documentElement, t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      d.setAttribute('data-theme', t);
+      d.classList.add('js');
+    })();
+  </script>
+
+  <!-- Fonts: Space Grotesk (headings) + Inter (text). Change them in css/style.css too. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="wordmark" href="#top">[TODO: Your Name]</a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path class="icon-open" d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="icon-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <!-- <li><a href="#experience">Experience</a></li>  ← uncomment if you add the Experience section -->
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero container" id="top" aria-label="Introduction">
+      <h1 class="hero-name">[TODO: Your Name]</h1>
+      <p class="hero-role">[TODO: Your Role, e.g. Full-Stack Developer]</p>
+      <p class="hero-intro">[TODO: your one-line intro]</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#work">View my work</a>
+        <a class="btn btn-secondary" href="#contact">Contact me</a>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS =====
+         To add a project: copy one whole <article class="project"> ... </article> block and change it.
+         To hide the Live or Code button: leave its href="#".
+         To show a screenshot: replace the "Screenshot coming soon" <div> with:
+           <img src="assets/images/your-file.webp" alt="Screenshot of PROJECT NAME" width="1200" height="750" loading="lazy">
+    -->
+    <section class="section container reveal" id="work">
+      <h2 class="section-title">Selected work</h2>
+      <div class="projects">
+
+        <!-- PROJECT 1 -->
+        <article class="project">
+          <div class="project-shot placeholder-box">Screenshot coming soon</div>
+          <div class="project-body">
+            <h3 class="project-name">[TODO: Project name]</h3>
+            <p class="project-desc">[TODO: one line about what it does]</p>
+            <ul class="tags" aria-label="Built with">
+              <li>[TODO: tech]</li>
+              <li>[TODO: tech]</li>
+            </ul>
+            <div class="project-links">
+              <a class="btn btn-primary btn-small link-opt" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="btn btn-secondary btn-small link-opt" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 2 -->
+        <article class="project">
+          <div class="project-shot placeholder-box">Screenshot coming soon</div>
+          <div class="project-body">
+            <h3 class="project-name">[TODO: Project name]</h3>
+            <p class="project-desc">[TODO: one line about what it does]</p>
+            <ul class="tags" aria-label="Built with">
+              <li>[TODO: tech]</li>
+              <li>[TODO: tech]</li>
+            </ul>
+            <div class="project-links">
+              <a class="btn btn-primary btn-small link-opt" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="btn btn-secondary btn-small link-opt" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section container reveal" id="about">
+      <h2 class="section-title">About me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="about-bio">[TODO: your bio, 2–3 sentences]</p>
+          <p class="about-meta">Based in [TODO: City], Cambodia. Open to remote work: [TODO: yes/no].</p>
+        </div>
+
+        <!-- MY PHOTO: put me.jpg in assets/images/, then remove the comment marks around the <img> below. -->
+        <!-- <img class="about-photo" src="assets/images/me.jpg" alt="Photo of [Your Name]" width="480" height="600" loading="lazy"> -->
+
+        <div class="about-skills">
+          <h3 class="skills-title">Skills</h3>
+          <!-- One <li> per skill. -->
+          <ul class="tags tags-large">
+            <li>[TODO: skill]</li>
+            <li>[TODO: skill]</li>
+            <li>[TODO: skill]</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE (optional) =====
+         Remove the comment marks around this section to show it, and uncomment its link in the header.
+    <section class="section container reveal" id="experience">
+      <h2 class="section-title">Experience</h2>
+      <ol class="experience">
+        <li class="job">
+          <p class="job-dates">[Dates]</p>
+          <div>
+            <h3 class="job-role">[Role] · [Company]</h3>
+            <p>[One achievement]</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+    -->
+
+    <!-- ===== CONTACT =====
+         Your email is written in 2 places below (the href and the visible text). Change both.
+    -->
+    <section class="section contact container reveal" id="contact">
+      <h2 class="section-title">Let's work together</h2>
+      <div class="contact-grid">
+      <p class="contact-line">[TODO: a short friendly line, e.g. what kind of work you're looking for]</p>
+      <div class="contact-box">
+      <a class="contact-email" id="email-link" href="mailto:TODO-your-email">[TODO: your email]</a>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:TODO-your-email">Email me</a>
+        <button class="btn btn-secondary copy-email" type="button">Copy email</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
+      </div>
+      <div class="contact-links">
+        <!-- Put your full profile URLs in href="..." to show these. -->
+        <a class="icon-link link-opt" href="#" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+        <a class="icon-link link-opt" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <!-- RÉSUMÉ: put resume.pdf in assets/, then change href="#" to href="assets/resume.pdf" -->
+        <a class="btn btn-secondary link-opt" href="#" download>Download résumé (PDF)</a>
+      </div>
+      </div><!-- /contact-box -->
+      </div><!-- /contact-grid -->
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-name">[TODO: Your Name]</p>
+      <p>&copy; <span id="year">2026</span> [TODO: Your Name]</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
