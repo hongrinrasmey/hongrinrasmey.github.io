@@ -298,7 +298,7 @@ Order: Header → Hero → Work → About → Experience (if provided) → Conta
 **Test h1 with my real name at 360px.** If it overflows or wraps awkwardly, reduce the size or break cleanly into first name / last name.
 
 ### 9.4 Layout and spacing
-- **Container:** max-width 1200px; side padding 24px (mobile) / 32px (≥768px).
+- **Container:** max-width 1400px; side padding 24px (mobile) / 32px (≥768px) / 48px (≥1280px).
 - **Grid:** 12 columns on desktop, 1 on mobile.
 - **Spacing scale (8px system):** 4 · 8 · 16 · 24 · 32 · 48 · 64 · 96 · 128, as CSS variables. No random values.
 

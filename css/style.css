@@ -62,7 +62,7 @@
   /* Shape and layout */
   --radius: 12px;
   --radius-pill: 999px;
-  --container: 1200px;
+  --container: 1400px;
   --gutter: 24px;
   --header-h: 64px;   /* 72px from 768px up */
   --card-pad: 20px;   /* 28px from 768px up */
@@ -707,6 +707,8 @@ main { counter-reset: section; }
   .project-card__body { padding-top: 24px; } /* card media → title */
   .site-footer { padding-block: 40px; }
 }
+
+@media (min-width: 1280px) { :root { --gutter: 48px; } }
 
 @media (min-width: 1024px) {
   .section { padding-block: var(--s-8); }

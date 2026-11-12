@@ -166,6 +166,12 @@ Owner approved after a design review:
 - **Phone frames fixed**: `.phone` had `aspect-ratio: 390/844` on its border-box (3px padding + 1px border) and `object-fit: cover`, so screenshots lost their left/right edges ("Plan", "Hard" cut). Now `.phone { flex: none }` and `.phone img { width: auto; height: 100% }`: the frame takes its width from each screenshot, nothing is cropped. RielTrack images re-exported at the emulator's real 9:20 (405×900, no crop); idevo stays 390×844. Checked at 1440/800/768/390.
 - **Owner decision (2026-11-12): no "Private repo" label on any card.** Removed all three; DESIGN.md §6 step 7 and §8.3 updated. Public repo → add a "View code" button (comment above the projects in `index.html`).
 
+### Update 2026-11-12 (sixth pass): wider layout on big screens
+Owner asked for less empty space at the sides on wide screens.
+- `--container` 1200px → **1400px** (`css/style.css` line 65) and a new `--gutter: 48px` from 1280px up (one line before the 1024px block). DESIGN.md §9.4 updated.
+- Result: side space at 1920 is ~260px (was ~360px), at 1440 48px (was ~120px). Below 1280 nothing changed.
+- Checked with headless Edge screenshots at 1920/1440/1280/1024. CSS 29,915 bytes (budget 30,000: only ~85 bytes left).
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
