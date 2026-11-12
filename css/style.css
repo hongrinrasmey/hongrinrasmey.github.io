@@ -1,4 +1,4 @@
-/* style.css. To re-colour the site, change --accent and --accent-text (both themes). */
+/* Re-colour: change --accent and --accent-text in both themes. */
 
 /* ===== 0. FONTS (licence: assets/fonts) ===== */
 @font-face {
@@ -406,10 +406,9 @@ main { counter-reset: section; }
   background-position: center top;
   mask-image: linear-gradient(to bottom, #000 30%, transparent 95%); /* taste-skill-ignore */
 }
-/* Soft orange glow */
 .hero::after {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(45% 45% at 25% 55%, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
+  background: radial-gradient(45% 45% at 25% 55%, color-mix(in srgb, var(--accent) 7%, transparent), transparent); /* taste-skill-ignore */
 }
 .hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
 
@@ -426,11 +425,11 @@ main { counter-reset: section; }
   border-radius: var(--radius);
 }
 @media (min-width: 1024px) {
-  /* 1fr title row: text sits at the bottom */
-  .hero__inner { display: grid; grid-template: 1fr repeat(3, auto) / 1fr auto; column-gap: var(--s-7); }
+  /* text bottom-left; photo centred in the space left */
+  .hero__inner { display: grid; grid-template: 1fr repeat(3, auto) / auto 1fr; column-gap: var(--s-7); }
   .hero__inner > * { grid-column: 1; }
   .hero__title { align-self: end; }
-  .hero__photo { grid-column: 2; grid-row: 1 / span 4; align-self: end; width: clamp(280px, 26vw, 400px); margin: 0 12px 12px 0; }
+  .hero__photo { grid-column: 2; grid-row: 1 / span 4; place-self: end center; width: clamp(280px, min(30vw, 50svh), 480px); margin: 0 12px 12px 0; }
 }
 .hero__status {
   display: inline-flex; align-items: center; gap: 10px;

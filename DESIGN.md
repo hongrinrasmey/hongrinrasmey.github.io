@@ -57,8 +57,8 @@ Keep the code clean, well-commented and easy for me to edit.
 
 ```
 Name:            [YOUR NAME]            (may be suggested from my GitHub profile; confirm with me)
-Role:            [e.g. Full-Stack Developer]
-One-line intro:  [who I help + what I build, e.g. "I build fast, reliable web and mobile apps for real businesses."]
+Role:            Full-Stack & Android Developer
+One-line intro:  I design and build web and mobile apps from idea to release.
 Bio (2–3 sent.): [...]
 Location:        [City], Cambodia
 Open to:         [Full-time / Freelance / Remote]

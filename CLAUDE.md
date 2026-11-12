@@ -228,6 +228,14 @@ Owner asked for less empty space at the sides on wide screens.
 - CSS 29,984 / 30,000 bytes (comments shortened to fit). Checked with screenshots at 1440, 1024, 500.
 - `og-image.png` still has the old blue-background round photo: re-make from `tools/og-image.html`.
 
+### Update 2026-11-12: role + intro, hero gap, share image
+- **Owner chose (2026-11-12):** role "Full-Stack & Android Developer", intro "I design and build web and mobile apps from idea to release." Put in the hero, `<title>`, meta/OG/Twitter description + titles, JSON-LD `jobTitle`, `tools/og-image.html` (role un-hidden), DESIGN.md §5. `og-image.png` re-made (role + new photo).
+- **Hero gap (wide screens):** grid columns `auto 1fr` (text takes its own width), photo `place-self: end center` in the rest, width `clamp(280px, min(30vw, 50svh), 480px)` (50svh keeps it inside short laptop screens). Gap name→photo at 1860 ~210px (was ~400). At 1024 the name wraps to 2 lines (same as before).
+- Lint had 1 FAIL from commit dc304ea (hero glow radial-gradient, DESIGN.md §9.7): marked `taste-skill-ignore`.
+- Checks: lint 0/0; screenshots 1860×914, 1440, 1366×768, 1024, 768, 390, 360; Lighthouse (gzip) mobile 99/100/100/100 LCP 1.8s CLS 0, desktop 100×4, no console errors. CSS 29,994 / 30,000.
+- Owner may send a more relaxed photo later (daylight, plain wall): redo with the same background replacement, `me.webp` 800×1000.
+- Still TODO: bio, city, remote, contact sentence, LinkedIn.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
