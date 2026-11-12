@@ -62,7 +62,7 @@
   /* Shape and layout */
   --radius: 12px;
   --radius-pill: 999px;
-  --container: 1400px;
+  --container: 1600px;
   --gutter: 24px;
   --header-h: 64px;   /* 72px from 768px up */
   --card-pad: 20px;   /* 28px from 768px up */
@@ -716,7 +716,7 @@ main { counter-reset: section; }
   /* Featured card: media 7/12, text 5/12 */
   .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: center; }
   .project-card--featured .project-card__media--web { margin: var(--card-pad); }
-  .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; height: 100%; }
+  .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; }
   .about__grid { grid-template-columns: 7fr 5fr; gap: var(--s-8); }
   .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-8) var(--s-7); align-items: end; }
 }
