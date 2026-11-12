@@ -28,10 +28,10 @@
   --fs-h1:    clamp(3rem, 9vw, 7.5rem);
   --fs-h2:    clamp(2rem, 4vw, 3rem);
   --fs-h3:    clamp(1.25rem, 2vw, 1.5rem);
-  --fs-lead:  clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --fs-lead:  var(--fs-h3);   /* intro text uses the h3 size, so the page needs fewer sizes */
   --fs-body:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --fs-small: 0.875rem;
-  --fs-label: 0.75rem;
+  --fs-label: 0.8125rem;   /* 13px: the smallest readable size */
 
   /* Spacing scale (8px steps) */
   --space-1: 4px;
@@ -48,7 +48,7 @@
   --container: 1100px;
   --gutter: 24px;                                 /* 32px from 768px, see below */
   --header-h: 72px;
-  --section-pad: clamp(64px, 4rem + 4vw, 128px);  /* 64px phone → 128px wide desktop */
+  --section-pad: clamp(64px, 2.5rem + 4vw, 112px);  /* 64px phone → 112px wide desktop */
 
   /* Shape and motion */
   --radius: 12px;
@@ -189,7 +189,7 @@ button { font: inherit; color: inherit; }
   padding: 12px var(--space-4);
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
-  font: 500 1rem/1.2 var(--font-body);
+  font: 500 var(--fs-body)/1.2 var(--font-body);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -276,7 +276,7 @@ button { font: inherit; color: inherit; }
   min-width: 0;
   min-height: 44px;
   margin-right: auto;
-  font: 700 1.125rem/1.2 var(--font-heading);
+  font: 700 var(--fs-body)/1.2 var(--font-heading);
   letter-spacing: -0.02em;
   color: var(--text);
   text-decoration: none;
@@ -357,7 +357,7 @@ html:not(.js) .theme-toggle,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-block: var(--space-7) var(--space-8);
+  padding-block: var(--space-7) var(--space-3);  /* phone: the Work section adds its own space below */
 }
 @media (min-width: 768px) {
   .hero {
@@ -623,6 +623,11 @@ html:not(.js) .theme-toggle,
 .education__list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
 
 /* ===== CONTACT ===== */
+.contact {                       /* the closing section sits on the card colour */
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  transition: background-color var(--dur);
+}
 .contact__grid { display: grid; gap: var(--space-6); }
 @media (min-width: 1024px) {
   .contact__grid {
@@ -647,7 +652,8 @@ html:not(.js) .theme-toggle,
 .contact__email {
   display: inline-block;
   max-width: 100%;
-  font: 600 clamp(1.5rem, 1rem + 2vw, 2.5rem)/1.2 var(--font-heading);
+  padding-block: var(--space-1);   /* keeps the tap area at least 44px tall */
+  font: 600 var(--fs-h2)/1.2 var(--font-heading);
   letter-spacing: -0.02em;
   text-decoration: underline;
   text-decoration-color: var(--border);

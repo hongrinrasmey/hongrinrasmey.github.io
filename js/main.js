@@ -217,7 +217,6 @@
         '?mute=1&loop=1&playlist=' + id + '&rel=0' + (autoplay ? '&autoplay=1' : '');
       player.title = title;
       player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      player.allowFullscreen = true;
     } else {
       // The video file only starts downloading now, when the pop-up opens.
       player = document.createElement('video');
