@@ -405,6 +405,13 @@ After an honest review (RielTrack 8, idevo 7, KH Halal 6 out of 10), everything 
 - **GIFs** (8 s, 300 px, 12 fps, under 3 MB) added to the PUBLIC `RielTrack-Downloads` (a9d1c1f) and `Idevo-Downloads` (02491a5) READMEs, committed with the GitHub no-reply email.
 - Emulator: clock automatic, demo mode off, closed. Nothing pushed from this repo.
 
+### Update 2026-11-12: published on GitHub Pages (owner: "now push", chose this session to do it)
+- **Live:** https://hongrinrasmey.github.io/portfolio/ (public repo `hongrinrasmey/portfolio`, Pages from `main` /, `.nojekyll`).
+- **History rewritten before the first push:** 60 of 66 commits had the private Gmail as author/committer; `git filter-branch --env-filter` changed them to `248713826+hongrinrasmey@users.noreply.github.com` (files identical: same tree). `refs/original` deleted. Backup of the old history: a git bundle in that session's scratchpad (not in the repo). Checked first: the Gmail and the KH Halal passwords were never in any file or commit message.
+- This repo's `git config --local user.email` is the no-reply address; the GLOBAL one is still the Gmail, so commits in other repos on this PC would show it.
+- Live test (headless Edge, 1440 + 390): all 3 videos play, posters, phone pop-up, Esc + focus, no broken images, fonts load, no 4xx responses, no console errors, 404 page works, og-image 200. The résumé link is only an HTML comment until `assets/resume.pdf` exists.
+- Commit IDs changed: anything that noted old IDs (e.g. "commit 3c87440") refers to the pre-rewrite history.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
