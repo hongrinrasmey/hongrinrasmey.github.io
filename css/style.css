@@ -249,6 +249,109 @@ button { font: inherit; color: inherit; }
    5. SECTIONS
    ========================================================= */
 
+/* ===== HEADER ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;            /* see-through at the top of the page… */
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--dur), border-color var(--dur);
+}
+.site-header.is-scrolled,            /* …solid after scrolling 20px (set in main.js) */
+.menu-open .site-header {
+  background: var(--bg);
+  border-bottom-color: var(--border);
+}
+.header__inner {
+  display: flex;
+  flex-wrap: wrap;                    /* only matters without JavaScript on phones */
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--header-h);
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 44px;
+  margin-right: auto;
+  font: 700 1.125rem/1.2 var(--font-heading);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.wordmark:hover { color: var(--accent); }
+
+.site-nav__list { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.site-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  color: var(--muted);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--dur);
+}
+.site-nav__link:hover { color: var(--text); }
+.site-nav__link.is-active { color: var(--accent); }   /* the section on screen now */
+
+@media (min-width: 768px) {
+  .site-nav { margin-right: var(--space-2); }
+}
+
+/* Theme toggle: sun in dark mode (click = go light), moon in light mode */
+.theme-toggle svg {
+  grid-area: 1 / 1;                   /* both icons sit in the same spot */
+  transition: opacity var(--dur), transform 300ms var(--ease-out);
+}
+.theme-toggle .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+[data-theme="light"] .theme-toggle .icon-sun { opacity: 0; transform: rotate(90deg) scale(0.6); }
+[data-theme="light"] .theme-toggle .icon-moon { opacity: 1; transform: none; }
+
+/* Without JavaScript these two buttons cannot work, so they are hidden */
+html:not(.js) .theme-toggle,
+.menu-toggle { display: none; }
+
+.menu-toggle__close { display: none; }
+.menu-open .menu-toggle__open { display: none; }
+.menu-open .menu-toggle__close { display: inline; }
+
+/* Phone: full-screen menu (only with JavaScript; otherwise the links stay visible) */
+@media (max-width: 767px) {
+  .js .menu-toggle { display: inline-grid; }
+  .js .site-nav {
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    padding: var(--space-5) var(--gutter);
+    overflow-y: auto;
+    background: var(--bg);
+    visibility: hidden;               /* hidden links cannot be tabbed to */
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity var(--dur), transform var(--dur) var(--ease-out), visibility 0s var(--dur);
+  }
+  .menu-open .site-nav {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--dur), transform var(--dur) var(--ease-out), visibility 0s;
+  }
+  .js .site-nav__list { flex-direction: column; gap: 0; }
+  .js .site-nav__link {
+    width: 100%;
+    min-height: 64px;
+    padding: 0;
+    font: 600 clamp(2rem, 9vw, 2.5rem)/1.1 var(--font-heading);
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .js .site-nav__link.is-active { color: var(--accent); }
+  .menu-open { overflow: hidden; }    /* page does not scroll behind the menu */
+}
+
 /* =========================================================
    6. UTILITIES
    ========================================================= */
