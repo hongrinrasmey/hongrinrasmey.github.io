@@ -43,8 +43,8 @@
   --fs-h2:    clamp(2rem, 4vw, 3rem);
   --fs-h3:    clamp(1.25rem, 2vw, 1.5rem);
   --fs-body:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --fs-small: 0.875rem;
-  --fs-label: 0.8125rem;
+  --fs-small: 0.875rem;  /* small text and labels share one step (DESIGN.md §9.3: 12–14px) */
+  --fs-label: var(--fs-small);
 
   /* Spacing (8px scale) */
   --s-1: 4px;  --s-2: 8px;  --s-3: 16px; --s-4: 24px; --s-5: 32px;
@@ -226,7 +226,7 @@ main { counter-reset: section; }
   padding: 12px 24px;
   border: 1px solid transparent; /* taste-skill-ignore: DESIGN.md §6.5 secondary button border */
   border-radius: var(--radius-pill);
-  font-size: 1rem; font-weight: 500; line-height: 1.2;
+  font-size: var(--fs-body); font-weight: 500; line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
@@ -320,7 +320,7 @@ main { counter-reset: section; }
 
 .wordmark {
   margin-right: auto;
-  font-weight: 600; font-size: 1rem; letter-spacing: -0.02em;
+  font-weight: 600; font-size: var(--fs-body); letter-spacing: -0.02em;
   text-decoration: none;
   min-height: 44px; display: inline-flex; align-items: center;
   overflow-wrap: anywhere;
@@ -420,7 +420,7 @@ main { counter-reset: section; }
 .hero__intro {
   margin-top: var(--s-4);
   max-width: 36rem;
-  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  font-size: var(--fs-h3);
   line-height: 1.5;
   color: var(--muted);
 }
@@ -507,7 +507,7 @@ main { counter-reset: section; }
   padding: var(--s-4);
   text-align: center;
   color: var(--muted);
-  font-size: 1.25rem;
+  font-size: var(--fs-h3);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -516,8 +516,8 @@ main { counter-reset: section; }
 .project-card__extra { display: flex; flex-direction: column; flex: 1; }
 .project-card__title { font-size: var(--fs-h3); }
 .project-card__lead { margin-top: var(--s-2); font-weight: 500; }
-.project-card__text { margin-top: var(--s-3); color: var(--muted); font-size: 1rem; }
-.project-card__features { margin-top: var(--s-3); display: grid; gap: var(--s-2); font-size: 1rem; }
+.project-card__text { margin-top: var(--s-3); color: var(--muted); }
+.project-card__features { margin-top: var(--s-3); display: grid; gap: var(--s-2); }
 .project-card__features li { position: relative; padding-left: 20px; }
 .project-card__features li::before {
   content: ""; position: absolute; left: 0; top: 0.7em;
@@ -545,7 +545,7 @@ main { counter-reset: section; }
 
 /* --- About --- */
 .about__grid { display: grid; gap: var(--s-6); }
-.about__bio { font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem); line-height: 1.55; max-width: 34rem; }
+.about__bio { font-size: var(--fs-h3); line-height: 1.55; max-width: 34rem; }
 .about__meta { margin-top: var(--s-3); color: var(--muted); }
 .about__skills { display: grid; gap: var(--s-4); }
 .skill-group__title {
@@ -583,7 +583,7 @@ main { counter-reset: section; }
 .timeline__company { color: var(--muted); }
 .timeline__text { margin-top: var(--s-2); }
 .education { margin-top: var(--s-6); }
-.education__title { font-size: 1rem; margin-bottom: var(--s-2); }
+.education__title { font-size: var(--fs-body); margin-bottom: var(--s-2); }
 .education__list { color: var(--muted); }
 
 /* --- Contact: one lit panel, a step lighter than the page --- */
@@ -595,13 +595,14 @@ main { counter-reset: section; }
   max-width: calc(var(--container) + 2 * var(--gutter) - 2 * var(--s-3));
   width: calc(100% - 2 * var(--s-3));
 }
-.contact__title { margin-top: var(--s-3); font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.02; letter-spacing: -0.04em; }
+.contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); line-height: 1.02; letter-spacing: -0.04em; }
 .contact__text { margin-top: var(--s-4); max-width: 30rem; color: var(--muted); }
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
 .contact__details { align-self: end; }
 .contact__email {
-  display: inline-block;
-  font-size: clamp(1.5rem, 1rem + 2.5vw, 2.5rem);
+  display: inline-flex; align-items: center;
+  min-height: 44px; /* tap target (DESIGN.md §10) */
+  font-size: var(--fs-h3);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.2;

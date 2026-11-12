@@ -125,8 +125,10 @@ The owner pasted the full new DESIGN.md in chat. Its §11.2 says text scramble, 
 - **Fonts self-hosted** (§9.3): `assets/fonts/geist-latin.woff2` (variable 400–700), `geist-mono-latin.woff2` (400–500), `OFL.txt`. `@font-face` at the top of `css/style.css`. The preload is added by the `<head>` script only on http/https (file:// blocks it with a CORS error); 404.html has a static preload. Noto Sans Khmer is in both stacks; `initKhmerFont()` in `js/main.js` loads its Google Fonts CSS only when the page has Khmer letters (a static link blocked rendering ~1s for nothing). Tested with a Khmer word: it loads.
 - **Hero avatar** slot added (commented out, `HERO AVATAR` in `index.html`) until `assets/images/me.webp` exists.
 - **Bug fixed:** a `<!-- taste-skill-ignore -->` inside the commented-out Experience block closed the comment early, so "Education", "[Degree / Course]" and `-->` were showing on the page.
-- `DESIGN.md` on disk was NOT overwritten (spec rule 8). The owner still needs to save the pasted version over it.
-- Checks after this: lint 0/0; inspector 0 FAIL (WARNs: size-count, no-footage, off-centre, hero-void, as before); headless Edge: no console errors on file:// and http (index + 404), no horizontal scroll 360–1920, `T` works, one h1; Lighthouse mobile 98/100/100/100 (simulated LCP 2.3s, observed 122ms), desktop 100/100/100/100, page 263 KB.
+- `DESIGN.md` on disk was NOT overwritten (spec rule 8; an attempt to replace it was also blocked by the tool's safety check). The owner still needs to save the pasted version over it.
+- **Type scale** folded onto the spec's five steps (§9.3 table): 14 (small + labels, `--fs-label` = `--fs-small`) / body / h3 / h2 / h1. Buttons, wordmark and card text use `--fs-body`; hero intro and About bio use `--fs-h3`; contact heading `--fs-h2`; contact email `--fs-h3` at every width (48px broke real addresses in the narrow column) with a 44px tap height.
+- KH Halal screenshot is `loading="lazy"` (it is below the fold at every width, §12).
+- Checks (final): lint 0/0; inspector 0 FAIL, sizes 14/18/24/48/104, WARNs defended in `.taste-skill/critique.md` round 3 (no-footage: videos are a separate task; off-centre: frame measured 165/165px, the 192px is ragged text; hero-void: fills with real name + avatar); `scenes.mjs` ran (no scroll scenes on the sheet; reduced-motion sheet made). Headless Edge functional test all pass: skip link first, mobile menu open/aria-expanded/scroll lock/Esc closes + focus returns/link click closes, ≥44px targets, one h1, alt on images, no broken `#` links, noopener, empty links hidden, theme toggle + saved + reload, `T`, copy email + aria-live, reduced motion shows everything, no JS hides nothing, no console errors on file:// and http, no horizontal scroll 360–1920, Khmer font loads only with Khmer text. Lighthouse mobile with gzip (`npx serve`, like Vercel/Netlify): **100/100/100/100, LCP 1.7s, CLS 0**; without compression (http-server) 98, LCP 2.3s. Desktop 100 ×4. Page 263 KB.
 
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
@@ -142,6 +144,7 @@ Another agent session worked on this repo until 13:39 (commits up to f854a43) fr
 
 ### How to re-run the checks (for agents)
 - Lint: `node <taste-skill>/scripts/lint.mjs index.html 404.html css js`.
+- Lighthouse: test through a server that gzips (`npx -y serve@14.2.4 -l 8138 .`); http-server sends files uncompressed and makes mobile LCP look ~0.6s slower than on Vercel/Netlify.
 - Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box`.
 - Lighthouse: serve the folder with any static server, then (PowerShell) `$env:CHROME_PATH="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"`.
 
