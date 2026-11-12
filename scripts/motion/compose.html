@@ -5,7 +5,7 @@
 <title>Demo video scene</title>
 <!-- Motion-graphics scene for the demo videos (VIDEOS.md §7). render.js loads this page,
      calls renderAt(t) for every frame and screenshots it. Every app screen shown is a real
-     recorded frame; this page only adds the frame, zoom, tap ripples, captions and cards. -->
+     recorded frame; this page only adds the frame, camera moves, taps, cursor, captions and cards. -->
 <style>
   @font-face { font-family: "Geist"; src: url("../../assets/fonts/geist-latin.woff2") format("woff2"); font-weight: 400 700; }
   @font-face { font-family: "Geist Mono"; src: url("../../assets/fonts/geist-mono-latin.woff2") format("woff2"); font-weight: 400 500; }
@@ -13,12 +13,12 @@
   * { margin: 0; box-sizing: border-box; }
   html, body { background: var(--bg); overflow: hidden; }
   #stage { position: relative; overflow: hidden; background: var(--bg); color: var(--text); font-family: "Geist", Arial, sans-serif; }
-  #grid { position: absolute; inset: 0; background-image:
+  #grid { position: absolute; inset: -64px; background-image:
       linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size: 64px 64px; -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 75%); }
+    background-size: 64px 64px; -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 72%); }
   #glow { position: absolute; width: 140%; aspect-ratio: 1; left: -20%; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,107,53,.16) 0%, rgba(255,107,53,.05) 35%, transparent 65%); }
+    background: radial-gradient(circle, rgba(255,107,53,.18) 0%, rgba(255,107,53,.05) 35%, transparent 65%); }
   #device { position: absolute; transform-origin: 50% 50%; will-change: transform, opacity; }
   .phone { border-radius: 64px; padding: 14px; background: #1C1917; border: 1.5px solid rgba(255,255,255,.12);
     box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.6) inset; }
@@ -32,20 +32,22 @@
     background: #292524; font: 400 15px/28px "Geist", Arial, sans-serif; color: var(--muted); white-space: nowrap; overflow: hidden; }
   #bar svg { flex: none; }
   #viewport { position: relative; overflow: hidden; background: #fff; }
-  #zoom { position: absolute; inset: 0; transform-origin: 0 0; }
+  #cam { position: absolute; inset: 0; transform-origin: 0 0; }
   #screen { display: block; width: 100%; height: 100%; }
-  #prev { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
-  #cursor { position: absolute; left: 0; top: 0; display: none; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
   .ripple { position: absolute; border-radius: 50%; border: 3px solid rgba(255,255,255,.95);
     background: rgba(255,107,53,.35); box-shadow: 0 0 0 1px rgba(0,0,0,.25); transform: translate(-50%,-50%); }
+  #cursor { position: absolute; left: 0; top: 0; display: none; transform-origin: 3px 2px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.4)); }
   #caption { position: absolute; left: 50%; display: flex; align-items: center; gap: 14px; white-space: nowrap;
     padding: 18px 30px; border-radius: 18px; background: rgba(28,25,23,.92); border: 1px solid var(--line);
     box-shadow: 0 16px 48px rgba(0,0,0,.45); font-weight: 500; letter-spacing: -0.01em; }
   #caption::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex: none; }
+  #caption .tag { font: 500 .62em/1 "Geist Mono", monospace; letter-spacing: .06em; color: var(--accent);
+    padding: 6px 9px; border: 1px solid rgba(255,107,53,.4); border-radius: 8px; }
   .card { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .card h1 { font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+  .card h1 { font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; white-space: nowrap; }
+  .card h1 span { display: inline-block; white-space: pre; }
   .label { font: 500 var(--lab, 22px)/1.4 "Geist Mono", monospace; color: var(--muted); letter-spacing: .02em; }
-  .rule { width: 56px; height: 3px; border-radius: 2px; background: var(--accent); }
+  .rule { width: 56px; height: 3px; border-radius: 2px; background: var(--accent); margin: 28px 0; }
   #brand { position: absolute; left: 0; right: 0; text-align: center; font: 500 22px "Geist Mono", monospace; color: var(--muted); }
   #brand b { color: var(--accent); font-weight: 500; }
 </style>
@@ -54,12 +56,12 @@
 <div id="stage">
   <div id="glow"></div>
   <div id="grid"></div>
-  <div id="device"><div id="bar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url" style="font-weight:500"></b></span></div>
-    <div id="viewport"><div id="zoom"><img id="screen" alt=""><img id="prev" alt=""><div id="ripples"></div>
+  <div id="device"><div id="bar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url" style="font-weight:400"></b></span></div>
+    <div id="viewport"><div id="cam"><img id="screen" alt=""><div id="ripples"></div>
       <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div></div>
-  <div id="caption"></div>
-  <div class="card" id="title"><p class="label" id="kicker"></p><h1 id="name"></h1></div>
-  <div class="card" id="end"><h1 id="endName"></h1><div class="rule"></div><p class="label" id="tags"></p></div>
+  <div id="caption"><span class="tag" id="ctag"></span><span id="ctext"></span></div>
+  <div class="card" id="title"><p class="label" id="kicker" style="margin-bottom:20px"></p><h1 id="name"></h1></div>
+  <div class="card" id="end"><h1 id="endName"></h1><div class="rule" id="rule"></div><p class="label" id="tags"></p></div>
   <p id="brand"><b>&gt;_</b> Hong Rinrasmey</p>
 </div>
 <script>
@@ -69,8 +71,9 @@ const expo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);            // --ease-ou
 const inout = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const prog = (t, a, d) => clamp((t - a) / d);                        // 0..1 between a and a+d
 const $ = id => document.getElementById(id);
+const letters = (el, text) => { el.textContent = ''; for (const ch of text) { const s = document.createElement('span'); s.textContent = ch; el.appendChild(s); } };
 
-let C, segs, contentEnd, total;
+let C, segs, contentEnd, total, cams;
 // init(config): lays out the stage once. Returns the total length in seconds.
 window.init = cfg => {
   C = cfg;
@@ -86,23 +89,25 @@ window.init = cfg => {
   $('url').textContent = d.url || '';
   $('glow').style.top = (d.top + d.oh / 2 - C.W * .7) + 'px';
   const cap = $('caption'); cap.style.top = C.caption.y + 'px'; cap.style.fontSize = C.caption.size + 'px';
-  $('kicker').textContent = C.title.kicker; $('name').textContent = C.title.name;
-  $('name').style.fontSize = C.title.size + 'px'; $('kicker').style.marginBottom = '20px';
-  $('endName').textContent = C.title.name; $('endName').style.fontSize = C.end.size + 'px';
+  $('kicker').textContent = C.title.kicker; letters($('name'), C.title.name); $('name').style.fontSize = C.title.size + 'px';
+  letters($('endName'), C.title.name); $('endName').style.fontSize = C.end.size + 'px';
   $('tags').textContent = C.end.tags;
   document.querySelectorAll('.label').forEach(e => e.style.setProperty('--lab', C.labelSize + 'px'));
-  document.querySelector('#end .rule').style.margin = '28px 0';
   $('brand').style.bottom = C.brandBottom + 'px';
-  // segments: [srcStart, srcEnd, speed=1], laid end to end after the intro
+  $('cursor').setAttribute('width', 26 * (d.cursorScale || 1)); $('cursor').setAttribute('height', 26 * (d.cursorScale || 1));
+  // segments: [srcStart, srcEnd, speed=1], laid end to end after the intro (hard cuts between them)
   let o = C.intro; segs = C.segments.map(([a, b, v = 1]) => { const g = { a, b, v, o, d: (b - a) / v }; o += g.d; return g; });
   contentEnd = o; total = contentEnd + C.outro;
+  // camera keyframes: [srcTime, zoom, x, y, moveSeconds=.8] -> start moving at srcTime, arrive after moveSeconds
+  cams = [{ t: 0, z: 1, x: d.srcW / 2, y: d.srcW * d.sh / d.sw / 2, m: 0 }]
+    .concat((C.camera || []).map(([s, z, x, y, m = .8]) => ({ t: outNear(s), z, x, y, m })));
   return total;
 };
 // out time -> source time (holds the first / last frame outside the segments)
 const srcAt = t => {
   if (t < segs[0].o) return segs[0].a;
   for (const g of segs) if (t < g.o + g.d) return g.a + (t - g.o) * g.v;
-  const g = segs[segs.length - 1]; return g.b;
+  return segs[segs.length - 1].b;
 };
 // source time -> out time (null if that moment was cut)
 const outAt = s => { for (const g of segs) if (s >= g.a && s <= g.b) return g.o + (s - g.a) / g.v; return null; };
@@ -114,79 +119,93 @@ const cursorAt = s => {
   const a = p[i], b = p[i + 1]; if (!b || b.s - a.s > .2) return a;
   const u = (s - a.s) / (b.s - a.s); return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u };
 };
+// camera at out time t: eased move from the previous keyframe's state to the current one
+const camAt = t => {
+  let prev = cams[0], cur = cams[0];
+  for (let i = 1; i < cams.length; i++) if (cams[i].t <= t) { prev = cur; cur = cams[i]; }
+  // "prev" must be the state we were holding when cur started
+  let held = cams[0];
+  for (let i = 1; i < cams.length && cams[i] !== cur; i++) held = cams[i];
+  if (cur === cams[0]) return cur;
+  const u = inout(prog(t, cur.t, cur.m));
+  return { z: held.z + (cur.z - held.z) * u, x: held.x + (cur.x - held.x) * u, y: held.y + (cur.y - held.y) * u };
+};
 
 window.renderAt = async t => {
   const d = C.device, src = srcAt(t);
   // real recorded frame
   const img = $('screen'), url = C.frameUrl(src);
   if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; await img.decode(); }
-  // short crossfade where two clips meet: the last frame of the previous clip fades out
-  const pv = $('prev'), XF = .15; let xo = 0;
-  for (let i = 1; i < segs.length; i++) {
-    const u = (t - segs[i].o) / XF;
-    if (u >= 0 && u < 1) { const pu = C.frameUrl(segs[i - 1].b - .001);
-      if (pv.dataset.u !== pu) { pv.src = pu; pv.dataset.u = pu; await pv.decode(); } xo = 1 - inout(u); }
-  }
-  pv.style.opacity = xo;
 
-  // background glow drifts slowly
+  // background: glow drifts, grid slides very slowly
   $('glow').style.transform = `translate(${Math.sin(t * .35) * 30}px, ${Math.cos(t * .27) * 24}px)`;
+  $('grid').style.transform = `translate(${(t * 6) % 64}px, ${(t * 3) % 64}px)`;
 
-  // intro title: rises in, then lifts away as the device arrives
-  const tin = expo(prog(t, .1, .7)), tout = inout(prog(t, C.intro - .75, .4));
-  $('title').style.opacity = tin * (1 - tout);
-  $('title').style.transform = `translateY(${(1 - tin) * 24 - tout * 60}px)`;
+  // intro title: kicker fades in, letters rise one by one, then everything lifts away
+  const tout = inout(prog(t, C.intro - .75, .4));
+  $('kicker').style.opacity = expo(prog(t, .05, .5)) * (1 - tout);
+  [...$('name').children].forEach((sp, i) => {
+    const u = expo(prog(t, .1 + i * .035, .6));
+    sp.style.opacity = u; sp.style.transform = `translateY(${(1 - u) * 40}px)`;
+  });
+  $('title').style.opacity = 1 - tout;
+  $('title').style.transform = `translateY(${-tout * 60}px) scale(${1 - tout * .04})`;
 
-  // device: slides up with a small 3D tilt, floats gently, leaves before the end card
+  // device: slides up with a small 3D tilt, sways gently, leaves before the end card
   const din = expo(prog(t, C.intro - .4, 1.0)), dout = inout(prog(t, contentEnd + .35, .6));
   const float = Math.sin(t * 1.1) * (d.type === 'phone' ? 4 : 2);
   $('device').style.opacity = clamp(din * 1.4) * (1 - dout);
   $('device').style.transform = `perspective(1600px) translateY(${(1 - din) * C.H * .35 + float - dout * 40}px)` +
-    ` rotateX(${(1 - din) * 16}deg) rotateY(${Math.sin(t * .45) * (d.type === 'phone' ? 2.5 : 1)}deg) scale(${(.9 + .1 * din) * (1 - .06 * dout)})`;
+    ` rotateX(${(1 - din) * 16}deg) rotateY(${Math.sin(t * .45) * (d.type === 'phone' ? 2.5 : 1)}deg)` +
+    ` scale(${(.9 + .1 * din) * (1 - .06 * dout)})`;
 
-  // zoom: each zoom is {from, to} in source time, eased in output time
-  let z = 1, zx = d.sw / 2, zy = d.sh / 2;
-  for (const q of C.zooms) {
-    const a = outNear(q.from), b = outNear(q.to);
-    const k = inout(prog(t, a, .55)) * (1 - inout(prog(t, b, .55)));
-    if (k > 0) { z = 1 + (q.scale - 1) * k; zx = q.x * d.k; zy = q.y * d.k; }
-  }
-  // keep the zoomed point inside the screen: translate so (zx,zy) stays put, clamped to edges
-  const tx = clamp(zx - zx * z, d.sw - d.sw * z, 0), ty = clamp(zy - zy * z, d.sh - d.sh * z, 0);
-  $('zoom').style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
+  // camera: zoom + pan inside the screen, kept inside the screen edges
+  const k = d.sw / d.srcW, cam = camAt(t), z = cam.z;
+  const zx = cam.x * k, zy = cam.y * k;
+  const tx = clamp(d.sw / 2 - zx * z, d.sw - d.sw * z, 0), ty = clamp(d.sh / 2 - zy * z, d.sh - d.sh * z, 0);
+  $('cam').style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
 
   // tap ripples (taps logged by the recording script, in source time)
   const rip = $('ripples'); rip.innerHTML = '';
+  let press = 0;
   for (const p of C.taps) {
     const at = outAt(p.s); if (at === null) continue;
-    const u = prog(t, at - .12, .55); if (u <= 0 || u >= 1) continue;
-    const r = document.createElement('div'); r.className = 'ripple';
-    const size = (40 + 70 * expo(u)) * d.tapScale;
-    Object.assign(r.style, { left: p.x * d.k + 'px', top: p.y * d.k + 'px', width: size + 'px', height: size + 'px', opacity: (1 - u) * .9 });
-    rip.appendChild(r);
+    const u = prog(src, p.s - .12, .55);                              // recording time: a ripple ends at a cut
+    if (u > 0 && u < 1) {
+      const r = document.createElement('div'); r.className = 'ripple';
+      const size = (40 + 70 * expo(u)) * d.tapScale;
+      Object.assign(r.style, { left: p.x * k + 'px', top: p.y * k + 'px', width: size + 'px', height: size + 'px', opacity: (1 - u) * .9 });
+      rip.appendChild(r);
+    }
+    press = Math.max(press, 1 - Math.abs(t - at) / .15);            // cursor press around each click
   }
 
-  // mouse cursor (web recordings only): tip of the arrow at the logged position
+  // mouse cursor (web recordings only): tip of the arrow at the logged position, squeezes on click
   const cur = $('cursor'), cp = C.cursor && C.cursor.length ? cursorAt(src) : null;
   cur.style.display = cp ? 'block' : 'none';
-  if (cp) cur.style.transform = `translate(${cp.x * d.k - 3}px, ${cp.y * d.k - 2}px)`;
+  if (cp) cur.style.transform = `translate(${cp.x * k - 3}px, ${cp.y * k - 2}px) scale(${(1 - .18 * clamp(press)) / Math.sqrt(z)})`;
 
-  // captions: {text, from, to} in source time
+  // captions: {text, tag?, from, to} in source time; blur + rise in, fade out
   let cap = null, ck = 0, cin = 0;
   for (const c of C.captions) {
     const a = outNear(c.from), b = outNear(c.to);
-    const i = expo(prog(t, a + .15, .5)), o = inout(prog(t, b - .3, .3));
-    if (t >= a && t <= b) { cap = c.text; ck = i * (1 - o); cin = i; }
+    if (t >= a && t <= b) { cap = c; cin = expo(prog(t, a + .1, .6)); ck = cin * (1 - inout(prog(t, b - .3, .3))); }
   }
   const ce = $('caption');
-  if (cap !== null) ce.textContent = cap;
-  ce.style.opacity = cap === null ? 0 : ck;
-  ce.style.transform = `translate(-50%, ${(1 - cin) * 16}px)`;
+  if (cap) { $('ctext').textContent = cap.text; $('ctag').textContent = cap.tag || ''; $('ctag').style.display = cap.tag ? '' : 'none'; }
+  ce.style.opacity = cap ? ck : 0;
+  ce.style.filter = `blur(${(1 - cin) * 8}px)`;
+  ce.style.transform = `translate(-50%, ${(1 - cin) * 18}px) scale(${.96 + .04 * cin})`;
 
-  // end card + brand line
-  const ein = expo(prog(t, contentEnd + .75, .8));
-  $('end').style.opacity = ein; $('end').style.transform = `translateY(${(1 - ein) * 20}px)`;
-  $('brand').style.opacity = Math.max(tin * (1 - tout), ein) * .9;
+  // end card: letters rise, accent rule draws, tags fade in
+  const e0 = contentEnd + .7;
+  [...$('endName').children].forEach((sp, i) => {
+    const u = expo(prog(t, e0 + i * .03, .6)); sp.style.opacity = u; sp.style.transform = `translateY(${(1 - u) * 36}px)`;
+  });
+  $('rule').style.transform = `scaleX(${expo(prog(t, e0 + .35, .6))})`;
+  $('tags').style.opacity = expo(prog(t, e0 + .55, .6));
+  $('tags').style.transform = `translateY(${(1 - expo(prog(t, e0 + .55, .6))) * 12}px)`;
+  $('brand').style.opacity = Math.max(expo(prog(t, .3, .6)) * (1 - tout), expo(prog(t, e0 + .7, .6))) * .9;
 };
 </script>
 </body>

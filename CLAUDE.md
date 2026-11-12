@@ -308,6 +308,16 @@ Owner approved the plan, the shot lists and an 8 s style test ("do all of these"
 - Committed with a separate index: only these lines/files. The other session's uncommitted work (CSS/JS, icons, terminal, `btn--sm`, etc.) is still uncommitted.
 - Owner feedback: the browser frame looked like a Mac (traffic-light dots) and the caption was tight under it. Now a neutral bar (centred address pill, lock icon, Geist not mono), browser 1312×820, even gaps (56 top, 28 to the caption). KH video 3.69 MB.
 
+### Update 2026-11-12: demo videos v3 (owner: "do all of these", "more cool and smooth")
+After an honest review (RielTrack 8, idevo 7, KH Halal 6 out of 10), everything on that list was done:
+- **Engine** (`scripts/motion/compose.html`): camera keyframes `[srcTime, zoom, x, y, move]` with eased zoom + pan (replaces `zooms`), letter-by-letter title and end name, accent rule that draws, captions blur in with an optional role tag, cursor 1.5× with a click squeeze, slowly moving grid, hard cuts (the crossfade made ghost frames), ripples follow recording time so they stop at a cut. Segments take an optional speed (third number).
+- **RielTrack** (26.5 s, 2.11 MB): new take; no pointless Food tap; 1.6× zoom on the riel amount; Khmer ending (Settings → ខ្មែរ → Home in Khmer); script deletes an earlier take's lunch and switches back to English (label "អង់គ្លេស").
+- **idevo** (26.6 s, 1.89 MB): new take; shorter lesson; 1.2× zooms (idevo text runs edge to edge, more would cut words); "Continue learning" Home; Khmer ending; `pm clear` at the end resets data + language.
+- **KH Halal** (38.6 s, 3.87 MB at CRF 26): guest (browse, price, cart, Khmer, mosques) + customer (signed in off camera → Wishlist) + seller (signed in off camera → Dashboard, Products, Add product form, not saved). Browser 1280×800 (bigger text), 7 zooms. Logins only from env vars `KH_CUSTOMER_*` / `KH_SELLER_*`, never in a file (grep checked). Screencast sends frames only on change, so each part repeats its last frame at the real end.
+- **Not filmed on purpose:** checkout/payment, Messages (opening it marks chats read: it happened once in the read-only check), Notifications, seller Orders (other buyers' names), Payouts (Bakong ID), verification, profile (email).
+- Checks: headless Edge 1440 + 390, all 3 play, phone pop-up 418px, Esc + focus, no errors, no horizontal scroll. Emulator: demo mode off, temp files gone, closed. RielTrack keeps the sample data (+ the take's lunch, deleted by the next run).
+- Owner should change both KH Halal passwords (weak, and written in chat).
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

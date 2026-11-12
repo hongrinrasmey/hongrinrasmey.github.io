@@ -104,10 +104,13 @@ You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in
 1. Record (Git Bash, from this folder):
    - RielTrack: `bash scripts/record-rieltrack.sh` (needs the sample data in the app first, see the top of the script)
    - idevo: `bash scripts/record-idevo.sh` (emulator only: it wipes the app's data and loads the sample path)
-   - KH Halal: `node scripts/record-kh-halal-marketplace.js` (live site, guest only, stops at the cart)
+   - KH Halal: `node scripts/record-kh-halal-marketplace.js` (live site: guest, then customer wishlist, then seller
+     pages; never checkout or payment). It signs in off camera with logins from environment variables only:
+     `KH_CUSTOMER_EMAIL`, `KH_CUSTOMER_PASSWORD`, `KH_SELLER_EMAIL`, `KH_SELLER_PASSWORD` (never write them in a file).
    Raw files land in `assets/videos/<slug>-raw/` (not uploaded to GitHub).
 2. In `scripts/motion/<slug>.json`, point `raw` and `tapLog` at the new files and adjust the clip times
-   (`segments`), captions and zoom.
+   (`segments`, optional speed as a third number), captions (`tag` = GUEST / CUSTOMER / SELLER) and
+   `camera` zooms (`[time, zoom, x, y]` in recorded pixels).
 3. Render: `node scripts/motion/render.js scripts/motion/<slug>.json` → `assets/videos/<slug>.mp4` + poster.
    Add `--from 0 --to 8 --out test.mp4` for a quick preview.
 
