@@ -253,6 +253,12 @@ Owner said the projects were built with AI and they do not yet know the foundati
 - Another session was adding animations to `css/style.css` + `js/main.js` at the same time (photo wipe, phone screen cycling, pill pop-in, label roll). Those were NOT part of this commit (only my CSS lines were staged). With them the CSS is ~32.4 KB, over the 30,000 budget.
 - Checks: lint 0/0 (run before the other session's edits); CDP 360–1920 no horizontal scroll, no TODO text, labels 01–04, nav links land under the header, no console errors.
 
+### Update 2026-11-12: orange photo frame removed
+- Owner chose option 1 of 3 (remove / bold offset / glow): the 1px orange outline offset 12px behind the hero photo only showed on two sides and looked like a glitch. Removed `.hero__photo::before`, its hover shift, and the 12px margins that made room for it. Photo keeps its 1px grey border + 12px radius. DESIGN.md (orange usage list + motion table) updated.
+- Header name kept (owner asked why it repeats the h1: it is the sticky home link; spec §5).
+- Uncommitted work from another session (phone screen swap, hero glow follows mouse, skill pill pop-in, section label draw; `css/style.css` + `js/main.js`) was NOT in this commit; its photo `frame-in` animation was removed with the frame. With that work the CSS file is ~31,900 bytes, **over the 30,000 budget**.
+- Checked: headless Edge screenshots at 1440, 1024, 500.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

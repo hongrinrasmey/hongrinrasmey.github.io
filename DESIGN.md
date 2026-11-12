@@ -273,7 +273,7 @@ Order: Header → Hero → Work → Tech → Education → Experience (if provid
 }
 ```
 - `--accent` for fills (buttons, dot, selection, progress bar); `--accent-text` whenever orange is text or a thin line (links, focus rings).
-- Orange only for: primary buttons, link hover, focus rings, active nav, small highlights, the availability dot, the photo frame. Never for large areas or body text.
+- Orange only for: primary buttons, link hover, focus rings, active nav, small highlights and the availability dot (no frame around the photo: owner decision 2026-11-12). Never for large areas or body text.
 - Everything passes **WCAG AA** in both themes (muted on bg ≈ 7.9:1 dark; text on orange ≈ 7:1; `#C2410C` on light bg ≈ 5:1).
 - Dark is default; follow the system preference; save the choice in localStorage; set the theme in an inline `<head>` script **before paint** (no flash).
 
@@ -394,7 +394,7 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Header | Background/blur/border fade in after scroll, `--dur-base` |
 | Availability dot | Gentle pulse (opacity + scale), 2s loop |
 | Stats | Count up once over ~1s |
-| About photo | Grayscale → color on hover (400ms); accent frame shifts 4px |
+| Hero photo | Full colour, 1px border, no orange frame, no hover effect |
 | Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 
