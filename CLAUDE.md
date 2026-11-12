@@ -149,6 +149,14 @@ Checks (final): lint 0/0; inspector 0 FAIL with `--allow ...,small-text` (12px t
 
 **Owner decision (2026-11-12, final):** keep the site on DESIGN.md. Do NOT add found/stock photos, credits, found video clips or the taste-skill sheet layouts ("The dark room", seed 1825430341) even though the skill asks for them; DESIGN.md rule 4 and §8 win. The remaining inspector WARNs (no-footage, off-centre, hero-void) are accepted until the owner sends their photo, name, bio, RielTrack screenshots and videos.
 
+### Update 2026-11-12 (fourth pass): wider container, tighter Contact
+Owner approved after a design review:
+- `--container` 1100px → **1200px** (`css/style.css` line 65; DESIGN.md §9.4 updated to match). At 1920px each side margin drops from ~410px to ~360px; featured card media is bigger.
+- Contact panel (≥1024px): removed `min-height: 70svh` and `.contact__details { align-self: end }`; the grid now uses `align-items: end`, so the two columns share a bottom line with no dead space.
+- Checked: the "missing h1 at 1920" seen in a quick screenshot was capture timing (mid split-text animation), not a bug. The 390px "overflow" was headless Edge's minimum window width, not the page.
+- Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs as before (off-centre now 116/154 at 1440: optical h1 nudge + ragged text); Lighthouse mobile 100/100/100/100, LCP 1.7s, CLS 0. CSS 29,820 bytes (budget 30,000).
+- Still open from the review: hero right-half void and thin About need the owner's photo, name and bio (content, not CSS).
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

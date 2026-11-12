@@ -62,7 +62,7 @@
   /* Shape and layout */
   --radius: 12px;
   --radius-pill: 999px;
-  --container: 1100px;
+  --container: 1200px;
   --gutter: 24px;
   --header-h: 64px;   /* 72px from 768px up */
   --card-pad: 20px;   /* 28px from 768px up */
@@ -612,7 +612,6 @@ main { counter-reset: section; }
 .contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); }
 .contact__text { margin-top: var(--s-4); max-width: 30rem; color: var(--muted); }
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
-.contact__details { align-self: end; }
 .contact__email {
   display: inline-flex; align-items: center;
   min-height: 44px; /* tap target (DESIGN.md §10) */
@@ -717,7 +716,7 @@ main { counter-reset: section; }
   .project-card--featured .project-card__media--web { margin: var(--card-pad); }
   .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; height: 100%; }
   .about__grid { grid-template-columns: 7fr 5fr; gap: var(--s-8); }
-  .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-8) var(--s-7); min-height: 70svh; }
+  .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-8) var(--s-7); align-items: end; }
 }
 
 /* Landscape phones: never cut the hero off */
