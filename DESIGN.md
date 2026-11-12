@@ -335,7 +335,7 @@ Order: Header → Hero → Work → About → Experience (if provided) → Conta
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
-- **Hero texture:** very faint grid (1px lines, ~4% opacity) fading out toward the bottom with a mask. No noise on top of it.
+- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask, plus one soft `--accent` glow (7%, radial) behind the name. No noise on top of it.
 - **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
 - **Selection:** `--accent` bg, `--accent-fg` text.
 - **Scrollbar:** thin, matches the theme.

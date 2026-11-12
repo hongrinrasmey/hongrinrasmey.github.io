@@ -398,13 +398,18 @@ main { counter-reset: section; }
   content: "";
   position: absolute; inset: 0; z-index: -1;
   pointer-events: none;
-  --grid-line: color-mix(in srgb, var(--text) 4%, transparent);
+  --grid-line: color-mix(in srgb, var(--text) 6%, transparent);
   background-image:
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px), /* taste-skill-ignore */
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px); /* taste-skill-ignore */
   background-size: 64px 64px;
   background-position: center top;
   mask-image: linear-gradient(to bottom, #000 30%, transparent 95%); /* taste-skill-ignore */
+}
+/* Soft orange glow behind the name (ends inside the hero, no hard edge) */
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(45% 45% at 25% 55%, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
 }
 .hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
 
