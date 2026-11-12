@@ -219,7 +219,7 @@ Order: Header → Hero → Work → About → Experience (if provided) → Conta
 
 ### 8.4 About
 - Section label `02 / ABOUT`.
-- ≥1024px: bio left (~7/12), photo right (~5/12). Mobile: photo on top, then bio.
+- ≥1024px: bio left, skills right, two equal columns (1fr 1fr, same split as Contact; owner 2026-11-12). Mobile: photo on top, then bio.
 - **Photo:** 4:5 ratio, `object-fit: cover`, 12px radius, 1px border; a solid `--accent` rounded rectangle offset 12px behind it (bottom-right). Slightly desaturated (grayscale 30%), full color on hover (desktop only; always full color on touch and under reduced motion). Alt: "Photo of [My Name]". If the photo is missing: text-only layout, never a placeholder face.
 - **Skills:** grouped (Languages / Frontend / Mobile / Backend / Tools) as pill tags with 16px monochrome logos (`currentColor`). Only skills I listed. No percentage bars or ratings.
 

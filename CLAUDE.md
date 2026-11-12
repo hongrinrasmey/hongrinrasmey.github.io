@@ -180,6 +180,11 @@ Owner asked for less empty space at the sides on wide screens.
 - README TODO list: KH Halal demo, idevo download, RielTrack screenshots ticked.
 - Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs.
 
+### Update 2026-11-12 (seventh pass): About in two equal columns
+- `.about__grid` at ≥1024px: `7fr 5fr` → `1fr 1fr` (owner approved). The gap between bio and skills shrank, and the skills now start on the same line as the Contact right column. DESIGN.md §8.4 updated.
+- The left side still looks empty until the owner sends the real bio and `assets/images/me.webp` (content, not CSS).
+- Checked: headless Edge screenshots of About at 1920 and 1024 (at 1024 the pills wrap to two lines, which is fine).
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
