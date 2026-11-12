@@ -2,7 +2,7 @@
 
 Read this whole file before doing anything. These rules override any default habits.
 **Agents: read section 13 (Progress log) first to see where the work stands, then continue from there. Update section 13 after every change.**
-**The owner's newest spec (pasted in chat on 2026-11-12, "Warm orange" version: projects KH Halal Marketplace, idevo, RielTrack; orange `#FF6B35`; Geist + Geist Mono) is what the site follows. The `DESIGN.md` file on disk is still the OLDER version (RielTrack/FileShift, lime). Ask the owner to save the new version over it. Where anything below differs, follow the new spec.**
+**The owner's newest spec (pasted in chat on 2026-11-12, "Warm orange" version: projects KH Halal Marketplace, idevo, RielTrack; orange `#FF6B35`; Geist + Geist Mono) is what the site follows. Since 2026-11-12 `DESIGN.md` on disk IS that version (the owner approved replacing the old lime one; the old one is in git history, commit d7be336). Where anything below differs, follow DESIGN.md.**
 
 ## 1. What this project is
 A simple, clean, personal developer portfolio. Its only job: show who I am, what I've built, and how to contact me.
@@ -125,10 +125,26 @@ The owner pasted the full new DESIGN.md in chat. Its §11.2 says text scramble, 
 - **Fonts self-hosted** (§9.3): `assets/fonts/geist-latin.woff2` (variable 400–700), `geist-mono-latin.woff2` (400–500), `OFL.txt`. `@font-face` at the top of `css/style.css`. The preload is added by the `<head>` script only on http/https (file:// blocks it with a CORS error); 404.html has a static preload. Noto Sans Khmer is in both stacks; `initKhmerFont()` in `js/main.js` loads its Google Fonts CSS only when the page has Khmer letters (a static link blocked rendering ~1s for nothing). Tested with a Khmer word: it loads.
 - **Hero avatar** slot added (commented out, `HERO AVATAR` in `index.html`) until `assets/images/me.webp` exists.
 - **Bug fixed:** a `<!-- taste-skill-ignore -->` inside the commented-out Experience block closed the comment early, so "Education", "[Degree / Course]" and `-->` were showing on the page.
-- `DESIGN.md` on disk was NOT overwritten (spec rule 8; an attempt to replace it was also blocked by the tool's safety check). The owner still needs to save the pasted version over it.
+- `DESIGN.md` on disk was replaced with the pasted warm-orange version after the owner said yes (2026-11-12).
 - **Type scale** folded onto the spec's five steps (§9.3 table): 14 (small + labels, `--fs-label` = `--fs-small`) / body / h3 / h2 / h1. Buttons, wordmark and card text use `--fs-body`; hero intro and About bio use `--fs-h3`; contact heading `--fs-h2`; contact email `--fs-h3` at every width (48px broke real addresses in the narrow column) with a 44px tap height.
 - KH Halal screenshot is `loading="lazy"` (it is below the fold at every width, §12).
 - Checks (final): lint 0/0; inspector 0 FAIL, sizes 14/18/24/48/104, WARNs defended in `.taste-skill/critique.md` round 3 (no-footage: videos are a separate task; off-centre: frame measured 165/165px, the 192px is ragged text; hero-void: fills with real name + avatar); `scenes.mjs` ran (no scroll scenes on the sheet; reduced-motion sheet made). Headless Edge functional test all pass: skip link first, mobile menu open/aria-expanded/scroll lock/Esc closes + focus returns/link click closes, ≥44px targets, one h1, alt on images, no broken `#` links, noopener, empty links hidden, theme toggle + saved + reload, `T`, copy email + aria-live, reduced motion shows everything, no JS hides nothing, no console errors on file:// and http, no horizontal scroll 360–1920, Khmer font loads only with Khmer text. Lighthouse mobile with gzip (`npx serve`, like Vercel/Netlify): **100/100/100/100, LCP 1.7s, CLS 0**; without compression (http-server) 98, LCP 2.3s. Desktop 100 ×4. Page 263 KB.
+
+### Update 2026-11-12 (third pass): full audit against DESIGN.md on disk
+Owner decisions (2026-11-12): (1) replace DESIGN.md with the pasted version: done; (2) when the taste-skill direction sheet and DESIGN.md disagree, **DESIGN.md wins** (sheet "The dark room", seed 1825430341: its photo-led hero, scatter work, inset portrait and visit-card contact are not used because they need stock/found photos and a layout DESIGN.md does not allow).
+Fixed to match the spec exactly:
+- Featured card split 7/12 media + 5/12 text at ≥1024px; the web screenshot has its own 16:10 frame, 12px radius, 1px border (§8.3). Cards 2–3 show one line only; their problem text + features are kept in an HTML comment in each card.
+- Header: `--bg` 80% + 12px blur + border after 20px scroll; 64px mobile / 72px desktop; anchors offset header + 16px.
+- Hero: padding 96/64 (mobile) and 128/96 (≥768px); faint 64px grid texture at 4% fading out (§9.7); h1 nudged -0.04em (optical alignment).
+- §9.4 spacing via tokens `--card-pad` (20/28), `--btn-gap` (12/16), `--gutter` (24/32 from 768px), card gaps 24/32, footer 32/40, heading→content 32/48.
+- Tags mono 12px, padding 4×10, muted (skill pills too). `--fs-label` 12px (mono labels/tags/dates), `--fs-small` 14px (nav, footer, notes).
+- Buttons press scale 0.98; card hover border `--accent-text` 60%; spotlight 6%; icon strokes 1.5px (index + 404); modal 900px web / 420px phone videos (`video-modal--phone`, set in initVideo by the card's platform tag).
+- Headings -0.03em (h1) / -0.02em (h2–h3), h1 line-height 1.05; `p { max-width: 65ch; text-wrap: pretty }`.
+- About photo: 1px border; greyscale-to-colour only for mouse users.
+- Fallback fonts with matched metrics (§12): "Geist Fallback" = Arial at size-adjust 103.1%, ascent 98%, descent 29.1%; "Geist Mono Fallback" = Courier New 100%, ascent 101%, descent 30% (measured in Edge with canvas measureText).
+- `content-visibility: auto` on `.projects__grid` and `.about__grid` only. **Not on the sections**: style containment resets the CSS counters, and every label became "01 /".
+- Budgets: raw CSS 31.7 KB / JS 16.7 KB because of the teaching comments; gzipped (what is sent) CSS 8.4 KB, JS 5.5 KB, whole page 192 KB transferred.
+Checks (final): lint 0/0; inspector 0 FAIL with `--allow ...,small-text` (12px tags are §9.6); sizes 12/14/18/24/48/104; WARNs no-footage, off-centre (optical h1 nudge + ragged text; frame is 165/165), hero-void, defended in `.taste-skill/critique.md` round 4. scenes.mjs ran (no scenes). Functional test all pass, plus video modal (420/900, preload none, focus in and back, emptied on close). 60fps scroll at 4× CPU slowdown (median frame 16.7ms, none over 33ms). Lighthouse with gzip: mobile 99/100/100/100 LCP 1.8s CLS 0; desktop 100 ×4. Screens checked: light + dark, 1440, 1366×768, 390, 844×390 landscape.
 
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
@@ -145,7 +161,7 @@ Another agent session worked on this repo until 13:39 (commits up to f854a43) fr
 ### How to re-run the checks (for agents)
 - Lint: `node <taste-skill>/scripts/lint.mjs index.html 404.html css js`.
 - Lighthouse: test through a server that gzips (`npx -y serve@14.2.4 -l 8138 .`); http-server sends files uncompressed and makes mobile LCP look ~0.6s slower than on Vercel/Netlify.
-- Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box`.
+- Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box,small-text`.
 - Lighthouse: serve the folder with any static server, then (PowerShell) `$env:CHROME_PATH="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"`.
 
 ### Next step

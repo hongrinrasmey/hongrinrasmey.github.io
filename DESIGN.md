@@ -3,442 +3,551 @@
 > Read this entire file before writing any code. It is the single source of truth for this project.
 > If anything here conflicts with your default habits, follow this file.
 > If something is unclear or missing, **ask me** instead of guessing.
+> Demo videos are a separate task: see `VIDEOS.md`.
 
 ---
 
-## 0. Quick summary (for the agent)
+## 1. Your role
+
+Act as a **senior product designer (UX/UI) and senior front-end engineer** with 10+ years of experience building award-quality personal portfolios (the kind featured on Awwwards, Godly and Read.cv). You combine:
+- **Design judgment:** typography, spacing, hierarchy, color and motion that feel intentional and premium, never template-like.
+- **UX thinking:** every section has a clear purpose; visitors find what they need in seconds; nothing is decoration for its own sake.
+- **Engineering quality:** clean, semantic, accessible, fast, well-commented code that a junior developer can read and maintain.
+- **Honest mentorship:** I'm still learning. Explain decisions simply, point out problems you notice, and suggest better options, but don't build extra features without my OK.
+
+Quality bar: *"Would a senior designer at a top studio and a senior engineer at a top tech company both sign off on this?"*
+
+---
+
+## 2. Summary
 
 Build a **one-page developer portfolio** in **plain HTML + CSS + vanilla JavaScript** (no framework, no build step).
-It must look **premium, modern and hand-crafted**, be **fully responsive**, support **dark/light mode**, have **subtle animations**, and show **only my real information**: who I am, my projects (including **RielTrack** and **FileShift**), and how to contact me.
-I am still learning, so keep the code clean, well-commented, and easy for me to edit.
+It must look **premium, modern and hand-crafted**, run **smoothly**, be **fully responsive**, support **dark/light mode**, have **refined animations**, and show **only my real information**: who I am (with my photo), my **3 projects: KH Halal Marketplace, idevo and RielTrack**, and how to contact me.
+Keep the code clean, well-commented and easy for me to edit.
 
 ---
 
-## 1. Golden rules (never break these)
+## 3. Golden rules (never break these)
 
 1. **Never invent content.** No fake names, bios, projects, companies, metrics, testimonials, clients, dates or quotes.
-2. **The only content source is Section 3 ("My details")** plus anything I tell you directly in chat.
-3. **Missing info → ask me first.** If you must continue, use an obvious placeholder like `[TODO: add RielTrack live link]`, never a realistic-looking fake.
-4. **No stock, city, travel or decorative photos.** Allowed images: my own photo and screenshots/videos of my own projects in `assets/`. Missing image → a neutral box with the text "Screenshot coming soon".
-5. **Don't theme the site around a city, country or culture.** My location is one line of text, nothing more.
-6. **Don't add features I didn't ask for.** No blog, CMS, widgets (weather, clock, timezone, live data), chatbots, extra pages or third-party embeds. If you think something would help, suggest it and wait for my answer.
-7. **Keep it simple.** No frameworks, no npm packages, no build tools unless I approve. The site must work by double-clicking `index.html`.
-8. **Don't delete or overwrite my files without asking**, especially anything in `assets/` or an old project in this folder. If an old project (e.g. an Astro site) exists, do not reuse its content or images; ask me before removing it.
-9. **Explain in plain language.** After each step, tell me in 2–4 short sentences what changed and which file I'd edit to change it myself.
-10. **Quality over quantity.** A small, polished site beats a big, messy one.
+2. **Content sources:** Section 5 ("My details"), facts from my GitHub (Section 6), and anything I tell you in chat. Nothing else.
+3. **Missing info → ask me.** If you must continue, use an obvious placeholder like `[TODO: add live link]`, never a realistic-looking fake.
+4. **Images allowed:** my own photo, screenshots/videos of my own projects, and monochrome logos for skills I listed (all in `assets/`). No stock, city, travel, decorative or AI-generated images. Missing image → a styled "Screenshot coming soon" box.
+5. **Don't theme the site around a city, country or culture.** My location is one line of text.
+6. **Everything described in this file is approved.** Don't add anything else (blog, CMS, widgets, chatbots, extra pages, third-party embeds) without asking. Exception: a YouTube embed only if I give a YouTube link.
+7. **Keep the site simple:** no frameworks, no npm packages, no build step in the shipped site. It must work by opening `index.html`. Dev-only tools for testing (e.g. a local server, Lighthouse, a headless browser for screenshots) are OK, but ask before installing them.
+8. **Don't delete or overwrite my files without asking**, especially in `assets/`. If an old project (e.g. an Astro site) exists in this folder, don't reuse its content or images; ask me before removing it.
+9. **Read-only on my GitHub repos.** Never change, push to, or open issues on them.
+10. **Explain in plain language.** After each stage, tell me in 2–4 short sentences what changed and which file I'd edit to change it myself.
+11. **Quality over quantity.** A small, polished site beats a big, messy one.
 
 ---
 
-## 2. Who the site is for and what it must do
+## 4. Audience and goals
 
 - **Audience:** recruiters, hiring managers, engineers and potential freelance clients.
 - **In 10 seconds** a visitor should know: my name, what I do, and that I'm available.
-- **In 1 minute** they should have seen my best projects and be able to try a demo or view the code.
-- **Main actions (CTAs):** "View my work", "Try the live demo", "Contact me".
-- **Tone of writing:** clear, confident, friendly, no buzzwords ("passionate ninja rockstar"), no exaggeration.
+- **In 1 minute** they should have seen my projects and be able to try a demo, download an app, or view the code.
+- **Main actions:** "View my work", "Try live demo" / "Download", "Contact me".
+- **Tone:** clear, confident, friendly. No buzzwords, no exaggeration.
 
 ---
 
-## 3. My details (the ONLY content source; I will fill this in)
+## 5. My details
 
 ```
-Name:            [YOUR NAME]
+Name:            [YOUR NAME]            (may be suggested from my GitHub profile; confirm with me)
 Role:            [e.g. Full-Stack Developer]
-One-line intro:  [e.g. I build fast, clean web apps that solve real problems.]
+One-line intro:  [who I help + what I build, e.g. "I build fast, reliable web and mobile apps for real businesses."]
 Bio (2–3 sent.): [...]
 Location:        [City], Cambodia
-Open to:         [Full-time / Freelance / Remote — pick]
+Open to:         [Full-time / Freelance / Remote]
 Available now:   [yes / no]
+Currently:       [[what I'm building] · [what I'm learning], or none]
 
-Skills
-  Languages:     [e.g. JavaScript, TypeScript, Python]
-  Frontend:      [e.g. HTML, CSS, React, Tailwind]
-  Backend:       [e.g. Node.js, Express, PostgreSQL]
-  Tools:         [e.g. Git, Docker, Figma, Vercel]
+Quick stats (REAL numbers only, max 3, or leave empty)
+  - [e.g. X years coding]
+  - [e.g. X apps released]
 
-Projects (in order of importance)
-  1. RielTrack
-     What it does:   [one line]
-     Problem solved: [1–2 sentences]
-     My role:        [e.g. Solo — design, frontend, backend]
-     Tech:           [...]
-     Key features:   [3 bullet points]
-     Result/impact:  [real numbers only, or leave empty]
-     Live demo:      [URL or none]
-     Demo login:     [email / password or none]
-     Video demo:     [assets/videos/rieltrack.mp4 or YouTube URL or none]
-     Code:           [GitHub URL or private]
-     Screenshot:     [assets/images/rieltrack.webp or none]
+Skills (may be suggested from my GitHub; confirm with me)
+  Languages:     [...]
+  Frontend:      [...]
+  Mobile:        [...]
+  Backend:       [...]
+  Tools:         [...]
+  Show logos:    yes
 
-  2. FileShift
-     What it does:   [one line]
-     Problem solved: [...]
-     My role:        [...]
-     Tech:           [...]
-     Key features:   [...]
-     Result/impact:  [...]
-     Live demo:      [...]
-     Demo login:     [...]
-     Video demo:     [...]
-     Code:           [...]
-     Screenshot:     [assets/images/fileshift.webp or none]
+Projects (exactly these 3, in this order; #1 is the featured card. Fill the TODOs from GitHub, see Section 6)
+  1. KH Halal Marketplace
+  2. idevo
+  3. RielTrack
 
-  3. [Optional project] ...
+  For each project:
+     Type:            [TODO from GitHub: web app / Android app / iOS app / other]
+     What it does:    [TODO from GitHub: one line]
+     Problem solved:  [TODO from GitHub: 1–2 sentences]
+     My role:         [TODO: ask me]
+     Tech:            [TODO from GitHub: max ~6 main technologies]
+     Key features:    [TODO from GitHub: 3 short bullets]
+     Result/impact:   [real numbers only, from me, or leave empty]
+     Live / Download: [TODO from GitHub: live URL (web) or APK / store link (mobile), or none]
+     Demo login:      [TODO from GitHub, or none]
+     Video:           assets/videos/<slug>.mp4 (made with VIDEOS.md), or none
+     Code:            [TODO from GitHub: public repo URL, or "private"]
+     Screenshots:     assets/images/<slug>.webp (+ <slug>-2.webp, <slug>-3.webp for mobile apps)
+
+  Slugs: kh-halal-marketplace · idevo · rieltrack
 
 Experience (optional)
-  - [Company] — [Role] — [Start–End] — [1 real achievement]
+  - [Company] · [Role] · [Start–End] · [1 real achievement]
 
 Education (optional)
-  - [School] — [Degree/Course] — [Year]
+  - [School] · [Degree/Course] · [Year]
 
 Contact
-  Email:     [...]
-  GitHub:    [...]
-  LinkedIn:  [...]
-  Other:     [Telegram / X / etc. or none]
-  Résumé:    assets/resume.pdf [yes / no]
-  Photo:     assets/images/me.webp [yes / no]
+  Email:         [...]
+  GitHub:        https://github.com/hongrinrasmey
+  LinkedIn:      [...]
+  Other:         [Telegram / etc., or none]
+  Résumé:        assets/resume.pdf [yes / no]
+  Reply time:    [e.g. within 24 hours, or none]
 
-Website domain (optional): [e.g. yourname.dev or none yet]
+Photo
+  My photo:      yes: assets/images/me.webp (I'll add it; if it's missing, remind me before finishing)
+  Hero avatar:   yes (small round photo in the hero + bigger styled photo in About)
+
+Site
+  Last updated:  [e.g. November 2026]
+  Domain:        [e.g. yourname.dev, or none yet]
 ```
 
 ---
 
-## 4. Tech stack and file structure
+## 6. Gather details from my GitHub (do this FIRST)
 
-**Stack:** HTML5 + modern CSS (custom properties, grid, flexbox, `clamp()`) + vanilla JavaScript (ES modules not required). No libraries.
+**My GitHub:** https://github.com/hongrinrasmey (username `hongrinrasmey`)
+
+**Where to look**
+- RielTrack → `hongrinrasmey/RielTrack-Downloads` (may be a releases-only repo; look for a source repo too)
+- KH Halal Marketplace → search my repos for "halal" / "marketplace"
+- idevo → search my repos for "idevo"
+
+**Steps**
+1. List my repos: `gh repo list hongrinrasmey --limit 100` (includes private repos if I'm logged in). If `gh` isn't installed or logged in, ask me to run `gh auth login`, or ask me for the repo links.
+2. For each project read:
+   - `README.md`: purpose, features, screenshots, live/demo links, demo logins
+   - Repo description, topics and homepage (`gh repo view OWNER/REPO`)
+   - Dependency/config files to detect the **type and tech stack**: `package.json`, `composer.json`, `requirements.txt`, `pubspec.yaml`, `build.gradle(.kts)`, `AndroidManifest.xml`, `*.xcodeproj`, `go.mod`, `Dockerfile`, etc.
+   - Latest release (`gh release list`): version and download link
+   - Images (`screenshots/`, `docs/`, README images): copy the best ones into `assets/images/`, convert to WebP, name them by slug
+3. Check my GitHub profile (`gh api users/hongrinrasmey` and the `hongrinrasmey/hongrinrasmey` profile README if it exists) for name, bio, location, links and skills, to **suggest** values for Section 5.
+4. Rewrite findings in clear, short, plain English (Section 15). Don't add claims.
+5. **Never invent** my role, metrics, dates or testimonials; leave them `[TODO]` and ask.
+6. **Show me a summary** per project (each fact + which repo/file it came from), plus suggested profile info and the remaining TODOs. **Wait for my confirmation** before building the Projects and About sections.
+7. Private repo → no link on the site; show "Private repo" instead.
+
+---
+
+## 7. Tech stack and files
+
+**Stack:** HTML5 + modern CSS (custom properties, grid, flexbox, `clamp()`, container-friendly layouts) + vanilla JavaScript. No libraries.
 
 ```
 /
-├── index.html            ← ALL page content; each section clearly commented
-├── css/
-│   └── style.css         ← design tokens at the top, then base, layout, components, sections, utilities
-├── js/
-│   └── main.js           ← theme toggle, mobile menu, scroll reveal, copy-email, header on scroll, active nav
+├── index.html              ← ALL page content; each section clearly commented
+├── 404.html
+├── css/style.css           ← tokens → base → layout → components → sections → utilities → motion/media queries
+├── js/main.js              ← one file; each feature in its own commented init function
 ├── assets/
-│   ├── images/           ← me.webp, rieltrack.webp, fileshift.webp, og-image.png
-│   ├── videos/           ← short project demo clips (mp4, muted)
-│   └── resume.pdf
-├── favicon.svg           ← my initials in the accent color
-├── robots.txt
-├── sitemap.xml           ← only if a domain is known
-├── 404.html              ← simple, on-brand, link back home
+│   ├── fonts/              ← self-hosted Geist + Geist Mono (woff2)
+│   ├── images/             ← me.webp, <slug>.webp screenshots, og-image.png
+│   ├── icons/              ← skill logos (SVG, simpleicons.org), only skills I listed
+│   ├── videos/             ← <slug>.mp4 + <slug>-poster.webp (from VIDEOS.md)
+│   └── resume.pdf          ← optional
+├── favicon.svg, favicon-32.png, apple-touch-icon.png, site.webmanifest
+├── robots.txt, sitemap.xml (sitemap only if a domain is known)
+├── vercel.json             ← security headers + caching (or _headers for Netlify)
 ├── README.md
-└── DESIGN.md             ← this file
+├── DESIGN.md               ← this file
+└── VIDEOS.md
 ```
 
 **Code style**
-- Semantic, indented, readable HTML. Comment every section: `<!-- ===== 02 · PROJECTS ===== -->`.
-- CSS organized top-to-bottom: tokens → reset/base → layout → components → sections → utilities → media queries / reduced motion.
+- Semantic, indented HTML. Comment every section: `<!-- ===== 02 · WORK ===== -->`.
 - Class names simple and descriptive (BEM-light: `.project-card`, `.project-card__title`).
-- JS small, commented, defensive (check elements exist), no global clutter, no `alert()`.
-- No inline styles except where truly needed. No `!important` unless justified.
+- JS: small, commented, defensive (check elements exist), `defer`-loaded, no globals, no `alert()`.
+- No inline styles unless truly needed. No `!important` unless justified.
+- Use `git`: init the repo if needed and commit after each working stage with clear messages (e.g. `Add projects section with video modal`).
 
 ---
 
-## 5. Page structure (one page)
+## 8. Page structure (one page)
 
-### 5.1 Header / Navigation
-- Left: my name (or initials logo). Right: Work · About · Experience · Contact + theme toggle.
-- Transparent at top; after scrolling ~20px becomes solid background with a subtle bottom border.
-- Active section link is highlighted while scrolling.
-- Mobile (<768px): hamburger button → full-screen overlay menu; locks page scroll while open; closes on link click, Esc key, or outside click; `aria-expanded` updates.
-- A "Skip to content" link as the first focusable element.
+Order: Header → Hero → Work → About → Experience (if provided) → Contact → Footer.
 
-### 5.2 Hero
-- Small mono label with pulsing dot: `● AVAILABLE FOR WORK` (only if Available = yes).
-- Huge name (h1). Role + one-line intro below in muted color.
-- Buttons: **primary** "View my work" (filled accent) → scrolls to projects; **secondary** "Contact me" (outline).
-- Small line under buttons: location + "open to remote".
-- Background: plain, or a very faint grid / noise texture. No photos.
-- Height: roughly the viewport on desktop, but content must never be cut off on short screens.
+### 8.1 Header
+- Left: my name (or initials mark). Right: Work · About · Experience (only if provided) · Contact, a small outline "Résumé" button (if résumé exists, desktop only), and the theme toggle.
+- Transparent at the top; after ~20px of scroll: `--bg` at 80% opacity, 12px backdrop blur, 1px bottom border.
+- Active section link highlighted while scrolling (IntersectionObserver).
+- Mobile (<768px): hamburger → full-screen menu; locks scroll; closes on link click, Esc or outside click; `aria-expanded` updates.
+- "Skip to content" link as the first focusable element.
 
-### 5.3 Selected Work (most important section)
-- Section label: `01 / SELECTED WORK` (mono, muted) + heading.
-- **Featured card (first project, full width):** large screenshot (16:10, rounded), title, one-line description, 1–2 sentence problem/solution, 3 key features, tech tags, buttons.
-- **Other cards:** 2-column grid on desktop, 1 column on mobile.
-- Each card shows:
-  - Screenshot (or "Screenshot coming soon" box)
-  - Title + one-line description
-  - Tech tags (mono, pill-shaped)
-  - Buttons: **Live demo** · **Watch video** · **Code**. Hide any button that has no link. If code is private, show a small "Private repo" label instead.
-  - **Demo login** line if provided, with a copy button: `Demo: demo@rieltrack.app / demo1234 [copy]`
-- "Watch video" opens an accessible modal with the muted, looping demo video (or a YouTube embed only if I provided a YouTube link). Modal closes with Esc, close button, or backdrop click, and returns focus to the button.
+### 8.2 Hero (the first impression)
+- **Avatar:** 64px circle of my photo (56px on mobile) with a 2px `--accent` ring, above the availability label.
+- **Availability label:** mono, with pulsing dot: `● AVAILABLE FOR WORK` (only if Available = yes).
+- **Name (h1):** huge, the visual centerpiece (split-text reveal, Section 11.2).
+- **Role + one-line intro** in `--muted`, max ~55ch.
+- **"Currently" line** (if provided): mono, small, e.g. `CURRENTLY → building … · learning …`.
+- **Buttons:** primary "View my work" (scrolls to Work); secondary "Contact me".
+- **Small line:** location · open to remote.
+- **Quick stats** (if provided): up to 3, below the buttons, divided by thin vertical borders; number in Geist 600, label in muted mono; count up once when visible. Never invent or round up.
+- **Background:** very faint grid (Section 9.7). No background photos.
+- Height: about the viewport on desktop, but content must never be cut off on short screens (test 1366×768 and landscape phones).
 
-### 5.4 About
+### 8.3 Work (most important section)
+- Section label `01 / WORK` + heading (e.g. "Selected work").
+- **Exactly 3 projects**, in order: KH Halal Marketplace (featured), idevo, RielTrack.
+- **Featured card (#1):** full width. On ≥1024px it's split in two: media on one side (~7/12), text on the other (~5/12). On smaller screens media stacks on top.
+- **Cards #2 and #3:** 2 columns on ≥768px, 1 column on mobile.
+- **Media by project Type:**
+  - Web app → one 16:10 screenshot, 12px radius, 1px border.
+  - Mobile app → 1–3 phone screenshots inside simple CSS phone frames (rounded rectangle, thin border, no brand logos), slightly overlapping/angled on the featured card, side by side on small cards.
+- **Each card shows:** platform tag (`WEB` / `ANDROID` / `iOS`), title, one-line description, 1–2 sentence problem/solution (featured card) or one line (others), 3 key features (featured card only), tech tags, buttons.
+- **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "View code" (or a small "Private repo" label). Hide any button without a link.
+- **Demo login** (only if one exists): small mono line with a copy button.
+- **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
+
+### 8.4 About
 - Section label `02 / ABOUT`.
-- Two columns on desktop: bio text left, my photo right (if provided; otherwise text-only layout, no placeholder person).
-- Skills grouped (Languages / Frontend / Backend / Tools) as mono tags. **No percentage bars or star ratings.**
+- ≥1024px: bio left (~7/12), photo right (~5/12). Mobile: photo on top, then bio.
+- **Photo:** 4:5 ratio, `object-fit: cover`, 12px radius, 1px border; a solid `--accent` rounded rectangle offset 12px behind it (bottom-right). Slightly desaturated (grayscale 30%), full color on hover (desktop only; always full color on touch and under reduced motion). Alt: "Photo of [My Name]". If the photo is missing: text-only layout, never a placeholder face.
+- **Skills:** grouped (Languages / Frontend / Mobile / Backend / Tools) as pill tags with 16px monochrome logos (`currentColor`). Only skills I listed. No percentage bars or ratings.
 
-### 5.5 Experience (only if I provided it)
+### 8.5 Experience (only if provided)
 - Section label `03 / EXPERIENCE`.
-- Clean vertical timeline: role, company, dates (mono), one achievement each.
-- Education below, smaller, if provided.
+- Clean vertical timeline: role, company, dates (mono), one achievement each. Education below, smaller.
 
-### 5.6 Contact
-- Section label `04 / CONTACT`.
-- Large heading: "Let's work together." (or "Let's build something.")
-- One friendly sentence.
-- Email shown as big clickable text (`mailto:`) + a copy button that shows "Copied!" for 2 seconds (with an `aria-live` announcement).
-- Icons for GitHub / LinkedIn / others. "Download résumé" button if provided.
-- No contact form unless I ask (if I do: Formspree, with validation and success/error states).
+### 8.6 Contact
+- Section label `04 / CONTACT` (renumber labels if Experience is hidden).
+- Large heading: "Let's work together."
+- One friendly sentence + reply time (if provided).
+- Email as big clickable text (`mailto:`) + copy button ("Copied!" for 2s, announced via `aria-live`).
+- Icons for GitHub / LinkedIn / others; "Download résumé" button (if provided).
+- No contact form (it's in Future ideas).
 
-### 5.7 Footer
-- Small and muted: `© [year] [Name]` (year set by JS), "Back to top" link.
+### 8.7 Footer
+- Small and muted: `© [year] [Name]` (year via JS) · "Last updated [Month Year]" (set manually) · "Back to top".
 
-### 5.8 404 page
-- Same header/footer style, short message, "Back to home" button.
+### 8.8 404 page
+- Same header/footer style, short friendly message, "Back to home" button.
 
 ---
 
-## 6. Design system
+## 9. Design system
 
-### 6.1 Concept
-**"Precise & confident."** Big bold typography, generous whitespace, a strict grid, and exactly one accent color. The projects are the hero; the design supports them instead of competing with them. Small "engineered" details (mono labels, numbered sections, precise alignment) make it feel crafted.
+### 9.1 Concept
+**"Precise and confident."** Big bold typography, generous whitespace, a strict grid, one warm accent. The projects are the hero; the design supports them. Small "engineered" details (mono labels, numbered sections, precise alignment) make it feel crafted.
 
-### 6.2 Colors (CSS custom properties)
+### 9.2 Colors
 ```css
-:root {               /* Dark: default */
-  --bg:        #0A0A0A;
-  --surface:   #141414;
-  --surface-2: #1C1C1C;
-  --border:    #262626;
-  --text:      #FAFAFA;
-  --muted:     #A1A1AA;
-  --accent:    #C6F432;   /* lime */
-  --accent-fg: #0A0A0A;   /* text on accent buttons */
+:root {                    /* Dark (default) */
+  --bg:          #0C0A09;  /* warm near-black */
+  --surface:     #141210;  /* cards */
+  --surface-2:   #1C1917;  /* tags, inputs, phone frames */
+  --border:      #292524;
+  --text:        #FAFAF9;
+  --muted:       #A8A29E;
+  --accent:      #FF6B35;  /* warm orange: fills */
+  --accent-fg:   #0C0A09;  /* text on orange (never white) */
+  --accent-text: #FF6B35;  /* orange as text/links */
 }
 [data-theme="light"] {
-  --bg:        #FAFAFA;
-  --surface:   #FFFFFF;
-  --surface-2: #F4F4F5;
-  --border:    #E4E4E7;
-  --text:      #0A0A0A;
-  --muted:     #52525B;
-  --accent:    #4D7C0F;   /* darker lime for contrast on light */
-  --accent-fg: #FFFFFF;
+  --bg:          #FAFAF9;
+  --surface:     #FFFFFF;
+  --surface-2:   #F5F5F4;
+  --border:      #E7E5E4;
+  --text:        #0C0A09;
+  --muted:       #57534E;
+  --accent:      #FF6B35;  /* same orange for fills */
+  --accent-fg:   #0C0A09;
+  --accent-text: #C2410C;  /* darker orange for text (contrast) */
 }
 ```
-- Accent used ONLY for: primary buttons, links on hover, focus rings, active nav, small highlights, the availability dot.
-- All text/background pairs must pass **WCAG AA** in both themes.
-- Easy to re-theme: changing `--accent` should be the only edit needed for a new brand color.
+- `--accent` for fills (buttons, dot, selection, progress bar); `--accent-text` whenever orange is text or a thin line (links, focus rings).
+- Orange only for: primary buttons, link hover, focus rings, active nav, small highlights, the availability dot, the photo frame. Never for large areas or body text.
+- Everything passes **WCAG AA** in both themes (muted on bg ≈ 7.9:1 dark; text on orange ≈ 7:1; `#C2410C` on light bg ≈ 5:1).
+- Dark is default; follow the system preference; save the choice in localStorage; set the theme in an inline `<head>` script **before paint** (no flash).
 
-### 6.3 Typography
-- Headings: **Space Grotesk** 600–700, letter-spacing `-0.02em`, line-height 1.05–1.15.
-- Body: **Inter** 400–500, line-height 1.6, max line length ~65 characters.
-- Labels/tags/dates: **JetBrains Mono** 400–500, small, uppercase, letter-spacing `0.05em`.
-- Load from Google Fonts with `display=swap` and `preconnect`, only the weights used. Fallback: system-ui stack.
-- Fluid scale:
-  - h1: `clamp(3rem, 9vw, 7.5rem)`
-  - h2: `clamp(2rem, 4vw, 3rem)`
-  - h3: `clamp(1.25rem, 2vw, 1.5rem)`
-  - body: `clamp(1rem, 0.95rem + 0.25vw, 1.125rem)`
-  - small/label: `0.75rem–0.875rem`
+### 9.3 Typography
+- **Geist** for headings and body; **Geist Mono** for labels, tags, dates and section numbers. Self-host the woff2 files in `assets/fonts/` (only weights used: 400, 500, 600, 700; mono 400, 500). Preload the weight used by the hero name.
+- **Khmer:** add **Noto Sans Khmer** after Geist in every stack (via Google Fonts with `display=swap`; it downloads only if Khmer text appears).
+- Stacks: `"Geist", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif` and `"Geist Mono", ui-monospace, monospace`.
+- Headings: weight 600–700, letter-spacing `-0.03em` (h1) / `-0.02em` (h2–h3), line-height 1.05–1.15, `text-wrap: balance`.
+- Body: weight 400, line-height 1.6, max 65ch, `text-wrap: pretty`.
+- Labels: mono, uppercase, letter-spacing `0.05em`, **min 12px**. Decoration/wayfinding only; important info goes in body text.
+- `-webkit-font-smoothing: antialiased`.
 
-### 6.4 Spacing, layout and shape
-- 8px spacing scale: 4 / 8 / 16 / 24 / 32 / 48 / 64 / 96 / 128 (as CSS variables).
-- Section padding: 96–128px desktop, 64px mobile.
-- Container: max-width 1100px, side padding 24px (mobile) / 32px (desktop).
-- Grid: 12 columns desktop, 1 column mobile.
-- Radius: 12px cards/images, 999px buttons and tags.
-- Borders: 1px `var(--border)`. Shadows: none or extremely subtle; use borders and contrast instead.
+| Element | CSS | 360px | 768px | 1024px | 1440px |
+|---|---|---|---|---|---|
+| h1 (name) | `clamp(3rem, 8vw, 6.5rem)` | 48 | 61 | 82 | 104 |
+| h2 (section) | `clamp(2rem, 4vw, 3rem)` | 32 | 32 | 41 | 48 |
+| h3 (card title) | `clamp(1.25rem, 2vw, 1.5rem)` | 20 | 20 | 20 | 24 |
+| Body | `clamp(1rem, 0.95rem + 0.25vw, 1.125rem)` | 16 | 17 | 18 | 18 |
+| Small / label | `0.75rem–0.875rem` | 12–14 | 12–14 | 12–14 | 12–14 |
 
-### 6.5 Components
-- **Buttons:** pill shape, min-height 44px, padding 12×24. Primary = accent bg + accent-fg text. Secondary = transparent + border. Hover: color shift + arrow icon nudges 4px right. Visible focus ring.
-- **Tags:** mono, small, pill, surface-2 background, muted text.
-- **Project card:** surface background, 1px border, 12px radius, image on top with `overflow: hidden`. Hover: lift -4px, border becomes accent, image scales 1.03.
-- **Section label:** mono `01 / SELECTED WORK`, muted, with a short line before it.
-- **Theme toggle:** sun/moon inline SVG icon button with `aria-label`, smooth icon swap.
-- **Copy buttons:** icon + "Copied!" feedback, keyboard accessible.
-- **Modal:** for demo videos; focus-trapped, Esc closes, backdrop blur is OK here only.
+**Test h1 with my real name at 360px.** If it overflows or wraps awkwardly, reduce the size or break cleanly into first name / last name.
 
-### 6.6 Micro-details (the "crafted" feel)
-- `::selection` uses the accent color.
-- Focus rings: 2px accent outline with 2px offset (`:focus-visible` only).
-- Thin custom scrollbar matching the theme.
-- `scroll-behavior: smooth` + `scroll-margin-top` so headings aren't hidden under the sticky header.
-- Favicon: my initials in accent on dark.
-- Consistent alignment: everything snaps to the grid and spacing scale; no random values.
+### 9.4 Layout and spacing
+- **Container:** max-width 1100px; side padding 24px (mobile) / 32px (≥768px).
+- **Grid:** 12 columns on desktop, 1 on mobile.
+- **Spacing scale (8px system):** 4 · 8 · 16 · 24 · 32 · 48 · 64 · 96 · 128, as CSS variables. No random values.
 
-### 6.7 Things to avoid
-Purple/blue gradient blobs · glassmorphism everywhere · emojis as decoration · stock photos · skill % bars · carousels/sliders · auto-playing audio · typing-effect hero text · particle backgrounds · more than one accent color · centered walls of text · tiny low-contrast gray text · fake "Trusted by" logos.
+| Element | Mobile | Desktop |
+|---|---|---|
+| Header height | 64px | 72px |
+| Hero top padding (below header) | 96px | 128px |
+| Hero bottom padding | 64px | 96px |
+| Section padding (top and bottom) | 64px | 96px |
+| Section label → heading | 16px | 16px |
+| Heading → content | 32px | 48px |
+| Paragraph spacing | 16px | 16px |
+| Gap between project cards | 24px | 32px |
+| Card inner padding | 20px | 28px |
+| Card media → title | 20px | 24px |
+| Gap between tags | 8px | 8px |
+| Gap between buttons | 12px | 16px |
+| Footer padding | 32px | 40px |
+
+### 9.5 Shape and depth
+- Radius: 12px for cards and images; 999px (pill) for buttons and tags; 28px for phone frames.
+- Borders: 1px `--border`. No heavy shadows; depth comes from surfaces, borders and contrast.
+- Dark-mode cards may have a 1px inner top highlight: `inset 0 1px 0 rgba(255,255,255,0.04)`.
+
+### 9.6 Components
+- **Buttons:** pill, min-height 44px, padding 12×24, Geist 500. Primary: `--accent` bg + `--accent-fg` text. Secondary: transparent + 1px border. Hover: subtle color shift + arrow icon nudges 4px right. Active: scale 0.98. Visible focus ring.
+- **Tags:** Geist Mono, 12px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
+- **Links:** `--text` with a subtle underline; hover → `--accent-text` with the animated underline.
+- **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, tilt + spotlight (Section 11.2).
+- **Section label:** mono `01 / WORK`, muted, with a short 24px line before it.
+- **Theme toggle:** 40px icon button (sun/moon inline SVG), `aria-label`, smooth icon swap.
+- **Copy button:** icon + "Copied!" feedback; keyboard accessible.
+- **Modal:** centered, max-width 900px (web video) or 420px (mobile video), `--surface`, 12px radius, backdrop `rgba(0,0,0,0.7)` + 8px blur; focus-trapped.
+- **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
+
+### 9.7 Premium details
+- **Hero texture:** very faint grid (1px lines, ~4% opacity) fading out toward the bottom with a mask. No noise on top of it.
+- **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
+- **Selection:** `--accent` bg, `--accent-fg` text.
+- **Scrollbar:** thin, matches the theme.
+- **Anchors:** `scroll-margin-top` = header height + 16px.
+- **Optical alignment:** nudge the big h1 so its left edge visually lines up with body text.
+- **Screenshots:** always 1px border + radius so light screenshots don't blend into a light background.
+- **External links:** open in a new tab with `rel="noopener noreferrer"` and a small ↗ icon.
+- **Favicon:** my initials in `--accent-fg` on an orange rounded square.
+
+### 9.8 Avoid
+Purple/blue gradient blobs · glassmorphism everywhere · white text on orange · orange on large areas · emojis as decoration · stock or AI images · skill % bars · carousels · typing-effect text · particle backgrounds · autoplay sound · popups · cookie banners · scroll-jacking · more than one accent color · centered walls of text · low-contrast tiny text · fake "Trusted by" logos.
 
 ---
 
-## 7. Animation and interaction
+## 10. Responsive design
 
-**Approach:** CSS transitions/keyframes + `IntersectionObserver`. No animation libraries.
+- Mobile-first CSS. Breakpoints: 640px, 768px, 1024px, 1280px.
+- Must look **intentional** (not just "not broken") at **360, 390, 768, 1024, 1366×768, 1440, 1920px**, plus landscape phone.
+- No horizontal scroll at any width; long words/URLs wrap (`overflow-wrap: anywhere`).
+- Tap targets ≥ 44×44px; body text ≥ 16px.
+- Work: featured card split on ≥1024px, stacked below; other cards 2 columns on ≥768px.
+- About: 2 columns on ≥1024px, stacked below.
+- Media uses fixed `aspect-ratio` boxes so nothing jumps while loading.
 
-| Element | Animation |
+---
+
+## 11. Motion
+
+### 11.1 Motion system (use these tokens everywhere)
+```css
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* entrances, reveals */
+  --ease-out:      cubic-bezier(0.22, 1, 0.36, 1);  /* hovers, UI */
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);  /* menu, modal */
+  --dur-fast: 150ms;   /* color/opacity hovers */
+  --dur-base: 300ms;   /* buttons, underlines, small moves */
+  --dur-slow: 600ms;   /* section reveals */
+  --dur-hero: 900ms;   /* hero name only */
+}
+```
+- Hovers ≤ 300ms. Entrances 600–900ms. Nothing over 1s except the stats count-up.
+- Exits are faster than entrances (~70% of the duration).
+- Reveal distance 16–24px max; scale changes between 0.98 and 1.03. Subtle looks expensive.
+
+### 11.2 What moves
+
+| Element | Motion |
 |---|---|
-| Hero (on load) | Label, name, intro, buttons slide up 24px + fade in; stagger 80ms; duration 700ms; easing `cubic-bezier(0.16, 1, 0.3, 1)` |
-| Sections (on scroll) | Fade in + translateY(24px → 0), once, when 15% visible |
-| Project cards | Staggered reveal (100ms apart); hover lift + accent border + image zoom 1.03 |
-| Buttons | 200ms color transition; arrow nudge on hover |
-| Header | Background/border fade-in after scroll |
-| Availability dot | Gentle pulse (opacity/scale) |
-| Theme switch | Smooth 200ms color transition on `background-color`/`color` |
+| **Hero name (the wow moment)** | Split-text reveal: each word slides up from behind a mask, 60ms stagger, `--dur-hero`, `--ease-out-expo`. Real text stays readable for screen readers (`aria-label` on h1, word spans `aria-hidden`). |
+| Hero avatar, label, intro, buttons, stats | Fade + slide up 16px right after the name, 80ms stagger, `--dur-slow` |
+| Sections and cards | Fade + slide up 24px once when 15% visible; cards stagger 100ms |
+| **Theme switch** | Circle reveal from the toggle via the View Transitions API (~500ms). Fallback: 200ms color fade. |
+| **Project cards (desktop only)** | Tilt max 4° toward the cursor (`perspective(1000px)`), lift -4px, soft orange spotlight (~6% opacity radial gradient via `--x`/`--y`); eases back in 400ms |
+| **Links** | Orange underline grows left → right, `--dur-base` |
+| **Scroll progress** | 2px `--accent` bar at the very top (CSS `animation-timeline: scroll()`; small rAF fallback) |
+| Buttons | Color shift `--dur-fast`, arrow nudge `--dur-base`, active scale 0.98 |
+| Header | Background/blur/border fade in after scroll, `--dur-base` |
+| Availability dot | Gentle pulse (opacity + scale), 2s loop |
+| Stats | Count up once over ~1s |
+| About photo | Grayscale → color on hover (400ms); accent frame shifts 4px |
+| Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 
-**Rules**
-- Animate only `transform` and `opacity` (except color transitions). Target smooth 60fps.
-- No layout shift caused by animations.
-- **Content must be fully visible if JavaScript fails or is disabled** (add a `.js` class to `<html>` and only hide elements for reveal when it's present).
-- **`prefers-reduced-motion: reduce` → disable all motion** (no reveals, no hover movement, no pulse, no smooth scroll).
-- Hover-only effects must not hide information on touch devices.
+Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sticky stacking cards, custom cursor.
+
+### 11.3 Motion rules
+- Animate only `transform` and `opacity` (plus colors on hover). Never `width`, `height`, `top`, `left`, `margin`, `box-shadow`, or blur on large areas.
+- **Content is fully visible without JavaScript**: add a `.js` class to `<html>` and only hide reveal elements when it's present.
+- **`prefers-reduced-motion: reduce` turns off all motion**: no reveals, tilt, pulse, count-up, view transition or smooth scroll. Content just appears.
+- Pointer effects only with `@media (hover: hover) and (pointer: fine)`; nothing important is hover-only.
+- Each effect is its own commented function (`initHeroReveal()`, `initThemeTransition()`, `initCardTilt()`, …) so I can remove one easily.
 
 ---
 
-## 8. Responsive design (required)
+## 12. Performance (smooth on real devices)
 
-- **Mobile-first CSS.** Breakpoints: `640px`, `768px`, `1024px`, `1280px`.
-- Must look intentional (not just "not broken") at: **360, 390, 768, 1024, 1440, 1920px** widths.
-- No horizontal scrolling at any width. Long words/URLs wrap (`overflow-wrap: anywhere` where needed).
-- Tap targets ≥ 44×44px. Text readable without zoom (body ≥ 16px).
-- Projects: 1 column (mobile) → 2 columns (≥768px); featured card stays full width.
-- About: stacked (mobile) → 2 columns (≥1024px).
-- Images: `width: 100%; height: auto;` with fixed aspect ratio boxes so nothing jumps.
-- Test landscape phone (short height) so the hero doesn't overflow.
-
----
-
-## 9. Project demos (RielTrack, FileShift, and others)
-
-Make it **effortless** for visitors to see my projects working:
-- **Live demo button** goes to the deployed app (opens in new tab, `rel="noopener noreferrer"`).
-- **Demo login** shown on the card with a copy button, so visitors don't have to sign up.
-- **Video demo** (20–40s, muted, looping, with `poster` image and `playsinline`) in a modal. This is the backup if the live demo is down or sleeping.
-- **Code button** goes to the GitHub repo; if private, show "Private repo".
-- If a project has **no** live demo yet, show the video or screenshot and a small "Demo coming soon" label. Never a broken link.
-- Never embed the live app in an iframe on the portfolio (slow, can break).
-
-*(Notes for me, not for the site: host frontends on Vercel/Netlify, backends on Render/Railway/Fly.io, databases on Supabase/Neon. For FileShift's public demo: limit upload size, auto-delete files, add rate limits. Seed demo accounts with realistic sample data and reset it regularly.)*
+- **60fps** on a mid-range Android phone and a normal laptop. Test in Chrome DevTools → Performance with 4× CPU slowdown and fix long frames.
+- **Budget:** JS ≤ 15 KB, CSS ≤ 30 KB, page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
+- Mouse-follow effects: one `requestAnimationFrame` per frame updating CSS variables; cache `getBoundingClientRect` on `mouseenter`.
+- Scroll: prefer `IntersectionObserver` and CSS scroll timelines; any scroll listener is `{ passive: true }`. Reveal observers unobserve after running.
+- `will-change` only while animating (add on start, remove after).
+- `content-visibility: auto` + `contain-intrinsic-size` on below-the-fold sections.
+- Backdrop blur only on the header and modal (≤ 12px).
+- **Images:** WebP, explicit `width`/`height`, `srcset`/`sizes` where useful, `decoding="async"`, lazy below the fold. Hero avatar not lazy. Screenshots ≤ 300 KB, photo ≤ 150 KB.
+- **Videos:** never in the page on load; the MP4 loads only when the modal opens (`preload="none"`).
+- **Fonts:** self-hosted woff2, preload the hero weight, `font-display: swap`, matched fallback metrics to avoid layout shift.
+- Native `scroll-behavior: smooth` only (disabled under reduced motion).
 
 ---
 
-## 10. Accessibility (required)
+## 13. Accessibility
 
-- Semantic landmarks: `header`, `nav`, `main`, `section` (with `aria-labelledby`), `footer`.
-- Exactly one `<h1>`; logical heading order (h2 per section, h3 per card).
-- Skip-to-content link. Everything usable by keyboard only, in a logical tab order.
-- Visible `:focus-visible` styles everywhere.
-- Icon-only buttons/links have `aria-label`. Decorative SVGs have `aria-hidden="true"`.
-- Alt text on all meaningful images (e.g. "RielTrack dashboard showing monthly spending chart"); empty `alt=""` for decorative ones.
-- Mobile menu and modal: correct `aria-expanded`, `aria-controls`, `role="dialog"`, `aria-modal`, focus trap, Esc to close, focus returns to trigger.
-- Copy feedback announced via `aria-live="polite"`.
-- Color is never the only way information is shown. WCAG AA contrast in both themes.
-- `lang="en"` on `<html>`.
+- Landmarks: `header`, `nav`, `main`, `section` (with `aria-labelledby`), `footer`. `lang="en"` on `<html>`.
+- One `<h1>`; logical headings (h2 per section, h3 per card).
+- Skip link; fully keyboard-usable in a logical order; visible `:focus-visible` styles.
+- Icon-only buttons have `aria-label`; decorative SVGs `aria-hidden="true"`.
+- Meaningful alt text (e.g. "[Project] home screen showing [what it shows]"); `alt=""` for decorative images.
+- Menu and modal: `aria-expanded`, `aria-controls`, `role="dialog"`, `aria-modal`, focus trap, Esc closes, focus returns to the trigger.
+- Copy feedback via `aria-live="polite"`.
+- Color is never the only signal; WCAG AA contrast in both themes.
 
 ---
 
-## 11. Performance
+## 14. SEO, sharing and hosting
 
-- Target **Lighthouse 90+** in Performance, Accessibility, Best Practices and SEO (mobile).
-- Images: WebP (or AVIF), ideally ≤ 200–300 KB each, correct dimensions, explicit `width`/`height`, `loading="lazy"` + `decoding="async"` (except the first visible image).
-- Videos: MP4 H.264, ≤ 5 MB, `preload="none"`, only loaded when the modal opens.
-- Fonts: only needed weights, `display=swap`, `preconnect`.
-- CSS and JS each in one file; JS loaded with `defer`. No unused code.
-- No layout shift (CLS ≈ 0).
-
----
-
-## 12. SEO and sharing
-
-In `<head>`:
-- `<title>[Name] · [Role]</title>` and a meta description (~150 chars) using my real intro.
-- `<meta name="viewport" content="width=device-width, initial-scale=1">`
-- `<meta name="theme-color">` for dark and light.
-- Open Graph + Twitter card tags (title, description, `og:image` = `assets/images/og-image.png` 1200×630, url when domain known).
-- Canonical URL (when domain known), favicon (SVG + fallback), `robots.txt`.
-- JSON-LD `Person` schema with my name, job title, and social links (`sameAs`).
-- Inline script in `<head>` to set the theme **before paint** (prevents flash of wrong theme).
+- `<title>[Name] · [Role]</title>`, meta description (~150 chars) from my real intro, viewport meta, `theme-color` for both themes.
+- Open Graph + Twitter card tags; canonical URL and `sitemap.xml` once a domain is known; `robots.txt`.
+- JSON-LD `Person` schema: name, job title, `sameAs` links.
+- **OG image** (`assets/images/og-image.png`, 1200×630): build it as `og-image.html` and render it to PNG (headless screenshot if available, otherwise ask me to screenshot it). Dark `--bg`, my name large in Geist 700, role in muted, orange dot + "Available for work" (if yes), GitHub handle or domain in mono bottom-left, thin orange bar on the left edge, my avatar on the right (if the photo exists).
+- Favicon set + `site.webmanifest` (name, theme color, icons).
+- **Print stylesheet:** hide nav, buttons and motion; black on white; show link URLs after links.
+- `vercel.json` (or Netlify `_headers`): `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, long cache for `/assets/*`.
 
 ---
 
-## 13. Writing and content guidelines
+## 15. Writing
 
-- Use my words from Section 3. You may **lightly polish grammar and clarity**, but don't add new facts, numbers or claims.
-- Lead project descriptions with the **problem and outcome**, then the tech.
-- Short sentences, active voice, no jargon soup, no clichés ("passionate", "guru", "ninja").
-- Buttons use action verbs: "Try live demo", "Watch video", "View code", "Download résumé".
-- Keep the whole page scannable: headings, short paragraphs, tags.
+- Use my words and confirmed GitHub facts. Light polishing is fine; no new facts, numbers or claims.
+- Project text: **problem → what I built → result**, then tech.
+- Short sentences, active voice, no clichés ("passionate", "guru", "ninja"), no exclamation marks.
+- Sentence case for headings and buttons. Same verbs everywhere: "Try live demo", "Download APK", "Watch video", "View code", "Download résumé".
+- Empty states are styled and calm: "Screenshot coming soon", "Demo coming soon".
+- Keyboard shortcut: `T` toggles the theme (ignored while typing in inputs).
 
 ---
 
-## 14. Working process (step by step)
+## 16. Process
 
-1. **Check inputs.** Read Section 3. If it still has `[...]` placeholders for name, role, projects or contact, list what's missing and ask me. Check what files exist in `assets/`.
-2. **Show the plan** in a few lines: sections, colors, fonts, any questions. Then start building (don't wait unless something is blocking).
-3. **Build in stages**, committing to git after each working stage:
-   1. File structure + design tokens + base styles
-   2. Header, navigation, mobile menu, theme toggle
+1. **GitHub research (Section 6)** → show me the summary → wait for my confirmation.
+2. **Check inputs:** list anything still `[TODO]` in Section 5 and ask me. Check what's in `assets/` (remind me if `me.webp` is missing).
+3. **Plan:** in a few lines (sections, layout of the featured card, any concerns). Then build without waiting unless blocked.
+4. **Build in stages** (commit after each):
+   1. Files, fonts, design tokens, base styles
+   2. Header, mobile menu, theme toggle (+ no-flash script)
    3. Hero
-   4. Projects (cards, demo login copy, video modal)
+   4. Work: cards, phone frames, buttons, demo login copy, video modal
    5. About, Experience
    6. Contact, footer, 404
-   7. Animations + reduced-motion
-   8. SEO/meta, favicon, OG image placeholder (plain text-based, not a photo)
-4. **Review like a senior designer.** Check every breakpoint (Section 8) and both themes. Look at spacing, alignment, hierarchy, contrast, consistency. Fix what's off.
-5. **Run the checklist** in Section 16 and fix issues.
-6. **Write README.md** (Section 15).
-7. **Final summary to me:** what was built, how to open it, which file to edit for each kind of change, and every remaining `TODO`.
-
-**Git commit style:** short, clear messages, e.g. `Add projects section with demo modal`.
+   7. Motion (Section 11): tokens and reveals first, then the signature effects one at a time, checking performance after each
+   8. SEO, OG image, favicons, manifest, print styles, `vercel.json`
+5. **Review like a senior designer:** check every width in Section 10 and both themes; fix spacing, alignment, hierarchy and contrast. If you can take screenshots (headless browser), review them yourself; otherwise ask me to check specific things.
+6. **Run the checklist** (Section 18) and fix issues.
+7. **Write README.md** (Section 17).
+8. **Final summary to me:** what was built, how to open it, which file to edit for what, and every remaining TODO.
 
 ---
 
-## 15. README.md must include (in simple language)
+## 17. README.md (simple language)
 
-1. **How to open the site:** double-click `index.html` (or use VS Code "Live Server").
-2. **How to edit:**
-   - My text and links → `index.html` (which section comment to look for)
-   - Add a new project → copy one `project-card` block and change text, image, links
-   - Change images → put files in `assets/images/`, keep or update file names
-   - Change colors → `--accent` and other variables at the top of `css/style.css`
-   - Change fonts → the Google Fonts link in `index.html` + font variables in CSS
-3. **Image tips:** use WebP, ~1600px wide screenshots, under 300 KB (free tool: squoosh.app).
-4. **How to put it online:** push to GitHub → enable GitHub Pages, or import to Vercel/Netlify (no build settings needed) → connect a custom domain.
-5. **How to update the live site:** edit → `git add .` → `git commit -m "..."` → `git push`.
-6. **List of TODOs** still to fill in.
+1. How to open the site: double-click `index.html` or use VS Code "Live Server".
+2. How to edit: text/links → `index.html` (look for the section comments); add a project → copy a `project-card` block; images → `assets/images/` (same names); colors → variables at the top of `css/style.css`; fonts → `assets/fonts/` + font variables.
+3. Image tips: WebP, screenshots ~1600px wide under 300 KB, photo ~800px under 150 KB (squoosh.app).
+4. Videos: see `VIDEOS.md`.
+5. Put it online: push to GitHub → import into Vercel or Netlify (no build settings) → connect a custom domain.
+6. Update the live site: edit → `git add .` → `git commit -m "..."` → `git push`.
+7. List of remaining TODOs.
 
 ---
 
-## 16. Final checklist (definition of done)
+## 18. Final checklist (definition of done)
 
 **Content**
-- [ ] Only my real info is on the page; no invented names, projects, numbers or photos
-- [ ] Every remaining placeholder is clearly marked `TODO`
-- [ ] No broken links; buttons without links are hidden
+- [ ] Only real info (Section 5, confirmed GitHub facts); no invented names, numbers, photos or claims
+- [ ] Exactly 3 projects in the right order; buttons and media match each project's Type
+- [ ] No broken links; buttons without links hidden; remaining placeholders marked `TODO`
+- [ ] My photo shows in the hero avatar and About (or I was reminded it's missing)
 
 **Design**
-- [ ] Looks polished at 360, 390, 768, 1024, 1440, 1920px
-- [ ] Dark and light themes both look intentional; no flash on load
-- [ ] Consistent spacing, alignment, fonts and colors (only one accent)
+- [ ] Looks intentional at 360, 390, 768, 1024, 1366×768, 1440, 1920px and landscape phone
+- [ ] Both themes polished; no theme flash on load
+- [ ] Spacing, sizes, colors and radii follow Section 9 exactly; one accent color
+- [ ] h1 tested with my real name on small phones
 
-**Interaction**
-- [ ] Mobile menu, theme toggle, copy buttons, video modal all work with mouse, touch and keyboard
-- [ ] Animations smooth; fully disabled with reduced motion; content visible without JS
+**Motion and performance**
+- [ ] Only the motion in Section 11.2; all using the tokens
+- [ ] Smooth at 60fps with 4× CPU slowdown; Lighthouse mobile ≥ 90 in all four categories; budgets in Section 12 met
+- [ ] Reduced motion turns everything off; content visible without JS
 
-**Accessibility**
-- [ ] One h1, logical headings, landmarks, skip link, focus styles, alt text, aria labels
-- [ ] WCAG AA contrast in both themes
-
-**Performance & SEO**
-- [ ] Images optimized and lazy-loaded; no layout shift
-- [ ] Title, description, OG tags, favicon, JSON-LD present
-- [ ] No console errors or warnings
+**Accessibility and SEO**
+- [ ] Keyboard-only works for the menu, toggle, copy buttons and modal; focus visible everywhere
+- [ ] WCAG AA contrast in both themes; alt text; one h1
+- [ ] Title, description, OG image, JSON-LD, favicons and manifest present; no console errors
+- [ ] Khmer text renders correctly (test with a Khmer word, then remove it)
 
 **Handover**
-- [ ] README written in simple language
-- [ ] Git history with clear commits
-- [ ] Final summary sent to me in plain language
+- [ ] README written; clear git history; final plain-language summary sent
 
 ---
 
-## 17. Future ideas (do NOT build unless I ask)
-- Separate case-study pages per project
-- Blog / notes
-- Contact form with Formspree
+## 19. Notes for me (not for the agent to build)
+
+**My photo:** clear face, shoulders up, daylight facing a window, plain background, friendly expression. No sunglasses, filters or AI edits. Crop 4:5, ~800px wide, WebP under 150 KB → `assets/images/me.webp`.
+
+**Screenshots:** real data (not empty screens), no personal info. Web: ~1600×1000. Mobile: full phone screenshots. WebP → `assets/images/<slug>.webp`.
+
+**Videos:** follow `VIDEOS.md`.
+
+**Beyond the site:**
+- Custom domain (e.g. `yourname.dev`) connected in Vercel/Netlify.
+- Professional email (e.g. `hello@yourname.dev` via Cloudflare Email Routing, free).
+- GitHub and LinkedIn match the site: same photo, same headline, the 3 projects pinned with good READMEs.
+- Ask 1–2 real people for a short testimonial for later.
+- For public demos: test payments only, sample data, reset regularly.
+
+---
+
+## 20. Future ideas (do NOT build unless I ask)
+- Extra effects: text scramble, magnetic buttons, tech marquee, sticky stacking cards, custom cursor
+- Case-study pages per project
 - Khmer / English language switch
+- Contact form (Formspree)
+- Blog / notes
+- Testimonials (real ones only)
 - Analytics (Plausible / Umami)
-- Testimonials (only real ones)
+- Certificates, "Uses" page, command palette (Ctrl/Cmd + K)

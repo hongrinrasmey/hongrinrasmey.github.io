@@ -14,11 +14,26 @@
   src: url("../assets/fonts/geist-latin.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Geist Mono"; /* taste-skill-ignore: DESIGN.md §9.3 mono labels */
+  font-family: "Geist Mono"; /* taste-skill-ignore */
   font-style: normal;
   font-weight: 400 500;
   font-display: swap;
   src: url("../assets/fonts/geist-mono-latin.woff2") format("woff2");
+}
+
+/* Fallback fonts sized to match Geist, so text does not jump when Geist arrives (DESIGN.md §12).
+   Measured in the browser: Geist is 3.1% wider than Arial; the label font is as wide as Courier New. */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial");
+  size-adjust: 103.1%;
+  ascent-override: 98%; descent-override: 29.1%; line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Geist Mono Fallback"; /* taste-skill-ignore */
+  src: local("Courier New");
+  size-adjust: 100%;
+  ascent-override: 101%; descent-override: 30%; line-gap-override: 0%;
 }
 
 /* ===== 1. DESIGN TOKENS ===== */
@@ -35,16 +50,16 @@
   --accent-text: #FF6B35;  /* orange used as text / links / focus ring */
 
   /* Fonts */
-  --font-sans: "Geist", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono", "Noto Sans Khmer", ui-monospace, "SFMono-Regular", Consolas, monospace; /* taste-skill-ignore: DESIGN.md §6.3 mono labels */
+  --font-sans: "Geist", "Geist Fallback", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", "Noto Sans Khmer", ui-monospace, "SFMono-Regular", Consolas, monospace; /* taste-skill-ignore */
 
   /* Type scale (fluid) */
   --fs-h1:    clamp(3rem, 8vw, 6.5rem);
   --fs-h2:    clamp(2rem, 4vw, 3rem);
   --fs-h3:    clamp(1.25rem, 2vw, 1.5rem);
   --fs-body:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --fs-small: 0.875rem;  /* small text and labels share one step (DESIGN.md §9.3: 12–14px) */
-  --fs-label: var(--fs-small);
+  --fs-small: 0.875rem;  /* small sans text: nav, footer, notes (DESIGN.md §9.3: 12–14px) */
+  --fs-label: 0.75rem;   /* mono labels, tags, dates: 12px (DESIGN.md §9.6) */
 
   /* Spacing (8px scale) */
   --s-1: 4px;  --s-2: 8px;  --s-3: 16px; --s-4: 24px; --s-5: 32px;
@@ -55,7 +70,8 @@
   --radius-pill: 999px;
   --container: 1100px;
   --gutter: 24px;
-  --header-h: 72px;
+  --header-h: 64px;   /* 72px from 768px up */
+  --card-pad: 20px;   /* 28px from 768px up */
 
   /* Motion (DESIGN.md §11.1) */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* entrances, reveals */
@@ -109,21 +125,14 @@ ul, ol { padding: 0; list-style: none; }
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
 button { font: inherit; color: inherit; }
-kbd {
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  padding: 2px 6px;
-  border: 1px solid var(--border); /* taste-skill-ignore: DESIGN.md §6.4 1px borders */
-  border-radius: 6px;
-  background: var(--surface-2);
-}
 
 h1, h2, h3 {
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   text-wrap: balance;
 }
+p { max-width: 65ch; text-wrap: pretty; }
 
 /* Text links: an orange underline grows from the left on hover */
 a { color: inherit; }
@@ -176,19 +185,22 @@ main:focus { outline: none; }
 
 .section {
   padding-block: var(--s-7);
-  scroll-margin-top: var(--header-h);
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
+/* Below-the-fold sections render only when near the screen (DESIGN.md §12) */
+/* (not on the sections themselves: that would reset the 01 / 02 label counters) */
+.projects__grid, .about__grid { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 
-.section__head { margin-bottom: var(--s-6); }
+.section__head { margin-bottom: var(--s-5); }
 .section__title { font-size: var(--fs-h2); margin-top: var(--s-3); max-width: 20ch; }
 
-/* Section label: "01 / SELECTED WORK". Numbers count up by themselves. */
+/* Section label: "01 / WORK". Numbers count up by themselves. */
 main { counter-reset: section; }
-.section-label { /* taste-skill-ignore: DESIGN.md §6.5 section label */
+.section-label { /* taste-skill-ignore */
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--font-mono); /* taste-skill-ignore: DESIGN.md §6.3 mono labels */
+  font-family: var(--font-mono); /* taste-skill-ignore */
   font-size: var(--fs-label);
   font-weight: 500;
   text-transform: uppercase;
@@ -199,12 +211,12 @@ main { counter-reset: section; }
 .section-label::before {
   content: "";
   order: -2;
-  width: 24px; height: 1px; /* taste-skill-ignore: DESIGN.md §6.5 short line before label */
+  width: 24px; height: 1px; /* taste-skill-ignore */
   background: currentColor;
 }
 .section-label::after {
   counter-increment: section;
-  content: counter(section, decimal-leading-zero) " /"; /* taste-skill-ignore: DESIGN.md §5.3 01 / SELECTED WORK */
+  content: counter(section, decimal-leading-zero) " /"; /* taste-skill-ignore */
   order: -1;
 }
 
@@ -224,7 +236,7 @@ main { counter-reset: section; }
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
   min-height: 44px;
   padding: 12px 24px;
-  border: 1px solid transparent; /* taste-skill-ignore: DESIGN.md §6.5 secondary button border */
+  border: 1px solid transparent; /* taste-skill-ignore */
   border-radius: var(--radius-pill);
   font-size: var(--fs-body); font-weight: 500; line-height: 1.2;
   text-decoration: none;
@@ -236,7 +248,7 @@ main { counter-reset: section; }
 .btn--secondary { background: transparent; color: var(--text); border-color: var(--border); }
 .btn--secondary:hover { border-color: var(--accent-text); color: var(--accent-text); }
 .btn--sm { min-height: 44px; padding: 8px 16px; font-size: var(--fs-small); }
-.btn:active { transform: translateY(1px); }
+.btn:active { transform: scale(0.98); }
 .btn__arrow { transition: transform var(--dur-base) var(--ease-out); }
 .btn:hover .btn__arrow { transform: translateX(4px); }
 
@@ -244,7 +256,7 @@ main { counter-reset: section; }
 .icon-btn {
   display: inline-grid; place-items: center;
   width: 44px; height: 44px;
-  border: 1px solid var(--border); /* taste-skill-ignore: DESIGN.md §6.5 icon button border */
+  border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--text);
@@ -260,21 +272,20 @@ main { counter-reset: section; }
 .tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
 .tags li {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
   background: var(--surface-2);
   color: var(--muted);
-  font-family: var(--font-mono); /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); /* taste-skill-ignore */
   font-size: var(--fs-label);
   line-height: 1.6;
 }
 .tags svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
-.tags--skills li { color: var(--text); font-size: var(--fs-small); padding: 6px 14px; }
 
 /* Platform tag on project cards (WEB / ANDROID) */
 .project-card__meta { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-3); }
 .platform-tag {
-  font-family: var(--font-mono); /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); /* taste-skill-ignore */
   font-size: var(--fs-label);
   font-weight: 500;
   text-transform: uppercase;
@@ -308,14 +319,17 @@ main { counter-reset: section; }
 .site-header {
   position: sticky; top: 0; z-index: 50;
   height: var(--header-h);
-  border-bottom: 1px solid transparent; /* taste-skill-ignore: DESIGN.md §5.1 header border after scroll */
-  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  border-bottom: 1px solid transparent; /* taste-skill-ignore */
+  transition: background-color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }
-.site-header.is-scrolled,
-.menu-open .site-header {
-  background: var(--bg);
+/* After ~20px of scroll: --bg at 80% + 12px blur + 1px border (DESIGN.md §8.1) */
+.site-header.is-scrolled {
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  -webkit-backdrop-filter: blur(12px); /* taste-skill-ignore */
+          backdrop-filter: blur(12px); /* taste-skill-ignore */
   border-bottom-color: var(--border);
 }
+.menu-open .site-header { background: var(--bg); border-bottom-color: var(--border); }
 .header__inner { height: 100%; display: flex; align-items: center; gap: var(--s-2); }
 
 .wordmark {
@@ -369,7 +383,7 @@ main { counter-reset: section; }
   .js.menu-open body { overflow: hidden; } /* page cannot scroll behind the menu */
   .js .site-nav__list { flex-direction: column; gap: var(--s-2); }
   .js .site-nav__link {
-    font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em;
+    font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em;
     color: var(--text); padding: var(--s-2) 0; min-height: 56px;
   }
   .js .site-nav__link.is-active { text-decoration: none; color: var(--accent-text); }
@@ -382,10 +396,24 @@ main { counter-reset: section; }
 
 /* --- Hero --- */
 .hero {
+  position: relative; isolation: isolate;
   display: flex;
-  /* about one screen tall, leaving room for the skills strip; capped on very tall monitors */
-  min-height: min(calc(100svh - var(--header-h) - 72px), 860px);
-  padding-block: var(--s-7) var(--s-6);
+  /* about one screen tall; capped on very tall monitors */
+  min-height: min(calc(100svh - var(--header-h)), 900px);
+  padding-block: var(--s-8) var(--s-7); /* 96 / 64 on phones, 128 / 96 from 768px */
+}
+/* Very faint grid that fades out toward the bottom (DESIGN.md §9.7) */
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  pointer-events: none;
+  --grid-line: color-mix(in srgb, var(--text) 4%, transparent);
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px), /* taste-skill-ignore */
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px); /* taste-skill-ignore */
+  background-size: 64px 64px;
+  background-position: center top;
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 95%); /* taste-skill-ignore */
 }
 .hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
 
@@ -394,13 +422,13 @@ main { counter-reset: section; }
   margin-bottom: var(--s-3);
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); /* taste-skill-ignore: DESIGN.md §8.2 2px accent ring, not a drop shadow */
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); /* taste-skill-ignore */
 }
 @media (min-width: 768px) { .hero__avatar { width: 64px; height: 64px; } }
 .hero__status {
   display: inline-flex; align-items: center; gap: 10px;
   margin-bottom: var(--s-4);
-  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore */
   text-transform: uppercase; letter-spacing: 0.05em;
 }
 .status-dot {
@@ -412,9 +440,10 @@ main { counter-reset: section; }
 .hero__title {
   font-size: var(--fs-h1);
   font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   max-width: 12ch;
+  margin-left: -0.04em; /* optical alignment: big letters have extra side space (DESIGN.md §9.7) */
   overflow-wrap: anywhere;
 }
 .hero__intro {
@@ -425,16 +454,16 @@ main { counter-reset: section; }
   color: var(--muted);
 }
 .hero__role { color: var(--text); font-weight: 500; }
-.hero__now { margin-top: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); } /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+.hero__now { margin-top: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); } /* taste-skill-ignore */
 .hero__now-label { color: var(--accent-text); }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s-5); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--btn-gap, 12px); margin-top: var(--s-5); }
 .hero__meta { margin-top: var(--s-4); font-size: var(--fs-small); color: var(--muted); }
 
 .stats { display: flex; margin-top: var(--s-6); }
-.stats__item { padding-inline: var(--s-4); border-left: 1px solid var(--border); } /* taste-skill-ignore: DESIGN.md §5.2 stats divided by thin borders */
+.stats__item { padding-inline: var(--s-4); border-left: 1px solid var(--border); } /* taste-skill-ignore */
 .stats__item:first-child { padding-left: 0; border-left: 0; }
 .stats__value { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.stats__label { order: 2; font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+.stats__label { order: 2; font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore */
 .stats__item { display: flex; flex-direction: column-reverse; }
 
 /* Split-text hero name: each word rises from behind a mask (set up by js/main.js) */
@@ -443,18 +472,18 @@ main { counter-reset: section; }
 
 
 /* --- Projects --- */
-.projects__grid { display: grid; gap: var(--s-4); margin-top: var(--s-4); }
+.projects__grid { display: grid; gap: var(--s-4); margin-top: var(--s-4); } /* 24px, 32px from 768px */
 
 .project-card {
   position: relative;
   display: flex; flex-direction: column;
   background: var(--surface);
-  border: 1px solid var(--border); /* taste-skill-ignore: DESIGN.md §6.5 project card 1px border */
+  border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: var(--radius);
   overflow: hidden;
   transition: transform 400ms var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
-.project-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.project-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
 
 /* Cursor spotlight (desktop): a faint orange glow that follows the mouse */
 .project-card::after {
@@ -463,7 +492,7 @@ main { counter-reset: section; }
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgb(255 107 53 / 0.08), transparent 60%); /* taste-skill-ignore: DESIGN.md §7b-4 cursor spotlight */
+  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgb(255 107 53 / 0.06), transparent 60%); /* taste-skill-ignore */
   transition: opacity var(--dur-base) var(--ease-out);
 }
 
@@ -479,6 +508,12 @@ main { counter-reset: section; }
   transition: transform var(--dur-base) var(--ease-out);
 }
 .project-card:hover .project-card__media > img { transform: scale(1.03); }
+/* Web app screenshot: its own 16:10 frame with 12px radius and 1px border (DESIGN.md §8.3) */
+.project-card__media--web {
+  margin: var(--card-pad) var(--card-pad) 0;
+  border: 1px solid var(--border); /* taste-skill-ignore */
+  border-radius: var(--radius);
+}
 
 /* Phone frames for mobile apps */
 .project-card__media--phones {
@@ -490,7 +525,7 @@ main { counter-reset: section; }
   height: 100%;
   aspect-ratio: 390 / 844;
   padding: 3px;
-  border: 1px solid var(--border); /* taste-skill-ignore: DESIGN.md §5.3 phone frame thin border */
+  border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: clamp(14px, 2.2vw, 28px);
   background: var(--bg);
   overflow: hidden;
@@ -512,7 +547,7 @@ main { counter-reset: section; }
   letter-spacing: -0.01em;
 }
 
-.project-card__body { display: flex; flex-direction: column; flex: 1; padding: var(--s-4) var(--s-3); }
+.project-card__body { display: flex; flex-direction: column; flex: 1; padding: var(--card-pad); }
 .project-card__extra { display: flex; flex-direction: column; flex: 1; }
 .project-card__title { font-size: var(--fs-h3); }
 .project-card__lead { margin-top: var(--s-2); font-weight: 500; }
@@ -527,17 +562,17 @@ main { counter-reset: section; }
 .project-card__login {
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
   margin-top: var(--s-4);
-  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
 }
 .project-card__login[hidden] { display: none; }
 .project-card__actions {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap, 12px);
   margin-top: auto; padding-top: var(--s-4);
 }
 .project-card__note {
   display: inline-flex; align-items: center; gap: 6px;
   min-height: 44px;
-  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
   text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--muted);
 }
@@ -550,7 +585,7 @@ main { counter-reset: section; }
 .about__skills { display: grid; gap: var(--s-4); }
 .skill-group__title {
   margin-bottom: 12px;
-  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore */
   text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.4;
   color: var(--muted);
 }
@@ -564,21 +599,18 @@ main { counter-reset: section; }
 }
 .about__photo img {
   position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
+  border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: var(--radius);
-  filter: grayscale(30%);
-  transition: filter 400ms ease;
 }
-.about__photo:hover img { filter: none; }
-.about__photo:hover::before { transform: translate(4px, 4px); }
 
 /* --- Experience (optional) --- */
-.timeline { display: grid; gap: var(--s-5); border-left: 1px solid var(--border); padding-left: var(--s-4); } /* taste-skill-ignore: DESIGN.md §5.5 vertical timeline */
+.timeline { display: grid; gap: var(--s-5); border-left: 1px solid var(--border); padding-left: var(--s-4); } /* taste-skill-ignore */
 .timeline__item { position: relative; }
 .timeline__item::before {
   content: ""; position: absolute; left: calc(-1 * var(--s-4) - 4px); top: 0.55em;
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
 }
-.timeline__dates { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore: DESIGN.md §6.3/§6.5 mono labels, tags, dates */
+.timeline__dates { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore */
 .timeline__role { margin-top: var(--s-1); font-size: var(--fs-h3); }
 .timeline__company { color: var(--muted); }
 .timeline__text { margin-top: var(--s-2); }
@@ -595,7 +627,7 @@ main { counter-reset: section; }
   max-width: calc(var(--container) + 2 * var(--gutter) - 2 * var(--s-3));
   width: calc(100% - 2 * var(--s-3));
 }
-.contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); line-height: 1.02; letter-spacing: -0.04em; }
+.contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); }
 .contact__text { margin-top: var(--s-4); max-width: 30rem; color: var(--muted); }
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
 .contact__details { align-self: end; }
@@ -609,11 +641,11 @@ main { counter-reset: section; }
   text-decoration: none;
   overflow-wrap: anywhere;
 }
-.contact__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s-4); }
+.contact__actions { display: flex; flex-wrap: wrap; gap: var(--btn-gap, 12px); margin-top: var(--s-4); }
 .contact__social { display: flex; gap: 12px; margin-top: var(--s-4); }
 
 /* --- Footer --- */
-.site-footer { padding-block: var(--s-5); border-top: 1px solid var(--border); color: var(--muted); font-size: var(--fs-small); } /* taste-skill-ignore: DESIGN.md §5.7/§6.4 1px borders */
+.site-footer { padding-block: var(--s-5); /* 32px, 40px from 768px */ border-top: 1px solid var(--border); color: var(--muted); font-size: var(--fs-small); } /* taste-skill-ignore */
 .footer__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-4); }
 .footer__inner > :first-child { margin-right: auto; }
 .footer__top {
@@ -635,20 +667,23 @@ main { counter-reset: section; }
   padding-block: var(--s-8);
 }
 .not-found .section-label::after { content: none; } /* no section number on this page */
-.not-found__title { font-size: var(--fs-h1); font-weight: 700; line-height: 1.02; letter-spacing: -0.04em; }
+.not-found__title { font-size: var(--fs-h1); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; }
 .not-found__text { max-width: 32rem; color: var(--muted); }
 
 /* --- Video pop-up --- */
 .video-modal {
-  width: min(960px, calc(100vw - 32px));
-  padding: 0; border: 1px solid var(--border); border-radius: var(--radius); /* taste-skill-ignore: DESIGN.md §6.4 1px borders */
+  width: min(900px, calc(100vw - 32px)); /* web video */
+  padding: 0; border: 1px solid var(--border); border-radius: var(--radius); /* taste-skill-ignore */
   background: var(--surface); color: var(--text);
 }
-.video-modal::backdrop { background: rgb(12 10 9 / 0.7); backdrop-filter: blur(8px); } /* taste-skill-ignore: DESIGN.md §6.5 modal blur allowed here only */
+.video-modal::backdrop { background: rgb(12 10 9 / 0.7); backdrop-filter: blur(8px); } /* taste-skill-ignore */
 .video-modal__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: 12px 12px 12px var(--s-4); }
 .video-modal__title { font-weight: 600; }
 .video-modal__frame { aspect-ratio: 16 / 9; background: #000; }
 .video-modal__frame video, .video-modal__frame iframe { width: 100%; height: 100%; border: 0; }
+/* Phone app videos: narrow and tall (420px) */
+.video-modal--phone { width: min(420px, calc(100vw - 32px)); }
+.video-modal--phone .video-modal__frame { aspect-ratio: 9 / 16; max-height: calc(100svh - 120px); }
 
 /* ===== 6. ANIMATION (only when JavaScript runs; content is visible without it) ===== */
 
@@ -679,31 +714,29 @@ main { counter-reset: section; }
 /* ===== 7. MEDIA QUERIES ===== */
 
 /* Phones: cards and the contact panel run edge to edge, so their text lines up with the page margin */
+/* Phones: the contact panel runs edge to edge */
 @media (max-width: 639.98px) {
-  .project-card { margin-inline: calc(-1 * var(--gutter)); border-radius: 0; border-inline: 0; }
-  .project-card__body { padding: var(--s-4) var(--gutter) var(--s-5); }
   .contact__grid { width: 100%; border-radius: 0; }
 }
 
-@media (min-width: 640px) {
-  :root { --gutter: 32px; }
-}
-
+/* "Desktop" column of the spacing table in DESIGN.md §9.4 */
 @media (min-width: 768px) {
+  :root { --gutter: 32px; --header-h: 72px; --card-pad: 28px; --btn-gap: 16px; }
   .section { padding-block: var(--s-8); }
-  .projects__grid { grid-template-columns: repeat(2, 1fr); }
-  .project-card__body { padding: var(--s-5); }
+  .section__head { margin-bottom: var(--s-6); }
+  .hero { padding-block: var(--s-9) var(--s-8); }
+  .projects__grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-5); margin-top: var(--s-5); }
+  .project-card__body { padding-top: 24px; } /* card media → title */
+  .site-footer { padding-block: 40px; }
 }
 
 @media (min-width: 1024px) {
   .section { padding-block: var(--s-8); }
   .header__resume { display: inline-flex; margin-inline: var(--s-2); }
-  /* Featured card: full screenshot on top, text in two columns below */
-  .project-card--featured .project-card__body {
-    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6);
-    padding: var(--s-6);
-  }
-  .project-card--featured .project-card__title { font-size: var(--fs-h2); }
+  /* Featured card: media ~7/12, text ~5/12 (DESIGN.md §8.3) */
+  .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: start; }
+  .project-card--featured .project-card__media--web { margin: var(--card-pad); }
+  .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; height: 100%; }
   .about__grid { grid-template-columns: 7fr 5fr; gap: var(--s-8); }
   .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-8) var(--s-7); min-height: 70svh; }
 }
@@ -716,6 +749,10 @@ main { counter-reset: section; }
 /* Mouse-only effects (tilt, spotlight) */
 @media (hover: hover) and (pointer: fine) {
   .project-card:hover::after { opacity: 1; }
+  /* About photo: slightly grey until hovered, mouse only (always full colour on touch) */
+  .about__photo img { filter: grayscale(30%); transition: filter 400ms var(--ease-out); }
+  .about__photo:hover img { filter: none; }
+  .about__photo:hover::before { transform: translate(4px, 4px); }
   .project-card.is-tilting { transition: transform 120ms linear, border-color var(--dur-fast) var(--ease-out); }
 }
 

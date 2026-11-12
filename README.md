@@ -56,7 +56,9 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 ### Add a new project
 1. In `index.html`, find `<!-- OTHER PROJECTS -->`.
 2. Copy a whole `<article class="project-card ..."> ... </article>` block (idevo or RielTrack).
-3. Paste it below and change the name, text, tags, links and screenshots.
+3. Paste it below and change the name, one-line text, tags, links and screenshots.
+   (Only the featured card shows the longer problem text and 3 key features; the smaller cards keep
+   theirs in a comment, in case you swap which project is featured.)
 
 ### Change images
 - **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.

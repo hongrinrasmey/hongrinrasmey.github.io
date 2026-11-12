@@ -351,6 +351,10 @@
       }
 
       if (modalTitle) modalTitle.textContent = title;
+      // Phone apps get a narrow, tall pop-up (420px); web apps a wide one (900px)
+      var card = btn.closest('.project-card');
+      var platform = card && card.querySelector('.platform-tag');
+      modal.classList.toggle('video-modal--phone', !!platform && /android|ios/i.test(platform.textContent));
       frame.replaceChildren(player);
       lastTrigger = btn;
       modal.showModal(); // the browser keeps focus inside and closes it with Esc
