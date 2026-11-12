@@ -139,6 +139,8 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 ### Next step (owner decided 2026-11-12)
 The owner will fill in section 3 themselves. **Next agent:** if section 3 has real values (no `[...]`), copy them into `index.html` and replace every `[TODO: ...]`. Then re-run the inspector (without `--allow` if screenshots were added) and Lighthouse, update this log, and commit.
 
+Owner confirmed on 2026-11-12: keep rules 1 and 3 over the design skill's picture floor. **Never add stock or found photos to pass the "few-pictures" check.** That check passes only once the owner's own screenshots and photo are in `assets/images/`.
+
 ### Still TODO (needs the owner's real details)
 - Fill in every `[TODO: ...]` in `index.html` from section 3: name, role, intro, bio, location, remote yes/no, skills, 2–4 projects, email, GitHub, LinkedIn.
 - Add `assets/images/me.jpg` (optional), project screenshots, and `assets/resume.pdf` (optional).
