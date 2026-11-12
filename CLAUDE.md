@@ -127,9 +127,12 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 - Owner rule (2026-11-12): **never add stock or found photos/clips** to pass the design skill's picture checks.
 
 ### Checks run on the final version (2026-11-12)
-- taste-skill inspector: **0 FAIL** at 1440/768/390 with `--allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Every allowed rule is something DESIGN.md requires (mono labels, "01 /" labels, 1px borders, 3 fonts, modal blur) or the owner's no-stock-photo rule. Remaining WARN `off-centre` (170 vs 194px) comes from short `[TODO]` lines not reaching the right edge.
+- taste-skill inspector: **0 FAIL** at 1920/1440/768/390 with `--allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Every allowed rule is something DESIGN.md requires (mono labels, "01 /" labels, 1px borders, 3 fonts, modal blur) or the owner's no-stock-photo rule. Remaining WARN `off-centre` (170 vs 194px) comes from short `[TODO]` lines not reaching the right edge.
 - Browser test (56 checks, all pass): no horizontal scroll and ≥44px tap targets at 360/390/768/1024/1440/1920; one h1; labelled sections; hidden empty links; header on scroll; active nav; reveal; card hover; theme toggle + saved + reload; light-mode contrast ≥4.5:1; copy email/demo login + "Copied!" + aria-live; video modal open/Esc/backdrop/close button/focus return/YouTube; mobile menu open/Esc/link/outside click/inert/scroll lock; reduced motion; JavaScript off; 404 at a nested address; opened from file://; no console errors.
 - Lighthouse mobile 95 / 100 / 100 / 100 (CLS 0), desktop 98 / 100 / 100 / 100.
+- Without any `--allow`: 6 FAIL, all of them DESIGN.md requirements or the no-stock-photo rule (eyebrow, mono, micro-label, hairline, few-pictures, font-count). Expected.
+- Critique (skill format, 2 rounds) is in `.taste-skill/critique.md` (git-ignored). Final: design 6.5 · usability 8 · creativity 5 · content 3 → 6.3; capped by the spec's mono/numbered labels and by placeholder content.
+- Owner added 4 screenshots of other apps (`assets/images/idevo-*.webp`, `kh-halal-marketplace.webp`). Not used and not committed: DESIGN.md names only RielTrack and FileShift. Ask the owner.
 
 ### How to re-run the checks (for agents)
 - Inspector: from PowerShell (the Bash sandbox blocks the browser): `node <taste-skill>/scripts/inspect.mjs index.html --allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Drop `few-pictures` once real screenshots are in.
