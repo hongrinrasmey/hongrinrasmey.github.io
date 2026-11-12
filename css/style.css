@@ -546,6 +546,82 @@ html:not(.js) .theme-toggle,
 .copy-btn.is-copied .copy-btn__done { display: inline; }
 .copy-btn.is-copied { border-color: var(--accent); color: var(--accent); }
 
+/* ===== ABOUT ===== */
+.about__grid { display: grid; gap: var(--space-6); }
+@media (min-width: 1024px) {
+  .about__grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-7) var(--space-5);
+    align-items: start;
+  }
+  .about__text { grid-column: 1 / 8; }
+  .about__photo,
+  .about__skills { grid-column: 8 / -1; }
+  /* With a photo on the right, the skills move to a full-width row underneath. */
+  .about__grid:has(.about__photo) .about__skills { grid-column: 1 / -1; }
+}
+.about__bio {
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+}
+.about__bio + .about__bio { margin-top: var(--space-3); }
+.about__meta { margin-top: var(--space-4); color: var(--muted); }
+.about__photo {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.about__skills {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.skill-group__title,
+.education__title {
+  margin-bottom: 12px;
+  font: 500 var(--fs-label)/1.4 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ===== EXPERIENCE ===== */
+.timeline {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 65ch;
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--border);
+}
+.timeline__item { position: relative; }
+.timeline__item::before {          /* the dot on the line */
+  content: "";
+  position: absolute;
+  top: 0.3em;
+  left: calc(-1 * var(--space-5) - 5px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.timeline__dates {
+  font: 500 var(--fs-label)/1.4 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.timeline__role { margin-top: var(--space-2); font-size: var(--fs-h3); }
+.timeline__company { color: var(--muted); }
+.timeline__text { margin-top: var(--space-2); }
+
+.education { margin-top: var(--space-7); }
+.education__list { display: grid; gap: var(--space-2); }
+.education__list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
+
 /* ===== VIDEO POP-UP ===== */
 .video-modal {
   width: min(960px, calc(100% - 2 * var(--gutter)));
