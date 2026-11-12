@@ -214,7 +214,8 @@ Owner asked for less empty space at the sides on wide screens.
 - Still TODO: role, intro, bio, city, remote, contact sentence, LinkedIn.
 
 ### Update 2026-11-12: About photo frame
-- Solid orange block behind the photo → 1px orange outline offset 12px (`.about__photo::before`). Mouse users: photo fully greyscale until hover (was 30%), so the bright blue ID-photo background no longer fights the orange. Touch devices still see full colour. CSS 29,858 bytes.
+- Solid orange block behind the photo → 1px orange outline offset 12px (`.about__photo::before`).
+- Owner did not want greyscale. Instead the blue studio background was replaced (colour key + edge despill, numpy/scipy, script was in the session scratchpad) with a warm dark backdrop (#161311 + faint orange glow behind the head). `me.webp` and `me-avatar.webp` re-made from the original jpg; the greyscale CSS was removed. Photo is full colour everywhere.
 
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
