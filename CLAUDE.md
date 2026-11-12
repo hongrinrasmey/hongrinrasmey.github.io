@@ -394,6 +394,17 @@ After an honest review (RielTrack 8, idevo 7, KH Halal 6 out of 10), everything 
 - Checks: headless Edge 1440 + 390, all 3 play, phone pop-up 418px, Esc + focus, no errors, no horizontal scroll. Emulator: demo mode off, temp files gone, closed. RielTrack keeps the sample data (+ the take's lunch, deleted by the next run).
 - Owner should change both KH Halal passwords (weak, and written in chat).
 
+### Update 2026-11-12: video follow-ups 1-6 (owner: "do all of these")
+- **Richer sample data.** RielTrack: `scripts/seed-rieltrack.sh` adds 9 past-dated entries through the app's own form + date picker (Oct: salary, food, transport, internet, shopping; early Nov: 4 small ones), so History has several days and Reports says "32% more than last month". idevo: `scripts/seed-idevo.sh` moves the emulator clock back (`cmd time_detector set_auto_detection_enabled false` + `cmd alarm set-time`; a `trap` always turns automatic time back on) and studies the sample path on days -6/-5/-3/-1; `record-idevo.sh` runs it first. Video shows "2-day streak, studied on 5 of the last 7 days" and a full Progress chart.
+- **Bugs found and fixed while doing it:** RielTrack amounts use a non-breaking space before ៛, so the lunch clean-up never matched (two lunches in a take; re-recorded); it now matches "−12,000" and checks the edit screen before deleting. Android's "No screen lock" notification (shield icon) came back after an emulator reboot: `demo_on` in `scripts/lib-adb.sh` now snoozes it every time.
+- **KH Halal seller part** types a demo product name ("Halal Beef Jerky 200g", like the form's own placeholder) into the add-product form, presses no button; the script lists every non-GET request per part: seller part = login only.
+- **Final videos:** KH Halal 39.3 s / 3.79 MB, idevo 27.3 s / 2.15 MB, RielTrack 26.9 s / 2.17 MB. idevo zooms 1.12× (its headings start at the screen edge; 1.2× clipped them).
+- **Posters** now show a key moment: KH price in riel + dollars, idevo Progress, RielTrack the "12000 ៛" zoom (`poster` time in each `scripts/motion/<slug>.json`).
+- **Video descriptions** (`index.html`): a `visually-hidden` paragraph per video, linked with `aria-describedby` on its "Watch video" button. Update it when a video changes.
+- **Pop-up (css):** frame background `#0C0A09` (the videos' own) and phone ratio 720/1560; the phone pop-up width also follows the screen height, so no bars and no white strip. Checked 1440×900, 1366×768, 1920×1080, 390×844, 844×390: ratio exact, all fit.
+- **GIFs** (8 s, 300 px, 12 fps, under 3 MB) added to the PUBLIC `RielTrack-Downloads` (a9d1c1f) and `Idevo-Downloads` (02491a5) READMEs, committed with the GitHub no-reply email.
+- Emulator: clock automatic, demo mode off, closed. Nothing pushed from this repo.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

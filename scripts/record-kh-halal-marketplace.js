@@ -1,7 +1,8 @@
 // Records the raw KH Halal Marketplace demo from the LIVE site (VIDEOS.md, Method C), in three parts:
 //   1. guest:    home, product, add to cart (browser-only cart), cart page, Khmer, mosques
 //   2. customer: signed in OFF camera, then the wishlist
-//   3. seller:   signed in OFF camera, then dashboard, products, the add-product form (never saved)
+//   3. seller:   signed in OFF camera, then dashboard, products, the add-product form: types a demo
+//                product name, presses no button, never saves (the page keeps drafts in the browser only)
 // Logins come only from environment variables, never from a file:
 //   KH_CUSTOMER_EMAIL, KH_CUSTOMER_PASSWORD, KH_SELLER_EMAIL, KH_SELLER_PASSWORD
 //   NODE_PATH=<folder with playwright>/node_modules node scripts/record-kh-halal-marketplace.js
@@ -29,6 +30,8 @@ async function part(browser, name, role, setupUrl, act) {
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, locale: 'en-US', colorScheme: 'light' });
   const page = await ctx.newPage();
   const errors = []; page.on('pageerror', e => errors.push(e.message));
+  // every request that could change data on the server is listed at the end of the part
+  const writes = []; page.on('request', r => { if (!['GET', 'HEAD', 'OPTIONS'].includes(r.method())) writes.push(r.method() + ' ' + r.url().replace(SITE, '')); });
   if (role) {                                      // sign in before the recording starts
     await page.goto(SITE + '/login', { waitUntil: 'networkidle', timeout: 120000 });
     await page.locator('#login-email').fill(LOGIN[role][0]);
@@ -84,6 +87,7 @@ async function part(browser, name, role, setupUrl, act) {
   frames.push({ file: frames[frames.length - 1].file, t: end });
   base = end + GAP;
   if (errors.length) console.log(name + ' page errors (site, not recording):', errors.slice(0, 2));
+  console.log(name + ' server writes:', [...new Set(writes)].filter(w => !/ws-ticket/.test(w)));
   await ctx.close();
   console.log(`${name}: ${frames.length - start} frames, ends at ${base.toFixed(1)} s`);
 }
@@ -121,7 +125,11 @@ async function part(browser, name, role, setupUrl, act) {
     await move(700, 500, 500); await scroll(320); await sleep(1500);
     await click(page.getByRole('link', { name: /add new product/i }).first()
       .or(page.getByRole('button', { name: /add new product/i }).first()).first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2600);             // add-product form, not filled, not saved
+    await page.waitForLoadState('networkidle'); await sleep(1600);             // add-product form
+    await move(700, 520, 400); await scroll(300); await sleep(600);
+    const name = page.getByPlaceholder(/Premium Halal Beef Jerky/i).first();  // demo text only; no button is pressed
+    await click(name, 700); await sleep(300);
+    await page.keyboard.type('Halal Beef Jerky 200g', { delay: 70 }); await sleep(2200);
   });
 
   await browser.close();
