@@ -113,7 +113,7 @@
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul class="site-nav__list">
           <li><a class="site-nav__link" href="#work">Work</a></li>
-          <li><a class="site-nav__link" href="#about">About</a></li>
+          <li><a class="site-nav__link" href="#skills">Skills</a></li>
           <!-- <li><a class="site-nav__link" href="#experience">Experience</a></li>  ← remove the comment marks when you show the Experience section -->
           <li><a class="site-nav__link" href="#contact">Contact</a></li>
         </ul>
@@ -164,7 +164,7 @@
           </a>
           <a class="btn btn--secondary" href="#contact">Contact me</a>
         </div>
-        <p class="hero__meta hero__item">[TODO: City], Cambodia · [TODO: open to remote? yes / no]</p>
+        <p class="hero__meta hero__item">Phnom Penh, Cambodia · Open to remote work</p>
         <!-- QUICK STATS (optional, real numbers only, max 3). Remove the comment marks to show them.
              data-count is the number that counts up; the text inside is what shows without JavaScript.
         <dl class="stats hero__item">
@@ -193,7 +193,7 @@
         </div>
 
         <!-- PROJECT 1 (FEATURED, full width): KH Halal Marketplace — web app -->
-        <article class="project-card project-card--featured reveal" aria-labelledby="p1-title">
+        <article class="project-card project-card--featured reveal" id="kh-halal" aria-labelledby="p1-title">
           <div class="project-card__media project-card__media--web">
             <img src="assets/images/kh-halal-marketplace.webp"
                  alt="KH Halal Marketplace home page: halal clothing and dry food, a search bar with photo search, and featured products"
@@ -249,7 +249,7 @@
         <div class="projects__grid">
 
           <!-- PROJECT 2: idevo — Android app -->
-          <article class="project-card reveal" aria-labelledby="p2-title" style="--d: 1">
+          <article class="project-card reveal" id="idevo" aria-labelledby="p2-title" style="--d: 1">
             <div class="project-card__media project-card__media--phones">
               <div class="phone"><img src="assets/images/idevo-home.webp" alt="idevo home screen: continue learning, flashcards due and this week's activity" width="390" height="844" loading="lazy" decoding="async"></div>
               <div class="phone"><img src="assets/images/idevo-lesson.webp" alt="An idevo lesson with its practice questions" width="390" height="844" loading="lazy" decoding="async"></div>
@@ -296,7 +296,7 @@
           </article>
 
           <!-- PROJECT 3: RielTrack — Android app -->
-          <article class="project-card reveal" aria-labelledby="p3-title" style="--d: 2">
+          <article class="project-card reveal" id="rieltrack" aria-labelledby="p3-title" style="--d: 2">
             <!-- Screenshots: RielTrack 1.6 with sample data, taken on an Android emulator -->
             <div class="project-card__media project-card__media--phones">
               <div class="phone"><img src="assets/images/rieltrack.webp" alt="RielTrack home screen: net cash flow this month, monthly budget left and recent transactions" width="405" height="900" loading="lazy" decoding="async"></div>
@@ -345,17 +345,37 @@
       </div>
     </section>
 
-    <!-- ===== 02 · ABOUT ===== -->
-    <section class="section" id="about" aria-labelledby="about-title">
+    <!-- ===== 02 · SKILLS =====
+         Left: what I can do, each item links to the project that shows it (href="#card-id").
+         Right: the tools, one <li> per skill.
+    -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
-          <h2 class="section__title" id="about-title">About me</h2>
+          <p class="section-label">Skills</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
+          <h2 class="section__title" id="skills-title">What I work with</h2>
         </div>
 
         <div class="about__grid">
-          <div class="about__text reveal">
-            <p class="about__bio">[TODO: your bio, 2–3 sentences]</p>
+          <div class="reveal">
+            <h3 class="skill-group__title">What I can do</h3>
+            <ul class="caps">
+              <li>
+                <strong>Full-stack web apps</strong>
+                <p>Vue front end, Express and FastAPI APIs, PostgreSQL, Docker.</p>
+                <a href="#kh-halal">KH Halal Marketplace</a>
+              </li>
+              <li>
+                <strong>Offline-first Android apps</strong>
+                <p>Flutter and Jetpack Compose, local databases with Drift and Room.</p>
+                <a href="#idevo">idevo</a> · <a href="#rieltrack">RielTrack</a>
+              </li>
+              <li>
+                <strong>Payments and Khmer–English apps</strong>
+                <p>Bakong KHQR payments, bilingual interfaces, US dollars and riel.</p>
+                <a href="#kh-halal">KH Halal Marketplace</a> · <a href="#rieltrack">RielTrack</a>
+              </li>
+            </ul>
           </div>
 
           <div class="about__skills reveal" style="--d: 1">
@@ -442,7 +462,7 @@
         <div class="contact__intro reveal">
           <p class="section-label">Contact</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
           <h2 class="contact__title" id="contact-title">Let's work together.</h2>
-          <p class="contact__text">[TODO: one friendly sentence, e.g. what kind of work you're looking for]</p>
+          <p class="contact__text">I'm open to full-time developer roles. Send me an email and I'll reply soon.</p>
           <!-- REPLY TIME (only if true): remove the comment marks.
           <p class="contact__reply">I usually reply within [24 hours].</p>
           -->

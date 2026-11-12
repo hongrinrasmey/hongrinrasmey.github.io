@@ -236,6 +236,14 @@ Owner asked for less empty space at the sides on wide screens.
 - Owner may send a more relaxed photo later (daylight, plain wall): redo with the same background replacement, `me.webp` 800×1000.
 - Still TODO: bio, city, remote, contact sentence, LinkedIn.
 
+### Update 2026-11-12: About replaced by Skills; hero + contact text filled
+Owner asked for a section that shows what they know instead of "About me" (the hero already has photo, name, role, intro). Owner answers: Phnom Penh, open to remote; contact line "open to full-time developer roles"; experience = education only (details not sent yet); LinkedIn not given (icon stays hidden).
+- `02 · SKILLS` "What I work with" (`#skills`, nav "Skills"). Left: "What I can do", 3 items (`.caps`), each from real project facts and linking to the card that proves it (`#kh-halal`, `#idevo`, `#rieltrack`, ids added to the 3 `<article>`s). Right: the same tool groups. DESIGN.md §8.4 rewritten.
+- Hero line "Phnom Penh, Cambodia · Open to remote work"; contact sentence filled. **No `[TODO]` left on the visible page.**
+- CSS: `.about__bio` removed, `.caps` added; `scroll-margin-top` moved from `.section` to `[id]` so card links land under the header (measured 88px = 72 header + 16). Comments shortened: CSS 29,991 / 30,000 bytes.
+- Checks: lint 0/0; CDP at 360/390/768/1024/1440/1920: no horizontal scroll, no TODO text, links land at 88px, no console errors.
+- Still open: education details, LinkedIn URL, résumé PDF.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

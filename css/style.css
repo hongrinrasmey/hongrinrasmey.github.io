@@ -130,14 +130,14 @@ p { max-width: 65ch; text-wrap: pretty; }
 
 /* Text links: underline grows on hover */
 a { color: inherit; }
-:is(.about__bio, .contact__text) a, .contact__email {
+:is(.caps, .contact__text) a, .contact__email {
   position: relative;
   color: var(--text);
   text-decoration: underline 1px var(--border);
   text-underline-offset: 0.2em;
   transition: color var(--dur-fast) var(--ease-out);
 }
-:is(.about__bio, .contact__text) a::after, .contact__email::after {
+:is(.caps, .contact__text) a::after, .contact__email::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 2px;
@@ -146,8 +146,8 @@ a { color: inherit; }
   transform-origin: left;
   transition: transform var(--dur-base) var(--ease-out);
 }
-:is(.about__bio, .contact__text) a:hover, .contact__email:hover { color: var(--accent-text); }
-:is(.about__bio, .contact__text) a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
+:is(.caps, .contact__text) a:hover, .contact__email:hover { color: var(--accent-text); }
+:is(.caps, .contact__text) a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
 
 ::selection { background: var(--accent); color: var(--accent-fg); }
 
@@ -159,7 +159,7 @@ a { color: inherit; }
 main:focus { outline: none; }
 
 .visually-hidden {
-  position: absolute !important; /* must win over any layout rule */
+  position: absolute !important; /* beats layout rules */
   width: 1px; height: 1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
@@ -177,10 +177,8 @@ main:focus { outline: none; }
   padding-inline: var(--gutter);
 }
 
-.section {
-  padding-block: var(--s-7);
-  scroll-margin-top: calc(var(--header-h) + 16px);
-}
+.section { padding-block: var(--s-7); }
+[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 /* Not on sections: it resets the 01/02 counters */
 .projects__grid, .about__grid { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 
@@ -371,7 +369,7 @@ main { counter-reset: section; }
     background: var(--bg);
   }
   .js.menu-open .site-nav { display: block; }
-  .js.menu-open body { overflow: hidden; } /* page cannot scroll behind the menu */
+  .js.menu-open body { overflow: hidden; } /* no scroll behind menu */
   .js .site-nav__list { flex-direction: column; gap: var(--s-2); }
   .js .site-nav__link {
     font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em;
@@ -391,7 +389,7 @@ main { counter-reset: section; }
   display: flex;
   /* about one screen tall */
   min-height: min(calc(100svh - var(--header-h)), 900px);
-  padding-block: var(--s-8) var(--s-7); /* 96 / 64 on phones, 128 / 96 from 768px */
+  padding-block: var(--s-8) var(--s-7); /* 96/64; 128/96 from 768px */
 }
 /* Faint grid fading out toward the bottom */
 .hero::before {
@@ -578,7 +576,10 @@ main { counter-reset: section; }
 
 /* --- About --- */
 .about__grid { display: grid; gap: var(--s-6); }
-.about__bio { font-size: var(--fs-h3); line-height: 1.55; max-width: 34rem; }
+.caps { display: grid; gap: var(--s-4); }
+.caps strong { display: block; font-weight: 600; }
+.caps p { color: var(--muted); }
+.caps a { font-size: var(--fs-small); }
 .about__skills { display: grid; gap: var(--s-4); align-content: start; }
 .skill-group__title {
   margin-bottom: 12px;
@@ -647,7 +648,7 @@ main { counter-reset: section; }
   min-height: calc(100svh - var(--header-h) - 120px);
   padding-block: var(--s-8);
 }
-.not-found .section-label::after { content: none; } /* no section number on this page */
+.not-found .section-label::after { content: none; } /* no section number */
 .not-found__title { font-size: var(--fs-h1); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; }
 .not-found__text { max-width: 32rem; color: var(--muted); }
 
@@ -741,7 +742,7 @@ main { counter-reset: section; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;      /* !important: must beat every animation above */
+    animation-duration: 0.01ms !important; /* beats every animation above */
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     animation-delay: 0ms !important;

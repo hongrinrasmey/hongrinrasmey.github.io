@@ -36,7 +36,7 @@ Search the file for `TODO` and replace every `[TODO: ...]` with your own words.
 | Browser tab title, Google text, link preview | `PAGE INFO` and `SHARING PREVIEW` at the top |
 | Name, role, intro, "Available for work", "Currently", stats | `00 · HERO` |
 | KH Halal Marketplace, idevo, RielTrack | `01 · SELECTED WORK` |
-| Bio, photo, skills | `02 · ABOUT` |
+| What I can do, tools | `02 · SKILLS` |
 | Jobs and education (hidden for now) | `03 · EXPERIENCE` |
 | Email, GitHub, LinkedIn, Telegram, résumé | `04 · CONTACT` |
 | Name and "Last updated" in the footer | `FOOTER` |
@@ -131,12 +131,13 @@ The live site updates by itself within a minute or two. Change "Last updated" in
 
 ## 6. Still TODO
 - [x] Your name (Hong Rinrasmey), favicon initials (HR), sharing picture.
-- [ ] Role and one-line intro (hero, `<title>`, description, sharing text, JSON-LD, `tools/og-image.html` role line).
-- [ ] Bio, city, whether you're open to remote work, contact sentence.
+- [x] Role and one-line intro (hero, `<title>`, description, sharing text, JSON-LD, `tools/og-image.html` role line).
+- [x] City (Phnom Penh), open to remote work, contact sentence. About was replaced by Skills, so no bio is needed.
 - [x] Email.
 - [ ] LinkedIn link (Telegram optional).
 - [x] KH Halal Marketplace: live demo link (add a demo login if it has one).
 - [x] idevo: public download in `hongrinrasmey/Idevo-Downloads`. For a new version, add a release there and change `v0.6.4` on the card.
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
 - [x] Your photo (`assets/images/me.webp`, `me-avatar.webp`).
-- [ ] Optional: demo videos, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
+- [ ] Education (Experience section in `index.html`, commented out until you send the details).
+- [ ] Optional: demo videos, `assets/resume.pdf`, "Currently" line, quick stats, reply time.
