@@ -126,10 +126,15 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 5. Wrote README.md, then ran git init and the first commit.
 6. Added contact layout (2 columns on desktop), hero height cap, and `scroll-margin-top` so menu links don't land under the sticky header.
 
-### Known checker results (taste-skill inspector) and why they stay
-- "few-pictures" / "no-footage": rule 3 forbids stock/city photos. These clear once the owner adds real project screenshots.
-- "eyebrow" on "Screenshot coming soon": this box is required by rule 3 until real screenshots exist.
-- Inter "default font" warning: Inter is named in section 4.
+7. Placeholder box text set to 20px so it reads as a box, not a small label. Font sizes merged into fewer steps.
+8. Final checks after the last CSS change:
+   - taste-skill inspector: **0 FAIL** at 1440 / 768 / 390, run with `--allow few-pictures` because rule 3 bans stock photos. Re-run it without `--allow` once real screenshots are in.
+   - Lighthouse mobile: Performance 95, Accessibility 100, Best Practices 100, SEO 100. Desktop: 99 / 100 / 100 / 100.
+   - Remaining warnings, kept on purpose: no video (rule 3), "little motion" (section 8 asks for subtle motion), and in-between font sizes at 768px (they come from `clamp()`, which section 7 requires).
+
+### How to re-run the checks (for agents)
+- Inspector: `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures`. Run it from PowerShell, because the Bash sandbox blocks the browser.
+- Lighthouse: serve the folder locally, then `npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"` with `CHROME_PATH` set to Edge (`C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`).
 
 ### Still TODO (needs the owner's real details)
 - Fill in every `[TODO: ...]` in `index.html` from section 3: name, role, intro, bio, location, remote yes/no, skills, 2–4 projects, email, GitHub, LinkedIn.

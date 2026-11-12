@@ -103,7 +103,7 @@ section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings un
 .btn-primary:hover { background: var(--text); color: var(--bg); }
 .btn-secondary { background: var(--surface-2); color: var(--text); }
 .btn-secondary:hover { background: var(--accent); color: var(--on-accent); }
-.btn-small { min-height: 44px; padding: 10px 20px; font-size: 0.9375rem; }
+.btn-small { min-height: 44px; padding: 10px 20px; font-size: 1rem; }
 
 /* A link left as href="#" is hidden. Add a real URL and it shows up. */
 .link-opt[href="#"], .link-opt[href=""] { display: none; }
@@ -191,7 +191,7 @@ section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings un
 .hero-intro {
   margin-top: 16px;
   max-width: 40ch;
-  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem); line-height: 1.45;
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
 
@@ -230,7 +230,7 @@ section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings un
 .placeholder-box {
   display: flex; align-items: center; justify-content: center;
   background: var(--surface-2); color: var(--muted);
-  font-size: 0.9375rem;
+  font-size: 1.25rem;
 }
 .project-body { display: flex; flex-direction: column; gap: 16px; flex: 1; padding: 24px; }
 .project-name { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
@@ -260,7 +260,7 @@ section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings un
 .job { display: grid; gap: 8px; }
 @media (min-width: 768px) { .job { grid-template-columns: 200px 1fr; gap: 32px; } }
 .job-dates { color: var(--muted); }
-.job-role { font-size: 1.375rem; margin-bottom: 8px; }
+.job-role { font-size: 1.25rem; margin-bottom: 8px; }
 
 /* ===== CONTACT ===== */
 .contact { padding-bottom: var(--section-gap); }
@@ -296,7 +296,7 @@ section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings un
    ========================================================= */
 .site-footer { background: var(--surface); padding-block: 48px; }
 .footer-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; color: var(--muted); }
-.footer-name { font: 700 clamp(1.5rem, 1rem + 2vw, 2.5rem)/1.1 var(--font-heading); color: var(--text); letter-spacing: -0.03em; }
+.footer-name { font: 700 clamp(1.5rem, 0.9rem + 3.5vw, 3.5rem)/1.1 var(--font-heading); color: var(--text); letter-spacing: -0.03em; }
 
 /* =========================================================
    ANIMATIONS — all off when the visitor prefers reduced motion.
