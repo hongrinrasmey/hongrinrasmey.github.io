@@ -508,8 +508,8 @@ main { counter-reset: section; }
   padding: 6% 4%;
 }
 .phone {
+  flex: none; /* never squeezed: the frame takes its width from the screenshot */
   height: 100%;
-  aspect-ratio: 390 / 844;
   padding: 3px;
   border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: clamp(14px, 2.2vw, 28px);
@@ -517,7 +517,7 @@ main { counter-reset: section; }
   overflow: hidden;
   transition: transform var(--dur-base) var(--ease-out);
 }
-.phone img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(clamp(14px, 2.2vw, 28px) - 3px); }
+.phone img { width: auto; height: 100%; border-radius: calc(clamp(14px, 2.2vw, 28px) - 3px); }
 .phone:nth-child(2) { transform: translateY(-4%); }
 .project-card:hover .phone { transform: translateY(-2%); }
 .project-card:hover .phone:nth-child(2) { transform: translateY(-6%); }

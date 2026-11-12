@@ -163,6 +163,7 @@ Owner approved after a design review:
 - **RielTrack screenshots**: none on GitHub or in `E:\RielTrack Project`. Taken by the agent: public 1.6 APK (SHA-256 checked) on the `Pixel_API37` emulator, the app's own preview sample data entered by hand (salary $850, lunch ៛12,000, PassApp $3.50, internet $24.99, shopping ៛45,000, $500 monthly limit), Android demo-mode status bar 9:41. Home / History / Budgets → `assets/images/rieltrack.webp`, `-2`, `-3` (390×844, ~20 KB each), in phone frames like idevo.
 - Featured card (≥1024px) `align-items: center`, so the screenshot no longer floats at the top with empty space under it.
 - Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs; Lighthouse mobile (gzip) 100/100/100/100, LCP 1.8s, CLS 0, page 254 KiB, no console errors. CSS 29,821 bytes.
+- **Phone frames fixed**: `.phone` had `aspect-ratio: 390/844` on its border-box (3px padding + 1px border) and `object-fit: cover`, so screenshots lost their left/right edges ("Plan", "Hard" cut). Now `.phone { flex: none }` and `.phone img { width: auto; height: 100% }`: the frame takes its width from each screenshot, nothing is cropped. RielTrack images re-exported at the emulator's real 9:20 (405×900, no crop); idevo stays 390×844. Checked at 1440/800/768/390.
 - **Owner decision (2026-11-12): no "Private repo" label on any card.** Removed all three; DESIGN.md §6 step 7 and §8.3 updated. Public repo → add a "View code" button (comment above the projects in `index.html`).
 
 ### Note about the earlier session
