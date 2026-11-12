@@ -1,0 +1,28 @@
+{
+  "slug": "rieltrack",
+  "raw": "assets/videos/rieltrack-raw/rieltrack-195245.mp4",
+  "tapLog": "assets/videos/rieltrack-raw/rieltrack-195245.taps.txt",
+  "tapOffset": -0.25,
+  "frameWidth": 810,
+  "W": 720, "H": 1560,
+  "device": { "type": "phone", "srcW": 1080, "sw": 504, "sh": 1120, "top": 110, "tapScale": 0.85 },
+  "caption": { "y": 1318, "size": 30 },
+  "labelSize": 22,
+  "brandBottom": 56,
+  "title": { "kicker": "ANDROID APP", "name": "RielTrack", "size": 96 },
+  "end": { "size": 84, "tags": "Kotlin · Jetpack Compose · Room" },
+  "intro": 1.5,
+  "outro": 2.6,
+  "segments": [[3.6, 6.9], [9.5, 11.9], [12.6, 14.6], [17.1, 18.1], [20.6, 22.8],
+               [25.7, 27.7], [30.4, 31.6], [32.6, 35.0], [38.6, 40.9], [43.6, 44.7]],
+  "zooms": [{ "from": 9.75, "to": 11.85, "scale": 1.4, "x": 540, "y": 700 }],
+  "captions": [
+    { "text": "Your month at a glance", "from": 3.6, "to": 6.3 },
+    { "text": "Track spending in riel", "from": 9.5, "to": 22.8 },
+    { "text": "USD and riel together", "from": 25.7, "to": 27.7 },
+    { "text": "See where money goes", "from": 30.4, "to": 35.0 },
+    { "text": "Monthly budgets", "from": 38.6, "to": 40.9 }
+  ],
+  "poster": 3.2,
+  "crf": 23
+}
