@@ -91,9 +91,6 @@ called `cmds`, and the `help` lines are just above it). To remove the terminal, 
 at the bottom of `js/main.js`.
 
 ### Scroll and mouse effects
-- Hero dots: dots near the mouse turn orange and step aside (`initHeroDots()` in `js/main.js`; phones and
-  tablets keep the plain grid).
-- Phone screenshots turn a little in 3D as their card scrolls past: the `turn` animation (change `16deg`).
 - The KH Halal screenshot zooms in from 1.15× as its card comes in: the `settle` animation.
 
 ### Link preview picture and tab icon
