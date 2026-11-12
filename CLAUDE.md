@@ -306,6 +306,7 @@ Owner approved the plan, the shot lists and an 8 s style test ("do all of these"
 - Cleanup: demo mode off (`sysui_demo_allowed 0`), temp files deleted, emulator closed. Android's "No screen lock" notification was snoozed 2 h on the emulator (comes back by itself).
 - Checked in headless Edge (file://, 1440 and 390): all 3 buttons show, videos load + play, phone-size pop-up for the Android cards (418px), Esc closes, focus returns, no horizontal scroll, no console errors.
 - Committed with a separate index: only these lines/files. The other session's uncommitted work (CSS/JS, icons, terminal, `btn--sm`, etc.) is still uncommitted.
+- Owner feedback: the browser frame looked like a Mac (traffic-light dots) and the caption was tight under it. Now a neutral bar (centred address pill, lock icon, Geist not mono), browser 1312×820, even gaps (56 top, 28 to the caption). KH video 3.69 MB.
 
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.

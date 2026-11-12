@@ -25,11 +25,12 @@
   .phone #viewport { border-radius: 50px; }
   .browser { border-radius: 16px; background: #1C1917; border: 1.5px solid rgba(255,255,255,.12);
     box-shadow: 0 40px 140px rgba(0,0,0,.6); overflow: hidden; }
-  #bar { display: none; height: 44px; align-items: center; gap: 8px; padding: 0 18px; border-bottom: 1px solid var(--line); }
+  /* neutral browser bar (no OS window buttons): just a centred address pill */
+  #bar { display: none; height: 44px; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); }
   .browser #bar { display: flex; }
-  #bar i { width: 12px; height: 12px; border-radius: 50%; background: #44403C; }
-  #bar span { margin-left: 18px; flex: 0 1 560px; height: 28px; border-radius: 8px; background: #292524;
-    font: 500 14px/28px "Geist Mono", monospace; color: var(--muted); padding: 0 14px; white-space: nowrap; overflow: hidden; }
+  #bar span { display: flex; align-items: center; justify-content: center; gap: 8px; width: 520px; height: 28px; border-radius: 14px;
+    background: #292524; font: 400 15px/28px "Geist", Arial, sans-serif; color: var(--muted); white-space: nowrap; overflow: hidden; }
+  #bar svg { flex: none; }
   #viewport { position: relative; overflow: hidden; background: #fff; }
   #zoom { position: absolute; inset: 0; transform-origin: 0 0; }
   #screen { display: block; width: 100%; height: 100%; }
@@ -53,7 +54,7 @@
 <div id="stage">
   <div id="glow"></div>
   <div id="grid"></div>
-  <div id="device"><div id="bar"><i></i><i></i><i></i><span id="url"></span></div>
+  <div id="device"><div id="bar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url" style="font-weight:500"></b></span></div>
     <div id="viewport"><div id="zoom"><img id="screen" alt=""><img id="prev" alt=""><div id="ripples"></div>
       <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div></div>
   <div id="caption"></div>
