@@ -281,7 +281,7 @@ Owner: both sections looked empty on their own ("do all of these").
 - Waiting on the owner for content (never invent): short bio, "currently learning", education details (courses, final project, certificates), spoken languages, résumé PDF, LinkedIn, KH Halal demo login (or remove that row), one line per project on what they did/learned, demo videos.
 - Only `index.html`, the one CSS line and the docs were committed; the other session's CSS/JS work is still uncommitted.
 - Education item: "Final-year thesis project: KH Halal Marketplace." (`.timeline__text`, links to `#kh-halal`, same underline style as contact links). Fixed a bug from the merge: `h4` was missing from the margin reset and the heading rule (big gap + wrong weight).
-- Owner answers: languages Khmer (native) + English (level not chosen yet). LinkedIn: optional, owner asked if needed.
+- Spoken languages in About (left column, under Education): "Khmer (native) · English (basic)" (owner chose basic). LinkedIn: optional; owner asked if needed, told no.
 
 ### Update 2026-11-12: hero first-screen fixes (owner: "do all of these")
 - **Centred top to bottom**: name used to start ~55% down the screen (text sat on the photo's bottom line). Phones/tablets: `.hero__inner` `justify-content: center`. ≥1024px: rows `1fr repeat(3, auto) 1fr` (equal empty rows above/below the text), photo `grid-row: 1 / -1; place-self: center start`, so it sits next to the name instead of centred in the leftover space (gap name→photo ~64px + photo side fade). If status/now/stats are un-commented, change `repeat(3, auto)` to match.
