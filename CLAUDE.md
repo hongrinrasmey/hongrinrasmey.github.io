@@ -274,6 +274,13 @@ After a review of the other session's new effects (phone screens, phone drift, h
 - CSS: `.hero__photo img` has no border/radius, `mask-image` fades the suit out (58% → 92%); `.hero__photo::before` is a 16% orange radial light behind the head. `tools/og-image.html` avatar got `background: #161311` so the share image keeps its dark circle.
 - Checked: headless Edge over CDP, 6 loads each at 390 and 1440 in light + dark: photo loaded, opacity 1, no console errors, no horizontal scroll. (Flipping `data-theme` after load in headless stops frame rendering: a test-tool quirk, not the page.) Screenshots 1440/1024/600.
 
+### Update 2026-11-12: Tech + Education merged into About
+Owner: both sections looked empty on their own ("do all of these").
+- One section `02 · ABOUT` "My background" (`#about`, nav Work / About / Contact). Left (`.about__side`, new CSS line under `.tech__note`): the honest AI sentence, then an "Education" label + the BIT timeline item (role is now `<h4>` under the `<h3>` label). Right: the tool groups, unchanged. Contact is `03`. DESIGN.md §8, §8.1, §8.4 updated.
+- Checked: headless Edge full-page screenshots at 1440 and 500.
+- Waiting on the owner for content (never invent): short bio, "currently learning", education details (courses, final project, certificates), spoken languages, résumé PDF, LinkedIn, KH Halal demo login (or remove that row), one line per project on what they did/learned, demo videos.
+- Only `index.html`, the one CSS line and the docs were committed; the other session's CSS/JS work is still uncommitted.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

@@ -114,8 +114,7 @@
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul class="site-nav__list">
           <li><a class="site-nav__link" href="#work">Work</a></li>
-          <li><a class="site-nav__link" href="#tech">Tech</a></li>
-          <li><a class="site-nav__link" href="#education">Education</a></li>
+          <li><a class="site-nav__link" href="#about">About</a></li>
           <li><a class="site-nav__link" href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -346,18 +345,31 @@
       </div>
     </section>
 
-    <!-- ===== 02 · TECH =====
-         Left: one honest line about how I build. Right: the tech in my shipped apps, one <li> each.
+    <!-- ===== 02 · ABOUT =====
+         Left: one honest line about how I build, then Education (copy one <li class="timeline__item"> per school or course).
+         Right: the tech in my shipped apps, one <li> each.
     -->
-    <section class="section" id="tech" aria-labelledby="tech-title">
+    <section class="section" id="about" aria-labelledby="about-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label">Tech</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
-          <h2 class="section__title" id="tech-title">What I build with</h2>
+          <p class="section-label">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
+          <h2 class="section__title" id="about-title">My background</h2>
         </div>
 
         <div class="about__grid">
-          <p class="tech__note reveal">I build my apps with AI coding tools. These are the technologies used in the apps I've shipped.</p>
+          <div class="about__side reveal">
+            <p class="tech__note">I build my apps with AI coding tools. These are the technologies used in the apps I've shipped.</p>
+            <div>
+              <h3 class="skill-group__title">Education</h3>
+              <ol class="timeline">
+                <li class="timeline__item">
+                  <p class="timeline__dates">2023 – 2026</p>
+                  <h4 class="timeline__role">Bachelor's degree in Business Information Technology (BIT)</h4>
+                  <p class="timeline__company">National University of Management</p>
+                </li>
+              </ol>
+            </div>
+          </div>
 
           <div class="about__skills reveal" style="--d: 1">
             <!-- One <li> per skill. Logos: <use href="#i-NAME"> (see the list at the top of <body>). -->
@@ -406,28 +418,9 @@
       </div>
     </section>
 
-    <!-- ===== 03 · EDUCATION =====
-         Copy one <li class="timeline__item"> per school or course.
-         Got a job or internship later? Add a new section like this one called "Experience" above it.
-    -->
-    <section class="section" id="education" aria-labelledby="education-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="section-label">Education</p> <!-- taste-skill-ignore: DESIGN.md §8.5 -->
-          <h2 class="section__title" id="education-title">Where I studied</h2>
-        </div>
+    <!-- Got a job or internship later? Add an "Experience" section here (copy the About section's timeline). -->
 
-        <ol class="timeline reveal">
-          <li class="timeline__item">
-            <p class="timeline__dates">2023 – 2026</p>
-            <h3 class="timeline__role">Bachelor's degree in Business Information Technology (BIT)</h3>
-            <p class="timeline__company">National University of Management</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ===== 04 · CONTACT =====
+    <!-- ===== 03 · CONTACT =====
          Your email is written in 3 places: two href="mailto:..." and the text you see. Change all three.
          (The copy button reads the address from the link, so it updates by itself.)
     -->
