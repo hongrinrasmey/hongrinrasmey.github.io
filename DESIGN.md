@@ -202,7 +202,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Small line:** location · open to remote.
 - **Quick stats** (if provided): up to 3, below the buttons, divided by thin vertical borders; number in Geist 600, label in muted mono; count up once when visible. Never invent or round up.
 - **Background:** very faint grid (Section 9.7). No background photos.
-- Height: about the viewport on desktop, but content must never be cut off on short screens (test 1366×768 and landscape phones).
+- Height: about the viewport on desktop, but content must never be cut off on short screens (test 1366×768 and landscape phones). Content is centred top to bottom; on wide screens the photo sits right next to the text, centred with it.
 
 ### 8.3 Work (most important section)
 - Section label `01 / WORK` + heading (e.g. "Selected work").
@@ -394,7 +394,7 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Header | Background/blur/border fade in after scroll, `--dur-base` |
 | Availability dot | Gentle pulse (opacity + scale), 2s loop |
 | Stats | Count up once over ~1s |
-| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom, soft orange light behind the head; no box, no frame, no hover effect |
+| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, soft orange light behind the head; no box, no frame, no hover effect |
 | Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 

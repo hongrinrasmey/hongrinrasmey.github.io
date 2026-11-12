@@ -408,13 +408,15 @@ main { counter-reset: section; }
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(45% 45% at 25% 55%, color-mix(in srgb, var(--accent) 7%, transparent), transparent); /* taste-skill-ignore */
 }
-.hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
+.hero__inner { display: flex; flex-direction: column; justify-content: center; }
 
 /* Photo */
 .hero__photo { position: relative; width: min(56%, 240px); margin-bottom: var(--s-5); }
 .hero__photo img {
   position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
-  mask-image: linear-gradient(#000 58%, transparent 92%); /* cut-out: suit fades into the page; taste-skill-ignore: a mask, not a fill */
+  /* suit fades out at the bottom and sides (shoulders touch the file edges); taste-skill-ignore: a mask, not a fill */
+  mask: linear-gradient(#000 58%, transparent 92%), linear-gradient(90deg, transparent, #000 18% 82%, transparent); /* taste-skill-ignore */
+  mask-composite: intersect;
 }
 /* Soft light behind the head, so dark hair stands off the dark page */
 .hero__photo::before {
@@ -422,11 +424,11 @@ main { counter-reset: section; }
   background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent); /* taste-skill-ignore */
 }
 @media (min-width: 1024px) {
-  /* text bottom-left; photo centred in the space left */
-  .hero__inner { display: grid; grid-template: 1fr repeat(3, auto) / auto 1fr; column-gap: var(--s-7); }
+  /* text and photo side by side, centred top to bottom (equal 1fr rows above/below the text) */
+  .hero__inner { display: grid; grid-template: 1fr repeat(3, auto) 1fr / auto 1fr; column-gap: var(--s-7); }
   .hero__inner > * { grid-column: 1; }
   .hero__title { align-self: end; }
-  .hero__photo { grid-column: 2; grid-row: 1 / span 4; place-self: end center; width: clamp(280px, min(30vw, 50svh), 480px); margin: 0; }
+  .hero__photo { grid-column: 2; grid-row: 1 / -1; place-self: center start; width: clamp(280px, min(30vw, 50svh), 480px); margin: 0; }
 }
 .hero__status {
   display: inline-flex; align-items: center; gap: 10px;

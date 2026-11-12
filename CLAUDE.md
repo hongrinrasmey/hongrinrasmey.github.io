@@ -281,6 +281,13 @@ Owner: both sections looked empty on their own ("do all of these").
 - Waiting on the owner for content (never invent): short bio, "currently learning", education details (courses, final project, certificates), spoken languages, résumé PDF, LinkedIn, KH Halal demo login (or remove that row), one line per project on what they did/learned, demo videos.
 - Only `index.html`, the one CSS line and the docs were committed; the other session's CSS/JS work is still uncommitted.
 
+### Update 2026-11-12: hero first-screen fixes (owner: "do all of these")
+- **Centred top to bottom**: name used to start ~55% down the screen (text sat on the photo's bottom line). Phones/tablets: `.hero__inner` `justify-content: center`. ≥1024px: rows `1fr repeat(3, auto) 1fr` (equal empty rows above/below the text), photo `grid-row: 1 / -1; place-self: center start`, so it sits next to the name instead of centred in the leftover space (gap name→photo ~64px + photo side fade). If status/now/stats are un-commented, change `repeat(3, auto)` to match.
+- **Photo sides fade**: the shoulders touch the left/right edges of `me.webp` (alpha 255 on both edge columns), which drew two straight vertical cuts. `.hero__photo img` now has a second mask (fade 0–18% and 82–100% across, `mask-composite: intersect`). The head spans 21–76% of the width, so it is untouched.
+- **Hero line + meta/og/twitter descriptions**: "I design and ship web and mobile apps." (the AI clause moved out of the headline). The AI note is still on the page: featured card text, About note "I build my apps with AI coding tools", skill pill "AI-assisted development". `og-image.png` has no intro text, so not re-made.
+- Checks: lint 0/0; CDP at real widths 360/390/768/1024/1366/1440/1843, dark + light: photo loaded + visible, no horizontal scroll, no console errors; equal-ish space above/below at every width. CSS 31,736 bytes.
+- Only my hero lines were committed; the other session's phone-swap work in the same files is still uncommitted.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
