@@ -144,7 +144,7 @@ Site
 4. Rewrite findings in clear, short, plain English (Section 15). Don't add claims.
 5. **Never invent** my role, metrics, dates or testimonials; leave them `[TODO]` and ask.
 6. **Show me a summary** per project (each fact + which repo/file it came from), plus suggested profile info and the remaining TODOs. **Wait for my confirmation** before building the Projects and About sections.
-7. Private repo → no link on the site; show "Private repo" instead.
+7. Private repo → no link and no label on the site (owner decision, 2026-11-12).
 
 ---
 
@@ -213,7 +213,7 @@ Order: Header → Hero → Work → About → Experience (if provided) → Conta
   - Web app → one 16:10 screenshot, 12px radius, 1px border.
   - Mobile app → 1–3 phone screenshots inside simple CSS phone frames (rounded rectangle, thin border, no brand logos), slightly overlapping/angled on the featured card, side by side on small cards.
 - **Each card shows:** platform tag (`WEB` / `ANDROID` / `iOS`), title, one-line description, 1–2 sentence problem/solution (featured card) or one line (others), 3 key features (featured card only), tech tags, buttons.
-- **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "View code" (or a small "Private repo" label). Hide any button without a link.
+- **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "View code" (public repos only; private repos show nothing). Hide any button without a link.
 - **Demo login** (only if one exists): small mono line with a copy button.
 - **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
 

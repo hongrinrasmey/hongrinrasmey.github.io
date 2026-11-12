@@ -179,7 +179,7 @@
          - Video: put the file path (assets/videos/name.mp4) or a YouTube link in data-video="...".
            data-poster="..." is the still picture shown before the video plays (optional).
          - Demo login: write it in BOTH the visible text and data-copy="...", then delete the word hidden.
-         - Public code: replace <span class="project-card__note">Private repo</span> with
+         - Public code: add this inside the card's project-card__actions:
              <a class="btn btn--secondary" href="https://github.com/..." target="_blank" rel="noopener noreferrer">View code</a>
          - Add a project: copy one whole <article class="project-card"> … </article> block and change it.
     -->
@@ -238,7 +238,6 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                 Watch video
               </button>
-              <span class="project-card__note">Private repo</span>
             </div>
             </div>
           </div>
@@ -289,7 +288,6 @@
                   Watch video
                 </button>
                 <span class="project-card__note">Download coming soon</span>
-                <span class="project-card__note">Private repo</span>
               </div>
               </div>
             </div>
@@ -336,7 +334,6 @@
                   Watch video
                 </button>
                 <span class="project-card__note">Android 8.0+ · v1.6</span>
-                <span class="project-card__note">Private repo</span>
               </div>
               </div>
             </div>

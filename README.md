@@ -50,8 +50,8 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - "Watch video" shows once you fill in `data-video="..."` with a file (`assets/videos/rieltrack.mp4`)
   or a YouTube link. `data-poster="..."` is an optional still picture shown before it plays.
 - Demo login: write it in the visible text **and** in `data-copy="..."`, then delete the word `hidden`.
-- All three repos are private, so each card says "Private repo". If you make one public, the comment above the
-  projects shows the "View code" button to put there instead.
+- All three repos are private, so no card has a code link. If you make one public, the comment above the
+  projects shows the "View code" button to add.
 
 ### Add a new project
 1. In `index.html`, find `<!-- OTHER PROJECTS -->`.
