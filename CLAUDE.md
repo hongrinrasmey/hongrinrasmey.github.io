@@ -185,6 +185,12 @@ Owner asked for less empty space at the sides on wide screens.
 - The left side still looks empty until the owner sends the real bio and `assets/images/me.webp` (content, not CSS).
 - Checked: headless Edge screenshots of About at 1920 and 1024 (at 1024 the pills wrap to two lines, which is fine).
 
+### Update 2026-11-12 (eighth pass): About polish
+- Skill pills: Geist Mono 14px, padding 6×12, logos 18px at 75% opacity (`.tags--skills` in `css/style.css`, right after `.tags svg`). Card tags stay 12px. Logos kept (owner's earlier choice); dimming makes solid logos (JS/TS/Kotlin) weigh about the same as outlined ones (PostgreSQL/Node).
+- Removed "Based in [City], Cambodia." from About: the hero line already says it (DESIGN.md rule 5: location is one line). `.about__meta` CSS removed too. DESIGN.md §8.4 updated.
+- Checked: About screenshot at 1920. Longest pill ("Cloudflare Workers") ~200px fits a 390px phone.
+- Note: another session was editing at the same time (phone hover removed in CSS, `js/main.js`). Those changes were NOT part of this commit.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

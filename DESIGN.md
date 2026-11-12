@@ -221,7 +221,7 @@ Order: Header → Hero → Work → About → Experience (if provided) → Conta
 - Section label `02 / ABOUT`.
 - ≥1024px: bio left, skills right, two equal columns (1fr 1fr, same split as Contact; owner 2026-11-12). Mobile: photo on top, then bio.
 - **Photo:** 4:5 ratio, `object-fit: cover`, 12px radius, 1px border; a solid `--accent` rounded rectangle offset 12px behind it (bottom-right). Slightly desaturated (grayscale 30%), full color on hover (desktop only; always full color on touch and under reduced motion). Alt: "Photo of [My Name]". If the photo is missing: text-only layout, never a placeholder face.
-- **Skills:** grouped (Languages / Frontend / Mobile / Backend / Tools) as pill tags with 16px monochrome logos (`currentColor`). Only skills I listed. No percentage bars or ratings.
+- **Skills:** grouped (Languages / Frontend / Mobile / Backend / Tools) as pill tags (Geist Mono 14px, padding 6×12) with 18px monochrome logos (`currentColor`, 75% opacity so solid and outlined logos weigh the same). Location is shown once, in the hero (not repeated in About). Only skills I listed. No percentage bars or ratings.
 
 ### 8.5 Experience (only if provided)
 - Section label `03 / EXPERIENCE`.
