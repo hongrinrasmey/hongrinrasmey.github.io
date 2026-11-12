@@ -130,7 +130,8 @@ git push
 The live site updates by itself within a minute or two. Change "Last updated" in the footer when you do.
 
 ## 6. Still TODO
-- [ ] Your name, role and one-line intro (hero, header, footer, `<title>`, description, sharing text, JSON-LD, `404.html`, `site.webmanifest`).
+- [x] Your name (Hong Rinrasmey), favicon initials (HR), sharing picture.
+- [ ] Role and one-line intro (hero, `<title>`, description, sharing text, JSON-LD, `tools/og-image.html` role line).
 - [ ] Bio, city, whether you're open to remote work, contact sentence.
 - [x] Email.
 - [ ] LinkedIn link (Telegram optional).
@@ -139,4 +140,3 @@ The live site updates by itself within a minute or two. Change "Last updated" in
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
 - [x] Your photo (`assets/images/me.webp`, `me-avatar.webp`).
 - [ ] Optional: demo videos, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
-- [ ] Your initials in `favicon.svg`, then re-make the PNG icons and `og-image.png`.

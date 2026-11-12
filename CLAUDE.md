@@ -206,6 +206,13 @@ Owner asked for less empty space at the sides on wide screens.
 - Tests (headless Edge over CDP, 4× CPU slowdown; scripts were in the session scratchpad): angles at 85% across = expected exactly; all 4 edges of both cards stay tilted (before: 0/8); scroll-under-mouse −2.95° vs −3.01° expected; no tilt over header; reset after leaving window; frames median 16.7ms, p95 16.8ms, 0 over 33ms; no console errors. Lint 0/0. Lighthouse 100×4 mobile (LCP 1.7s, TBT 20ms) and desktop.
 - Budgets: JS 14,989 / 15,000 (comments shortened to fit), CSS 29,914 / 30,000. **Both are nearly full.**
 
+### Update 2026-11-12 (tenth pass): owner name
+- Name **Hong Rinrasmey** everywhere the TODO was: header wordmark, h1, footer, `<title>`, og/twitter title, JSON-LD, both photo alts (index.html), 404.html (title, wordmark, footer), `site.webmanifest`, `tools/og-image.html`.
+- Favicon: initials **HR** (`favicon.svg`). `favicon-32.png` + `apple-touch-icon.png` drawn with Python Pillow (Arial Bold, same geometry), because headless Edge can't open a 180px/32px window and rendered a plain orange square. Note added in `tools/icon.html`.
+- `og-image.png` re-made: name + round photo (`me.webp`, orange ring) on the right; the role line is `hidden` until the role is known (no "[TODO]" in shared links). `og:image:alt` = "Hong Rinrasmey".
+- Checked over CDP 360–1920: h1 wraps to 2 lines on phones and fits (314px in a 312–314px column), no horizontal scroll, no console errors (index + 404).
+- Still TODO: role, intro, bio, city, remote, contact sentence, LinkedIn.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
