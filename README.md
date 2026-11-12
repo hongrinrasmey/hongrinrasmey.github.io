@@ -64,7 +64,7 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.
 - **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
 - **RielTrack** has no screenshot yet. The comment above its "Screenshot coming soon" box shows what to paste.
-- Your photo: save it as `assets/images/me.webp`, then remove the comment marks at `HERO AVATAR` (small round photo in the hero) and `MY PHOTO` (About section).
+- Your photo: `assets/images/me.webp` (800 × 1000, About section) and `assets/images/me-avatar.webp` (128 × 128, small round photo in the hero). To change your photo, replace both files (same names and sizes).
 - Always write a short `alt="..."` that says what the picture shows.
 
 ### Change colours → top of `css/style.css`
@@ -131,10 +131,12 @@ The live site updates by itself within a minute or two. Change "Last updated" in
 
 ## 6. Still TODO
 - [ ] Your name, role and one-line intro (hero, header, footer, `<title>`, description, sharing text, JSON-LD, `404.html`, `site.webmanifest`).
-- [ ] Bio, city, whether you're open to remote work, contact sentence, email.
+- [ ] Bio, city, whether you're open to remote work, contact sentence.
+- [x] Email.
 - [ ] LinkedIn link (Telegram optional).
 - [x] KH Halal Marketplace: live demo link (add a demo login if it has one).
 - [x] idevo: public download in `hongrinrasmey/Idevo-Downloads`. For a new version, add a release there and change `v0.6.4` on the card.
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
-- [ ] Optional: demo videos, `assets/images/me.webp`, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
+- [x] Your photo (`assets/images/me.webp`, `me-avatar.webp`).
+- [ ] Optional: demo videos, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
 - [ ] Your initials in `favicon.svg`, then re-make the PNG icons and `og-image.png`.

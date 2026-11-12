@@ -191,6 +191,14 @@ Owner asked for less empty space at the sides on wide screens.
 - Checked: About screenshot at 1920. Longest pill ("Cloudflare Workers") ~200px fits a 390px phone.
 - Note: another session was editing at the same time (phone hover removed in CSS, `js/main.js`). Those changes were NOT part of this commit.
 
+### Update 2026-11-12 (ninth pass): owner photo + email
+- Owner gave their photo (`assets/images/photo_2025-03-15_09-31-46.jpg`, 827×1063, left untracked as the original) and email `hongrinrasmey012@gmail.com` (both mailto links + visible text in Contact; the copy button reads the link).
+- `me.webp` 800×1000 (4:5, bottom of the suit trimmed, 30 KB) for About; `me-avatar.webp` 128×128 (face crop, 3 KB) for the hero avatar, so the hero doesn't load the big file. Both slots un-commented in `index.html`. Alt text still "Photo of [TODO: Your Name]" until the name is known.
+- Bugs the photo exposed, fixed: (1) `.about__skills` stretched its rows to the taller left column, so big gaps between skill groups → `align-content: start`. (2) The orange frame's bottom 12px was clipped (`content-visibility: auto` on `.about__grid` clips overflow) → `.about__photo` gets 12px bottom margin.
+- Checked over CDP with real device widths 360/390/768/1024/1440/1920: no horizontal scroll, email fits at 360 (279px in a 312px column), all images load, no console errors. Screenshots of hero + About at 1920.
+- CSS 29,9xx bytes: **under 40 bytes left in the 30,000 budget** (shorten comments before adding code).
+- Not done (needs name): OG image avatar, JSON-LD, favicon initials.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
