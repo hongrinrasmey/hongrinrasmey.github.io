@@ -4,5 +4,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-/assets/*
+# Fonts never change: keep 1 year. Images: 1 day, so a replaced photo (same file name) shows by tomorrow.
+/assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/images/*
+  Cache-Control: public, max-age=86400

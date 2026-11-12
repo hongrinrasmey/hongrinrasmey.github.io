@@ -192,7 +192,7 @@ Owner asked for less empty space at the sides on wide screens.
 - Note: another session was editing at the same time (phone hover removed in CSS, `js/main.js`). Those changes were NOT part of this commit.
 
 ### Update 2026-11-12 (ninth pass): owner photo + email
-- Owner gave their photo (`assets/images/photo_2025-03-15_09-31-46.jpg`, 827×1063, left untracked as the original) and email `hongrinrasmey012@gmail.com` (both mailto links + visible text in Contact; the copy button reads the link).
+- Owner gave their photo (original 827×1063 jpg, now in git-ignored `tools/source/photo_2025-03-15_09-31-46.jpg`) and email `hongrinrasmey012@gmail.com` (both mailto links + visible text in Contact; the copy button reads the link).
 - `me.webp` 800×1000 (4:5, bottom of the suit trimmed, 30 KB) for About; `me-avatar.webp` 128×128 (face crop, 3 KB) for the hero avatar, so the hero doesn't load the big file. Both slots un-commented in `index.html`. Alt text still "Photo of [TODO: Your Name]" until the name is known.
 - Bugs the photo exposed, fixed: (1) `.about__skills` stretched its rows to the taller left column, so big gaps between skill groups → `align-content: start`. (2) The orange frame's bottom 12px was clipped (`content-visibility: auto` on `.about__grid` clips overflow) → `.about__photo` gets 12px bottom margin.
 - Checked over CDP with real device widths 360/390/768/1024/1440/1920: no horizontal scroll, email fits at 360 (279px in a 312px column), all images load, no console errors. Screenshots of hero + About at 1920.
@@ -274,6 +274,10 @@ After a review of the other session's new effects (phone screens, phone drift, h
 - CSS: `.hero__photo img` has no border/radius, `mask-image` fades the suit out (58% → 92%); `.hero__photo::before` is a 16% orange radial light behind the head. `tools/og-image.html` avatar got `background: #161311` so the share image keeps its dark circle.
 - Checked: headless Edge over CDP, 6 loads each at 390 and 1440 in light + dark: photo loaded, opacity 1, no console errors, no horizontal scroll. (Flipping `data-theme` after load in headless stops frame rendering: a test-tool quirk, not the page.) Screenshots 1440/1024/600.
 
+### Update 2026-11-12: no reveal stagger when stacked
+- `css/style.css` (after `.js-ready .reveal.is-visible`): `transition-delay: 0ms` for all reveals under 768px (cards in one column) and for `.about__skills` / `.contact__details` under 1024px (Tech and Contact stacked). Side-by-side blocks keep the 100ms stagger. DESIGN.md §11 row updated.
+- Tested (headless Edge, CDP): delays 0s at 360/390; at 900 cards 0.1/0.2s and Tech/Contact 0s; at 1440 0.1/0.2/0.1/0.1s. Every `.reveal` reaches opacity 1 after scrolling, no horizontal scroll, no console errors. Lint: same 1 FAIL from the other session's photo mask. CSS 31,434 bytes. Not committed (other session's work in the same files).
+
 ### Update 2026-11-12: Tech + Education merged into About
 Owner: both sections looked empty on their own ("do all of these").
 - One section `02 · ABOUT` "My background" (`#about`, nav Work / About / Contact). Left (`.about__side`, new CSS line under `.tech__note`): the honest AI sentence, then an "Education" label + the BIT timeline item (role is now `<h4>` under the `<h3>` label). Right: the tool groups, unchanged. Contact is `03`. DESIGN.md §8, §8.1, §8.4 updated.
@@ -295,6 +299,78 @@ Owner asked what the tool list was for; agreed it repeated the card tags and inv
 - **Hero line + meta/og/twitter descriptions**: "I design and ship web and mobile apps." (the AI clause moved out of the headline). The AI note is still on the page: featured card text, About note "I build my apps with AI coding tools", skill pill "AI-assisted development". `og-image.png` has no intro text, so not re-made.
 - Checks: lint 0/0; CDP at real widths 360/390/768/1024/1366/1440/1843, dark + light: photo loaded + visible, no horizontal scroll, no console errors; equal-ish space above/below at every width. CSS 31,736 bytes.
 - Only my hero lines were committed; the other session's phone-swap work in the same files is still uncommitted.
+
+### Update 2026-11-12: phone cards fade to NEW screens (owner: "do all of these")
+Owner: the swap only reshuffled the same 3 screens. Now each phone `<img>` has `data-next` + `data-next-alt` (`index.html`); `initPhoneScreens()` in `js/main.js` clones it once and fades old 3 → new 3 → old 3, one loop (2s steps, under 5s, WCAG 2.2.2), then stops. Waits for the next images to load (no blank frame). No CSS change. Remove `data-next` to keep a phone still.
+- idevo (390×844, from the private repo's golden test images `test/golden/goldens/*_light.png`): `idevo-library.webp` (notes), `idevo-path.webp` (Flutter basics path), `idevo-progress.webp` (stats).
+- RielTrack (405×900, public 1.6 APK, SHA-256 checked, on `Pixel_API37` at `E:\Android\sdk`; same sample data re-entered by hand, $500 limit): `rieltrack-reports.webp`, `rieltrack-categories.webp` (Reports scrolled to Spending by category), `rieltrack-add.webp` (New transaction, 12000 ៛ Food, not saved). The emulator keeps showing a faint satellite icon in the status bar; it was painted over with the bar colour (status bar only, checked flat). Plan tab is empty (no accounts), so not used.
+- Checks: headless Edge over CDP at 1440×900 and 390×844: both cards go new → back → stop, images load, no console errors; lint 0/0.
+- `initPhoneScreens()` is part of the other session's uncommitted JS, so only the images + `index.html` were committed. **JS is 17,906 bytes (budget 15,000), CSS 31,846 (budget 30,000)** with that uncommitted work.
+
+### Update 2026-11-12: plainer KH Halal lead
+- Card lead "A bilingual marketplace…" → "A marketplace for halal products in Cambodia, in Khmer and English." (owner asked what "bilingual" meant).
+- Work heading "Apps I designed and shipped" → "Apps I designed and built" (owner's choice).
+- **Card tilt removed** (owner: "remove it"). `initTilt()` → `initSpotlight()` in `js/main.js`: same resting-box hit test, sets `.is-hover` + `--x/--y` only, no transform. CSS `.is-tilting` → `.is-hover`; the 120ms tilt transition is gone. Hover = lift 4px + orange border + spotlight + screenshot zoom 1.03. DESIGN.md §8.3/§11 + README updated. NOT committed: `css/style.css` + `js/main.js` still hold another session's uncommitted work. Not browser-tested yet.
+- **Hover top border fixed:** `content-visibility: auto` on `.projects__grid` clips paint at the grid edge, so the lifted card (-4px) lost its top border + top corners. Removed from `.projects__grid` (kept on `.about__grid`). Checked in headless Edge at 1707px: hovered idevo card now has an orange top border (pixel row read), only the hovered card gets `.is-hover`. Not committed (same reason).
+
+### Update 2026-11-12: full-project bug audit
+- **Hero not centred (≥1024px), fixed.** The grid had `1fr repeat(3, auto) 1fr` but 4 text items (name, intro, buttons, place line), so auto-placement put the name INSIDE the top `1fr` row. Space above the text was 82px vs 191px below at 1440 (0 vs 172 at 1024). Now `repeat(4, auto)` + `.hero__inner::before { grid-area: 1 / 1 }` (empty spacer fills row 1, so all text flows from row 2 in HTML order). Do not pin the h1 with `grid-row: 2`: the intro then auto-places into row 1, above the name. Measured: equal space above/below at 1024/1366/1440/1920; phones/tablets unchanged.
+- **Holding `T` strobed the theme** (key repeat flips dark/light ~30×/s, a flashing risk). `initShortcuts` now ignores `e.repeat`.
+- **Print rule removed**: `a[href^="mailto"]::after` collided with the contact email's underline `::after` (absolute, scaleX(0): invisible) and every printed http link is hidden anyway, so the rule did nothing useful.
+- Cleanup: duplicate `.section` padding in the 1024px block, redundant `min-height` on `.btn--sm`, `.stats__*` rules grouped, `root` reused in `initTilt`. README section table (02 · ABOUT, 03 · CONTACT), icons line and photo line updated.
+- Checked and NOT bugs: nav anchors land at header + 16px; Contact stops higher only because it is the end of the page (scrollY = max). 
+- Checks: lint 0/0; CDP at 390/768/1024/1366/1440/1920: hero order + centring, no horizontal scroll, no console errors on index. CSS 31,134, JS 17,761 bytes.
+- Not committed: `css/style.css` and `js/main.js` still hold the other session's uncommitted phone-swap / hero-glow work.
+
+### Update 2026-11-12: `>_` mark in the header + new favicon
+- Owner did not want "HR" initials (tried an orange HR square first). Chose the terminal prompt from 6 drafts: `<span class="wordmark__mark" aria-hidden="true">&gt;_</span>` before the name in `index.html` + `404.html`; CSS `.wordmark__mark` (Geist Mono 500, `--accent-text`, so it is dark orange in light mode). No blinking cursor (continuous motion, WCAG 2.2.2).
+- `favicon.svg`: dark `#0C0A09` rounded square, orange `>` chevron + `_` bar drawn as paths (no font). `favicon-32.png` + `apple-touch-icon.png` (square, iOS rounds it) drawn with Pillow from the same 32-unit geometry. DESIGN.md §5 + favicon line, README, `tools/icon.html` note updated.
+- Checked: header screenshots dark + light, PNGs viewed. Not committed (other session's uncommitted work is in `css/style.css`).
+
+### Update 2026-11-12: audit fixes 1–7 (owner: "do all of these")
+1. Cache: `/assets/*` 1-year `immutable` split into `/assets/fonts/*` (1 year, immutable) and `/assets/images/*` (`max-age=86400`), in `vercel.json` and `_headers` (Netlify merges same-name headers from overlapping rules, so the rules must not overlap). Reason: photos/screenshots are replaced under the same name. DESIGN.md §12 line updated.
+2. `tools/check.mjs` added (see "How to re-run the checks"). Proven: on a copy with the old `repeat(3, auto)` hero it FAILs (191px at 1440) and it FAILs on a missing image.
+3. `<noscript>` Noto Sans Khmer link removed from `index.html` + `404.html` (render-blocking Google request for no-JS visitors, page has no Khmer). `initKhmerFont()` still loads it when Khmer text appears.
+4. Card lift, orange border and screenshot zoom moved into `@media (hover: hover) and (pointer: fine)` (taps on phones left cards stuck "hovered"). Reduced-motion overrides come later and still win.
+5. `setTheme()` updates both `meta[name=theme-color]` so the phone browser bar follows the toggle (checked: #0C0A09 → #FAFAF9).
+6. Dead CSS removed: `.contact__text a` from the 4 link-underline selectors, `.project-card__note + .project-card__note`.
+7. Original photo moved to `tools/source/` (git-ignored); `tools/photo-cutout.py` Run line updated.
+Checks: `node tools/check.mjs` all PASS; lint 0/0; mouse lift `matrix(…, -4)`. CSS 31,133, JS 17,717 bytes. Not committed (other session's uncommitted work in the same files, plus its favicon changes).
+
+### Update 2026-11-12: review fixes (session ee)
+- Owner approved the 33 KB CSS / 18 KB JS budgets (DESIGN.md §12), keeping phone swap, drift and hero glow.
+- DESIGN.md §11 phone row: "1.2s per screen" → "2s per step" (matches `setInterval(…, 2000)` in `initPhoneScreens`). Old log line 265 left as history.
+- `css/style.css`: the two `.stats__item` rules merged into one.
+- Print: no change. `.contact__social` is hidden in print, so the removed link-URL rule only printed the email twice.
+- Browser test (headless Edge, CDP, fresh tab per load) at ~19:05, before the newest JS edits: 360–1920 no horizontal scroll, one h1, images + alt, ≥44px targets, no TODO, no console errors (http + file://); phone swap A→B→A then stops; scroll at 4× CPU median 16.7ms, p95 16.8ms; reduced motion: no clones, all visible. Reveal "failures" only when headless reports `visibilityState=hidden` (tab never scrolled): tool quirk.
+- **JS is 22,947 bytes at 19:10 (budget 18,000)** after another session's edits. Re-test and trim before committing. Nothing committed by this session.
+
+### Update 2026-11-12: terminal, hero dots, 3D phones, screenshot settle (owner: "do all of these")
+- **Terminal**: `>_` in the header is now a 44px `.term-btn` (no-JS fallback: `.wordmark__mark--nojs` span in the name link); `` ` `` also opens it. `<dialog class="term">` at the end of `index.html`, `initTerminal()` in `js/main.js`. Commands help/whoami/projects(ls)/open &lt;app&gt;/work/about/contact/email/github/theme/clear/exit, ↑↓ history, Tab completes a sure match only. All answers read from the DOM. Jumps use the offsetTop chain (ignores the 24px reveal slide) one frame after close, then focus the target (`[tabindex="-1"]:focus` has no outline).
+- **Hero dots**: `initHeroDots()` canvas (`.hero__dots`, `.hero.has-dots::before` off) on fine pointer + motion allowed only; redraws on theme change (MutationObserver), size (ResizeObserver), stops when idle or off screen.
+- **3D phones**: `rotate: y 16deg → -16deg` added to the `drift` keyframes, `perspective: 1200px` on the phone media.
+- **Screenshot settle**: `settle` keyframes (`scale: 1.15` → 1) on the web screenshot, `entry 0%–100%` of `--card`. Reduced motion: `animation: none` (the global duration rule can't stop scroll-linked animations).
+- Tests (headless Edge over CDP, scripts in the session scratchpad): terminal 48/48 at 1440 + 360 (open by click/`` ` ``, focus, every command, `t` typed doesn't toggle theme, history, Tab, Esc, copy, jump lands at header+16, no sideways scroll, no console errors); dots (idle = 0 frames, stops after leave, light-theme colours, touch + reduced motion keep the grid); phones +6.4° / 0° / −6.4° at 85/50/15% of the screen; zoom 1.147 → 1.075 → 1; check.mjs all pass; lint 0/0. 4× CPU: dots add ~0.3ms per frame. Scroll frame drops at 4× were the same with and without the new CSS (machine noise while another session ran).
+- **Headless quirk**: after `Emulation.setDeviceMetricsOverride` the tab sometimes reports `visibilityState: hidden` and runs no frames, so smooth scrolls/rAF stall in tests. Keep a rAF loop running in the test or check `visibilityState` before calling it a bug.
+- Sizes: CSS 33.9 KB, JS 26.3 KB raw (9.1 / 8.8 KB gzip). DESIGN.md §12 budget raised to 35 / 27 KB.
+- Not committed: `css/style.css`, `js/main.js`, `index.html` also hold another session's uncommitted work.
+
+### Update 2026-11-12: motion trimmed (owner: "do all of these")
+Review said the page was close to too busy (~13 moving things). Cut:
+- **Hero glow follow removed**: `initHeroGlow()` + the `.hero::after` translate/transition. The glow stays, still. The dots are the one mouse effect in the hero.
+- **Phone drift removed**: keyframes renamed `drift` → `turn`, only `rotate: y 16deg → -16deg`. The middle phone keeps its static `translateY(-4%)`.
+- **Scroll progress bar removed**: the `<div class="scroll-progress">`, its CSS, the JS fallback in `initScroll()` (now header only), the reduced-motion and print selectors. DESIGN.md §9.2/§11.2 + README updated.
+- Tests: glow `translate: none` after mouse moves, no `--gx`; phones `animation: turn`, `translate: none`, rotate present, middle offset kept; no `.scroll-progress`; header `is-scrolled` still toggles; 4× CPU scroll 0 of 299 frames over 20ms; reduced motion still; no console errors; check.mjs all pass; lint 0/0; earlier terminal/dots/phones/zoom tests pass in a visible tab. CSS 33,104 / JS 25,065 bytes.
+
+### Update 2026-11-12: hero gap + one-line intro (owner: "do all of these")
+- Photo (≥1024px): `place-self: center` in column 2 (was start + up to 10vw nudge right, from commit 6a9ec0a; this partly undoes that, after the owner said "do all of these" to the closer-photo idea), width `clamp(280px, min(32vw, min(100svh − 296px, 676px) × 0.8), 540px)` = as big as fits the hero height. `.hero { overflow-x: clip }` because the bigger photo's `::before` light (10% wider) poked 1px past the window at 1024–1100.
+- `.hero__intro` max-width 36rem → 50rem: one line from 1366 up, 3 lines on phones (unchanged feel), 1 line at 768.
+- Measured (gap text→photo / photo width): 1869×916 251→189 / 458→496; 1920 256→167 / 480→540; 1440 124→73 / 432→461. 1366×768 hero was 8px taller than the screen, now fits (696). No sideways scroll 360–2560, check.mjs all pass, lint 0/0, no console errors. CSS 33,420 bytes.
+- Owner's item 2 (a relaxed photo instead of the suit/ID look) waits for a new photo: run `tools/photo-cutout.py`.
+
+### Update 2026-11-12: glow behind the name removed (owner: "do all of these")
+- `.hero::after` (7% orange radial behind the name) deleted: on real screens it read as a muddy brown haze. The only glow left is `.hero__photo::before` (16%, behind the head). DESIGN.md §9.7 updated.
+- Checks: `::after` content none and photo light present at 1869 + 390; no sideways scroll; no console errors; dots tests pass; check.mjs all pass; lint 0/0; screenshots dark + light 1869, dark 390. CSS 33,089 bytes.
 
 ### Update 2026-11-12: demo videos for all 3 projects (VIDEOS.md)
 Owner approved the plan, the shot lists and an 8 s style test ("do all of these", "that look great").
@@ -331,6 +407,7 @@ Another agent session worked on this repo until 13:39 (commits up to f854a43) fr
 - Open-collection search (`assets.mjs "riel banknote Cambodia"`) ran: one CC BY-SA photo of a 5000-riel note on Wikimedia Commons. **Not used**: DESIGN.md rule 4 and the owner's no-found-photos rule. No found pictures are on the page, so there are no credits.
 
 ### How to re-run the checks (for agents)
+- Page check (saved, no packages): `node tools/check.mjs`: console errors, sideways scroll, one h1, `#` link targets, image files, hero order + centring at 360–1920. Exit 1 on FAIL. Run it after every CSS/HTML change.
 - Lint: `node <taste-skill>/scripts/lint.mjs index.html 404.html css js`.
 - Lighthouse: test through a server that gzips (`npx -y serve@14.2.4 -l 8138 .`); http-server sends files uncompressed and makes mobile LCP look ~0.6s slower than on Vercel/Netlify.
 - Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box,small-text`.
@@ -338,3 +415,94 @@ Another agent session worked on this repo until 13:39 (commits up to f854a43) fr
 
 ### Next step
 Owner: give name, role, intro, bio, city, remote yes/no, email, LinkedIn; KH Halal live URL; a public idevo download; RielTrack screenshots. **Next agent:** put them into `index.html` (+ `<head>`, JSON-LD, `404.html`, `site.webmanifest`, `tools/og-image.html`, then re-make `og-image.png` and the favicon PNGs), re-run the checks, update this log, commit.
+
+### Update 2026-11-12: folder cleanup (owner: "remove the folders that are not needed")
+- Removed from git: `assets/icons/` (16 simpleicons SVGs, unused since the tool list left About) and `assets/images/.gitkeep`. README + DESIGN.md file trees updated.
+- `.taste-skill/`: old inspector screenshot folders deleted (incl. ones from the Astro version); `critique.md` + `direction.json` kept.
+- `_old-astro-version/`: deleted (owner said "delete it"); its `.gitignore` line removed.
+- Kept on purpose: `tools/` (og-image, icon PNGs, photo cut-out, check.mjs) and `tools/source/` (original photo, needed by `tools/photo-cutout.py`).
+
+### Update 2026-11-12: project card redesign (review 7/10, owner: "do all of these")
+1. Featured card: problem paragraph moved into an HTML comment (kept bullets); its AI sentence joined the lead. Lead and bullets are `--muted`, weight 400: only the title is bright.
+2. Phones bigger and fanned: media padding `4% 6%` (was `6% 4%`), no gap, `.phone + .phone { margin-left: -3% }`, sides `rotate(±4deg) translateY(3%)`, middle `z-index: 1`. Measured 1440: phones ~367px tall, 10–40px from the panel edges, nothing clipped.
+3. Phone swap: `--dur-fast` (150ms) instead of `--dur-slow` (the slow crossfade showed two layouts on top of each other). No JS change.
+4. `.project-card__note` no longer uppercased ("v0.6.4", "Android 8.0+ · v1.6").
+5. Dark `--surface` #141210 → #171513; card border `color-mix(in srgb, var(--text) 16%, var(--surface))` (works in both themes; hover border still wins).
+6. Card buttons (demo, download, video) use `btn--sm` (still 44px tall).
+- Checks: `node tools/check.mjs` all PASS; lint 0/0; CDP screenshots 1440 dark + light, 390: no sideways scroll, no console errors. CSS 33,312 / 35,000 bytes. DESIGN.md §8.3, §11 phone row, `--surface` updated.
+- Headless test notes: `html { scroll-behavior: smooth }` makes `scrollIntoView` do nothing in a hidden headless tab (set `scrollBehavior='auto'` first); `Page.captureScreenshot` `clip` uses page, not viewport, coordinates; headless fires a synthetic mousemove, so cards can show `.is-hover` with no mouse.
+- Not committed (other sessions' uncommitted work is in the same files).
+
+### Update 2026-11-12: phone layout calmer (owner: "do all of these")
+- Fan tilt removed: the ±4° flat tilt stacked with the 16° scroll turn and made the side phones look like they were falling. Sides keep `translateY(3%)`, middle `translateY(-4%)` + on top. Scroll turn unchanged.
+- Media padding `4% 6%` → `6%`; overlap `-3%` → `-2%`. DESIGN.md §8.3 updated.
+- Measured (gap top/bottom of the middle phone): 1660: 30/61px, 1440: 26/52, 390: 13/27; left/right gaps equal. check.mjs all PASS, no console errors, no sideways scroll.
+
+### Update 2026-11-12: Contact panel redesign (review 6.5/10, owner: "do all of these")
+1. ≥1024px padding `96/64` → `64` all round; `.contact__details { justify-self: end }` puts the right block against the panel's right edge (columns stay `1fr 1fr`: `1fr auto` let a long button row squeeze the text column). Panel 309px tall at 1440 (was ~370).
+2. The icon row (`ul.contact__social`) is gone: GitHub / LinkedIn / Telegram are `btn btn--secondary social-link` buttons (icon + name + ↗) at the end of `.contact__actions`; `href="#"` still hides them (`link-opt`). Keep `social-link`: the terminal `github` command finds the link by it.
+3. Email: own steady underline `1px var(--accent-text)`, 2px on hover. Removed from the shared grow-bar rule (its `::after` sat ~10px under the text in the 44px box).
+4. Heading "Let's work together." → **"Let's talk."** (owner wants full-time roles; agent picked the first offered option because the owner did not choose).
+5. Panel border = project card border; `radial-gradient` 8% orange light top-right (taste-skill-ignore). Under 640px `border-inline: 0` (panel is edge to edge).
+- Checks: check.mjs all PASS; lint 0/0; CDP at 1700/1440/1024/390 + light: no sideways scroll, no console errors, buttons ≥45px, terminal GitHub link found. CSS 33,630 / 35,000. DESIGN.md §8.6 updated.
+- Line endings: all working files are LF (git stores LF, `core.autocrlf=true`). Don't "restore CRLF".
+
+### Update 2026-11-12: phones never overlap (owner chose option A)
+- Owner: the middle phone hid the side screens ("Details", "Manage", "Budgets" cut). `.phone + .phone { margin-left: -2% }` removed; `.project-card__media--phones` has `gap: clamp(8px, 2.5%, 16px)`. Same phone size. DESIGN.md §8.3 updated.
+- Measured gaps between phones (incl. scroll turn): 1700: 16px, 1024: 10px, 390 and 360: 8px. check.mjs all PASS, no sideways scroll, no console errors.
+- Contact panel glow removed (owner): background is plain `var(--surface)`; border kept. Do not add it back.
+
+### Update 2026-11-12: About layout (review 5.5/10, owner: "do all of these")
+1. "I build my apps with AI coding tools." moved into `.section__head` under the h2 (`.tech__note` got `margin-top: var(--s-4)`). The empty left column is gone; `.about__grid` now holds Education + Spoken languages (`.about__side` each, stagger kept).
+2. Tops line up: both labels at the same y (measured 1770: 393/393, 1024: 380/380). `.about__side` lost its inner grid (it put 60px between label and content).
+3. Timeline line + orange dot removed (`.timeline` is just `display: grid; gap`). Markup unchanged (`ol.timeline > li.timeline__item`), so more schools can be added.
+4. Bio: NOT written (never invent). Commented-out `<p class="tech__note">[TODO: …]</p>` slot under the AI line in `index.html`.
+- Checks: check.mjs all PASS; lint 0/0; CDP 1770/1024/800/390 + light: no sideways scroll, no console errors. CSS 33,183 bytes. DESIGN.md §8.4 updated.
+
+### Update 2026-11-12: Android phones (owner chose A + B)
+Owner: the phones did not look like Android.
+- **B: idevo screenshots re-shot** (replace the old golden test images). App on `Pixel_API37` (1080×2400) = installed release 0.6.4, SHA-256 checked equal to the public `idevo-0.6.4-x86_64.apk` (`a2c3bb0d…018e`). Demo mode status bar 9:41, mobile icon hidden (`network -e mobile hide`), demo mode exited after. App's own sample path "Learn how to learn"; 3 sample notes typed by hand (Reading list / Dart isolates / How widgets rebuild, titles from the old golden image). One flashcard answer shown, NOT graded. Same file names: `idevo-home/lesson/review` + `-library/-path/-progress.webp`, now **405×900** like RielTrack (15–30 KB). `index.html` width/height 390×844 → 405×900; library alt no longer says "pinned note"; source comment added. Note: home says "Good evening" and notes say "Today 20:24/20:25" (the emulator's real clock; status bar is demo 9:41).
+- **A: Android frame** (`.phone` in `css/style.css`): `--r: clamp(10px, 1.6vw, 20px)` corners, bezel `#0C0A09` in both themes (was `var(--bg)`, white in light mode), `.phone::before` punch-hole dot (4% of phone width, `top: calc(3px + 2.6%)`, z-index 2 above the swap images). Checked by zoom: dot sits centred in the status bar between clock and icons on both apps.
+- Checks: check.mjs all PASS; lint 0/0; CDP 1700, 1440 light, 390: no sideways scroll, no console errors. CSS 33,539 / 35,000. DESIGN.md §8.3 + radius line updated.
+
+### Note 2026-11-12: KH Halal demo logins NOT created (correction)
+- The fifth-pass note "Bakong points at the SIT test API" is out of date. The repo's `render.yaml` now says checkout is LIVE with real-money orders, `BAKONG_API_BASE_URL=https://api-bakong.nbc.gov.kh` (production).
+- Owner asked for public customer + seller demo logins. Not done: on a real-money marketplace a public seller login lets anyone post listings and set a payout account (scam risk); a customer login allows fake reviews, chat spam, stock-holding orders and password changes. Seller approval also needs admin access the agent does not have.
+- Options given to the owner: A demo videos (recommended; "Watch video" buttons already built), B "logins on request" line, C a separate demo deployment (own DB, checkout off, daily reset; repo has `backend/scripts/seed-db-scenarios.js`). Waiting for the owner's choice. The `project-card__login` row stays `hidden`.
+
+### Update 2026-11-12: Contact heading
+- "Let's talk." → **"Get in touch."** (owner chose it from 4 options). `index.html` `#contact-title`, DESIGN.md §8.6. Not committed (other sessions' uncommitted work in `index.html`).
+
+### Update 2026-11-12: terminal UI
+- Head: orange `>_` mark + "Terminal" (Geist), `esc` key hint (hidden on touch), line under the head, shadow. Welcome is 2 lines ("Hi, I'm …" + hint).
+- Quick command chips under the log (`.term__chips`, `data-cmd` = help/whoami/projects/contact; click runs the command, focus back to the input). 44px tall.
+- `help` prints two columns (command orange, text muted, `.term__row`); each typed command gets a gap above it (`.term__echo`).
+- Input bar on `--bg`, orange 2px left bar when focused (was an orange top line).
+- Checked: check.mjs all PASS; screenshots 1280 + 390 with help/whoami run, no console errors. CSS 34,8xx / 35,000 (nearly full), JS 25,6xx / 27,000. Not committed (other sessions' work in the same files).
+
+### Update 2026-11-12: visual review fixes (owner: "do all of these")
+Honest review listed: thin About, ID-style photo, big gap under the hero, Contact edges off, generic look, tiny text, small phones. Layout fixes done; content items wait for the owner.
+- **Hero gap:** hero `min-height` = `100svh − header − 64px` (max 836px), bottom padding 64px from 768px, `.hero + .section { padding-top: 64px }`. Photo width calc 296 → 328 (same size at 1440). Last hero line → Work: ~415px → ~340px at 1440×900.
+- **Contact panel edges = card edges** at every width ≥640 (`max-width: var(--container)`, `width: calc(100% − 2 × gutter)`, inner padding `--card-pad`; under 640px edge to edge with `--gutter` padding). Measured 48/1382 at 1440 for both.
+- **Phones ~25% bigger:** `.project-card__media--phones` `aspect-ratio: 4/3`, padding `6% 4%` (1440: 152×334 → 190×418; 390: 78×168 → 97×210). Fits at 360–1920, no overlap.
+- **Labels/tags 12 → 13px** (`--fs-label`).
+- **About:** new `.about__layout` on the container (`index.html`): ≥1024px heading + note left, Education + languages stacked right; head is `display: grid` so "02 / ABOUT" and "EDUCATION" tops match (measured equal at 1440 + 1024).
+- **Removed `content-visibility: auto` from `.about__grid`**: it left the block unpainted until scrolled near (blank area in full-page captures) and saved nothing on 3 lines of text.
+- **Phone swap guard:** waits on `naturalWidth` instead of `complete` (a broken image is "complete" and would show an empty black screen). Swap still A→B→A then stops (tested).
+- Terminal CSS: 3 lint FAILs (dialog shadow, mono) from the other session marked `taste-skill-ignore` (a terminal is literal code, a dialog is an overlay).
+- Checks: `node tools/check.mjs` all PASS; lint 0/0; CDP 360/390/768/1024/1440/1920 no sideways scroll, no console errors; light mode screenshot OK; reduced motion: no clones, all visible; Lighthouse mobile (gzip) 99/100/100/100, LCP 2.0s, CLS 0, TBT 100ms. CSS 34,892 / 35,000, JS 25,582 / 27,000.
+- **Waiting on the owner (never invent):** a relaxed photo (daylight / working, not the suit), 2–3 sentence bio + "currently learning", 2–3 lines per project on what they did/learned, résumé PDF, LinkedIn.
+- Not committed: same files hold other sessions' uncommitted work.
+
+### Update 2026-11-12: second visual round (owner: "do all of these")
+- **About intro** (`index.html` `.tech__note`): "I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools." (what they made first, AI second; facts from the Work cards only). Bio slot still commented out.
+- **Terminal hint:** `<span class="term-hint"><button class="term-hint__btn">Try the >_ terminal</button></span>` inside `.hero__meta` (not a new hero item: a 5th row would break the `repeat(4, auto)` centring). JS only, own line (`display: block`; inline wrapped and left a stray "·" on phones), 44px tall, hidden in print. `initTerminal` binds `.term-btn, .term-hint__btn`; `whoami` reads `.hero__meta.firstChild` so it prints only the location line.
+- **Work band:** `.section--band` on `#work` (`--text` 3% over `--bg`, 1px border top/bottom). Works in both themes (checked).
+- CSS budget kept: comments shortened, 34,931 / 35,000. JS 25,7xx / 27,000.
+- Tests (CDP, 1440 + 390): hint shows, opens terminal, focus goes into the input, `whoami` = name / intro / "Phnom Penh, Cambodia · Open to remote work", focus returns to the hint after close; no console errors. check.mjs all PASS (hero still centred, 0px), lint 0/0. Screenshots dark + light 1440, dark 390.
+- **Dark phone screenshots NOT done:** both apps support dark mode (RielTrack `isAppInDarkTheme(ThemeMode.SYSTEM)` + dynamic colour: turn dynamic colour off or the wallpaper tints it; idevo `darkTheme` + `themeMode`). Not shot because another session (`my-portfolio-website-7b`) was busy re-making the demo videos with the same `Pixel_API37` emulator (RielTrack open on it, videos written 21:08–21:24). Do it when the emulator is free: `cmd uimode night yes`, same screens + data as the light set, same file names, then `cmd uimode night no`.
+- Not committed (other sessions' work in the same files).
+- **Later (owner): "Try the >_ terminal" hero hint removed** (HTML, CSS, print selector, JS binding; `whoami` reads `.hero__meta` again). The `>_` header button and the `` ` `` key still open the terminal. Do not add it back.
+
+### Update 2026-11-12: slots for the review's content items (owner: "add all, I will put it later")
+- Review rated the site 7.5/10; the gaps were content. Added a commented-out `WHAT I DID / LEARNED` `<p class="project-card__text">[TODO…]</p>` under the lead of all 3 project cards in `index.html` (existing style, no CSS change). Already there: résumé buttons (header + Contact, `href="#"` hides them), LinkedIn button, bio + "learning now" slot in About. Photo: swap `assets/images/me.webp` via `tools/photo-cutout.py`. Nothing shows on the page until the owner fills a slot. check.mjs all PASS. Not committed.

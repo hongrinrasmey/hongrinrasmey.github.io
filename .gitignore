@@ -1,7 +1,7 @@
-_old-astro-version/
 .taste-skill/
 .DS_Store
 Thumbs.db
+tools/source/
 
 # Raw screen recordings for the demo videos (VIDEOS.md): large, not used by the site
 assets/videos/*-raw/

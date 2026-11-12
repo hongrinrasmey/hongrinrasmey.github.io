@@ -78,19 +78,19 @@
   <!-- Font: Geist (text and headings) + Geist Mono (small labels). (taste-skill-ignore: DESIGN.md §6.3 Geist Mono for labels)
        If you change them, also change --font-sans and --font-mono at the top of css/style.css. (taste-skill-ignore: DESIGN.md §6.3) -->
   <!-- Noto Sans Khmer (for Khmer text) is added by js/main.js only when the page has Khmer text. -->
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"></noscript>
 
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="scroll-progress" aria-hidden="true"></div>
 
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container header__inner">
-      <a class="wordmark" href="#top">Hong Rinrasmey</a>
+      <!-- >_ opens the terminal (needs JavaScript; without it the plain mark inside the name shows) -->
+      <button class="wordmark__mark term-btn" type="button" aria-label="Open terminal" title="Terminal (`)">&gt;_</button>
+      <a class="wordmark" href="#top"><span class="wordmark__mark wordmark__mark--nojs" aria-hidden="true">&gt;_</span>Hong Rinrasmey</a>
 
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul class="site-nav__list">
@@ -166,7 +166,7 @@
              <a class="btn btn--secondary" href="https://github.com/..." target="_blank" rel="noopener noreferrer">View code</a>
          - Add a project: copy one whole <article class="project-card"> … </article> block and change it.
     -->
-    <section class="section" id="work" aria-labelledby="work-title">
+    <section class="section section--band" id="work" aria-labelledby="work-title">
       <div class="container">
         <div class="section__head reveal">
           <p class="section-label">Work</p> <!-- taste-skill-ignore: DESIGN.md §6.5 numbered section label -->
@@ -187,8 +187,13 @@
               <li class="platform-tag">Khmer + English</li>
             </ul>
             <h3 class="project-card__title" id="p1-title">KH Halal Marketplace</h3>
-            <p class="project-card__lead">A marketplace for halal products in Cambodia, in Khmer and English.</p>
+            <p class="project-card__lead">A marketplace for halal products in Cambodia, in Khmer and English. I designed it and built it with AI tools.</p>
+            <!-- Longer story, hidden so the card stays short. To show it, move it out of this comment:
             <p class="project-card__text">Muslim shoppers need to know a product is halal and that the seller is real. Every seller is identity-verified, every listing shows clear halal-claim information, and buyers pay with Bakong KHQR. I designed it and built it with AI tools.</p>
+            -->
+            <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
+            <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
+            -->
             </div>
             <div class="project-card__extra">
             <ul class="project-card__features" aria-label="Key features">
@@ -213,11 +218,11 @@
             </p>
             <div class="project-card__actions">
               <!-- LIVE DEMO: the address is in href="..." below. -->
-              <a class="btn btn--primary link-opt" href="https://kh-halal-marketplace.onrender.com/" target="_blank" rel="noopener noreferrer">
+              <a class="btn btn--primary btn--sm link-opt" href="https://kh-halal-marketplace.onrender.com/" target="_blank" rel="noopener noreferrer">
                 Try live demo
                 <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
               </a>
-              <button class="btn btn--secondary video-btn link-opt" type="button" data-video="assets/videos/kh-halal-marketplace.mp4" data-poster="assets/videos/kh-halal-marketplace-poster.webp" data-title="KH Halal Marketplace demo video">
+              <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/kh-halal-marketplace.mp4" data-poster="assets/videos/kh-halal-marketplace-poster.webp" data-title="KH Halal Marketplace demo video">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                 Watch video
               </button>
@@ -231,11 +236,12 @@
 
           <!-- PROJECT 2: idevo — Android app -->
           <article class="project-card reveal" id="idevo" aria-labelledby="p2-title" style="--d: 1">
+            <!-- Screenshots: idevo 0.6.4 (public x86_64 APK) on an Android emulator, sample notes typed by hand -->
             <!-- data-next: the screen this phone fades to (and back). Remove it to keep the phone still. -->
             <div class="project-card__media project-card__media--phones">
-              <div class="phone"><img src="assets/images/idevo-home.webp" alt="idevo home screen: continue learning, flashcards due and this week's activity" data-next="assets/images/idevo-library.webp" data-next-alt="idevo library: notes with search, filters and a pinned note" width="390" height="844" loading="lazy" decoding="async"></div>
-              <div class="phone"><img src="assets/images/idevo-lesson.webp" alt="An idevo lesson with its practice questions" data-next="assets/images/idevo-path.webp" data-next-alt="An idevo learning path: modules, lessons done and the next lesson" width="390" height="844" loading="lazy" decoding="async"></div>
-              <div class="phone"><img src="assets/images/idevo-review.webp" alt="An idevo flashcard review session" data-next="assets/images/idevo-progress.webp" data-next-alt="idevo progress: days studied, lessons, flashcards and activity per day" width="390" height="844" loading="lazy" decoding="async"></div>
+              <div class="phone"><img src="assets/images/idevo-home.webp" alt="idevo home screen: continue learning, flashcards due and this week's activity" data-next="assets/images/idevo-library.webp" data-next-alt="idevo library: notes with search and filters" width="405" height="900" loading="lazy" decoding="async"></div>
+              <div class="phone"><img src="assets/images/idevo-lesson.webp" alt="An idevo lesson with its practice questions" data-next="assets/images/idevo-path.webp" data-next-alt="An idevo learning path: modules, lessons done and the next lesson" width="405" height="900" loading="lazy" decoding="async"></div>
+              <div class="phone"><img src="assets/images/idevo-review.webp" alt="An idevo flashcard review session" data-next="assets/images/idevo-progress.webp" data-next-alt="idevo progress: days studied, lessons, flashcards and activity per day" width="405" height="900" loading="lazy" decoding="async"></div>
             </div>
             <div class="project-card__body">
               <div class="project-card__info">
@@ -244,7 +250,9 @@
               </ul>
               <h3 class="project-card__title" id="p2-title">idevo</h3>
               <p class="project-card__lead">An offline-first notes library and learning companion.</p>
-              
+              <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
+              <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
+              -->
               </div>
               <div class="project-card__extra">
               <!-- DESIGN.md §8.3: the problem text and key features show on the featured card only.
@@ -263,11 +271,11 @@
               </ul>
               <div class="project-card__actions">
                 <!-- DOWNLOAD: always the newest release of the public Idevo-Downloads repo -->
-                <a class="btn btn--primary link-opt" href="https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest" target="_blank" rel="noopener noreferrer">
+                <a class="btn btn--primary btn--sm link-opt" href="https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest" target="_blank" rel="noopener noreferrer">
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary video-btn link-opt" type="button" data-video="assets/videos/idevo.mp4" data-poster="assets/videos/idevo-poster.webp" data-title="idevo demo video">
+                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/idevo.mp4" data-poster="assets/videos/idevo-poster.webp" data-title="idevo demo video">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
@@ -292,7 +300,9 @@
               </ul>
               <h3 class="project-card__title" id="p3-title">RielTrack</h3>
               <p class="project-card__lead">A private, offline money tracker for US dollars and riel.</p>
-              
+              <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
+              <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
+              -->
               </div>
               <div class="project-card__extra">
               <!-- DESIGN.md §8.3: the problem text and key features show on the featured card only.
@@ -309,11 +319,11 @@
                 <li>Hilt</li>
               </ul>
               <div class="project-card__actions">
-                <a class="btn btn--primary" href="https://github.com/hongrinrasmey/RielTrack-Downloads/releases/latest" target="_blank" rel="noopener noreferrer">
+                <a class="btn btn--primary btn--sm" href="https://github.com/hongrinrasmey/RielTrack-Downloads/releases/latest" target="_blank" rel="noopener noreferrer">
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary video-btn link-opt" type="button" data-video="assets/videos/rieltrack.mp4" data-poster="assets/videos/rieltrack-poster.webp" data-title="RielTrack demo video">
+                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/rieltrack.mp4" data-poster="assets/videos/rieltrack-poster.webp" data-title="RielTrack demo video">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
@@ -328,39 +338,36 @@
     </section>
 
     <!-- ===== 02 · ABOUT =====
-         Left: how I build (+ bio later). Right: education and spoken languages.
+         Top: how I build (+ bio later). Below: education and spoken languages, side by side.
          The tools I used are shown as tags on each project card, not here.
     -->
     <section class="section" id="about" aria-labelledby="about-title">
-      <div class="container">
+      <div class="container about__layout">
         <div class="section__head reveal">
           <p class="section-label">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
           <h2 class="section__title" id="about-title">My background</h2>
+          <p class="tech__note">I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools.</p>
+          <!-- BIO (your own words): remove the comment marks and write 2-3 short sentences.
+          <p class="tech__note">[TODO: what you're learning now, the job you want, what you enjoy building]</p>
+          -->
         </div>
 
         <div class="about__grid">
-          <!-- Left: how I build. Add your bio and what you're learning here as more <p> lines. -->
+          <!-- Education: copy one <li class="timeline__item"> per school or course. -->
           <div class="about__side reveal">
-            <p class="tech__note">I build my apps with AI coding tools.</p>
+            <h3 class="skill-group__title">Education</h3>
+            <ol class="timeline">
+              <li class="timeline__item">
+                <p class="timeline__dates">2023 – 2026</p>
+                <h4 class="timeline__role">Bachelor's degree in Business Information Technology (BIT)</h4>
+                <p class="timeline__company">National University of Management</p>
+                <p class="timeline__text">Final-year thesis project: <a href="#kh-halal">KH Halal Marketplace</a>.</p>
+              </li>
+            </ol>
           </div>
-
-          <!-- Right: copy one <li class="timeline__item"> per school or course. -->
           <div class="about__side reveal" style="--d: 1">
-            <div>
-              <h3 class="skill-group__title">Education</h3>
-              <ol class="timeline">
-                <li class="timeline__item">
-                  <p class="timeline__dates">2023 – 2026</p>
-                  <h4 class="timeline__role">Bachelor's degree in Business Information Technology (BIT)</h4>
-                  <p class="timeline__company">National University of Management</p>
-                  <p class="timeline__text">Final-year thesis project: <a href="#kh-halal">KH Halal Marketplace</a>.</p>
-                </li>
-              </ol>
-            </div>
-            <div>
-              <h3 class="skill-group__title">Spoken languages</h3>
-              <p>Khmer (native) · English (basic)</p>
-            </div>
+            <h3 class="skill-group__title">Spoken languages</h3>
+            <p>Khmer (native) · English (basic)</p>
           </div>
         </div>
       </div>
@@ -376,7 +383,7 @@
       <div class="container contact__grid">
         <div class="contact__intro reveal">
           <p class="section-label">Contact</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
-          <h2 class="contact__title" id="contact-title">Let's work together.</h2>
+          <h2 class="contact__title" id="contact-title">Get in touch.</h2>
           <p class="contact__text">I'm open to full-time developer roles. Send me an email and I'll reply soon.</p>
           <!-- REPLY TIME (only if true): remove the comment marks.
           <p class="contact__reply">I usually reply within [24 hours].</p>
@@ -398,27 +405,24 @@
             </button>
             <!-- RÉSUMÉ: put resume.pdf in assets/, then change href="#" to href="assets/resume.pdf" -->
             <a class="btn btn--secondary link-opt" href="#" download>Download résumé</a>
+            <!-- PROFILES: put your full address in href="..." to show a button (href="#" stays hidden). -->
+            <a class="btn btn--secondary social-link" href="https://github.com/hongrinrasmey" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+              GitHub
+              <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
+            <a class="btn btn--secondary social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+              <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
+            <a class="btn btn--secondary social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram (opens in a new tab)">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 13.1 1.5 11.6c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg>
+              Telegram
+              <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
           </div>
 
-          <!-- Put your full profile addresses in href="..." to show these icons. -->
-          <ul class="contact__social">
-            <li>
-              <a class="icon-btn social-link" href="https://github.com/hongrinrasmey" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)">
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-              </a>
-            </li>
-            <li>
-              <a class="icon-btn social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-              </a>
-            </li>
-            <!-- Telegram (optional): put your t.me link in href -->
-            <li>
-              <a class="icon-btn social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram (opens in a new tab)">
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 13.1 1.5 11.6c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg>
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     </section>
@@ -449,6 +453,31 @@
       </div>
       <div class="video-modal__frame"></div>
     </div>
+  </dialog>
+
+  <!-- ===== TERMINAL (opened by the >_ button or the ` key). Commands: initTerminal() in js/main.js.
+       Its answers are read from this page, so they update when you edit the text above. ===== -->
+  <dialog class="term" id="term" aria-labelledby="term-title">
+    <div class="term__head">
+      <p class="term__title"><span class="term__mark" aria-hidden="true">&gt;_</span> <span id="term-title">Terminal</span></p>
+      <kbd class="term__key" aria-hidden="true">esc</kbd>
+      <button class="icon-btn term__close" type="button" aria-label="Close terminal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="term__log" role="log" aria-live="polite"></div>
+    <!-- Quick commands: click = type it + Enter. data-cmd must be a command from initTerminal() -->
+    <div class="term__chips" role="group" aria-label="Quick commands">
+      <button type="button" data-cmd="help">help</button>
+      <button type="button" data-cmd="whoami">whoami</button>
+      <button type="button" data-cmd="projects">projects</button>
+      <button type="button" data-cmd="contact">contact</button>
+    </div>
+    <form class="term__form">
+      <span class="term__prompt" aria-hidden="true">&gt;</span>
+      <label class="visually-hidden" for="term-input">Command</label>
+      <input class="term__input" id="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" autofocus>
+    </form>
   </dialog>
 
   <!-- Screen readers hear "Copied!" from here -->

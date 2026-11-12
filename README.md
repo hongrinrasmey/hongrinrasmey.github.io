@@ -11,9 +11,8 @@ Double-click `index.html`. It opens in your browser.
 ```
 index.html            all the text, projects and links
 css/style.css         all the styles (colours, fonts and sizes are at the top)
-js/main.js            theme toggle, mobile menu, animations, copy buttons, video pop-up, T shortcut
+js/main.js            theme toggle, mobile menu, animations, copy buttons, video pop-up, terminal, T shortcut
 assets/images/        project screenshots, your photo (later), og-image.png (link preview picture)
-assets/icons/         tech logos from simpleicons.org (the page uses copies inside index.html)
 assets/fonts/         Geist + Geist Mono font files (self-hosted) and their licence
 assets/videos/        project demo videos + poster pictures (made by scripts/, see "Demo videos" below)
 assets/resume.pdf     your résumé (optional)
@@ -22,7 +21,8 @@ site.webmanifest      name and colour when someone saves the site to a phone hom
 404.html              the "page not found" page
 robots.txt            tells search engines they may read the site
 vercel.json, _headers security settings for Vercel / Netlify (GitHub Pages ignores them)
-tools/                helpers to re-make og-image.png and the PNG icons (not part of the page)
+tools/                helpers: og-image.png, PNG icons, photo cut-out, check.mjs (not part of the page)
+tools/source/         your original photo (git-ignored, never put online)
 ```
 
 ## 2. How to edit
@@ -36,10 +36,8 @@ Search the file for `TODO` and replace every `[TODO: ...]` with your own words.
 | Browser tab title, Google text, link preview | `PAGE INFO` and `SHARING PREVIEW` at the top |
 | Name, role, intro, "Available for work", "Currently", stats | `00 · HERO` |
 | KH Halal Marketplace, idevo, RielTrack | `01 · SELECTED WORK` |
-| Tech I build with | `02 · TECH` |
-| School, degree, years | `03 · EDUCATION` |
-| Jobs and education (hidden for now) | `03 · EXPERIENCE` |
-| Email, GitHub, LinkedIn, Telegram, résumé | `04 · CONTACT` |
+| How you build, education, spoken languages | `02 · ABOUT` |
+| Email, GitHub, LinkedIn, Telegram, résumé | `03 · CONTACT` |
 | Name and "Last updated" in the footer | `FOOTER` |
 
 Section numbers on the page (01, 02, 03…) count themselves, so they stay right if you show or hide a section.
@@ -69,7 +67,7 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - Always write a short `alt="..."` that says what the picture shows.
 
 ### Change colours → top of `css/style.css`
-Change `--accent` (orange fills: buttons, dot, progress bar) and `--accent-text` (orange text and links).
+Change `--accent` (orange fills: buttons, dot) and `--accent-text` (orange text and links).
 The light theme has its own `--accent-text` a few lines below, darker so it stays readable on white.
 Other colours (`--bg`, `--surface`, `--text`, `--muted`, …) sit next to them. Change the dark and light values together.
 
@@ -78,17 +76,30 @@ Other colours (`--bg`, `--surface`, `--text`, `--muted`, …) sit next to them. 
 2. In `css/style.css`, change `--font-sans` and `--font-mono`.
 
 ### Turn an effect off
-At the bottom of `js/main.js` there is a list like `initTilt();`, `initReveal();`, `initSplitText();`.
+At the bottom of `js/main.js` there is a list like `initSpotlight();`, `initReveal();`, `initSplitText();`.
 Delete a line to switch that effect off. Everything also switches off by itself for visitors who
 turned on "reduce motion" in their system settings.
 
 ### Keyboard shortcuts on the site
-Press `T` to switch light / dark theme.
+Press `T` to switch light / dark theme. Press `` ` `` (or click the orange `>_` in the header) to open the terminal.
+
+### The terminal
+A small pop-up where visitors type commands (`help`, `whoami`, `projects`, `open idevo`, `email`, `theme`…).
+Its answers are read from your page, so when you change your text or add a project card, the terminal
+updates by itself. To add or change a command, edit `initTerminal()` in `js/main.js` (the list is
+called `cmds`, and the `help` lines are just above it). To remove the terminal, delete `initTerminal();`
+at the bottom of `js/main.js`.
+
+### Scroll and mouse effects
+- Hero dots: dots near the mouse turn orange and step aside (`initHeroDots()` in `js/main.js`; phones and
+  tablets keep the plain grid).
+- Phone screenshots turn a little in 3D as their card scrolls past: the `turn` animation (change `16deg`).
+- The KH Halal screenshot zooms in from 1.15× as its card comes in: the `settle` animation.
 
 ### Link preview picture and tab icon
 - `assets/images/og-image.png` is the picture shown when someone shares your link. To put your name on it, edit
   `tools/og-image.html` and follow the steps written at the top of that file.
-- `favicon.svg` is the tab icon. The comment inside it shows how to put your initials in. Then re-make
+- `favicon.svg` is the tab icon. It draws an orange `>_` prompt (same as the mark before your name in the header). Then re-make
   the PNG icons with the two commands at the top of `tools/icon.html`.
 
 ## 3. Image tips
@@ -139,24 +150,28 @@ domain and `username.github.io`. If your site lives at `username.github.io/REPO-
 in front of each `/` address in `404.html` (the comment at its top explains).
 
 ## 5. Update the live site
-After editing:
+After editing, check the page (needs Node 22+ and Edge or Chrome; it prints PASS/FAIL):
+```
+node tools/check.mjs
+```
+Then:
 ```
 git add .
 git commit -m "Describe what you changed"
 git push
 ```
-The live site updates by itself within a minute or two. Change "Last updated" in the footer when you do.
+The live site updates by itself within a minute or two. A replaced photo or screenshot (same file name) can take up to a day to show for people who visited before (browser cache, set in `vercel.json` / `_headers`). Change "Last updated" in the footer when you do.
 
 ## 6. Still TODO
-- [x] Your name (Hong Rinrasmey), favicon initials (HR), sharing picture.
+- [x] Your name (Hong Rinrasmey), favicon `>_` prompt, sharing picture.
 - [x] Role and one-line intro (hero, `<title>`, description, sharing text, JSON-LD, `tools/og-image.html` role line).
-- [x] City (Phnom Penh), open to remote work, contact sentence. About was replaced by Tech, so no bio is needed.
+- [x] City (Phnom Penh), open to remote work, contact sentence. A short bio for About is still optional.
 - [x] Email.
 - [ ] LinkedIn link (Telegram optional).
 - [x] KH Halal Marketplace: live demo link (add a demo login if it has one).
 - [x] idevo: public download in `hongrinrasmey/Idevo-Downloads`. For a new version, add a release there and change `v0.6.4` on the card.
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
-- [x] Your photo (`assets/images/me.webp`, `me-avatar.webp`).
+- [x] Your photo (`assets/images/me.webp`, made by `tools/photo-cutout.py`).
 - [x] Education (Bachelor's in Business Information Technology, National University of Management, 2023–2026).
 - [x] Demo videos for all 3 projects (`assets/videos/`, "Watch video" on each card).
 - [ ] Optional: `assets/resume.pdf`, "Currently" line, quick stats, reply time.

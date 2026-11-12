@@ -162,7 +162,6 @@ Site
 ├── assets/
 │   ├── fonts/              ← self-hosted Geist + Geist Mono (woff2)
 │   ├── images/             ← me.webp, <slug>.webp screenshots, og-image.png
-│   ├── icons/              ← skill logos (SVG, simpleicons.org), only skills I listed
 │   ├── videos/             ← <slug>.mp4 + <slug>-poster.webp (from VIDEOS.md)
 │   └── resume.pdf          ← optional
 ├── favicon.svg, favicon-32.png, apple-touch-icon.png, site.webmanifest
@@ -187,7 +186,7 @@ Site
 Order: Header → Hero → Work → About (tools + education) → Experience (if provided) → Contact → Footer.
 
 ### 8.1 Header
-- Left: my name (or initials mark). Right: Work · About · Experience (only if provided) · Contact, a small outline "Résumé" button (if résumé exists, desktop only), and the theme toggle.
+- Left: an orange mono `>_` prompt mark + my name. With JavaScript the mark is its own 44px button that opens the terminal (§11.2); without it, the mark is plain text inside the name link. Right: Work · About · Experience (only if provided) · Contact, a small outline "Résumé" button (if résumé exists, desktop only), and the theme toggle.
 - Transparent at the top; after ~20px of scroll: `--bg` at 80% opacity, 12px backdrop blur, 1px bottom border.
 - Active section link highlighted while scrolling (IntersectionObserver).
 - Mobile (<768px): hamburger → full-screen menu; locks scroll; closes on link click, Esc or outside click; `aria-expanded` updates.
@@ -197,23 +196,24 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Avatar:** 64px circle of my photo (56px on mobile) with a 2px `--accent` ring, above the availability label.
 - **Availability label:** mono, with pulsing dot: `● AVAILABLE FOR WORK` (only if Available = yes).
 - **Name (h1):** huge, the visual centerpiece (split-text reveal, Section 11.2).
-- **Role + one-line intro** in `--muted`, max ~55ch.
+- **Role + one-line intro** in `--muted`, max 50rem, so role + sentence sit on one line from ~1366px up (owner 2026-11-12; it wraps on smaller screens).
 - **"Currently" line** (if provided): mono, small, e.g. `CURRENTLY → building … · learning …`.
 - **Buttons:** primary "View my work" (scrolls to Work); secondary "Contact me".
 - **Small line:** location · open to remote.
 - **Quick stats** (if provided): up to 3, below the buttons, divided by thin vertical borders; number in Geist 600, label in muted mono; count up once when visible. Never invent or round up.
 - **Background:** very faint grid (Section 9.7). No background photos.
-- Height: about the viewport on desktop, but content must never be cut off on short screens (test 1366×768 and landscape phones). Content is centred top to bottom; on wide screens the photo sits right next to the text, centred with it.
+- Height: a bit under the viewport (`100svh − header − 64px`, max 836px; bottom padding 64px, and Work's top padding 64px after it) so Work starts sooner, but content must never be cut off on short screens (test 1366×768 and landscape phones). Content is centred top to bottom; on wide screens (≥1024px) the photo is centred in the space right of the text, as big as fits the hero's height (`0.8 × (100svh − 328px)`, max 540px, max 32vw), so it never makes the hero taller than the screen.
 
 ### 8.3 Work (most important section)
 - Section label `01 / WORK` + heading (e.g. "Selected work").
+- Work sits on a faint full-width band (`.section--band`: `--text` 3% over `--bg`, 1px border top and bottom), the only section that does, so the page doesn't repeat one rhythm.
 - **Exactly 3 projects**, in order: KH Halal Marketplace (featured), idevo, RielTrack.
 - **Featured card (#1):** full width. On ≥1024px it's split in two: media on one side (~7/12), text on the other (~5/12). On smaller screens media stacks on top.
 - **Cards #2 and #3:** 2 columns on ≥768px, 1 column on mobile.
 - **Media by project Type:**
   - Web app → one 16:10 screenshot, 12px radius, 1px border.
-  - Mobile app → 1–3 phone screenshots inside simple CSS phone frames (rounded rectangle, thin border, no brand logos), slightly overlapping/angled on the featured card, side by side on small cards.
-- **Each card shows:** platform tag (`WEB` / `ANDROID` / `iOS`), title, one-line description, 1–2 sentence problem/solution (featured card) or one line (others), 3 key features (featured card only), tech tags, buttons.
+  - Mobile app → 1–3 phone screenshots inside simple Android-style CSS phone frames (black 3px bezel in both themes, corners `clamp(10px, 1.6vw, 20px)`, punch-hole camera dot centred in the status bar, thin border, no brand logos); screenshots are real emulator captures with status + gesture bars, 405×900, side by side with a 8–16px gap, never overlapping (every screen fully visible); middle raised, sides 3% lower, no flat tilt (the scroll turn gives the depth). The phone media is 4:3 (taller than the web 16:10) with 6% × 4% padding, so the phones are ~25% bigger and readable.
+- **Each card shows:** platform tag (`WEB` / `ANDROID` / `iOS`), title, one-line description, one muted line (featured card adds "I designed it and built it with AI tools."; its longer problem text stays in an HTML comment), 3 muted key features (featured card only), tech tags, small buttons (`btn--sm`). Version notes keep their case (`v1.6`, not uppercased).
 - **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "View code" (public repos only; private repos show nothing). Hide any button without a link.
 - **Demo login** (only if one exists): small mono line with a copy button.
 - **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
@@ -221,7 +221,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 ### 8.4 About (Tech + Education merged; owner 2026-11-12)
 - Section label `02 / ABOUT`, heading "My background", nav "About" (`#about`).
 - **Honesty rule (owner 2026-11-12):** the owner builds with AI coding tools and has not yet learned the foundations of these languages. The site says so openly. Never present the tools as mastered skills: no levels, no percentages, no "expert" wording.
-- ≥1024px: two equal columns (`.about__side` each), stacked below 1024px. Left: "I build my apps with AI coding tools." (bio and "currently learning" go here once the owner sends them). Right: "Education" label + one-item timeline (BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace), then "Spoken languages": Khmer (native) · English (basic).
+- Under the heading: "I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools." as an intro line (what the owner made first, AI second; facts only from the Work cards) (`.tech__note`, h3 size); a commented-out slot below it for the owner's own 2–3 sentence bio. Then `.about__grid`: Education and Spoken languages, stacked. From 1024px the section is two equal columns (`.about__layout`): heading + intro line left, Education + languages right, labels on one line (no empty half). Education is a plain list (no timeline line or dot: one item; owner 2026-11-12): BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace. Spoken languages: Khmer (native) · English (basic).
 - **No separate tool list (owner 2026-11-12):** the tools show only as tags on each project card. A list on its own repeated the cards and read as "I know these"; tags on a real app read as "used here".
 
 ### 8.5 Experience (only if provided)
@@ -230,10 +230,11 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 
 ### 8.6 Contact
 - Section label `04 / CONTACT` (renumber labels if Experience is hidden).
-- Large heading: "Let's work together."
+- Large heading: "Get in touch." (owner's choice, 2026-11-12; "work together" read as freelance).
 - One friendly sentence + reply time (if provided).
-- Email as big clickable text (`mailto:`) + copy button ("Copied!" for 2s, announced via `aria-live`).
-- Icons for GitHub / LinkedIn / others; "Download résumé" button (if provided).
+- Email as big clickable text (`mailto:`, thin orange underline, 2px on hover) + copy button ("Copied!" for 2s, announced via `aria-live`).
+- GitHub / LinkedIn / Telegram as small labelled buttons in the same row (icon + name + ↗; `href="#"` stays hidden); "Download résumé" button (if provided).
+- Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). ≥1024px: 64px padding, the right block sits against the panel's right edge.
 - No contact form (it's in Future ideas).
 
 ### 8.7 Footer
@@ -253,7 +254,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 ```css
 :root {                    /* Dark (default) */
   --bg:          #0C0A09;  /* warm near-black */
-  --surface:     #141210;  /* cards */
+  --surface:     #171513;  /* cards (border: --text 16% over --surface) */
   --surface-2:   #1C1917;  /* tags, inputs, phone frames */
   --border:      #292524;
   --text:        #FAFAF9;
@@ -274,7 +275,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
   --accent-text: #C2410C;  /* darker orange for text (contrast) */
 }
 ```
-- `--accent` for fills (buttons, dot, selection, progress bar); `--accent-text` whenever orange is text or a thin line (links, focus rings).
+- `--accent` for fills (buttons, dot, selection); `--accent-text` whenever orange is text or a thin line (links, focus rings).
 - Orange only for: primary buttons, link hover, focus rings, active nav, small highlights the availability dot and the soft light behind the hero photo (no frame around the photo: owner decision 2026-11-12). Never for large areas or body text.
 - Everything passes **WCAG AA** in both themes (muted on bg ≈ 7.9:1 dark; text on orange ≈ 7:1; `#C2410C` on light bg ≈ 5:1).
 - Dark is default; follow the system preference; save the choice in localStorage; set the theme in an inline `<head>` script **before paint** (no flash).
@@ -285,7 +286,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - Stacks: `"Geist", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif` and `"Geist Mono", ui-monospace, monospace`.
 - Headings: weight 600–700, letter-spacing `-0.03em` (h1) / `-0.02em` (h2–h3), line-height 1.05–1.15, `text-wrap: balance`.
 - Body: weight 400, line-height 1.6, max 65ch, `text-wrap: pretty`.
-- Labels: mono, uppercase, letter-spacing `0.05em`, **min 12px**. Decoration/wayfinding only; important info goes in body text.
+- Labels: mono, uppercase, letter-spacing `0.05em`, **13px** (`--fs-label`; was 12px, raised 2026-11-12 for readability). Decoration/wayfinding only; important info goes in body text.
 - `-webkit-font-smoothing: antialiased`.
 
 | Element | CSS | 360px | 768px | 1024px | 1440px |
@@ -320,15 +321,15 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 | Footer padding | 32px | 40px |
 
 ### 9.5 Shape and depth
-- Radius: 12px for cards and images; 999px (pill) for buttons and tags; 28px for phone frames.
+- Radius: 12px for cards and images; 999px (pill) for buttons and tags; `clamp(10px, 1.6vw, 20px)` for phone frames (Android corners).
 - Borders: 1px `--border`. No heavy shadows; depth comes from surfaces, borders and contrast.
 - Dark-mode cards may have a 1px inner top highlight: `inset 0 1px 0 rgba(255,255,255,0.04)`.
 
 ### 9.6 Components
 - **Buttons:** pill, min-height 44px, padding 12×24, Geist 500. Primary: `--accent` bg + `--accent-fg` text. Secondary: transparent + 1px border. Hover: subtle color shift + arrow icon nudges 4px right. Active: scale 0.98. Visible focus ring.
-- **Tags:** Geist Mono, 12px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
+- **Tags:** Geist Mono, 13px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
 - **Links:** `--text` with a subtle underline; hover → `--accent-text` with the animated underline.
-- **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, tilt + spotlight (Section 11.2).
+- **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, cursor spotlight (Section 11.2). No tilt (owner removed it 2026-11-12).
 - **Section label:** mono `01 / WORK`, muted, with a short 24px line before it.
 - **Theme toggle:** 40px icon button (sun/moon inline SVG), `aria-label`, smooth icon swap.
 - **Copy button:** icon + "Copied!" feedback; keyboard accessible.
@@ -336,7 +337,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
-- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask, plus one soft `--accent` glow (7%, radial) behind the name. No noise on top of it.
+- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask. The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it. On mouse devices (motion allowed) a canvas of 2px dots (32px apart, 20% opacity, same fade) replaces the lines (§11.2 Hero dots).
 - **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
 - **Selection:** `--accent` bg, `--accent-fg` text.
 - **Scrollbar:** thin, matches the theme.
@@ -344,7 +345,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Optical alignment:** nudge the big h1 so its left edge visually lines up with body text.
 - **Screenshots:** always 1px border + radius so light screenshots don't blend into a light background.
 - **External links:** open in a new tab with `rel="noopener noreferrer"` and a small ↗ icon.
-- **Favicon:** my initials in `--accent-fg` on an orange rounded square.
+- **Favicon:** an orange `>_` prompt on a dark (`#0C0A09`) rounded square, same as the header mark.
 
 ### 9.8 Avoid
 Purple/blue gradient blobs · glassmorphism everywhere · white text on orange · orange on large areas · emojis as decoration · stock or AI images · skill % bars · carousels · typing-effect text · particle backgrounds · autoplay sound · popups · cookie banners · scroll-jacking · more than one accent color · centered walls of text · low-contrast tiny text · fake "Trusted by" logos.
@@ -386,17 +387,21 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Element | Motion |
 |---|---|
 | **Hero name (the wow moment)** | Split-text reveal: each word slides up from behind a mask, 60ms stagger, `--dur-hero`, `--ease-out-expo`. Real text stays readable for screen readers (`aria-label` on h1, word spans `aria-hidden`). |
-| Hero avatar, label, intro, buttons, stats | Fade + slide up 16px right after the name, 80ms stagger, `--dur-slow` |
-| Sections and cards | Fade + slide up 24px once when 15% visible; cards stagger 100ms |
+| Hero label, intro, buttons, stats | Fade + slide up 16px right after the name, 80ms stagger, `--dur-slow` |
+| Sections and cards | Fade + slide up 24px once when 15% visible; side-by-side blocks stagger 100ms (no stagger when stacked: cards under 768px, About and Contact columns under 1024px) |
+| **Phone screens** (idevo, RielTrack) | When the card is on screen, each phone fades once to its second screen (`data-next`) and back (quick swap `--dur-fast`: a slow crossfade showed two layouts at once, 2s per step, phones 150ms apart), then stops. Under 5s in all (WCAG 2.2.2). Hover or keyboard focus on the card pauses it |
+| **Phone 3D turn** | Phones turn on the Y axis from 16° to −16° as the card scrolls past (CSS view timeline on the card, `perspective: 1200px`, flat when the card is mid-screen). No up/down drift (removed 2026-11-12: one motion per picture). Browsers without scroll timelines show still phones |
+| **Featured screenshot settle** | The web screenshot zooms from `scale: 1.15` to 1 while its card enters the screen (same view timeline, `entry 0%`–`entry 100%`); the hover zoom adds on top |
+| **Hero dots (desktop only)** | Canvas dots within 160px of the mouse turn `--accent` and step up to 14px away (linear colour, squared push, eased 0.2/frame); fade out when the mouse leaves. Draws only while something moves and the hero is on screen. Touch screens and reduced motion keep the CSS grid |
+| **Terminal** | `>_` button or the `` ` `` key opens a `<dialog>` (rises in `--dur-base`). Commands: help, whoami, projects/ls, open &lt;app&gt;, work, about, contact, email (copies), github, theme, clear, exit; ↑/↓ history, Tab completes a sure match. Every answer is read from the page (no copy of the content in JS). Jumps close it, scroll to the target and move focus there |
 | **Theme switch** | Circle reveal from the toggle via the View Transitions API (~500ms). Fallback: 200ms color fade. |
-| **Project cards (desktop only)** | Tilt max 4° toward the cursor (`perspective(1000px)`), lift -4px, soft orange spotlight (~6% opacity radial gradient via `--x`/`--y`); eases back in 400ms |
+| **Project cards (desktop only)** | Lift -4px (no tilt), soft orange spotlight (~6% opacity radial gradient via `--x`/`--y`); eases back in 400ms |
 | **Links** | Orange underline grows left → right, `--dur-base` |
-| **Scroll progress** | 2px `--accent` bar at the very top (CSS `animation-timeline: scroll()`; small rAF fallback) |
 | Buttons | Color shift `--dur-fast`, arrow nudge `--dur-base`, active scale 0.98 |
 | Header | Background/blur/border fade in after scroll, `--dur-base` |
 | Availability dot | Gentle pulse (opacity + scale), 2s loop |
 | Stats | Count up once over ~1s |
-| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, soft orange light behind the head; no box, no frame, no hover effect |
+| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, soft orange light behind the head; no box, no frame, no hover effect. Rises in with the other hero items |
 | Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 
@@ -407,14 +412,14 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 - **Content is fully visible without JavaScript**: add a `.js` class to `<html>` and only hide reveal elements when it's present.
 - **`prefers-reduced-motion: reduce` turns off all motion**: no reveals, tilt, pulse, count-up, view transition or smooth scroll. Content just appears.
 - Pointer effects only with `@media (hover: hover) and (pointer: fine)`; nothing important is hover-only.
-- Each effect is its own commented function (`initHeroReveal()`, `initThemeTransition()`, `initCardTilt()`, …) so I can remove one easily.
+- Each effect is its own commented function (`initHeroReveal()`, `initThemeTransition()`, `initSpotlight()`, …) so I can remove one easily.
 
 ---
 
 ## 12. Performance (smooth on real devices)
 
 - **60fps** on a mid-range Android phone and a normal laptop. Test in Chrome DevTools → Performance with 4× CPU slowdown and fix long frames.
-- **Budget:** JS ≤ 15 KB, CSS ≤ 30 KB, page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
+- **Budget:** JS ≤ 27 KB, CSS ≤ 35 KB raw (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal, hero dots, 3D phones and screenshot settle, which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
 - Mouse-follow effects: one `requestAnimationFrame` per frame updating CSS variables; cache `getBoundingClientRect` on `mouseenter`.
 - Scroll: prefer `IntersectionObserver` and CSS scroll timelines; any scroll listener is `{ passive: true }`. Reveal observers unobserve after running.
 - `will-change` only while animating (add on start, remove after).
@@ -448,7 +453,7 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 - **OG image** (`assets/images/og-image.png`, 1200×630): build it as `og-image.html` and render it to PNG (headless screenshot if available, otherwise ask me to screenshot it). Dark `--bg`, my name large in Geist 700, role in muted, orange dot + "Available for work" (if yes), GitHub handle or domain in mono bottom-left, thin orange bar on the left edge, my avatar on the right (if the photo exists).
 - Favicon set + `site.webmanifest` (name, theme color, icons).
 - **Print stylesheet:** hide nav, buttons and motion; black on white; show link URLs after links.
-- `vercel.json` (or Netlify `_headers`): `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, long cache for `/assets/*`.
+- `vercel.json` (or Netlify `_headers`): `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, 1-year immutable cache for `/assets/fonts/*` only; `/assets/images/*` 1 day (`max-age=86400`), because photos and screenshots are replaced under the same file name.
 
 ---
 
