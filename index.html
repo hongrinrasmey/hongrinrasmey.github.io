@@ -65,15 +65,19 @@
         var m = document.createElement('link');
         m.rel = 'manifest'; m.href = 'site.webmanifest';
         document.head.appendChild(m);
+        /* preload the Geist font file (only on a web server: file:// blocks it) */
+        var p = document.createElement('link');
+        p.rel = 'preload'; p.as = 'font'; p.type = 'font/woff2'; p.crossOrigin = '';
+        p.href = 'assets/fonts/geist-latin.woff2';
+        document.head.appendChild(p);
       }
     })();
   </script>
 
   <!-- Font: Geist (text and headings) + Geist Mono (small labels). (taste-skill-ignore: DESIGN.md §6.3 Geist Mono for labels)
        If you change them, also change --font-sans and --font-mono at the top of css/style.css. (taste-skill-ignore: DESIGN.md §6.3) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"> <!-- taste-skill-ignore: DESIGN.md §6.3 Geist Mono -->
+  <!-- Noto Sans Khmer (for Khmer text) is added by js/main.js only when the page has Khmer text. -->
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"></noscript>
 
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -108,10 +112,10 @@
 
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul class="site-nav__list">
-          <li><a class="site-nav__link scramble" href="#work">Work</a></li>
-          <li><a class="site-nav__link scramble" href="#about">About</a></li>
-          <!-- <li><a class="site-nav__link scramble" href="#experience">Experience</a></li>  ← remove the comment marks when you show the Experience section -->
-          <li><a class="site-nav__link scramble" href="#contact">Contact</a></li>
+          <li><a class="site-nav__link" href="#work">Work</a></li>
+          <li><a class="site-nav__link" href="#about">About</a></li>
+          <!-- <li><a class="site-nav__link" href="#experience">Experience</a></li>  ← remove the comment marks when you show the Experience section -->
+          <li><a class="site-nav__link" href="#contact">Contact</a></li>
         </ul>
       </nav>
 
@@ -134,6 +138,9 @@
     <!-- ===== 00 · HERO ===== -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero__inner">
+        <!-- HERO AVATAR: put me.webp in assets/images/, then remove the comment marks below.
+        <img class="hero__avatar hero__item" src="assets/images/me.webp" alt="Photo of [TODO: Your Name]" width="64" height="64" decoding="async">
+        -->
         <!-- AVAILABLE FOR WORK: you said "not now", so it is hidden.
              To show it later, remove the comment marks around the <p> below.
         <p class="hero__status hero__item"><span class="status-dot" aria-hidden="true"></span>Available for work</p>
@@ -149,7 +156,7 @@
         <p class="hero__now hero__item"><span class="hero__now-label">Currently →</span> [what I am building] · [what I am learning]</p>
         -->
         <div class="hero__actions hero__item">
-          <a class="btn btn--primary magnetic" href="#work">
+          <a class="btn btn--primary" href="#work">
             View my work
             <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -165,46 +172,6 @@
       </div>
     </section>
 
-    <!-- ===== SKILLS STRIP (moving list of your skills; same list as in About) ===== -->
-    <div class="marquee" aria-hidden="true">
-      <ul class="marquee__track">
-        <li><svg><use href="#i-kotlin"/></svg>Kotlin</li>
-        <li><svg><use href="#i-dart"/></svg>Dart</li>
-        <li><svg><use href="#i-flutter"/></svg>Flutter</li>
-        <li><svg><use href="#i-jetpackcompose"/></svg>Jetpack Compose</li>
-        <li><svg><use href="#i-vuedotjs"/></svg>Vue</li>
-        <li><svg><use href="#i-javascript"/></svg>JavaScript</li>
-        <li><svg><use href="#i-typescript"/></svg>TypeScript</li>
-        <li><svg><use href="#i-nodedotjs"/></svg>Node.js</li>
-        <li><svg><use href="#i-express"/></svg>Express</li>
-        <li><svg><use href="#i-postgresql"/></svg>PostgreSQL</li>
-        <li><svg><use href="#i-sqlite"/></svg>SQLite</li>
-        <li><svg><use href="#i-python"/></svg>Python</li>
-        <li><svg><use href="#i-fastapi"/></svg>FastAPI</li>
-        <li><svg><use href="#i-docker"/></svg>Docker</li>
-        <li><svg><use href="#i-cloudflareworkers"/></svg>Cloudflare Workers</li>
-        <li><svg><use href="#i-git"/></svg>Git</li>
-      </ul>
-      <!-- the same list again, so the loop has no gap -->
-      <ul class="marquee__track">
-        <li><svg><use href="#i-kotlin"/></svg>Kotlin</li>
-        <li><svg><use href="#i-dart"/></svg>Dart</li>
-        <li><svg><use href="#i-flutter"/></svg>Flutter</li>
-        <li><svg><use href="#i-jetpackcompose"/></svg>Jetpack Compose</li>
-        <li><svg><use href="#i-vuedotjs"/></svg>Vue</li>
-        <li><svg><use href="#i-javascript"/></svg>JavaScript</li>
-        <li><svg><use href="#i-typescript"/></svg>TypeScript</li>
-        <li><svg><use href="#i-nodedotjs"/></svg>Node.js</li>
-        <li><svg><use href="#i-express"/></svg>Express</li>
-        <li><svg><use href="#i-postgresql"/></svg>PostgreSQL</li>
-        <li><svg><use href="#i-sqlite"/></svg>SQLite</li>
-        <li><svg><use href="#i-python"/></svg>Python</li>
-        <li><svg><use href="#i-fastapi"/></svg>FastAPI</li>
-        <li><svg><use href="#i-docker"/></svg>Docker</li>
-        <li><svg><use href="#i-cloudflareworkers"/></svg>Cloudflare Workers</li>
-        <li><svg><use href="#i-git"/></svg>Git</li>
-      </ul>
-    </div>
 
     <!-- ===== 01 · SELECTED WORK =====
          HOW TO EDIT A PROJECT CARD
@@ -219,7 +186,7 @@
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label scramble">Selected work</p> <!-- taste-skill-ignore: DESIGN.md §6.5 numbered section label -->
+          <p class="section-label">Selected work</p> <!-- taste-skill-ignore: DESIGN.md §6.5 numbered section label -->
           <h2 class="section__title" id="work-title">Three apps I designed and built</h2>
         </div>
 
@@ -382,7 +349,7 @@
     <section class="section" id="about" aria-labelledby="about-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label scramble">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
+          <p class="section-label">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
           <h2 class="section__title" id="about-title">About me</h2>
         </div>
 
@@ -450,7 +417,7 @@
     <section class="section" id="experience" aria-labelledby="experience-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label scramble">Experience</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
+          <p class="section-label">Experience</p>  (taste-skill-ignore: DESIGN.md §8.5 section label)
           <h2 class="section__title" id="experience-title">Where I've worked</h2>
         </div>
 
@@ -480,8 +447,8 @@
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact__grid">
         <div class="contact__intro reveal">
-          <p class="section-label scramble">Contact</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
-          <h2 class="contact__title" id="contact-title">Let's build something.</h2>
+          <p class="section-label">Contact</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
+          <h2 class="contact__title" id="contact-title">Let's work together.</h2>
           <p class="contact__text">[TODO: one friendly sentence, e.g. what kind of work you're looking for]</p>
           <!-- REPLY TIME (only if true): remove the comment marks.
           <p class="contact__reply">I usually reply within [24 hours].</p>
@@ -492,7 +459,7 @@
           <a class="contact__email" id="email-link" href="mailto:TODO-your-email">[TODO: your email]</a>
 
           <div class="contact__actions">
-            <a class="btn btn--primary magnetic" href="mailto:TODO-your-email">
+            <a class="btn btn--primary" href="mailto:TODO-your-email">
               Email me
               <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
@@ -536,19 +503,12 @@
       <p>&copy; <span id="year">2026</span> [TODO: Your Name]</p>
       <!-- Change this by hand whenever you update the site -->
       <p>Last updated: November 2026</p>
-      <button class="footer__keys" type="button" aria-controls="shortcuts" aria-expanded="false">Shortcuts <kbd>?</kbd></button>
       <a class="footer__top" href="#top">
         Back to top
         <svg class="footer__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
       </a>
     </div>
   </footer>
-
-  <!-- Keyboard shortcuts tip (opened with "?") -->
-  <div class="shortcuts" id="shortcuts" role="note" aria-label="Keyboard shortcuts" hidden>
-    <p><kbd>T</kbd> switch light / dark theme</p>
-    <p><kbd>?</kbd> show or hide this tip</p>
-  </div>
 
   <!-- ===== VIDEO POP-UP (filled by js/main.js when a "Watch video" button is pressed) ===== -->
   <dialog class="video-modal" id="video-modal" aria-labelledby="video-modal-title">

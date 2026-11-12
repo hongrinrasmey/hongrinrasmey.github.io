@@ -11,9 +11,10 @@ Double-click `index.html`. It opens in your browser.
 ```
 index.html            all the text, projects and links
 css/style.css         all the styles (colours, fonts and sizes are at the top)
-js/main.js            theme toggle, mobile menu, animations, copy buttons, video pop-up, shortcuts
+js/main.js            theme toggle, mobile menu, animations, copy buttons, video pop-up, T shortcut
 assets/images/        project screenshots, your photo (later), og-image.png (link preview picture)
 assets/icons/         tech logos from simpleicons.org (the page uses copies inside index.html)
+assets/fonts/         Geist + Geist Mono font files (self-hosted) and their licence
 assets/videos/        short project demo clips (create this folder when you have one)
 assets/resume.pdf     your résumé (optional)
 favicon.svg           the small icon in the browser tab (+ favicon-32.png, apple-touch-icon.png)
@@ -34,7 +35,6 @@ Search the file for `TODO` and replace every `[TODO: ...]` with your own words.
 |---|---|
 | Browser tab title, Google text, link preview | `PAGE INFO` and `SHARING PREVIEW` at the top |
 | Name, role, intro, "Available for work", "Currently", stats | `00 · HERO` |
-| The moving skills strip | `SKILLS STRIP` |
 | KH Halal Marketplace, idevo, RielTrack | `01 · SELECTED WORK` |
 | Bio, photo, skills | `02 · ABOUT` |
 | Jobs and education (hidden for now) | `03 · EXPERIENCE` |
@@ -62,7 +62,7 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.
 - **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
 - **RielTrack** has no screenshot yet. The comment above its "Screenshot coming soon" box shows what to paste.
-- Your photo: see the comment `MY PHOTO` in the About section.
+- Your photo: save it as `assets/images/me.webp`, then remove the comment marks at `HERO AVATAR` (small round photo in the hero) and `MY PHOTO` (About section).
 - Always write a short `alt="..."` that says what the picture shows.
 
 ### Change colours → top of `css/style.css`
@@ -71,16 +71,16 @@ The light theme has its own `--accent-text` a few lines below, darker so it stay
 Other colours (`--bg`, `--surface`, `--text`, `--muted`, …) sit next to them. Change the dark and light values together.
 
 ### Change fonts
-1. In `index.html`, change the Google Fonts `<link>` (near the top).
+1. Put the new `.woff2` files in `assets/fonts/` and change the `@font-face` blocks at the top of `css/style.css` (and the `preload` link near the top of `index.html`).
 2. In `css/style.css`, change `--font-sans` and `--font-mono`.
 
 ### Turn an effect off
-At the bottom of `js/main.js` there is a list like `initTilt();`, `initScramble();`, `initMagnetic();`.
+At the bottom of `js/main.js` there is a list like `initTilt();`, `initReveal();`, `initSplitText();`.
 Delete a line to switch that effect off. Everything also switches off by itself for visitors who
 turned on "reduce motion" in their system settings.
 
 ### Keyboard shortcuts on the site
-Press `T` to switch light / dark theme, `?` to show the shortcuts tip.
+Press `T` to switch light / dark theme.
 
 ### Link preview picture and tab icon
 - `assets/images/og-image.png` is the picture shown when someone shares your link. To put your name on it, edit

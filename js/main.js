@@ -1,6 +1,6 @@
 // main.js — small scripts for the portfolio.
 // Every part checks that its elements exist first, so removing a section never breaks the page.
-// Each effect is its own function (initTilt, initScramble, …): delete the call at the bottom to turn one off.
+// Each effect is its own function (initTilt, initReveal, …): delete the call at the bottom to turn one off.
 (function () {
   'use strict';
 
@@ -11,6 +11,15 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  // ----- Khmer font: load Noto Sans Khmer from Google Fonts only if the page has Khmer text -----
+  function initKhmerFont() {
+    if (!/[ក-៿᧠-᧿]/.test(document.body.textContent)) return; // Khmer letters
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap';
+    document.head.appendChild(link);
+  }
 
   // ----- Footer year (always the current year) -----
   function initYear() {
@@ -51,7 +60,7 @@
     transition.ready.then(function () {
       root.animate(
         { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'] },
-        { duration: 550, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', pseudoElement: '::view-transition-new(root)' }
+        { duration: 500, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', pseudoElement: '::view-transition-new(root)' }
       );
     }).catch(function () { /* the plain switch already happened */ });
   }
@@ -177,39 +186,7 @@
     title.classList.add('is-split');
   }
 
-  // ----- Effect 2: text scramble on hover (nav links and section labels) -----
-  function initScramble() {
-    if (reduceMotion.matches) return;
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    document.querySelectorAll('.scramble').forEach(function (el) {
-      var original = el.textContent;
-      var running = false;
-      function run() {
-        if (running) return;
-        running = true;
-        el.style.minWidth = el.offsetWidth + 'px'; // keep the width still while letters change
-        var start = performance.now();
-        var duration = 400;
-        function frame(now) {
-          var progress = Math.min((now - start) / duration, 1);
-          var settled = Math.floor(progress * original.length);
-          var out = '';
-          for (var i = 0; i < original.length; i++) {
-            var c = original[i];
-            out += (i < settled || c === ' ') ? c : chars[Math.floor(Math.random() * chars.length)];
-          }
-          el.textContent = out;
-          if (progress < 1) requestAnimationFrame(frame);
-          else { el.textContent = original; el.style.minWidth = ''; running = false; }
-        }
-        requestAnimationFrame(frame);
-      }
-      el.addEventListener('mouseenter', run);
-      el.addEventListener('focus', run);
-    });
-  }
-
-  // ----- Effects 3 + 4: 3D tilt and cursor spotlight on project cards (mouse only) -----
+  // ----- Effect: 3D tilt and cursor spotlight on project cards (mouse only) -----
   function initTilt() {
     if (!finePointer.matches || reduceMotion.matches) return;
     document.querySelectorAll('.project-card').forEach(function (card) {
@@ -220,8 +197,8 @@
         var box = card.getBoundingClientRect();
         var x = (px - box.left) / box.width;   // 0 … 1
         var y = (py - box.top) / box.height;   // 0 … 1
-        var max = card.classList.contains('project-card--featured') ? 3 : 6; // the wide card tilts less
-        card.style.transform = 'perspective(800px) rotateX(' + ((0.5 - y) * max).toFixed(2) +
+        var max = 8; // ±4° at the card edges (DESIGN.md §11.2)
+        card.style.transform = 'perspective(1000px) rotateX(' + ((0.5 - y) * max).toFixed(2) +
           'deg) rotateY(' + ((x - 0.5) * max).toFixed(2) + 'deg) translateY(-4px)';
         card.style.setProperty('--x', (x * 100).toFixed(1) + '%');
         card.style.setProperty('--y', (y * 100).toFixed(1) + '%');
@@ -236,28 +213,6 @@
         frameId = null;
         card.classList.remove('is-tilting');
         card.style.transform = '';
-      });
-    });
-  }
-
-  // ----- Effect 5: magnetic buttons (drift up to 10px toward the mouse) -----
-  function initMagnetic() {
-    if (!finePointer.matches || reduceMotion.matches) return;
-    document.querySelectorAll('.magnetic').forEach(function (btn) {
-      var frameId = null, dx = 0, dy = 0;
-      function draw() { frameId = null; btn.style.transform = 'translate(' + dx + 'px, ' + dy + 'px)'; }
-      btn.addEventListener('mousemove', function (e) {
-        var box = btn.getBoundingClientRect();
-        dx = ((e.clientX - box.left) / box.width - 0.5) * 20;
-        dy = ((e.clientY - box.top) / box.height - 0.5) * 20;
-        dx = Math.max(-10, Math.min(10, dx)).toFixed(1);
-        dy = Math.max(-10, Math.min(10, dy)).toFixed(1);
-        if (!frameId) frameId = requestAnimationFrame(draw);
-      });
-      btn.addEventListener('mouseleave', function () {
-        if (frameId) cancelAnimationFrame(frameId);
-        frameId = null;
-        btn.style.transform = '';
       });
     });
   }
@@ -418,18 +373,8 @@
     });
   }
 
-  // ----- Keyboard shortcuts: T = theme, ? = show the tip -----
+  // ----- Keyboard shortcut: T = switch theme -----
   function initShortcuts() {
-    var tip = document.getElementById('shortcuts');
-    var tipBtn = document.querySelector('.footer__keys');
-
-    function setTip(open) {
-      if (!tip) return;
-      tip.hidden = !open;
-      if (tipBtn) tipBtn.setAttribute('aria-expanded', String(open));
-    }
-    if (tipBtn) tipBtn.addEventListener('click', function () { setTip(tip.hidden); });
-
     document.addEventListener('keydown', function (e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       var t = e.target;
@@ -437,22 +382,19 @@
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       if (document.querySelector('dialog[open]')) return;
       if (e.key === 't' || e.key === 'T') toggleTheme();
-      else if (e.key === '?') setTip(tip && tip.hidden);
-      else if (e.key === 'Escape' && tip && !tip.hidden) setTip(false);
     });
   }
 
   // ----- Start everything (delete a line to switch that part off) -----
   initYear();
+  initKhmerFont();
   initTheme();
   initScroll();
   initMenu();
   initActiveNav();
   initSplitText();
   initReveal();
-  initScramble();
   initTilt();
-  initMagnetic();
   initCountUp();
   initCopy();
   initVideo();
