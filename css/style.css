@@ -1,333 +1,287 @@
 /* =========================================================
-   COLORS & FONTS — change these to restyle the whole site
+   style.css — all styles for the portfolio
+   Order: 1 tokens · 2 reset/base · 3 layout · 4 components
+          5 sections · 6 utilities · 7 motion (+ reduced motion)
    ========================================================= */
-:root,
-:root[data-theme="dark"] {
-  --bg: #0A0A0A;          /* page background */
-  --surface: #161616;     /* cards */
-  --surface-2: #242424;   /* tags, secondary buttons, image boxes */
-  --text: #FAFAFA;        /* main text */
-  --muted: #B8B8B8;       /* secondary text */
-  --accent: #C6F432;      /* lime: buttons */
-  --on-accent: #0A0A0A;   /* text on lime buttons */
-  --accent-text: #C6F432; /* lime used as text/link colour */
+
+/* =========================================================
+   1. DESIGN TOKENS — change these to restyle the whole site
+   ========================================================= */
+:root {
+  /* Colours: dark theme (the default) */
+  --bg:        #0A0A0A;   /* page background */
+  --surface:   #141414;   /* cards */
+  --surface-2: #1C1C1C;   /* tags, image boxes */
+  --border:    #262626;   /* 1px lines */
+  --text:      #FAFAFA;   /* main text */
+  --muted:     #A1A1AA;   /* secondary text */
+  --accent:    #C6F432;   /* lime: buttons, focus, active link */
+  --accent-fg: #0A0A0A;   /* text on accent buttons */
   color-scheme: dark;
+
+  /* Fonts (also change the Google Fonts link in index.html) */
+  --font-heading: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* Font sizes (fluid: they grow smoothly with the screen) */
+  --fs-h1:    clamp(3rem, 9vw, 7.5rem);
+  --fs-h2:    clamp(2rem, 4vw, 3rem);
+  --fs-h3:    clamp(1.25rem, 2vw, 1.5rem);
+  --fs-lead:  clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --fs-body:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+
+  /* Spacing scale (8px steps) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+
+  /* Layout */
+  --container: 1100px;
+  --gutter: 24px;                                 /* 32px from 768px, see below */
+  --header-h: 72px;
+  --section-pad: clamp(64px, 4rem + 4vw, 128px);  /* 64px phone → 128px wide desktop */
+
+  /* Shape and motion */
+  --radius: 12px;
+  --radius-pill: 999px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 200ms;
 }
 
+@media (min-width: 768px) {
+  :root { --gutter: 32px; }
+}
+
+/* Light theme. Only the colours change. */
 :root[data-theme="light"] {
-  --bg: #FAFAFA;
-  --surface: #EFEFEF;
-  --surface-2: #E2E2E2;
-  --text: #0A0A0A;
-  --muted: #474747;
-  --accent: #C6F432;
-  --on-accent: #0A0A0A;
-  --accent-text: #4A6600; /* darker lime so links are readable on white */
+  --bg:        #FAFAFA;
+  --surface:   #FFFFFF;
+  --surface-2: #F4F4F5;
+  --border:    #E4E4E7;
+  --text:      #0A0A0A;
+  --muted:     #52525B;
+  --accent:    #4D7C0F;   /* darker lime so it is readable on white */
+  --accent-fg: #FFFFFF;
   color-scheme: light;
 }
 
-/* No JavaScript: follow the system setting */
+/* JavaScript off: follow the system setting (same values as above). */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
-    --bg: #FAFAFA; --surface: #EFEFEF; --surface-2: #E2E2E2;
-    --text: #0A0A0A; --muted: #474747; --accent-text: #4A6600;
+    --bg: #FAFAFA; --surface: #FFFFFF; --surface-2: #F4F4F5; --border: #E4E4E7;
+    --text: #0A0A0A; --muted: #52525B; --accent: #4D7C0F; --accent-fg: #FFFFFF;
     color-scheme: light;
   }
 }
 
-:root {
-  --font-heading: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  --max-width: 1100px;
-  --gutter: clamp(16px, 4vw, 32px);
-  --radius: 8px;
-  --section-gap: clamp(96px, 14vw, 176px);
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
 /* =========================================================
-   BASE
+   2. RESET / BASE
    ========================================================= */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  line-height: 1.6;
+  font: 400 var(--fs-body)/1.6 var(--font-body);
   -webkit-font-smoothing: antialiased;
+  counter-reset: section; /* numbers the section labels: 01, 02, 03… */
+  transition: background-color var(--dur), color var(--dur);
 }
-h1, h2, h3 { font-family: var(--font-heading); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
 p { margin: 0; }
-img { display: block; max-width: 100%; height: auto; }
-a { color: var(--accent-text); text-underline-offset: 0.2em; }
+p, li, h1, h2, h3 { overflow-wrap: break-word; }
+img, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
-section[id] { scroll-margin-top: 72px; } /* so menu links don't hide headings under the sticky header */
+button { font: inherit; color: inherit; }
+
+::selection { background: var(--accent); color: var(--accent-fg); }
 
 :focus-visible {
-  outline: 3px solid var(--accent-text);
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
+/* Anchor links stop below the sticky header */
+[id] { scroll-margin-top: calc(var(--header-h) + var(--space-3)); }
+
+/* Thin scrollbar for browsers that ignore scrollbar-color */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border: 2px solid var(--bg); border-radius: var(--radius-pill); }
+
+/* =========================================================
+   3. LAYOUT
+   ========================================================= */
 .container {
   width: 100%;
-  max-width: calc(var(--max-width) + 2 * var(--gutter));
+  max-width: calc(var(--container) + 2 * var(--gutter));
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
-.skip-link {
-  position: absolute; left: 16px; top: -64px; z-index: 100;
-  background: var(--accent); color: var(--on-accent);
-  padding: 12px 16px; border-radius: var(--radius); font-weight: 600;
-}
-.skip-link:focus { top: 16px; }
+.section { padding-block: var(--section-pad); }
+
+.section__head { margin-bottom: var(--space-6); }
+.section__title { font-size: var(--fs-h2); }
 
 /* =========================================================
-   BUTTONS
+   4. COMPONENTS
    ========================================================= */
+
+/* ----- Section label: "— 01 / SELECTED WORK" (number is automatic) ----- */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  font: 500 var(--fs-label)/1.4 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-label::before {          /* the short line */
+  content: "";
+  order: -2;
+  flex: none;
+  width: var(--space-4);
+  height: 1px;
+  background: currentColor;
+}
+.section-label::after {           /* the number, counted in page order */
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero) " /";
+  order: -1;
+}
+
+/* ----- Buttons ----- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 48px; padding: 12px 24px;
-  border: 0; border-radius: var(--radius);
-  font: 600 1rem/1 var(--font-body);
-  text-decoration: none; cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 12px var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: 500 1rem/1.2 var(--font-body);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur), color var(--dur), border-color var(--dur), transform var(--dur);
 }
 .btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--accent); color: var(--on-accent); }
-.btn-primary:hover { background: var(--text); color: var(--bg); }
-.btn-secondary { background: var(--surface-2); color: var(--text); }
-.btn-secondary:hover { background: var(--accent); color: var(--on-accent); }
-.btn-small { min-height: 44px; padding: 10px 20px; font-size: 1rem; }
+.btn svg { flex: none; }
 
-/* A link left as href="#" is hidden. Add a real URL and it shows up. */
-.link-opt[href="#"], .link-opt[href=""] { display: none; }
+.btn--primary { background: var(--accent); color: var(--accent-fg); }
+.btn--primary:hover { background: var(--text); color: var(--bg); }
 
-/* =========================================================
-   HEADER
-   ========================================================= */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--bg);
-}
-.header-inner {
-  display: flex; align-items: center; gap: 8px;
-  min-height: 72px;
-}
-.wordmark {
-  margin-right: auto;
-  font: 700 1.125rem/1.2 var(--font-heading);
-  color: var(--text); text-decoration: none;
-}
-.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px; }
-.site-nav a {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
-  color: var(--text); text-decoration: none; font-weight: 500;
-  border-radius: var(--radius);
-  transition: color 0.2s ease;
-}
-.site-nav a:hover { color: var(--accent-text); }
+.btn--secondary { background: transparent; color: var(--text); border-color: var(--border); }
+.btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-.theme-toggle, .menu-toggle {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px; padding: 0;
-  border: 0; border-radius: var(--radius);
-  background: var(--surface-2); color: var(--text); cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.theme-toggle:hover, .menu-toggle:hover { background: var(--accent); color: var(--on-accent); }
+.btn--sm { padding: var(--space-2) var(--space-3); font-size: var(--fs-small); }
 
-/* Show the sun in dark mode (click = go light), moon in light mode */
-.icon-moon { display: none; }
-[data-theme="light"] .icon-sun { display: none; }
-[data-theme="light"] .icon-moon { display: block; }
-
-.menu-toggle { display: none; order: 3; }
-.menu-toggle .icon-close { display: none; }
-.menu-toggle[aria-expanded="true"] .icon-open { display: none; }
-.menu-toggle[aria-expanded="true"] .icon-close { display: inline; }
-
-/* Phone: hamburger menu (only when JavaScript works; otherwise links stay visible) */
-@media (max-width: 767px) {
-  .js .menu-toggle { display: inline-flex; }
-  .js .site-nav {
-    display: none;
-    position: absolute; left: 0; right: 0; top: 100%;
-    background: var(--bg);
-    padding: 8px var(--gutter) 24px;
-  }
-  .js .site-nav.is-open { display: block; }
-  .js .site-nav ul { flex-direction: column; }
-  .js .site-nav a { width: 100%; min-height: 56px; font-size: 1.25rem; padding: 0; }
-}
-@media (min-width: 768px) {
-  .site-nav { margin-right: 8px; }
+.btn__arrow { transition: transform var(--dur) var(--ease-out); }
+@media (hover: hover) {
+  .btn:hover .btn__arrow { transform: translateX(4px); }
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
-.hero {
-  display: flex; flex-direction: column; justify-content: center;
-  min-height: min(calc(88svh - 72px), 800px);
-  padding-block: 64px 96px;
-}
-.hero-name {
-  font-size: clamp(3rem, 0.5rem + 11vw, 10rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  overflow-wrap: break-word;
-}
-.hero-role {
-  margin-top: 32px;
-  font: 500 clamp(1.25rem, 1rem + 1.2vw, 2rem)/1.2 var(--font-heading);
-  color: var(--accent-text);
-}
-.hero-intro {
-  margin-top: 16px;
-  max-width: 40ch;
-  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem); line-height: 1.45;
-}
-.hero-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
+/* A link left as href="#" (or a video button left as data-video="") is hidden.
+   Put a real address in and the button shows up by itself. */
+.link-opt[href="#"],
+.link-opt[href=""],
+.link-opt[data-video=""] { display: none; }
 
-/* =========================================================
-   SECTIONS
-   ========================================================= */
-.section { padding-top: var(--section-gap); }
-.section-title {
-  font-size: clamp(2.25rem, 1.5rem + 3.5vw, 4.5rem);
-  letter-spacing: -0.03em;
-  margin-bottom: 48px;
+/* ----- Round icon button (theme toggle, menu, close) ----- */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--dur), color var(--dur);
 }
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ===== PROJECTS ===== */
-.projects { display: grid; gap: 24px; }
-@media (min-width: 768px) { .projects { grid-template-columns: 1fr 1fr; gap: 32px; } }
-
-.project {
-  position: relative;
-  display: flex; flex-direction: column;
-  background: var(--surface);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform 0.3s var(--ease);
-}
-/* accent border on hover, faded in with opacity (smooth) */
-.project::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  border: 2px solid var(--accent-text); border-radius: var(--radius);
-  opacity: 0; transition: opacity 0.3s ease;
-}
-.project:hover { transform: translateY(-4px); }
-.project:hover::after, .project:focus-within::after { opacity: 1; }
-
-.project-shot { aspect-ratio: 16 / 10; width: 100%; object-fit: cover; }
-.placeholder-box {
-  display: flex; align-items: center; justify-content: center;
-  background: var(--surface-2); color: var(--muted);
-  font-size: 1.25rem;
-}
-.project-body { display: flex; flex-direction: column; gap: 16px; flex: 1; padding: 24px; }
-.project-name { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
-.project-desc { color: var(--text); }
-.project-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; }
-
-.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+/* ----- Tags (tech used, skills) ----- */
+.tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .tags li {
-  padding: 4px 12px; border-radius: var(--radius);
-  background: var(--surface-2); color: var(--text);
-  font-size: 0.875rem; font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--muted);
+  font: 500 var(--fs-label)/1.4 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
-.tags-large li { padding: 8px 16px; font-size: 1rem; }
-
-/* ===== ABOUT ===== */
-.about-grid { display: grid; gap: 48px; }
-@media (min-width: 768px) {
-  .about-grid { grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start; }
-}
-.about-bio { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem); line-height: 1.45; max-width: 34ch; }
-.about-meta { margin-top: 24px; color: var(--muted); }
-.about-photo { border-radius: var(--radius); width: 100%; max-width: 420px; aspect-ratio: 4 / 5; object-fit: cover; }
-.skills-title { font-size: 1.25rem; margin-bottom: 16px; }
-
-/* ===== EXPERIENCE ===== */
-.experience { display: grid; gap: 32px; }
-.job { display: grid; gap: 8px; }
-@media (min-width: 768px) { .job { grid-template-columns: 200px 1fr; gap: 32px; } }
-.job-dates { color: var(--muted); }
-.job-role { font-size: 1.25rem; margin-bottom: 8px; }
-
-/* ===== CONTACT ===== */
-.contact { padding-bottom: var(--section-gap); }
-.contact-grid { display: grid; gap: 32px; }
-@media (min-width: 900px) {
-  .contact-grid { grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
-}
-.contact-box { background: var(--surface); border-radius: var(--radius); padding: clamp(24px, 4vw, 48px); }
-.contact-line { max-width: 34ch; font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem); line-height: 1.45; }
-.contact-email {
-  display: inline-block;
-  font: 700 clamp(1.5rem, 0.9rem + 3.5vw, 3.5rem)/1.1 var(--font-heading);
-  letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
-  text-decoration: none;
-}
-.contact-email:hover { text-decoration: underline; }
-.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 40px; }
-.copy-status { color: var(--accent-text); font-weight: 600; min-height: 1.6em; }
-.contact-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 32px; }
-/* hide the row while every link in it is still href="#" */
-.contact-links:not(:has(a:not([href="#"]))) { display: none; }
-.icon-link {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 48px; height: 48px; border-radius: var(--radius);
-  background: var(--surface-2); color: var(--text);
-  transition: background-color 0.2s ease;
-}
-.icon-link:hover { background: var(--accent); color: var(--on-accent); }
 
 /* =========================================================
-   FOOTER
+   5. SECTIONS
    ========================================================= */
-.site-footer { background: var(--surface); padding-block: 48px; }
-.footer-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; color: var(--muted); }
-.footer-name { font: 700 clamp(1.5rem, 0.9rem + 3.5vw, 3.5rem)/1.1 var(--font-heading); color: var(--text); letter-spacing: -0.03em; }
 
 /* =========================================================
-   ANIMATIONS — all off when the visitor prefers reduced motion.
-   Content is only hidden when JavaScript is running (.js),
-   so the page still shows everything if JS fails.
+   6. UTILITIES
+   ========================================================= */
+/* [hidden] must always win over display rules above (that is why !important). */
+[hidden] { display: none !important; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: var(--space-2);
+  z-index: 100;
+  padding: 12px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+/* =========================================================
+   7. MOTION — everything here is off with reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: no-preference) {
-  /* Hero text staggers in on load */
-  .hero > * { animation: rise 0.8s var(--ease) both; }
-  .hero > :nth-child(2) { animation-delay: 0.08s; }
-  .hero > :nth-child(3) { animation-delay: 0.16s; }
-  .hero > :nth-child(4) { animation-delay: 0.24s; }
-
-  /* Sections fade + slide up when scrolled into view */
-  .js .reveal > * {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-  }
-  .js .reveal > :nth-child(2) { transition-delay: 0.08s; }
-  .js .reveal > :nth-child(3) { transition-delay: 0.16s; }
-  .js .reveal > :nth-child(4) { transition-delay: 0.24s; }
-  .js .reveal > :nth-child(5) { transition-delay: 0.32s; }
-  .js .reveal.is-visible > * { opacity: 1; transform: none; }
-}
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { transition: none !important; animation: none !important; }
+  html { scroll-behavior: smooth; }
 }
