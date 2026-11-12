@@ -186,7 +186,7 @@ a { color: inherit; }
 .section__title { font-size: var(--fs-h2); margin-top: var(--s-3); max-width: 20ch; }
 
 /* Mono labels, tags, dates */
-.section-label, .tags li, .platform-tag, .hero__status, .hero__now, .stats__label, .project-card__login, /* taste-skill-ignore */
+.section-label, .tags li, .platform-tag, .hero__status, .hero__now, .stats__label, /* taste-skill-ignore */
 .project-card__note, .skill-group__title, .timeline__dates {
   font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
 }
@@ -567,11 +567,6 @@ main { counter-reset: section; }
   width: 8px; height: 2px; background: var(--accent);
 }
 .project-card .tags { margin-top: var(--s-4); }
-.project-card__login {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
-  margin-top: var(--s-4);
-}
-.project-card__login[hidden] { display: none; }
 .project-card__actions {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap, 12px);
   margin-top: auto; padding-top: var(--s-4);

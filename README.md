@@ -48,7 +48,6 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - When you add a live demo or download link, delete the small "Demo coming soon" / "Download coming soon" note next to it.
 - "Watch video" shows once you fill in `data-video="..."` with a file (`assets/videos/rieltrack.mp4`)
   or a YouTube link. `data-poster="..."` is an optional still picture shown before it plays.
-- Demo login: write it in the visible text **and** in `data-copy="..."`, then delete the word `hidden`.
 - All three repos are private, so no card has a code link. If you make one public, the comment above the
   projects shows the "View code" button to add.
 
@@ -164,7 +163,7 @@ The live site updates by itself within a minute or two. A replaced photo or scre
 - [x] City (Phnom Penh), open to remote work, contact sentence. A short bio for About is still optional.
 - [x] Email.
 - [ ] LinkedIn link (Telegram optional).
-- [x] KH Halal Marketplace: live demo link (add a demo login if it has one).
+- [x] KH Halal Marketplace: live demo link. No public demo login (real-money checkout): the "Watch video" button shows the customer and seller sides.
 - [x] idevo: public download in `hongrinrasmey/Idevo-Downloads`. For a new version, add a release there and change `v0.6.4` on the card.
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
 - [x] Your photo (`assets/images/me.webp`, made by `tools/photo-cutout.py`).

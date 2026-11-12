@@ -161,7 +161,6 @@
          - Buttons: put the real address in href="..." and the button appears. Leave href="#" and it stays hidden.
          - Video: put the file path (assets/videos/name.mp4) or a YouTube link in data-video="...".
            data-poster="..." is the still picture shown before the video plays (optional).
-         - Demo login: write it in BOTH the visible text and data-copy="...", then delete the word hidden.
          - Public code: add this inside the card's project-card__actions:
              <a class="btn btn--secondary" href="https://github.com/..." target="_blank" rel="noopener noreferrer">View code</a>
          - Add a project: copy one whole <article class="project-card"> … </article> block and change it.
@@ -208,14 +207,6 @@
               <li>Python · FastAPI</li>
               <li>Docker</li>
             </ul>
-            <p class="project-card__login" hidden>
-              <span>Demo: <span class="project-card__login-text">[TODO: demo email] / [TODO: demo password]</span></span>
-              <button class="btn btn--secondary btn--sm copy-btn" type="button" data-copy="[TODO: demo email] / [TODO: demo password]" aria-label="Copy KH Halal Marketplace demo login">
-                <svg class="copy-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-                <svg class="copy-btn__done" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
-                <span class="copy-btn__label">Copy</span>
-              </button>
-            </p>
             <div class="project-card__actions">
               <!-- LIVE DEMO: the address is in href="..." below. -->
               <a class="btn btn--primary btn--sm link-opt" href="https://kh-halal-marketplace.onrender.com/" target="_blank" rel="noopener noreferrer">
