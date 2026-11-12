@@ -336,6 +336,7 @@
     modal.addEventListener('cancel', function () { frame.replaceChildren(); });
     // Closed: stop the video, focus back on the button
     modal.addEventListener('close', function () {
+      if (modal.open) return; // late event after a quick re-open: keep the new video
       frame.replaceChildren();
       if (lastTrigger) lastTrigger.focus();
     });
