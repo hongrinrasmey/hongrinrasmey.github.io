@@ -286,7 +286,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - Stacks: `"Geist", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif` and `"Geist Mono", ui-monospace, monospace`.
 - Headings: weight 600–700, letter-spacing `-0.03em` (h1) / `-0.02em` (h2–h3), line-height 1.05–1.15, `text-wrap: balance`.
 - Body: weight 400, line-height 1.6, max 65ch, `text-wrap: pretty`.
-- Labels: mono, uppercase, letter-spacing `0.05em`, **13px** (`--fs-label`; was 12px, raised 2026-11-12 for readability). Decoration/wayfinding only; important info goes in body text.
+- Labels: mono, uppercase, letter-spacing `0.05em`, **14px** (`--fs-label`; 12px → 13px → 14px on 2026-11-12 for readability). Decoration/wayfinding only; important info goes in body text.
 - `-webkit-font-smoothing: antialiased`.
 
 | Element | CSS | 360px | 768px | 1024px | 1440px |
@@ -327,7 +327,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 
 ### 9.6 Components
 - **Buttons:** pill, min-height 44px, padding 12×24, Geist 500. Primary: `--accent` bg + `--accent-fg` text. Secondary: transparent + 1px border. Hover: subtle color shift + arrow icon nudges 4px right. Active: scale 0.98. Visible focus ring.
-- **Tags:** Geist Mono, 13px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
+- **Tags:** Geist Mono, 14px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
 - **Links:** `--text` with a subtle underline; hover → `--accent-text` with the animated underline.
 - **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, cursor spotlight (Section 11.2). No tilt (owner removed it 2026-11-12).
 - **Section label:** mono `01 / WORK`, muted, with a short 24px line before it.
@@ -337,7 +337,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
-- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask. The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it. On mouse devices (motion allowed) a canvas of 2px dots (32px apart, 20% opacity, same fade) replaces the lines (§11.2 Hero dots).
+- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask. The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it.
 - **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
 - **Selection:** `--accent` bg, `--accent-fg` text.
 - **Scrollbar:** thin, matches the theme.
@@ -390,9 +390,7 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Hero label, intro, buttons, stats | Fade + slide up 16px right after the name, 80ms stagger, `--dur-slow` |
 | Sections and cards | Fade + slide up 24px once when 15% visible; side-by-side blocks stagger 100ms (no stagger when stacked: cards under 768px, About and Contact columns under 1024px) |
 | **Phone screens** (idevo, RielTrack) | When the card is on screen, each phone fades once to its second screen (`data-next`) and back (quick swap `--dur-fast`: a slow crossfade showed two layouts at once, 2s per step, phones 150ms apart), then stops. Under 5s in all (WCAG 2.2.2). Hover or keyboard focus on the card pauses it |
-| **Phone 3D turn** | Phones turn on the Y axis from 16° to −16° as the card scrolls past (CSS view timeline on the card, `perspective: 1200px`, flat when the card is mid-screen). No up/down drift (removed 2026-11-12: one motion per picture). Browsers without scroll timelines show still phones |
 | **Featured screenshot settle** | The web screenshot zooms from `scale: 1.15` to 1 while its card enters the screen (same view timeline, `entry 0%`–`entry 100%`); the hover zoom adds on top |
-| **Hero dots (desktop only)** | Canvas dots within 160px of the mouse turn `--accent` and step up to 14px away (linear colour, squared push, eased 0.2/frame); fade out when the mouse leaves. Draws only while something moves and the hero is on screen. Touch screens and reduced motion keep the CSS grid |
 | **Terminal** | `>_` button or the `` ` `` key opens a `<dialog>` (rises in `--dur-base`). Commands: help, whoami, projects/ls, open &lt;app&gt;, work, about, contact, email (copies), github, theme, clear, exit; ↑/↓ history, Tab completes a sure match. Every answer is read from the page (no copy of the content in JS). Jumps close it, scroll to the target and move focus there |
 | **Theme switch** | Circle reveal from the toggle via the View Transitions API (~500ms). Fallback: 200ms color fade. |
 | **Project cards (desktop only)** | Lift -4px (no tilt), soft orange spotlight (~6% opacity radial gradient via `--x`/`--y`); eases back in 400ms |
@@ -419,7 +417,7 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 ## 12. Performance (smooth on real devices)
 
 - **60fps** on a mid-range Android phone and a normal laptop. Test in Chrome DevTools → Performance with 4× CPU slowdown and fix long frames.
-- **Budget:** JS ≤ 27 KB, CSS ≤ 35 KB raw (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal, hero dots, 3D phones and screenshot settle, which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
+- **Budget:** JS ≤ 27 KB, CSS ≤ 35 KB raw (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal and screenshot settle (hero dots and 3D phone turn removed later the same day for simplicity), which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
 - Mouse-follow effects: one `requestAnimationFrame` per frame updating CSS variables; cache `getBoundingClientRect` on `mouseenter`.
 - Scroll: prefer `IntersectionObserver` and CSS scroll timelines; any scroll listener is `{ passive: true }`. Reveal observers unobserve after running.
 - `will-change` only while animating (add on start, remove after).

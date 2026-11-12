@@ -212,62 +212,6 @@
     });
   }
 
-  // Hero dots (mouse only): a canvas of dots replaces the CSS grid; near the cursor they turn orange
-  // and step aside. Draws only while something moves and the hero is on screen
-  function initHeroDots() {
-    var hero = document.querySelector('.hero'), cv = document.createElement('canvas'), ctx = cv.getContext('2d');
-    if (!hero || !ctx || !finePointer.matches || reduceMotion.matches || !hasIO || !window.ResizeObserver) return;
-    var G = 32, R = 160, w = 0, h = 0, mx = 0, my = 0, tx = 0, ty = 0, k = 0, kt = 0, frameId, seen = true, dim, hot;
-    cv.className = 'hero__dots';
-    cv.setAttribute('aria-hidden', 'true');
-    hero.prepend(cv);
-    hero.classList.add('has-dots');
-
-    function colors() { var s = getComputedStyle(root); dim = s.getPropertyValue('--text').trim(); hot = s.getPropertyValue('--accent').trim(); }
-    function queue() { if (!frameId && seen) frameId = requestAnimationFrame(draw); }
-    function redraw() { cancelAnimationFrame(frameId); draw(); }
-    function draw() {
-      frameId = null;
-      mx += (tx - mx) * 0.2; my += (ty - my) * 0.2; k += (kt - k) * 0.12; // ease toward the mouse
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = dim; ctx.globalAlpha = 0.2; ctx.beginPath();
-      var near = [], x, y, i;
-      for (y = G / 2; y < h; y += G) for (x = (w % G + G) / 2; x < w; x += G) {
-        var dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy;
-        if (k > 0.01 && d2 < R * R) near.push(x, y, dx, dy, Math.sqrt(d2) || 1);
-        else ctx.rect(x - 1, y - 1, 2, 2);
-      }
-      ctx.fill();
-      for (i = 0; i < near.length; i += 5) { // c: 1 at the cursor, 0 at the edge (no visible ring)
-        var d = near[i + 4], c = (1 - d / R) * k, p = c * c * 14 / d;
-        x = near[i] + near[i + 2] * p; y = near[i + 1] + near[i + 3] * p;
-        ctx.fillStyle = dim; ctx.globalAlpha = 0.2; ctx.fillRect(x - 1, y - 1, 2, 2);
-        ctx.fillStyle = hot; ctx.globalAlpha = c;
-        ctx.beginPath(); ctx.arc(x, y, 1 + c * 1.6, 0, 6.2832); ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      if (Math.abs(tx - mx) + Math.abs(ty - my) > 0.3 || Math.abs(kt - k) > 0.005) queue();
-    }
-
-    new ResizeObserver(function () {
-      var r = Math.min(devicePixelRatio || 1, 2);
-      w = hero.clientWidth; h = hero.clientHeight;
-      cv.width = Math.round(w * r); cv.height = Math.round(h * r);
-      ctx.setTransform(r, 0, 0, r, 0, 0);
-      redraw();
-    }).observe(hero);
-    new IntersectionObserver(function (e) { seen = e[0].isIntersecting; if (seen) queue(); }).observe(hero);
-    new MutationObserver(function () { colors(); redraw(); }).observe(root, { attributeFilter: ['data-theme'] });
-    hero.addEventListener('mousemove', function (e) {
-      var r = hero.getBoundingClientRect();
-      tx = e.clientX - r.left; ty = e.clientY - r.top;
-      if (k < 0.01) { mx = tx; my = ty; } // arriving: start at the cursor, no sweep across
-      kt = 1; queue();
-    }, { passive: true });
-    hero.addEventListener('mouseleave', function () { kt = 0; queue(); });
-    colors();
-  }
-
   // Quick stats count up once over 1s (if you add stats)
   function initCountUp() {
     var items = document.querySelectorAll('[data-count]');
@@ -530,7 +474,6 @@
   initReveal();
   initSpotlight();
   initPhoneScreens();
-  initHeroDots();
   initCountUp();
   initCopy();
   initVideo();
