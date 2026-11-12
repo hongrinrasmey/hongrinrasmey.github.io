@@ -2,7 +2,7 @@
 
 Read this whole file before doing anything. These rules override any default habits.
 **Agents: read section 13 (Progress log) first to see where the work stands, then continue from there. Update section 13 after every change.**
-**`DESIGN.md` is the full, newer spec (owner, 2026-11-12). Where it differs from sections 4–9 below (3 fonts incl. JetBrains Mono, numbered mono section labels, 1px borders, pill buttons, darker light-mode accent `#4D7C0F`), follow DESIGN.md.**
+**The owner's newest spec (pasted in chat on 2026-11-12, "Warm orange" version: projects KH Halal Marketplace, idevo, RielTrack; orange `#FF6B35`; Geist + Geist Mono) is what the site follows. The `DESIGN.md` file on disk is still the OLDER version (RielTrack/FileShift, lime). Ask the owner to save the new version over it. Where anything below differs, follow the new spec.**
 
 ## 1. What this project is
 A simple, clean, personal developer portfolio. Its only job: show who I am, what I've built, and how to contact me.
@@ -107,44 +107,27 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 
 ## 13. Progress log (agents: read first, update after every change)
 
-### Current state (2026-11-12)
-- Site rebuilt to the `DESIGN.md` spec, in 8 commits (tokens → header → hero → projects → about → contact/404 → motion → SEO).
-- Plain HTML/CSS/JS: `index.html`, `css/style.css`, `js/main.js`, `404.html`, `robots.txt`, `favicon.svg` + `favicon.png`, `assets/images/og-image.png`, `tools/` (helpers to re-make the OG image and PNG icon).
-- **Section 3 is still all placeholders**, so every personal detail is an obvious `[TODO: ...]`. Only "RielTrack" and "FileShift" (named in DESIGN.md) are real. Nothing invented.
-- The old Astro version is still in `_old-astro-version/` (git-ignored). Ask the owner before deleting it.
+### Current state (2026-11-12, after commit "Rebuild portfolio per DESIGN.md")
+- Rebuilt to the owner's new spec: dark "warm orange" palette (`--accent #FF6B35`, light-mode text accent `#C2410C`), Geist + Geist Mono, one page: header → hero → skills marquee → Selected work → About → Contact → footer. 404 page restyled.
+- **Projects are real**, taken read-only from GitHub (`gh`): KH Halal Marketplace (`-KH-Hala_Marketplace`, web, featured), idevo (`Idevo`, Android), RielTrack (`RielTrack` + public `RielTrack-Downloads`, Android). All repos private → "Private repo" on every card. Only RielTrack has a public download (releases/latest).
+- Screenshots copied from the repos: `kh-halal-marketplace.webp` (PWA wide screenshot, cropped 16:10), `idevo-home/lesson/review.webp` (golden test images, in CSS phone frames). RielTrack has none → "Screenshot coming soon" box.
+- Owner answers (2026-11-12): name → leave TODO; role on all 3 → designed and built alone; available → not now (badge hidden); email → leave TODO; skills → the tech from the repos (16 skills, simpleicons logos inlined as an SVG sprite at the top of `<body>`, SVG files kept in `assets/icons/`).
+- Still placeholders: name, role, intro, bio, city, remote, contact sentence, email, LinkedIn, KH Halal live demo, idevo public download.
+- Signature effects (all in `js/main.js`, one function each): split-text h1, scramble on nav/section labels, card tilt + cursor spotlight, magnetic primary buttons, circle theme reveal (View Transitions), scroll progress bar (CSS scroll timeline + JS fallback), CSS marquee, underline-grow links, `T`/`?` shortcuts. Skipped on purpose: sticky stacking cards and custom cursor (spec says drop these first if busy).
+- Polish: `favicon.svg` (orange square + dot until initials are known), `favicon-32.png`, `apple-touch-icon.png`, `site.webmanifest` (added by JS only on http/https, because file:// logs a CORS error), print styles, `vercel.json` + `_headers` security headers, `og-image.png` re-made from `tools/og-image.html`.
+- `_old-astro-version/` still exists (git-ignored). Ask the owner before deleting.
 
-### Decisions made
-- "Available for work" hero label: in `index.html` but commented out (owner has not said yes).
-- Experience section + its nav link: commented out (no experience given). Section numbers are a CSS counter, so they stay 01/02/03… when it is shown.
-- Links left as `href="#"` and video buttons with `data-video=""` are hidden by CSS (`.link-opt`). "Demo coming soon" shows while the live link is `#`.
-- One card in the "other projects" grid spans full width (mirrored split layout on desktop), so there is no empty half.
-- Contact section sits on `--surface` (a tone step) so the last screen is not empty ground.
-- Reveal animation is hidden only under `.js-ready` (set by main.js), so content shows if main.js fails. Uses `translate` so it never fights the card hover `transform`.
-- Mobile menu: full-screen overlay; while open, `main`, footer and skip link are `inert` and the page cannot scroll.
-- Video pop-up is a native `<dialog>`; the video element is created only when it opens (nothing downloads before). YouTube links become `youtube-nocookie` embeds. With reduced motion the video does not autoplay.
-- `404.html` uses root paths (`/css/style.css`). Works on Netlify/Vercel/custom domain/`user.github.io`; a project page at `/REPO/` needs the prefix (noted in the file and README).
-- OG image is a plain text placeholder made from `tools/og-image.html` (no photo).
-- Owner rule (2026-11-12): **never add stock or found photos/clips** to pass the design skill's picture checks.
+### Note about the earlier session
+Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
 ### Checks run on the final version (2026-11-12)
-- taste-skill inspector: **0 FAIL** at 1920/1440/768/390 with `--allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Every allowed rule is something DESIGN.md requires (mono labels, "01 /" labels, 1px borders, 3 fonts, modal blur) or the owner's no-stock-photo rule. Remaining WARN `off-centre` (170 vs 194px) comes from short `[TODO]` lines not reaching the right edge.
-- Browser test (56 checks, all pass): no horizontal scroll and ≥44px tap targets at 360/390/768/1024/1440/1920; one h1; labelled sections; hidden empty links; header on scroll; active nav; reveal; card hover; theme toggle + saved + reload; light-mode contrast ≥4.5:1; copy email/demo login + "Copied!" + aria-live; video modal open/Esc/backdrop/close button/focus return/YouTube; mobile menu open/Esc/link/outside click/inert/scroll lock; reduced motion; JavaScript off; 404 at a nested address; opened from file://; no console errors.
-- Lighthouse mobile 95 / 100 / 100 / 100 (CLS 0), desktop 98 / 100 / 100 / 100.
-- Without any `--allow`: 6 FAIL, all of them DESIGN.md requirements or the no-stock-photo rule (eyebrow, mono, micro-label, hairline, few-pictures, font-count). Expected.
-- Critique (skill format, 2 rounds) is in `.taste-skill/critique.md` (git-ignored). Final: design 6.5 · usability 8 · creativity 5 · content 3 → 6.3; capped by the spec's mono/numbered labels and by placeholder content.
-- Owner added 4 screenshots of other apps (`assets/images/idevo-*.webp`, `kh-halal-marketplace.webp`). Not used and not committed: DESIGN.md names only RielTrack and FileShift. Ask the owner.
+- taste-skill inspector: **0 FAIL** at 1440/768/390 with `--allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box`. Each allowed rule is something the spec requires (mono `01 / LABEL` section labels, mono tags, 1px borders, header/footer borders) or the no-stock-photo rule. WARNs left: size-count, no-footage (no demo videos yet), hero-void (hero is text only by spec; fills once name/intro are real), off-centre (ragged card text at 768/390).
+- Functional browser test (headless Edge over CDP, all pass): one h1 + aria-label after split text, section counters, images load with alt, in-page links resolve, noopener, ≥44px targets, hidden empty links, theme toggle + saved + reload, `T` and `?` shortcuts, copy email + aria-live, mobile menu open/Esc/focus return/link closes/inert/scroll lock, no horizontal scroll at 360/390/768/1024/1440/1920, reduced motion shows everything, content visible with JS off, no console errors on file://.
+- Lighthouse (local server): mobile 93 / 100 / 100 / 100, desktop 99 / 100 / 100 / 100.
 
 ### How to re-run the checks (for agents)
-- Inspector: from PowerShell (the Bash sandbox blocks the browser): `node <taste-skill>/scripts/inspect.mjs index.html --allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Drop `few-pictures` once real screenshots are in.
-- Lighthouse: `chrome-launcher` cannot find Edge here. Start Edge yourself (`msedge.exe --headless=new --remote-debugging-port=9333 --user-data-dir=<temp>`), serve the folder from a separate process (a server in the same process as a blocking `execSync` hangs), then `npx -y lighthouse@12.8.2 http://127.0.0.1:PORT/ --port=9333`.
+- Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box`.
+- Lighthouse: serve the folder with any static server, then (PowerShell) `$env:CHROME_PATH="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"`.
 
 ### Next step
-The owner fills in section 3 / DESIGN.md section 3. **Next agent:** copy the real values into `index.html` (and `<head>`, JSON-LD, `404.html`, `tools/og-image.html`), replace every `[TODO: ...]`, re-make `og-image.png`, then re-run the checks above, update this log and commit.
-
-### Still TODO (needs the owner's real details)
-- Every `[TODO: ...]` in `index.html`: name, role, intro, bio, city, open-to, skills, RielTrack/FileShift descriptions, features, tech, contact sentence, email.
-- Links: live demos, code (or "Private repo"), GitHub, LinkedIn, Telegram (optional), résumé.
-- Screenshots `assets/images/rieltrack.webp`, `fileshift.webp`; optional `me.webp`, demo videos, demo logins.
-- Whether to show "Available for work" and the Experience section.
-- Domain (then: canonical, og:url, full og:image URL, sitemap.xml).
-- Initials in `favicon.svg`.
+Owner: give name, role, intro, bio, city, remote yes/no, email, LinkedIn; KH Halal live URL; a public idevo download; RielTrack screenshots. **Next agent:** put them into `index.html` (+ `<head>`, JSON-LD, `404.html`, `site.webmanifest`, `tools/og-image.html`, then re-make `og-image.png` and the favicon PNGs), re-run the checks, update this log, commit.

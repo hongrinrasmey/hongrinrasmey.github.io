@@ -362,8 +362,8 @@ main { counter-reset: section; }
 /* --- Hero --- */
 .hero {
   display: flex;
-  min-height: calc(100svh - var(--header-h) - 72px); /* leaves room for the skills strip on the first screen */
-  max-height: 1000px;
+  /* about one screen tall, leaving room for the skills strip; capped on very tall monitors */
+  min-height: min(calc(100svh - var(--header-h) - 72px), 860px);
   padding-block: var(--s-7) var(--s-6);
 }
 .hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
@@ -627,6 +627,16 @@ main { counter-reset: section; }
 }
 .shortcuts[hidden] { display: none; }
 
+/* --- 404 page --- */
+.not-found {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: var(--s-4);
+  min-height: calc(100svh - var(--header-h) - 120px);
+  padding-block: var(--s-8);
+}
+.not-found .section-label::after { content: none; } /* no section number on this page */
+.not-found__title { font-size: var(--fs-h1); font-weight: 700; line-height: 1.02; letter-spacing: -0.04em; }
+.not-found__text { max-width: 32rem; color: var(--muted); }
+
 /* --- Video pop-up --- */
 .video-modal {
   width: min(960px, calc(100vw - 32px));
@@ -666,6 +676,14 @@ main { counter-reset: section; }
 .js-ready .reveal.is-visible { opacity: 1; translate: none; }
 
 /* ===== 7. MEDIA QUERIES ===== */
+
+/* Phones: cards and the contact panel run edge to edge, so their text lines up with the page margin */
+@media (max-width: 639.98px) {
+  .project-card { margin-inline: calc(-1 * var(--gutter)); border-radius: 0; border-inline: 0; }
+  .project-card__body { padding: var(--s-4) var(--gutter) var(--s-5); }
+  .contact__grid { width: 100%; border-radius: 0; }
+}
+
 @media (min-width: 640px) {
   :root { --gutter: 32px; }
   .footer__keys { display: inline-flex; }

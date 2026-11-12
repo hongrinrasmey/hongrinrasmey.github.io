@@ -409,6 +409,8 @@
     if (closeBtn) closeBtn.addEventListener('click', function () { modal.close(); });
     // Clicking the dark area around the video closes it.
     modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+    // Esc fires "cancel" first: stop the video right away instead of waiting for "close".
+    modal.addEventListener('cancel', function () { frame.replaceChildren(); });
     // However it was closed: stop the video and return focus to the button.
     modal.addEventListener('close', function () {
       frame.replaceChildren();

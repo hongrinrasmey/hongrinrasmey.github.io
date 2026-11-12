@@ -11,73 +11,87 @@ Double-click `index.html`. It opens in your browser.
 ```
 index.html            all the text, projects and links
 css/style.css         all the styles (colours, fonts and sizes are at the top)
-js/main.js            theme toggle, mobile menu, scroll animations, copy buttons, video pop-up
-assets/images/        your photo, project screenshots, og-image.png (link preview picture)
+js/main.js            theme toggle, mobile menu, animations, copy buttons, video pop-up, shortcuts
+assets/images/        project screenshots, your photo (later), og-image.png (link preview picture)
+assets/icons/         tech logos from simpleicons.org (the page uses copies inside index.html)
 assets/videos/        short project demo clips (create this folder when you have one)
 assets/resume.pdf     your résumé (optional)
-favicon.svg / .png    the small icon in the browser tab
+favicon.svg           the small icon in the browser tab (+ favicon-32.png, apple-touch-icon.png)
+site.webmanifest      name and colour when someone saves the site to a phone home screen
 404.html              the "page not found" page
 robots.txt            tells search engines they may read the site
-tools/                helpers to re-make og-image.png and favicon.png (not part of the page)
+vercel.json, _headers security settings for Vercel / Netlify (GitHub Pages ignores them)
+tools/                helpers to re-make og-image.png and the PNG icons (not part of the page)
 ```
 
 ## 2. How to edit
 
 ### Your text and links → `index.html`
-Each part of the page starts with a comment, for example `<!-- ===== 01 · PROJECTS ===== -->`.
+Each part of the page starts with a comment, for example `<!-- ===== 01 · SELECTED WORK ===== -->`.
 Search the file for `TODO` and replace every `[TODO: ...]` with your own words.
 
 | What | Look for this comment |
 |---|---|
 | Browser tab title, Google text, link preview | `PAGE INFO` and `SHARING PREVIEW` at the top |
-| Name, role, intro, "Available for work" label | `00 · HERO` |
-| RielTrack, FileShift, more projects | `01 · PROJECTS` |
+| Name, role, intro, "Available for work", "Currently", stats | `00 · HERO` |
+| The moving skills strip | `SKILLS STRIP` |
+| KH Halal Marketplace, idevo, RielTrack | `01 · SELECTED WORK` |
 | Bio, photo, skills | `02 · ABOUT` |
 | Jobs and education (hidden for now) | `03 · EXPERIENCE` |
 | Email, GitHub, LinkedIn, Telegram, résumé | `04 · CONTACT` |
-| Name in the footer | `FOOTER` |
+| Name and "Last updated" in the footer | `FOOTER` |
 
 Section numbers on the page (01, 02, 03…) count themselves, so they stay right if you show or hide a section.
 
 ### Buttons that hide themselves
 - A link left as `href="#"` is **hidden**. Put a real address in and the button appears.
-  This works for: Try live demo, View code, Download résumé, GitHub, LinkedIn, Telegram.
-- No live demo yet? A small "Demo coming soon" note shows by itself.
+  This works for: Try live demo, Download APK, Download résumé, LinkedIn, Telegram.
+- When you add a live demo or download link, delete the small "Demo coming soon" / "Download coming soon" note next to it.
 - "Watch video" shows once you fill in `data-video="..."` with a file (`assets/videos/rieltrack.mp4`)
   or a YouTube link. `data-poster="..."` is an optional still picture shown before it plays.
 - Demo login: write it in the visible text **and** in `data-copy="..."`, then delete the word `hidden`.
-- Private code: delete the "View code" link and remove the comment marks around `Private repo`.
+- All three repos are private, so each card says "Private repo". If you make one public, the comment above the
+  projects shows the "View code" button to put there instead.
 
 ### Add a new project
 1. In `index.html`, find `<!-- OTHER PROJECTS -->`.
-2. Copy the whole `<article class="project-card ..."> ... </article>` block of FileShift.
-3. Paste it below FileShift and change the name, text, tags, links and screenshot.
-One extra project fills the full width; two or more sit side by side.
+2. Copy a whole `<article class="project-card ..."> ... </article>` block (idevo or RielTrack).
+3. Paste it below and change the name, text, tags, links and screenshots.
 
 ### Change images
-Put the file in `assets/images/`, then in `index.html` replace the
-`<div class="placeholder">Screenshot coming soon</div>` with the `<img ...>` line shown in the comment
-above the projects. Always write a short `alt="..."` that says what the picture shows.
-Your photo: see the comment `MY PHOTO` in the About section.
+- **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.
+- **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
+- **RielTrack** has no screenshot yet. The comment above its "Screenshot coming soon" box shows what to paste.
+- Your photo: see the comment `MY PHOTO` in the About section.
+- Always write a short `alt="..."` that says what the picture shows.
 
 ### Change colours → top of `css/style.css`
-Change `--accent` (the lime). The light theme has its own, darker `--accent` a few lines below so it stays readable on white.
-Other colours (`--bg`, `--text`, `--muted`, …) sit next to it. Change the dark and light values together.
+Change `--accent` (orange fills: buttons, dot, progress bar) and `--accent-text` (orange text and links).
+The light theme has its own `--accent-text` a few lines below, darker so it stays readable on white.
+Other colours (`--bg`, `--surface`, `--text`, `--muted`, …) sit next to them. Change the dark and light values together.
 
 ### Change fonts
 1. In `index.html`, change the Google Fonts `<link>` (near the top).
-2. In `css/style.css`, change `--font-heading`, `--font-body` and `--font-mono`.
+2. In `css/style.css`, change `--font-sans` and `--font-mono`.
+
+### Turn an effect off
+At the bottom of `js/main.js` there is a list like `initTilt();`, `initScramble();`, `initMagnetic();`.
+Delete a line to switch that effect off. Everything also switches off by itself for visitors who
+turned on "reduce motion" in their system settings.
+
+### Keyboard shortcuts on the site
+Press `T` to switch light / dark theme, `?` to show the shortcuts tip.
 
 ### Link preview picture and tab icon
-- `assets/images/og-image.png` is the picture shown when someone shares your link. To change the name on it, edit
+- `assets/images/og-image.png` is the picture shown when someone shares your link. To put your name on it, edit
   `tools/og-image.html` and follow the steps written at the top of that file.
 - `favicon.svg` is the tab icon. The comment inside it shows how to put your initials in. Then re-make
-  `favicon.png` with `tools/icon.html`.
+  the PNG icons with the two commands at the top of `tools/icon.html`.
 
 ## 3. Image tips
-- Use **WebP** screenshots about **1600 px wide**, under **300 KB** each.
+- Use **WebP**. Web screenshots about **1600 px wide**, under **300 KB**; phone screenshots about 390–780 px wide.
 - Free tool: https://squoosh.app (drop the image in, choose WebP, quality ~75).
-- Keep the 16:10 shape (for example 1600 × 1000) so screenshots fill their box.
+- Use real screens with realistic data, and hide personal information.
 - Demo videos: MP4, 20–40 seconds, muted, under 5 MB.
 
 ## 4. Put it online (free)
@@ -92,12 +106,13 @@ Other colours (`--bg`, `--text`, `--muted`, …) sit next to it. Change the dark
    Tip: name the repository `YOUR-USERNAME.github.io` and the address becomes just `https://YOUR-USERNAME.github.io/`.
 
 **Netlify or Vercel** (also free): sign in with GitHub → **Add new site / New project** → pick the repository →
-leave all build settings empty → Deploy.
+leave all build settings empty → Deploy. Their security settings come from `_headers` (Netlify) and `vercel.json` (Vercel).
 
 **Custom domain** (for example `yourname.dev`): buy it from any domain seller, then add it in
 GitHub Pages (Settings → Pages → Custom domain), Netlify (Domain management) or Vercel (Settings → Domains)
-and copy the DNS records they show into your domain seller's DNS settings.
-Once you have the domain, also fill in the `canonical` / `og:url` lines and the full image address in `<head>`.
+and copy the DNS records they show into your domain seller's DNS settings. HTTPS is switched on by the host.
+Once you have the domain, also fill in the `canonical` / `og:url` lines and the full image address in `<head>`,
+and add a sitemap line to `robots.txt`.
 
 **404 page note:** `404.html` uses addresses that start with `/`. That is right for Netlify, Vercel, a custom
 domain and `username.github.io`. If your site lives at `username.github.io/REPO-NAME/`, put `/REPO-NAME`
@@ -110,13 +125,14 @@ git add .
 git commit -m "Describe what you changed"
 git push
 ```
-The live site updates by itself within a minute or two.
+The live site updates by itself within a minute or two. Change "Last updated" in the footer when you do.
 
 ## 6. Still TODO
-- [ ] Every `[TODO: ...]` in `index.html` (search for `TODO`): name, role, intro, bio, city, what work you're open to, skills, both project descriptions, features and tech, contact sentence, email.
-- [ ] `<title>`, description and sharing text at the top of `index.html`; your name in the JSON-LD block and `404.html`.
-- [ ] Links: live demos, code, GitHub, LinkedIn (Telegram optional).
-- [ ] Show the "Available for work" label in the hero if you are available.
-- [ ] Screenshots: `assets/images/rieltrack.webp`, `assets/images/fileshift.webp`. Optional: `me.webp`, demo videos, demo logins.
-- [ ] Optional: `assets/resume.pdf`, Experience section, your initials in `favicon.svg`.
-- [ ] Re-make `og-image.png` with your real name (see `tools/og-image.html`).
+- [ ] Your name, role and one-line intro (hero, header, footer, `<title>`, description, sharing text, JSON-LD, `404.html`, `site.webmanifest`).
+- [ ] Bio, city, whether you're open to remote work, contact sentence, email.
+- [ ] LinkedIn link (Telegram optional).
+- [ ] KH Halal Marketplace: live demo link (and demo login if it has one).
+- [ ] idevo: a public download link (the APKs are only in the private repo's releases).
+- [ ] RielTrack: phone screenshots (`assets/images/rieltrack.webp`).
+- [ ] Optional: demo videos, `assets/images/me.webp`, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
+- [ ] Your initials in `favicon.svg`, then re-make the PNG icons and `og-image.png`.

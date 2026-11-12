@@ -1,34 +1,41 @@
 <!doctype html>
 <!--
   og-image.html — the picture shown when someone shares your site link (1200 × 630).
-  1. Change the name and role below.
+  1. Change the name, role and handle below. To show "Available for work", delete the word hidden on that line.
   2. Make the PNG again with Microsoft Edge (run in PowerShell from the project folder):
-     & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --hide-scrollbars --window-size=1200,630 --screenshot="$PWD\assets\images\og-image.png" "$PWD\tools\og-image.html"
+     & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --hide-scrollbars --virtual-time-budget=4000 --window-size=1200,630 --screenshot="$PWD\assets\images\og-image.png" "$PWD\tools\og-image.html"
      (Or open this file in a browser at 1200 × 630 and take a screenshot.)
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>OG image</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;700&family=Geist+Mono:wght@500&display=swap">
 <style>
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
   body {
     box-sizing: border-box;
     display: flex; flex-direction: column; justify-content: space-between;
-    padding: 72px 80px;
-    background: #0A0A0A; color: #FAFAFA;
-    font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+    padding: 72px 88px;
+    background: #0C0A09; color: #FAFAF9;
+    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    border-left: 12px solid #FF6B35;
   }
-  .mark { width: 56px; height: 56px; border-radius: 12px; background: #C6F432; }
-  h1 { margin: 0; font-size: 104px; line-height: 1.02; letter-spacing: -0.02em; font-weight: 700; }
-  p  { margin: 24px 0 0; font-size: 40px; color: #A1A1AA; font-family: "Segoe UI", system-ui, sans-serif; }
+  p { margin: 0; }
+  .status { display: flex; align-items: center; gap: 14px; font: 500 22px "Geist Mono", monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+  .status[hidden] { display: none; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: #FF6B35; }
+  h1 { margin: 0; font-size: 104px; line-height: 1.02; letter-spacing: -0.04em; font-weight: 700; }
+  .role { margin-top: 24px; font-size: 40px; color: #A8A29E; }
+  .handle { font: 500 24px "Geist Mono", monospace; color: #A8A29E; }
 </style>
 </head>
 <body>
-  <div class="mark"></div>
+  <p class="status" hidden><span class="dot"></span>Available for work</p>
   <div>
     <h1>[TODO: Your Name]</h1>
-    <p>[TODO: Your Role]</p>
+    <p class="role">[TODO: Your Role]</p>
   </div>
+  <p class="handle">github.com/hongrinrasmey</p>
 </body>
 </html>

@@ -36,7 +36,8 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
+  <!-- site.webmanifest is added by the theme script below, only when the site runs on a web server
+       (browsers block it, with a console error, when index.html is opened by double-clicking). -->
 
   <!-- Tells Google who you are. Add more profile links inside "sameAs". -->
   <script type="application/ld+json">
@@ -60,6 +61,11 @@
       }
       d.setAttribute('data-theme', t);
       d.classList.add('js'); /* JavaScript is on: show the menu and theme buttons */
+      if (/^https?:$/.test(location.protocol)) {
+        var m = document.createElement('link');
+        m.rel = 'manifest'; m.href = 'site.webmanifest';
+        document.head.appendChild(m);
+      }
     })();
   </script>
 
