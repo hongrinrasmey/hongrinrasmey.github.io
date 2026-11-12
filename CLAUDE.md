@@ -222,6 +222,12 @@ Owner asked for less empty space at the sides on wide screens.
 - Drafts A (big photo right, no avatar) and B (idevo + RielTrack phone frames right) were built in the session scratchpad only, NOT in the repo, for the owner to choose. Role/intro (option D) still need the owner's own words.
 - CSS 29,927 / 30,000 bytes.
 
+### Update 2026-11-12: photo moved to the hero (draft A, owner approved)
+- Round avatar and the About photo removed; one framed 4:5 photo (`.hero__photo`, same orange outline frame) in the hero. Phones/tablets: above the name, `min(56%, 240px)`. ≥1024px: hero grid `1fr auto`, photo right `clamp(280px, 26vw, 400px)`; title row is `1fr` so the text sits at the bottom, level with the photo bottom. If status/now/stats are un-commented, change `repeat(3, auto)` / `span 4` to match the row count.
+- Photo is above the fold now: no `loading="lazy"`, `fetchpriority="high"`. `me-avatar.webp` deleted (unused). About is bio + skills only.
+- CSS 29,984 / 30,000 bytes (comments shortened to fit). Checked with screenshots at 1440, 1024, 500.
+- `og-image.png` still has the old blue-background round photo: re-make from `tools/og-image.html`.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 

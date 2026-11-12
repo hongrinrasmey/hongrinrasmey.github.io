@@ -138,8 +138,11 @@
     <!-- ===== 00 · HERO ===== -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero__inner">
-        <!-- HERO AVATAR: a small 128 × 128 copy of my photo (me-avatar.webp), so the hero loads fast -->
-        <img class="hero__avatar hero__item" src="assets/images/me-avatar.webp" alt="Photo of Hong Rinrasmey" width="64" height="64" decoding="async">
+        <!-- MY PHOTO: assets/images/me.webp (800 × 1000). Above the name on phones, right of it on wide screens.
+             To change it, replace that file. -->
+        <figure class="hero__photo hero__item">
+          <img src="assets/images/me.webp" alt="Photo of Hong Rinrasmey" width="800" height="1000" fetchpriority="high" decoding="async">
+        </figure>
         <!-- AVAILABLE FOR WORK: you said "not now", so it is hidden.
              To show it later, remove the comment marks around the <p> below.
         <p class="hero__status hero__item"><span class="status-dot" aria-hidden="true"></span>Available for work</p>
@@ -353,11 +356,6 @@
         <div class="about__grid">
           <div class="about__text reveal">
             <p class="about__bio">[TODO: your bio, 2–3 sentences]</p>
-
-            <!-- MY PHOTO: assets/images/me.webp (800 × 1000). To change it, replace that file. -->
-            <figure class="about__photo">
-              <img src="assets/images/me.webp" alt="Photo of Hong Rinrasmey" width="800" height="1000" loading="lazy" decoding="async">
-            </figure>
           </div>
 
           <div class="about__skills reveal" style="--d: 1">

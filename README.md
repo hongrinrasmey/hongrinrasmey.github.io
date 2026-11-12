@@ -64,7 +64,7 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 - **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.
 - **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
 - **RielTrack** has no screenshot yet. The comment above its "Screenshot coming soon" box shows what to paste.
-- Your photo: `assets/images/me.webp` (800 × 1000, About section) and `assets/images/me-avatar.webp` (128 × 128, small round photo in the hero). To change your photo, replace both files (same names and sizes).
+- Your photo: `assets/images/me.webp` (800 × 1000, in the hero: above your name on phones, right of it on wide screens). To change it, replace that file (same name, 4:5 shape).
 - Always write a short `alt="..."` that says what the picture shows.
 
 ### Change colours → top of `css/style.css`

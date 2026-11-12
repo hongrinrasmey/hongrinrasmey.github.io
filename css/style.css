@@ -406,21 +406,32 @@ main { counter-reset: section; }
   background-position: center top;
   mask-image: linear-gradient(to bottom, #000 30%, transparent 95%); /* taste-skill-ignore */
 }
-/* Soft orange glow behind the name (ends inside the hero, no hard edge) */
+/* Soft orange glow */
 .hero::after {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(45% 45% at 25% 55%, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
 }
 .hero__inner { display: flex; flex-direction: column; justify-content: flex-end; }
 
-.hero__avatar {
-  width: 56px; height: 56px;
-  margin-bottom: var(--s-3);
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); /* taste-skill-ignore */
+/* Photo + orange frame */
+.hero__photo { position: relative; width: min(56%, 240px); margin: 0 12px var(--s-5) 0; }
+.hero__photo::before {
+  content: ""; position: absolute; inset: 12px -12px -12px 12px;
+  border-radius: var(--radius); border: 1px solid var(--accent); /* taste-skill-ignore */
+  transition: transform 400ms var(--ease-out);
 }
-@media (min-width: 768px) { .hero__avatar { width: 64px; height: 64px; } }
+.hero__photo img {
+  position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
+  border: 1px solid var(--border); /* taste-skill-ignore */
+  border-radius: var(--radius);
+}
+@media (min-width: 1024px) {
+  /* 1fr title row: text sits at the bottom */
+  .hero__inner { display: grid; grid-template: 1fr repeat(3, auto) / 1fr auto; column-gap: var(--s-7); }
+  .hero__inner > * { grid-column: 1; }
+  .hero__title { align-self: end; }
+  .hero__photo { grid-column: 2; grid-row: 1 / span 4; align-self: end; width: clamp(280px, 26vw, 400px); margin: 0 12px 12px 0; }
+}
 .hero__status {
   display: inline-flex; align-items: center; gap: 10px;
   margin-bottom: var(--s-4);
@@ -576,19 +587,6 @@ main { counter-reset: section; }
   color: var(--muted);
 }
 
-/* Photo with orange frame */
-.about__photo { position: relative; margin: var(--s-6) 0 12px; max-width: 360px; }
-.about__photo::before {
-  content: ""; position: absolute; inset: 12px -12px -12px 12px;
-  border-radius: var(--radius); border: 1px solid var(--accent); /* taste-skill-ignore */
-  transition: transform 400ms var(--ease-out);
-}
-.about__photo img {
-  position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
-  border: 1px solid var(--border); /* taste-skill-ignore */
-  border-radius: var(--radius);
-}
-
 /* --- Experience (optional) --- */
 .timeline { display: grid; gap: var(--s-5); border-left: 1px solid var(--border); padding-left: var(--s-4); } /* taste-skill-ignore */
 .timeline__item { position: relative; }
@@ -733,7 +731,7 @@ main { counter-reset: section; }
 /* Mouse-only effects (tilt, spotlight) */
 @media (hover: hover) and (pointer: fine) {
   .project-card:is(:hover, .is-tilting)::after { opacity: 1; }
-  .about__photo:hover::before { transform: translate(4px, 4px); }
+  .hero__photo:hover::before { transform: translate(4px, 4px); }
   .project-card.is-tilting { transition: transform 120ms linear, border-color var(--dur-fast) var(--ease-out); }
 }
 
