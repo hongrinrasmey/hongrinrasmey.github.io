@@ -35,7 +35,7 @@
     if (themeBtn) themeBtn.setAttribute('aria-label', 'Switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme');
   }
 
-  // The new theme grows as a circle from the toggle (View Transitions), or just switches.
+  // New theme grows as a circle from the toggle (View Transitions)
   function toggleTheme() {
     var next = currentTheme() === 'light' ? 'dark' : 'light';
     try { localStorage.setItem('theme', next); } catch (e) { /* private mode: not saved */ }
@@ -93,12 +93,12 @@
       root.classList.toggle('menu-open', open);
       menuBtn.setAttribute('aria-expanded', String(open));
       menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      // While open, the rest of the page can't be clicked or tabbed to
+      // While open, the page behind can't be clicked or tabbed to
       document.querySelectorAll('.skip-link, main, .site-footer').forEach(function (el) { el.inert = open; });
     }
 
     menuBtn.addEventListener('click', function () { setMenu(!isOpen()); });
-    // Close on a link, or a click on the empty space around the links
+    // Close on a link or a click beside the links
     nav.addEventListener('click', function (e) {
       if (isOpen() && (e.target === nav || e.target.closest('a'))) setMenu(false);
     });
@@ -147,7 +147,7 @@
     var title = document.querySelector('.hero__title');
     if (!title || reduceMotion.matches) return;
     var text = title.textContent.trim();
-    title.setAttribute('aria-label', text); // screen readers read the whole name once
+    title.setAttribute('aria-label', text); // read once by screen readers
     title.textContent = '';
     text.split(/\s+/).forEach(function (word, i) {
       var outer = document.createElement('span');
@@ -160,36 +160,34 @@
     title.classList.add('is-split');
   }
 
-  // Project cards (mouse only): tilt toward the cursor + spotlight
+  // Project cards (mouse only): tilt toward the cursor + spotlight.
+  // Resting box (offset* ignores transforms): tilted edges never drop the hover
   function initTilt() {
     if (!finePointer.matches || reduceMotion.matches) return;
-    document.querySelectorAll('.project-card').forEach(function (card) {
-      var frameId = null, box = null, px = 0, py = 0;
-      function draw() {
-        frameId = null;
-        var x = Math.min(1, Math.max(0, (px - box.left) / box.width)); // clamped: max ±4°
-        var y = Math.min(1, Math.max(0, (py - box.top) / box.height));
-        card.style.transform = 'perspective(1000px) rotateX(' + ((0.5 - y) * 8).toFixed(2) +
-          'deg) rotateY(' + ((x - 0.5) * 8).toFixed(2) + 'deg) translateY(-4px)';
-        card.style.setProperty('--x', (x * 100).toFixed(1) + '%');
-        card.style.setProperty('--y', (y * 100).toFixed(1) + '%');
-      }
-      // Measure once per hover
-      card.addEventListener('mouseenter', function () { box = card.getBoundingClientRect(); });
-      card.addEventListener('mousemove', function (e) {
-        px = e.clientX; py = e.clientY;
-        if (!box) box = card.getBoundingClientRect();
-        card.classList.add('is-tilting');
-        if (!frameId) frameId = requestAnimationFrame(draw);
+    var cards = document.querySelectorAll('.project-card'), frameId, cx, cy, inMain;
+    function draw() {
+      frameId = null;
+      cards.forEach(function (card) {
+        var l = scrollX, t = scrollY, el = card;
+        for (; el; el = el.offsetParent) { l -= el.offsetLeft; t -= el.offsetTop; }
+        var x = (cx + l) / card.offsetWidth, y = (cy + t) / card.offsetHeight;
+        var on = inMain && x >= 0 && x <= 1 && y >= 0 && y <= 1;
+        var d = Math.min(8, 4800 / card.offsetWidth); // max 4deg, less on wide cards
+        var st = card.style;
+        card.classList.toggle('is-tilting', on);
+        st.transform = on ? 'perspective(1000px) rotateX(' + ((0.5 - y) * d).toFixed(2) +
+          'deg) rotateY(' + ((x - 0.5) * d).toFixed(2) + 'deg) translateY(-4px)' : '';
+        if (on) { st.setProperty('--x', x * 100 + '%'); st.setProperty('--y', y * 100 + '%'); }
       });
-      card.addEventListener('mouseleave', function () {
-        cancelAnimationFrame(frameId);
-        frameId = box = null;
-        card.classList.remove('is-tilting');
-        card.style.transform = '';
-      });
-    });
+    }
+    function queue() { if (!frameId) frameId = requestAnimationFrame(draw); }
+    addEventListener('mousemove', function (e) { // not over header, menu or pop-up
+      inMain = !!e.target.closest('main'); cx = e.clientX; cy = e.clientY; queue();
+    }, { passive: true });
+    addEventListener('scroll', queue, { passive: true });
+    document.documentElement.addEventListener('mouseleave', function () { inMain = false; queue(); });
   }
+
 
   // Quick stats count up once over 1s (if you add stats)
   function initCountUp() {
@@ -201,7 +199,7 @@
         var el = entry.target;
         observer.unobserve(el);
         var end = parseFloat(el.getAttribute('data-count')) || 0;
-        var suffix = el.textContent.replace(/[\d.,\s]/g, ''); // keeps a "+" or "%" you wrote
+        var suffix = el.textContent.replace(/[\d.,\s]/g, ''); // keeps a "+" or "%"
         var start = performance.now();
         (function frame(now) {
           var p = Math.min((now - start) / 1000, 1);
@@ -219,14 +217,14 @@
     if (live) { live.textContent = ''; setTimeout(function () { live.textContent = message; }, 50); }
   }
 
-  // Copy buttons: data-copy="text" or data-copy-from="#id" (link email or text)
+  // Copy buttons: data-copy="text" or data-copy-from="#id"
   function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) {
       return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
     }
     return Promise.resolve(fallbackCopy(text));
   }
-  // Older way, needed when the page is opened from a file
+  // Fallback for pages opened from a file
   function fallbackCopy(text) {
     var active = document.activeElement;
     var area = document.createElement('textarea');
@@ -289,20 +287,20 @@
         player.title = title;
         player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
       } else {
-        // The file only starts downloading now, when the pop-up opens
+        // The file downloads only now, when the pop-up opens
         player = document.createElement('video');
         Object.assign(player, { src: src, muted: true, loop: true, playsInline: true, controls: true, preload: 'none', autoplay: autoplay });
         if (btn.getAttribute('data-poster')) player.poster = btn.getAttribute('data-poster');
         player.setAttribute('aria-label', title);
       }
       if (modalTitle) modalTitle.textContent = title;
-      // Phone apps get a narrow pop-up (420px), web apps a wide one (900px)
+      // Phone apps: 420px pop-up, web apps: 900px
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
       modal.classList.toggle('video-modal--phone', !!tag && /android|ios/i.test(tag.textContent));
       frame.replaceChildren(player);
       lastTrigger = btn;
-      modal.showModal(); // the browser keeps focus inside and closes it with Esc
+      modal.showModal(); // browser keeps focus inside; Esc closes it
     }
 
     document.addEventListener('click', function (e) {

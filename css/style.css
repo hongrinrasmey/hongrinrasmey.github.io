@@ -472,7 +472,7 @@ main { counter-reset: section; }
   overflow: hidden;
   transition: transform 400ms var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
-.project-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
+.project-card:hover, .project-card.is-tilting { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
 
 /* Cursor spotlight (mouse only) */
 .project-card::after {
@@ -496,7 +496,7 @@ main { counter-reset: section; }
   object-fit: cover; object-position: top;
   transition: transform var(--dur-base) var(--ease-out);
 }
-.project-card:hover .project-card__media > img { transform: scale(1.03); }
+.project-card:is(:hover, .is-tilting) .project-card__media > img { transform: scale(1.03); }
 /* Web screenshot: 16:10 frame, radius, border */
 .project-card__media--web {
   margin: var(--card-pad) var(--card-pad) 0;
@@ -518,12 +518,9 @@ main { counter-reset: section; }
   border-radius: clamp(14px, 2.2vw, 28px);
   background: var(--bg);
   overflow: hidden;
-  transition: transform var(--dur-base) var(--ease-out);
 }
 .phone img { width: auto; height: 100%; border-radius: calc(clamp(14px, 2.2vw, 28px) - 3px); }
 .phone:nth-child(2) { transform: translateY(-4%); }
-.project-card:hover .phone { transform: translateY(-2%); }
-.project-card:hover .phone:nth-child(2) { transform: translateY(-6%); }
 /* "Screenshot coming soon" */
 .placeholder {
   display: grid; place-items: center;
@@ -730,7 +727,7 @@ main { counter-reset: section; }
 
 /* Mouse-only effects (tilt, spotlight) */
 @media (hover: hover) and (pointer: fine) {
-  .project-card:hover::after { opacity: 1; }
+  .project-card:is(:hover, .is-tilting)::after { opacity: 1; }
   /* About photo: slightly grey until hovered */
   .about__photo img { filter: grayscale(30%); transition: filter 400ms var(--ease-out); }
   .about__photo:hover img { filter: none; }
@@ -752,7 +749,7 @@ main { counter-reset: section; }
     transition-delay: 0ms !important;
   }
   .js-ready .reveal { opacity: 1; translate: none; }
-  .project-card:hover, .project-card:hover .phone, .phone:nth-child(2) { transform: none; }
+  .project-card:hover, .phone:nth-child(2) { transform: none; }
   .project-card:hover .project-card__media > img { transform: none; }
   .scroll-progress { display: none; }
   .about__photo img { filter: none; }

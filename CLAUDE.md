@@ -199,6 +199,13 @@ Owner asked for less empty space at the sides on wide screens.
 - CSS 29,9xx bytes: **under 40 bytes left in the 30,000 budget** (shorten comments before adding code).
 - Not done (needs name): OG image avatar, JSON-LD, favicon initials.
 
+### Update 2026-11-12: project card hover, reviewed and fixed
+- **Tilt scales with card width**: `d = Math.min(8, 4800 / width)` → ±4° on cards up to 1200px wide, ±1.8° on the 1334px featured card, ±3.7° on 651px cards (was ±4° everywhere, which warped the wide featured card).
+- **Edge flicker fixed (was a real bug)**: the hit test used the tilted/lifted shape, so near any edge (worst at the bottom, from the 4px lift) the card slid out from under the mouse → mouseleave → reset → back under the mouse → repeat. `initTilt()` now runs on one window `mousemove` + `scroll` (passive, one rAF) and decides "over the card" from the resting box (`offsetLeft/Top` chain, which ignores transforms). It sets `.is-tilting`; CSS uses `:is(:hover, .is-tilting)` for lift, border, spotlight and screenshot zoom so they stay in step. Only tilts when the pointer is inside `<main>` (not over the header, mobile menu or video pop-up); resets when the mouse leaves the window. Scrolling under a still mouse now updates the tilt (old code kept a stale box).
+- **Phone screenshots no longer lift on hover** (card moves as one piece; `.phone` transition removed).
+- Tests (headless Edge over CDP, 4× CPU slowdown; scripts were in the session scratchpad): angles at 85% across = expected exactly; all 4 edges of both cards stay tilted (before: 0/8); scroll-under-mouse −2.95° vs −3.01° expected; no tilt over header; reset after leaving window; frames median 16.7ms, p95 16.8ms, 0 over 33ms; no console errors. Lint 0/0. Lighthouse 100×4 mobile (LCP 1.7s, TBT 20ms) and desktop.
+- Budgets: JS 14,989 / 15,000 (comments shortened to fit), CSS 29,914 / 30,000. **Both are nearly full.**
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
