@@ -276,7 +276,7 @@ main { counter-reset: section; }
   line-height: 1.6;
 }
 .tags svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
-/* Skill pills: bigger than card tags; logos dimmed so solid ones don't outweigh outlined ones */
+/* Skill pills; dimmed logos weigh the same */
 .tags--skills li { padding: 6px 12px; font-size: var(--fs-small); }
 .tags--skills svg { width: 18px; height: 18px; opacity: .75; }
 
@@ -456,7 +456,7 @@ main { counter-reset: section; }
 .stats__label { order: 2; color: var(--muted); }
 .stats__item { display: flex; flex-direction: column-reverse; }
 
-/* Hero name: words rise from a mask (js/main.js) */
+/* Hero name: words rise (js/main.js) */
 .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .word__inner { display: inline-block; }
 
@@ -511,7 +511,7 @@ main { counter-reset: section; }
   padding: 6% 4%;
 }
 .phone {
-  flex: none; /* never squeezed: the frame takes its width from the screenshot */
+  flex: none; /* never squeezed */
   height: 100%;
   padding: 3px;
   border: 1px solid var(--border); /* taste-skill-ignore */
@@ -575,7 +575,7 @@ main { counter-reset: section; }
 }
 
 /* Photo with orange frame */
-.about__photo { position: relative; margin: var(--s-6) 0 12px; max-width: 360px; } /* 12px: frame room */
+.about__photo { position: relative; margin: var(--s-6) 0 12px; max-width: 360px; }
 .about__photo::before {
   content: ""; position: absolute; inset: 12px -12px -12px 12px;
   border-radius: var(--radius); background: var(--accent);
