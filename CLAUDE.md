@@ -540,3 +540,7 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - The emulator crashed once mid-session and lost idevo data written just before (re-seed fixed it). Night mode resets on reboot.
 - Live test on https://hongrinrasmey.github.io/portfolio/ (headless Edge): light + dark 1440/390, images, reveals, terminal, 3 videos play, scroll 4× CPU median 16.7ms, no console errors: all pass. 404 loads `/portfolio/css/style.css`.
 - Still open: GitHub profile README repo (`hongrinrasmey/hongrinrasmey`) not created (permission denied for this session); pinning repos is manual on github.com.
+
+### Update 2026-11-12: KH Halal demo logins: videos only (owner chose A)
+- No public demo login (real-money checkout). The hidden `project-card__login` row, its CSS and the "Demo login" edit notes (index.html comment, README) were removed. The copy-button JS stays (Contact email uses it). DESIGN.md §5 project entry says "none". Do not add demo logins back.
+- check.mjs all PASS.

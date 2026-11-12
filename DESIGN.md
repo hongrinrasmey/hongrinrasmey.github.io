@@ -91,7 +91,7 @@ Projects (exactly these 3, in this order; #1 is the featured card. Fill the TODO
      Key features:    [TODO from GitHub: 3 short bullets]
      Result/impact:   [real numbers only, from me, or leave empty]
      Live / Download: [TODO from GitHub: live URL (web) or APK / store link (mobile), or none]
-     Demo login:      [TODO from GitHub, or none]
+     Demo login:      none (2026-11-12: owner chose videos only; real-money checkout)
      Video:           assets/videos/<slug>.mp4 + <slug>-poster.webp (made with VIDEOS.md). Done for all 3
                       (2026-11-12): kh-halal-marketplace, idevo, rieltrack. Scripts: scripts/record-*, scripts/motion/
      Code:            [TODO from GitHub: public repo URL, or "private"]
