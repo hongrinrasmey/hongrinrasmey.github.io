@@ -114,13 +114,13 @@ body {
   transition: background-color 200ms ease, color 200ms ease;
 }
 
-h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
 button { font: inherit; color: inherit; }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -130,14 +130,14 @@ p { max-width: 65ch; text-wrap: pretty; }
 
 /* Text links: underline grows on hover */
 a { color: inherit; }
-.contact__text a, .contact__email {
+.contact__text a, .timeline__text a, .contact__email {
   position: relative;
   color: var(--text);
   text-decoration: underline 1px var(--border);
   text-underline-offset: 0.2em;
   transition: color var(--dur-fast) var(--ease-out);
 }
-.contact__text a::after, .contact__email::after {
+.contact__text a::after, .timeline__text a::after, .contact__email::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 2px;
@@ -146,8 +146,8 @@ a { color: inherit; }
   transform-origin: left;
   transition: transform var(--dur-base) var(--ease-out);
 }
-.contact__text a:hover, .contact__email:hover { color: var(--accent-text); }
-.contact__text a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
+.contact__text a:hover, .timeline__text a:hover, .contact__email:hover { color: var(--accent-text); }
+.contact__text a:hover::after, .timeline__text a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
 
 ::selection { background: var(--accent); color: var(--accent-fg); }
 
