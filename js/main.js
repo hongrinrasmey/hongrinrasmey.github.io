@@ -32,6 +32,8 @@
   function currentTheme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
   function setTheme(theme) {
     root.setAttribute('data-theme', theme);
+    // Phone browser bar follows the chosen theme, not only the system one
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = theme === 'light' ? '#FAFAF9' : '#0C0A09'; });
     if (themeBtn) themeBtn.setAttribute('aria-label', 'Switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme');
   }
 
@@ -61,20 +63,14 @@
     });
   }
 
-  // Header background after 20px scroll; progress bar fallback
+  // Header background after 20px scroll
   function initScroll() {
     var header = document.querySelector('.site-header');
-    var bar = document.querySelector('.scroll-progress');
-    var needsBar = bar && !CSS.supports('animation-timeline: scroll()');
     var ticking = false;
 
     function update() {
       ticking = false;
       if (header) header.classList.toggle('is-scrolled', scrollY > 20);
-      if (needsBar) {
-        var max = root.scrollHeight - innerHeight;
-        bar.style.setProperty('--progress', max > 0 ? (scrollY / max).toFixed(4) : 0);
-      }
     }
     requestAnimationFrame(update);
     addEventListener('scroll', function () {
@@ -160,9 +156,9 @@
     title.classList.add('is-split');
   }
 
-  // Project cards (mouse only): tilt toward the cursor + spotlight.
-  // Resting box (offset* ignores transforms): tilted edges never drop the hover
-  function initTilt() {
+  // Project cards (mouse only): hover class + cursor spotlight.
+  // Resting box (offset* ignores transforms): the 4px lift never drops the hover at the edge
+  function initSpotlight() {
     if (!finePointer.matches || reduceMotion.matches) return;
     var cards = document.querySelectorAll('.project-card'), frameId, cx, cy, inMain;
     function draw() {
@@ -172,12 +168,8 @@
         for (; el; el = el.offsetParent) { l -= el.offsetLeft; t -= el.offsetTop; }
         var x = (cx + l) / card.offsetWidth, y = (cy + t) / card.offsetHeight;
         var on = inMain && x >= 0 && x <= 1 && y >= 0 && y <= 1;
-        var d = Math.min(8, 4800 / card.offsetWidth); // max 4deg, less on wide cards
-        var st = card.style;
-        card.classList.toggle('is-tilting', on);
-        st.transform = on ? 'perspective(1000px) rotateX(' + ((0.5 - y) * d).toFixed(2) +
-          'deg) rotateY(' + ((x - 0.5) * d).toFixed(2) + 'deg) translateY(-4px)' : '';
-        if (on) { st.setProperty('--x', x * 100 + '%'); st.setProperty('--y', y * 100 + '%'); }
+        card.classList.toggle('is-hover', on);
+        if (on) { card.style.setProperty('--x', x * 100 + '%'); card.style.setProperty('--y', y * 100 + '%'); }
       });
     }
     function queue() { if (!frameId) frameId = requestAnimationFrame(draw); }
@@ -185,9 +177,96 @@
       inMain = !!e.target.closest('main'); cx = e.clientX; cy = e.clientY; queue();
     }, { passive: true });
     addEventListener('scroll', queue, { passive: true });
-    document.documentElement.addEventListener('mouseleave', function () { inMain = false; queue(); });
+    root.addEventListener('mouseleave', function () { inMain = false; queue(); });
   }
 
+
+  // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
+  // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
+  function initPhoneScreens() {
+    if (reduceMotion.matches || !hasIO) return;
+    document.querySelectorAll('.project-card__media--phones').forEach(function (media) {
+      var card = media.closest('.project-card'), step = 0, done = 0, timer, io;
+      var pairs = [].slice.call(media.querySelectorAll('.phone > img[data-next]')).map(function (img) {
+        var next = img.cloneNode();
+        next.src = img.dataset.next; next.alt = img.dataset.nextAlt || ''; next.className = 'phone__alt';
+        img.parentNode.appendChild(next);
+        img.classList.add('is-on');
+        img.parentNode.classList.add('is-cycling');
+        return [img, next];
+      });
+      if (!pairs.length) return;
+      io = new IntersectionObserver(function (entries) {
+        clearInterval(timer);
+        if (entries[entries.length - 1].isIntersecting) timer = setInterval(function () {
+          // wait while paused or until every screen has loaded (no fade to a blank frame)
+          if (card.matches(':hover, :focus-within') || pairs.some(function (p) { return !p[1 - step].naturalWidth; })) return;
+          step = 1 - step;
+          pairs.forEach(function (p, j) { // phones change 150ms apart
+            setTimeout(function () { p[step].classList.add('is-on'); p[1 - step].classList.remove('is-on'); }, j * 150);
+          });
+          if (++done === 2) { clearInterval(timer); io.disconnect(); }
+        }, 2000);
+      }, { threshold: 0.3 });
+      io.observe(media);
+    });
+  }
+
+  // Hero dots (mouse only): a canvas of dots replaces the CSS grid; near the cursor they turn orange
+  // and step aside. Draws only while something moves and the hero is on screen
+  function initHeroDots() {
+    var hero = document.querySelector('.hero'), cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+    if (!hero || !ctx || !finePointer.matches || reduceMotion.matches || !hasIO || !window.ResizeObserver) return;
+    var G = 32, R = 160, w = 0, h = 0, mx = 0, my = 0, tx = 0, ty = 0, k = 0, kt = 0, frameId, seen = true, dim, hot;
+    cv.className = 'hero__dots';
+    cv.setAttribute('aria-hidden', 'true');
+    hero.prepend(cv);
+    hero.classList.add('has-dots');
+
+    function colors() { var s = getComputedStyle(root); dim = s.getPropertyValue('--text').trim(); hot = s.getPropertyValue('--accent').trim(); }
+    function queue() { if (!frameId && seen) frameId = requestAnimationFrame(draw); }
+    function redraw() { cancelAnimationFrame(frameId); draw(); }
+    function draw() {
+      frameId = null;
+      mx += (tx - mx) * 0.2; my += (ty - my) * 0.2; k += (kt - k) * 0.12; // ease toward the mouse
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = dim; ctx.globalAlpha = 0.2; ctx.beginPath();
+      var near = [], x, y, i;
+      for (y = G / 2; y < h; y += G) for (x = (w % G + G) / 2; x < w; x += G) {
+        var dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy;
+        if (k > 0.01 && d2 < R * R) near.push(x, y, dx, dy, Math.sqrt(d2) || 1);
+        else ctx.rect(x - 1, y - 1, 2, 2);
+      }
+      ctx.fill();
+      for (i = 0; i < near.length; i += 5) { // c: 1 at the cursor, 0 at the edge (no visible ring)
+        var d = near[i + 4], c = (1 - d / R) * k, p = c * c * 14 / d;
+        x = near[i] + near[i + 2] * p; y = near[i + 1] + near[i + 3] * p;
+        ctx.fillStyle = dim; ctx.globalAlpha = 0.2; ctx.fillRect(x - 1, y - 1, 2, 2);
+        ctx.fillStyle = hot; ctx.globalAlpha = c;
+        ctx.beginPath(); ctx.arc(x, y, 1 + c * 1.6, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (Math.abs(tx - mx) + Math.abs(ty - my) > 0.3 || Math.abs(kt - k) > 0.005) queue();
+    }
+
+    new ResizeObserver(function () {
+      var r = Math.min(devicePixelRatio || 1, 2);
+      w = hero.clientWidth; h = hero.clientHeight;
+      cv.width = Math.round(w * r); cv.height = Math.round(h * r);
+      ctx.setTransform(r, 0, 0, r, 0, 0);
+      redraw();
+    }).observe(hero);
+    new IntersectionObserver(function (e) { seen = e[0].isIntersecting; if (seen) queue(); }).observe(hero);
+    new MutationObserver(function () { colors(); redraw(); }).observe(root, { attributeFilter: ['data-theme'] });
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (k < 0.01) { mx = tx; my = ty; } // arriving: start at the cursor, no sweep across
+      kt = 1; queue();
+    }, { passive: true });
+    hero.addEventListener('mouseleave', function () { kt = 0; queue(); });
+    colors();
+  }
 
   // Quick stats count up once over 1s (if you add stats)
   function initCountUp() {
@@ -318,13 +397,125 @@
     });
   }
 
-  // T switches the theme (not while typing in a field)
+  // Terminal: >_ button or ` key. Every answer is read from the page, so it never goes stale
+  var openTerm;
+  function initTerminal() {
+    var dlg = document.getElementById('term'), btn = document.querySelector('.term-btn');
+    if (!dlg || !dlg.showModal || !btn) return;
+    var log = dlg.querySelector('.term__log'), form = dlg.querySelector('form'), input = form.querySelector('input');
+    var hist = [], hi = 0;
+    function txt(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
+    function say(line, cls) {
+      var p = document.createElement('p');
+      if (cls) p.className = cls;
+      p.append(line);
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+    }
+    function link(href, label) {
+      var a = document.createElement('a');
+      a.href = href; a.textContent = label || href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      return a;
+    }
+    // Close, then scroll to a section or card and move focus there (keyboard users land on it too).
+    // offsetTop ignores the 24px reveal slide, so a card not shown yet still lands under the header
+    function go(el) {
+      dlg.close();
+      requestAnimationFrame(function () { // after the close: scrolling in the same frame was sometimes cancelled
+        if (!el.hasAttribute('tabindex')) el.tabIndex = -1;
+        el.focus({ preventScroll: true });
+        for (var y = 0, n = el; n; n = n.offsetParent) y += n.offsetTop;
+        scrollTo(0, y - parseFloat(getComputedStyle(el).scrollMarginTop)); // smooth via CSS (off for reduced motion)
+      });
+    }
+    var cards = [].slice.call(document.querySelectorAll('.project-card'));
+    var name = txt(document.getElementById('hero-title')) || document.title;
+    var cmds = {
+      help: function () {
+        [['whoami', 'who I am'], ['projects', 'my apps'], ['open <app>', 'jump to an app'], ['work · about · contact', 'jump to a section'],
+          ['email', 'copy my email'], ['github', 'my GitHub'], ['theme', 'dark / light'], ['clear', 'empty the screen'], ['exit', 'close (or Esc)']
+        ].forEach(function (r) {
+          var c = document.createElement('span'), d = document.createElement('span');
+          c.className = 'term__cmd'; c.textContent = r[0]; d.className = 'term__dim'; d.textContent = r[1];
+          say(c, 'term__row'); log.lastChild.append(d);
+        });
+      },
+      whoami: function () { say(name); say(txt(document.querySelector('.hero__intro'))); say(txt(document.querySelector('.hero__meta'))); },
+      projects: function () {
+        cards.forEach(function (c) { say(txt(c.querySelector('.project-card__title')) + ': ' + txt(c.querySelector('.project-card__lead'))); });
+        say('Type "open <app>", e.g. open ' + txt(cards[0] && cards[0].querySelector('.project-card__title')).split(' ')[0].toLowerCase(), 'term__dim');
+      },
+      open: function (arg) {
+        var hit = arg && cards.filter(function (c) { return txt(c.querySelector('.project-card__title')).toLowerCase().indexOf(arg) === 0; })[0];
+        if (hit) go(hit); else say(arg ? 'No app called "' + arg + '". Type "projects".' : 'Usage: open <app>', 'term__dim');
+      },
+      email: function () {
+        var mail = document.getElementById('email-link');
+        if (!mail) return;
+        var addr = mail.getAttribute('href').replace(/^mailto:/, '');
+        say(link(mail.href, addr));
+        copyText(addr).then(function (ok) { say(ok ? 'Copied to clipboard.' : 'Could not copy: select it above.', 'term__dim'); });
+      },
+      github: function () { var g = document.querySelector('.social-link[href*="github.com"]'); if (g) say(link(g.href)); },
+      theme: function () { var next = currentTheme() === 'light' ? 'dark' : 'light'; toggleTheme(); say('Theme: ' + next, 'term__dim'); },
+      clear: function () { log.textContent = ''; },
+      exit: function () { dlg.close(); }
+    };
+    ['work', 'about', 'contact'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) cmds[id] = function () { go(el); };
+    });
+    cmds.ls = cmds.projects;
+
+    function run(line) {
+      var parts = line.trim().toLowerCase().split(/\s+/), cmd = parts[0];
+      if (!cmd) return;
+      say('> ' + line.trim(), 'term__cmd term__echo');
+      if (cmds.hasOwnProperty(cmd)) cmds[cmd](parts.slice(1).join(' '));
+      else say('command not found: ' + cmd + '. Type "help".', 'term__dim');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (input.value.trim()) { hist.push(input.value); hi = hist.length; }
+      run(input.value);
+      input.value = '';
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { // command history
+        if (!hist.length) return;
+        e.preventDefault();
+        hi = Math.max(0, Math.min(hist.length, hi + (e.key === 'ArrowUp' ? -1 : 1)));
+        input.value = hist[hi] || '';
+      } else if (e.key === 'Tab' && !e.shiftKey && input.value) { // complete only a sure match; else Tab moves focus
+        var v = input.value.toLowerCase(), m = Object.keys(cmds).filter(function (k) { return k.indexOf(v) === 0; });
+        if (m.length === 1 && m[0] !== v) { e.preventDefault(); input.value = m[0] + (m[0] === 'open' ? ' ' : ''); }
+      }
+    });
+    dlg.querySelector('.term__chips').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cmd]');
+      if (b) { run(b.dataset.cmd); if (dlg.open) input.focus(); }
+    });
+    dlg.querySelector('.term__close').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); }); // click outside
+    openTerm = function () {
+      if (dlg.open) return;
+      if (!log.childNodes.length) { say('Hi, I\'m ' + name + '.', 'term__hello'); say('Type a command, or tap one below.', 'term__dim'); }
+      dlg.showModal();
+      input.focus();
+    };
+    btn.addEventListener('click', openTerm);
+  }
+
+  // T switches the theme, ` opens the terminal (not while typing in a field)
   function initShortcuts() {
     document.addEventListener('keydown', function (e) {
       var t = e.target;
-      if (e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
+      // e.repeat: holding T would flash the whole screen dark/light many times a second
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       if (e.key === 't' || e.key === 'T') toggleTheme();
+      else if (e.key === '`' && openTerm) { e.preventDefault(); openTerm(); } // no ` typed into the box
     });
   }
 
@@ -337,9 +528,12 @@
   initActiveNav();
   initSplitText();
   initReveal();
-  initTilt();
+  initSpotlight();
+  initPhoneScreens();
+  initHeroDots();
   initCountUp();
   initCopy();
   initVideo();
+  initTerminal();
   initShortcuts();
 })();

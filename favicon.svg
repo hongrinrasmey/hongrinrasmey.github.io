@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Initials. After changing them, make the PNG icons again (see tools/icon.html). -->
-  <rect width="32" height="32" rx="8" fill="#FF6B35"/>
-  <text x="16" y="21.5" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#0C0A09">HR</text>
+  <!-- ">_" prompt, same as the header mark. After changing it, make the PNG icons again (see tools/icon.html). -->
+  <rect width="32" height="32" rx="8" fill="#0C0A09"/>
+  <path d="M8 10l6 6-6 6" fill="none" stroke="#FF6B35" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="16" y="20" width="9" height="3" rx="1.5" fill="#FF6B35"/>
 </svg>

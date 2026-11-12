@@ -1,5 +1,5 @@
 # Cut the owner out of the blue studio backdrop -> assets/images/me.webp (800x1000, transparent).
-# Run: python -I tools/photo-cutout.py assets/images/photo_2025-03-15_09-31-46.jpg assets/images/me.webp
+# Run: python -I tools/photo-cutout.py tools/source/photo_2025-03-15_09-31-46.jpg assets/images/me.webp
 import sys, numpy as np
 from PIL import Image
 from scipy import ndimage as nd

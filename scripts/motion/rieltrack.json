@@ -1,29 +1,143 @@
 {
   "slug": "rieltrack",
-  "raw": "assets/videos/rieltrack-raw/rieltrack-205902.mp4",
-  "tapLog": "assets/videos/rieltrack-raw/rieltrack-205902.taps.txt",
-  "tapOffset": -0.45,
+  "raw": "assets/videos/rieltrack-raw/rieltrack-221225.mp4",
+  "tapLog": "assets/videos/rieltrack-raw/rieltrack-221225.taps.txt",
+  "tapOffset": -0.2,
   "frameWidth": 1080,
-  "W": 720, "H": 1560,
-  "device": { "type": "phone", "srcW": 1080, "sw": 504, "sh": 1120, "top": 110, "tapScale": 0.85 },
-  "caption": { "y": 1318, "size": 30 },
+  "W": 720,
+  "H": 1560,
+  "device": {
+    "type": "phone",
+    "srcW": 1080,
+    "sw": 504,
+    "sh": 1120,
+    "top": 110,
+    "tapScale": 0.85
+  },
+  "caption": {
+    "y": 1318,
+    "size": 30
+  },
   "labelSize": 22,
   "brandBottom": 56,
-  "title": { "kicker": "ANDROID APP", "name": "RielTrack", "size": 96 },
-  "end": { "size": 84, "tags": "Kotlin · Jetpack Compose · Room" },
+  "title": {
+    "kicker": "ANDROID APP",
+    "name": "RielTrack",
+    "size": 96
+  },
+  "end": {
+    "size": 84,
+    "tags": "Kotlin · Jetpack Compose · Room"
+  },
   "intro": 1.5,
   "outro": 2.6,
-  "segments": [[4.1, 7.1], [9.5, 11.9], [12.4, 14.4], [17.3, 19.5], [22.4, 24.3], [27.1, 28.4], [29.3, 31.6],
-               [35.2, 37.3], [43.9, 45.3], [47.6, 49.2], [50.2, 52.4]],
-  "camera": [[9.65, 1.6, 540, 640, 0.7], [12.5, 1, 540, 1200, 0.7],
-             [47.7, 1.4, 540, 1660, 0.7], [50.2, 1, 540, 1200, 0.6]],
+  "segments": [
+    [
+      4.3,
+      7.2
+    ],
+    [
+      9.6,
+      12.0
+    ],
+    [
+      12.6,
+      14.6
+    ],
+    [
+      17.5,
+      19.8
+    ],
+    [
+      22.8,
+      25.0
+    ],
+    [
+      27.6,
+      28.9
+    ],
+    [
+      29.8,
+      32.2
+    ],
+    [
+      35.8,
+      37.9
+    ],
+    [
+      44.7,
+      46.1
+    ],
+    [
+      48.4,
+      50.0
+    ],
+    [
+      51.0,
+      53.2
+    ]
+  ],
+  "camera": [
+    [
+      9.8,
+      1.6,
+      540,
+      640,
+      0.7
+    ],
+    [
+      12.6,
+      1,
+      540,
+      1200,
+      0.6
+    ],
+    [
+      48.5,
+      1.4,
+      540,
+      1660,
+      0.7
+    ],
+    [
+      49.4,
+      1,
+      540,
+      1200,
+      0.5
+    ]
+  ],
   "captions": [
-    { "text": "Your month at a glance", "from": 4.1, "to": 6.6 },
-    { "text": "Add an expense in riel", "from": 9.5, "to": 19.5 },
-    { "text": "USD and riel together", "from": 22.4, "to": 24.3 },
-    { "text": "See where money goes", "from": 27.1, "to": 31.6 },
-    { "text": "Monthly budgets", "from": 35.2, "to": 37.3 },
-    { "text": "In Khmer or English", "from": 43.9, "to": 52.4 }
+    {
+      "text": "Your month at a glance",
+      "from": 4.3,
+      "to": 6.8
+    },
+    {
+      "text": "Add an expense in riel",
+      "from": 9.6,
+      "to": 19.8
+    },
+    {
+      "text": "USD and riel together",
+      "from": 22.8,
+      "to": 25.0
+    },
+    {
+      "text": "Compare with last month",
+      "from": 27.6,
+      "to": 32.2
+    },
+    {
+      "text": "Monthly budgets",
+      "from": 35.8,
+      "to": 37.9
+    },
+    {
+      "text": "In Khmer or English",
+      "from": 44.7,
+      "to": 53.2
+    }
   ],
   "poster": 3.2,
   "crf": 23

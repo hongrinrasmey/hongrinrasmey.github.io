@@ -41,6 +41,11 @@ demo_on() {
            "notifications -e visible false"; do
     $ADB shell am broadcast -a com.android.systemui.demo -e command $c >/dev/null
   done
+  # demo mode can't hide Android's "No screen lock" safety notification (a shield next to the clock):
+  # snooze it for 3 hours; it comes back by itself
+  local k; for k in $($ADB shell dumpsys notification --noredact | grep -oE "key=0\|android\|2345\|[^ :]+\|1000" | sort -u | sed 's/^key=//'); do
+    $ADB shell "cmd notification snooze --for 10800000 '$k'" >/dev/null
+  done
 }
 demo_off() {
   $ADB shell am broadcast -a com.android.systemui.demo -e command exit >/dev/null

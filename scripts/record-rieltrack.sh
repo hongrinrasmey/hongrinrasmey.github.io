@@ -15,8 +15,13 @@ for i in 1 2 3 4; do                                 # get to the tab bar, from 
   $ADB shell monkey -p com.rieltrack -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 2
   has "History" && break; $ADB shell input keyevent KEYCODE_BACK; sleep 1
 done
-tapt "History" 1.5                                  # remove the lunch from an earlier take, if any
-if has "Food and drinks"; then tapt "Food and drinks" 1.5; tapt "Delete transaction" 2; fi
+tapt "History" 1.5                                  # remove the 12,000 riel lunch from an earlier take, if any
+# (the app puts a non-breaking space before ៛, so match on the number only; loop in case of several)
+for i in 1 2 3; do
+  dump | grep -qF 'text="−12,000' || break
+  tapc 'text="−12,000' 1.5
+  if dump | grep -qF 'text="12000'; then tapt "Delete transaction" 2; else tapt "Close without saving" 1.5; echo "Not the lunch: left alone"; break; fi
+done
 tapt "Home" 1.5; swipe 700 1700 400 1                # Home tab, scrolled to the top
 has "Add expense" || { echo "RielTrack Home not found"; exit 1; }
 GEAR=$(center "Settings")                            # gear position, still valid after the language changes
