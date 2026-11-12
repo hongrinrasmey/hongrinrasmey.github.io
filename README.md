@@ -133,8 +133,8 @@ The live site updates by itself within a minute or two. Change "Last updated" in
 - [ ] Your name, role and one-line intro (hero, header, footer, `<title>`, description, sharing text, JSON-LD, `404.html`, `site.webmanifest`).
 - [ ] Bio, city, whether you're open to remote work, contact sentence, email.
 - [ ] LinkedIn link (Telegram optional).
-- [ ] KH Halal Marketplace: live demo link (and demo login if it has one).
-- [ ] idevo: a public download link (the APKs are only in the private repo's releases).
-- [ ] RielTrack: phone screenshots (`assets/images/rieltrack.webp`).
+- [x] KH Halal Marketplace: live demo link (add a demo login if it has one).
+- [x] idevo: public download in `hongrinrasmey/Idevo-Downloads`. For a new version, add a release there and change `v0.6.4` on the card.
+- [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
 - [ ] Optional: demo videos, `assets/images/me.webp`, `assets/resume.pdf`, "Currently" line, quick stats, Experience, reply time.
 - [ ] Your initials in `favicon.svg`, then re-make the PNG icons and `og-image.png`.

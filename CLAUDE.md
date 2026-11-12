@@ -173,6 +173,13 @@ Owner asked for less empty space at the sides on wide screens.
 - Featured card body lost `height: 100%`: with the bigger screenshot the button was pushed to the card bottom (gap under the tags). Now the text block centres and the button sits under the tags.
 - Checked with headless Edge screenshots at 1920/1440/1280/1024. CSS ~29,900 bytes (budget 30,000: ~100 bytes left).
 
+### Update 2026-11-12 (seventh pass): idevo download is public
+- **Owner approved** ("do all of these") creating a public download repo. Created `hongrinrasmey/Idevo-Downloads` (README from facts in the Idevo README + release notes only; commit uses the GitHub no-reply email because GitHub blocks pushes that expose the private one). Release `v0.6.4` = the 3 APKs from the private `Idevo` v0.6.4 release, SHA-256 checked against GitHub's digests, + `SHA256SUMS-0.6.4.txt`; notes copied from the private release. Checked logged-out: `releases/latest` → 200, APK download → 206.
+- idevo card: "Download APK" → `https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest`, note `v0.6.4` (no Android version shown: `minSdk = flutter.minSdkVersion`, not confirmed). New idevo version → add a release there and change the note.
+- Work heading "Three apps I designed and built" → **"Apps I designed and built"** (owner asked if the count is needed; it goes stale when a project is added).
+- README TODO list: KH Halal demo, idevo download, RielTrack screenshots ticked.
+- Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
