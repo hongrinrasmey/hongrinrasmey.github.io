@@ -283,6 +283,12 @@ Owner: both sections looked empty on their own ("do all of these").
 - Education item: "Final-year thesis project: KH Halal Marketplace." (`.timeline__text`, links to `#kh-halal`, same underline style as contact links). Fixed a bug from the merge: `h4` was missing from the margin reset and the heading rule (big gap + wrong weight).
 - Spoken languages in About (left column, under Education): "Khmer (native) · English (basic)" (owner chose basic). LinkedIn: optional; owner asked if needed, told no.
 
+### Update 2026-11-12: tool list removed from About
+Owner asked what the tool list was for; agreed it repeated the card tags and invited questions about tools they have not learned yet.
+- Removed the tool pill groups and the simpleicons SVG sprite at the top of `<body>` (only the pills used it; `assets/icons/` kept as source). About is now two `.about__side` columns: left "I build my apps with AI coding tools." (the "These are the technologies…" half was dropped: nothing below it any more); right Education + Spoken languages.
+- CSS removed: `.tags svg`, `.tags--skills`, `.about__skills`. In the other session's uncommitted work (not committed here): pill pop-in CSS + `initSkillPills()` removed (dead), and the stacked no-stagger rule now targets `.about__side`.
+- Checks: headless Edge screenshots 1440 + 500, no console errors from the page. CSS 31,158 / JS 17,680 bytes (with the uncommitted work).
+
 ### Update 2026-11-12: hero first-screen fixes (owner: "do all of these")
 - **Centred top to bottom**: name used to start ~55% down the screen (text sat on the photo's bottom line). Phones/tablets: `.hero__inner` `justify-content: center`. ≥1024px: rows `1fr repeat(3, auto) 1fr` (equal empty rows above/below the text), photo `grid-row: 1 / -1; place-self: center start`, so it sits next to the name instead of centred in the leftover space (gap name→photo ~64px + photo side fade). If status/now/stats are un-commented, change `repeat(3, auto)` to match.
 - **Photo sides fade**: the shoulders touch the left/right edges of `me.webp` (alpha 255 on both edge columns), which drew two straight vertical cuts. `.hero__photo img` now has a second mask (fade 0–18% and 82–100% across, `mask-composite: intersect`). The head spans 21–76% of the width, so it is untouched.

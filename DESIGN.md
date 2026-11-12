@@ -220,7 +220,8 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 ### 8.4 About (Tech + Education merged; owner 2026-11-12)
 - Section label `02 / ABOUT`, heading "My background", nav "About" (`#about`).
 - **Honesty rule (owner 2026-11-12):** the owner builds with AI coding tools and has not yet learned the foundations of these languages. The site says so openly. Never present the tools as mastered skills: no levels, no percentages, no "expert" wording.
-- ≥1024px: two equal columns. Left (`.about__side`): one sentence, "I build my apps with AI coding tools. These are the technologies used in the apps I've shipped.", then a small "Education" label and a one-item timeline (BIT, National University of Management, 2023 – 2026). Right: groups "How I build" (AI-assisted development), Languages, Frontend & mobile, Backend, Tools, as pill tags (Geist Mono 14px, padding 6×12, 18px monochrome logos at 75% opacity). Stacked below 1024px.
+- ≥1024px: two equal columns (`.about__side` each), stacked below 1024px. Left: "I build my apps with AI coding tools." (bio and "currently learning" go here once the owner sends them). Right: "Education" label + one-item timeline (BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace), then "Spoken languages": Khmer (native) · English (basic).
+- **No separate tool list (owner 2026-11-12):** the tools show only as tags on each project card. A list on its own repeated the cards and read as "I know these"; tags on a real app read as "used here".
 
 ### 8.5 Experience (only if provided)
 - Section label `03 / EXPERIENCE`.

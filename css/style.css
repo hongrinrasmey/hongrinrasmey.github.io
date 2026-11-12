@@ -273,10 +273,6 @@ main { counter-reset: section; }
   color: var(--muted);
   line-height: 1.6;
 }
-.tags svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
-/* Skill pills; dimmed logos weigh the same */
-.tags--skills li { padding: 6px 12px; font-size: var(--fs-small); }
-.tags--skills svg { width: 18px; height: 18px; opacity: .75; }
 
 /* WEB / ANDROID tag */
 .project-card__meta { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-3); }
@@ -579,7 +575,6 @@ main { counter-reset: section; }
 .about__grid { display: grid; gap: var(--s-6); }
 .tech__note { font-size: var(--fs-h3); line-height: 1.55; max-width: 34rem; }
 .about__side { display: grid; gap: var(--s-6); align-content: start; }
-.about__skills { display: grid; gap: var(--s-4); align-content: start; }
 .skill-group__title {
   margin-bottom: 12px;
   font-weight: 500; line-height: 1.4;
