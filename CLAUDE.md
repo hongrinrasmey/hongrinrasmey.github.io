@@ -533,3 +533,10 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - **2 Deploy prep** (9c10e40): address `https://hongrinrasmey.github.io/portfolio/` in canonical, og:url, og/twitter image, JSON-LD url; `404.html` paths `/portfolio/…`; `.nojekyll`; README deploy steps.
 - **3 KH Halal logins:** no change (row stays hidden; videos instead).
 - **Blocked:** creating public repos (`hongrinrasmey/portfolio`, profile README `hongrinrasmey/hongrinrasmey`, README ready in the session scratchpad) was denied by the permission system: owner must allow or run it. Commit-email rewrite (filter-branch, 60+ commits) and dark phone screenshots (**6**) wait for session `my-portfolio-website-7b`, which was re-rendering idevo/RielTrack videos and holds the emulator. Its uncommitted files were left alone.
+
+### Update 2026-11-12: dark phone screenshots + video pop-up fix (session 11)
+- **Video pop-up bug fixed** (`initVideo`, `js/main.js`): the dialog's `close` event can arrive after the next video has opened; its `frame.replaceChildren()` then removed the new video (froze after ~0.5s). Now `if (modal.open) return;` first. Repeated open/close test: 5 of 9 froze before, 9 of 9 play after.
+- **Dark phone screenshots** (all 12, same names, 405×900 WebP, 14–29 KB): emulator `cmd uimode night yes` + `demo_on`. idevo re-seeded with `scripts/seed-idevo.sh` (pm clear!) + the 3 sample notes typed again (Reading list / Dart isolates / How widgets rebuild, only the text the old shot showed). Answer shown, flashcard NOT graded; RielTrack form closed without saving. Emulator reset after (demo off, night no) and closed.
+- The emulator crashed once mid-session and lost idevo data written just before (re-seed fixed it). Night mode resets on reboot.
+- Live test on https://hongrinrasmey.github.io/portfolio/ (headless Edge): light + dark 1440/390, images, reveals, terminal, 3 videos play, scroll 4× CPU median 16.7ms, no console errors: all pass. 404 loads `/portfolio/css/style.css`.
+- Still open: GitHub profile README repo (`hongrinrasmey/hongrinrasmey`) not created (permission denied for this session); pinning repos is manual on github.com.
