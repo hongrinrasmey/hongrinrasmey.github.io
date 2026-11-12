@@ -788,8 +788,62 @@ html:not(.js) .theme-toggle,
 .skip-link:focus { transform: none; }
 
 /* =========================================================
-   7. MOTION — everything here is off with reduced motion
+   7. MOTION — only transform and opacity move.
+   Everything here is skipped when the visitor asks for reduced motion.
    ========================================================= */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
+
+  /* Hero: each line slides up and fades in, 80ms apart */
+  .hero__item { animation: rise 700ms var(--ease-out) both; }
+  .hero__item:nth-child(2) { animation-delay: 80ms; }
+  .hero__item:nth-child(3) { animation-delay: 160ms; }
+  .hero__item:nth-child(4) { animation-delay: 240ms; }
+  .hero__item:nth-child(5) { animation-delay: 320ms; }
+
+  /* Scroll reveal: hidden only once js/main.js has started (.js-ready),
+     so without JavaScript everything is simply visible.
+     It uses "translate" so it never fights the card hover lift ("transform"). */
+  .js-ready .reveal {
+    opacity: 0;
+    translate: 0 24px;
+    transition:
+      opacity 700ms var(--ease-out),
+      translate 700ms var(--ease-out),
+      transform 300ms var(--ease-out),
+      border-color var(--dur),
+      background-color var(--dur);
+  }
+  .js-ready .reveal.is-visible { opacity: 1; translate: none; }
+  /* Stagger: the delay applies to the reveal only, not to hover (same order as above) */
+  .js-ready .reveal.reveal--d1 { transition-delay: 100ms, 100ms, 0s, 0s, 0s; }
+  .js-ready .reveal.reveal--d2 { transition-delay: 200ms, 200ms, 0s, 0s, 0s; }
+
+  /* Availability dot: gentle pulse */
+  .status-dot { animation: pulse 2s ease-in-out infinite; }
+
+  /* Video pop-up: small rise when it opens */
+  .video-modal[open] { animation: rise 300ms var(--ease-out); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* Reduced motion: no movement at all (!important so no rule above can bring it back). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .project-card:hover,
+  .project-card:hover .project-card__media img,
+  .btn:hover .btn__arrow,
+  .footer__top:hover .footer__arrow { transform: none !important; }
 }

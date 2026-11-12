@@ -108,6 +108,22 @@
     sections.forEach(function (s) { navObserver.observe(s); });
   }
 
+  // ----- Scroll reveal: blocks fade and slide up once, when 15% is on screen -----
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
   // ----- Screen reader announcements ("Copied!") -----
   var liveRegion = document.getElementById('live-region');
   function announce(message) {
