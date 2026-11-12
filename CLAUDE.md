@@ -125,7 +125,12 @@ Another agent session worked on this repo until 13:39 (commits up to f854a43) fr
 - Functional browser test (headless Edge over CDP, all pass): one h1 + aria-label after split text, section counters, images load with alt, in-page links resolve, noopener, ≥44px targets, hidden empty links, theme toggle + saved + reload, `T` and `?` shortcuts, copy email + aria-live, mobile menu open/Esc/focus return/link closes/inert/scroll lock, no horizontal scroll at 360/390/768/1024/1440/1920, reduced motion shows everything, content visible with JS off, no console errors on file://.
 - Lighthouse (local server): mobile 93 / 100 / 100 / 100, desktop 99 / 100 / 100 / 100.
 
+- taste-skill lint: **0 FAIL, 0 WARN**. Every line the spec requires but the skill bans (mono labels and tags, `01 /` numbering, 1px borders, marquee fade, card spotlight, modal blur, floating tooltip shadow) carries a same-line `taste-skill-ignore: DESIGN.md §…` comment naming the section that asks for it.
+- taste-skill direction: `dark-room`, seed 1825430341, no redraws. Idea: "On this page, the owner's own app screens become the lit exhibits in a dark room." Live things: circle theme reveal from the toggle, card tilt + cursor spotlight, copy email / demo login, `T` / `?` shortcuts.
+- Open-collection search (`assets.mjs "riel banknote Cambodia"`) ran: one CC BY-SA photo of a 5000-riel note on Wikimedia Commons. **Not used**: DESIGN.md rule 4 and the owner's no-found-photos rule. No found pictures are on the page, so there are no credits.
+
 ### How to re-run the checks (for agents)
+- Lint: `node <taste-skill>/scripts/lint.mjs index.html 404.html css js`.
 - Inspector (PowerShell): `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures,eyebrow,mono,micro-label,hairline,outlined-box`.
 - Lighthouse: serve the folder with any static server, then (PowerShell) `$env:CHROME_PATH="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"`.
 
