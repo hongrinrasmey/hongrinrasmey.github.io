@@ -2,6 +2,7 @@
 
 Read this whole file before doing anything. These rules override any default habits.
 **Agents: read section 13 (Progress log) first to see where the work stands, then continue from there. Update section 13 after every change.**
+**`DESIGN.md` is the full, newer spec (owner, 2026-11-12). Where it differs from sections 4–9 below (3 fonts incl. JetBrains Mono, numbered mono section labels, 1px borders, pill buttons, darker light-mode accent `#4D7C0F`), follow DESIGN.md.**
 
 ## 1. What this project is
 A simple, clean, personal developer portfolio. Its only job: show who I am, what I've built, and how to contact me.
@@ -106,43 +107,41 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 
 ## 13. Progress log (agents: read first, update after every change)
 
-### Current state
-- Plain HTML/CSS/JS site in the project root (`index.html`, `css/style.css`, `js/main.js`, `favicon.svg`, `README.md`).
-- **Section 3 is still all placeholders**, so every piece of personal content on the page is an obvious `[TODO: ...]`. Nothing is invented.
-- The earlier Astro version (it had an invented persona, city photos and a blog, which break rules 1–6) was moved, not deleted, into `_old-astro-version/`. It is git-ignored. Delete that folder once you no longer want it.
+### Current state (2026-11-12)
+- Site rebuilt to the `DESIGN.md` spec, in 8 commits (tokens → header → hero → projects → about → contact/404 → motion → SEO).
+- Plain HTML/CSS/JS: `index.html`, `css/style.css`, `js/main.js`, `404.html`, `robots.txt`, `favicon.svg` + `favicon.png`, `assets/images/og-image.png`, `tools/` (helpers to re-make the OG image and PNG icon).
+- **Section 3 is still all placeholders**, so every personal detail is an obvious `[TODO: ...]`. Only "RielTrack" and "FileShift" (named in DESIGN.md) are real. Nothing invented.
+- The old Astro version is still in `_old-astro-version/` (git-ignored). Ask the owner before deleting it.
 
 ### Decisions made
-- Optional "Open to work" badge: left out (it is optional and reads as decoration). Ask the owner if they want it.
-- Experience section: present in `index.html` but commented out, because no experience was provided. Uncomment to use it; also uncomment its nav link.
-- Links left as `href="#"` (Live, Code, GitHub, LinkedIn, résumé) are hidden automatically by CSS (`.link-opt[href="#"]`). Put a real URL in and the button appears.
-- Open Graph image line is commented out in `<head>` until a real image exists (no fake image).
-- Light mode accent: buttons keep lime `#C6F432` with dark text; accent-coloured text/links use darker `#4A6600` for contrast.
+- "Available for work" hero label: in `index.html` but commented out (owner has not said yes).
+- Experience section + its nav link: commented out (no experience given). Section numbers are a CSS counter, so they stay 01/02/03… when it is shown.
+- Links left as `href="#"` and video buttons with `data-video=""` are hidden by CSS (`.link-opt`). "Demo coming soon" shows while the live link is `#`.
+- One card in the "other projects" grid spans full width (mirrored split layout on desktop), so there is no empty half.
+- Contact section sits on `--surface` (a tone step) so the last screen is not empty ground.
+- Reveal animation is hidden only under `.js-ready` (set by main.js), so content shows if main.js fails. Uses `translate` so it never fights the card hover `transform`.
+- Mobile menu: full-screen overlay; while open, `main`, footer and skip link are `inert` and the page cannot scroll.
+- Video pop-up is a native `<dialog>`; the video element is created only when it opens (nothing downloads before). YouTube links become `youtube-nocookie` embeds. With reduced motion the video does not autoplay.
+- `404.html` uses root paths (`/css/style.css`). Works on Netlify/Vercel/custom domain/`user.github.io`; a project page at `/REPO/` needs the prefix (noted in the file and README).
+- OG image is a plain text placeholder made from `tools/og-image.html` (no photo).
+- Owner rule (2026-11-12): **never add stock or found photos/clips** to pass the design skill's picture checks.
 
-### Done (2026-11-12)
-1. Moved old Astro project into `_old-astro-version/`.
-2. Built the one-page site per sections 4–8.
-3. Checked layout at 360 / 390 / 768 / 1024 / 1440 widths. No horizontal scroll at any width.
-4. Tested in a headless browser: theme toggle + saved choice after reload, mobile menu (opens, closes on link, closes on Escape and returns focus), scroll reveal, copy-email, footer year, one `<h1>`, no console errors.
-5. Wrote README.md, then ran git init and the first commit.
-6. Added contact layout (2 columns on desktop), hero height cap, and `scroll-margin-top` so menu links don't land under the sticky header.
-
-7. Placeholder box text set to 20px so it reads as a box, not a small label. Font sizes merged into fewer steps.
-8. Final checks after the last CSS change:
-   - taste-skill inspector: **0 FAIL** at 1440 / 768 / 390, run with `--allow few-pictures` because rule 3 bans stock photos. Re-run it without `--allow` once real screenshots are in.
-   - Lighthouse mobile: Performance 95, Accessibility 100, Best Practices 100, SEO 100. Desktop: 99 / 100 / 100 / 100.
-   - Remaining warnings, kept on purpose: no video (rule 3), "little motion" (section 8 asks for subtle motion), and in-between font sizes at 768px (they come from `clamp()`, which section 7 requires).
+### Checks run on the final version (2026-11-12)
+- taste-skill inspector: **0 FAIL** at 1440/768/390 with `--allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Every allowed rule is something DESIGN.md requires (mono labels, "01 /" labels, 1px borders, 3 fonts, modal blur) or the owner's no-stock-photo rule. Remaining WARN `off-centre` (170 vs 194px) comes from short `[TODO]` lines not reaching the right edge.
+- Browser test (56 checks, all pass): no horizontal scroll and ≥44px tap targets at 360/390/768/1024/1440/1920; one h1; labelled sections; hidden empty links; header on scroll; active nav; reveal; card hover; theme toggle + saved + reload; light-mode contrast ≥4.5:1; copy email/demo login + "Copied!" + aria-live; video modal open/Esc/backdrop/close button/focus return/YouTube; mobile menu open/Esc/link/outside click/inert/scroll lock; reduced motion; JavaScript off; 404 at a nested address; opened from file://; no console errors.
+- Lighthouse mobile 95 / 100 / 100 / 100 (CLS 0), desktop 98 / 100 / 100 / 100.
 
 ### How to re-run the checks (for agents)
-- Inspector: `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures`. Run it from PowerShell, because the Bash sandbox blocks the browser.
-- Lighthouse: serve the folder locally, then `npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"` with `CHROME_PATH` set to Edge (`C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`).
+- Inspector: from PowerShell (the Bash sandbox blocks the browser): `node <taste-skill>/scripts/inspect.mjs index.html --allow eyebrow,mono,micro-label,numbering,hairline,outlined-box,font-count,glass,few-pictures,no-footage`. Drop `few-pictures` once real screenshots are in.
+- Lighthouse: `chrome-launcher` cannot find Edge here. Start Edge yourself (`msedge.exe --headless=new --remote-debugging-port=9333 --user-data-dir=<temp>`), serve the folder from a separate process (a server in the same process as a blocking `execSync` hangs), then `npx -y lighthouse@12.8.2 http://127.0.0.1:PORT/ --port=9333`.
 
-### Next step (owner decided 2026-11-12)
-The owner will fill in section 3 themselves. **Next agent:** if section 3 has real values (no `[...]`), copy them into `index.html` and replace every `[TODO: ...]`. Then re-run the inspector (without `--allow` if screenshots were added) and Lighthouse, update this log, and commit.
-
-Owner confirmed on 2026-11-12: keep rules 1 and 3 over the design skill's picture floor. **Never add stock or found photos to pass the "few-pictures" check.** That check passes only once the owner's own screenshots and photo are in `assets/images/`.
+### Next step
+The owner fills in section 3 / DESIGN.md section 3. **Next agent:** copy the real values into `index.html` (and `<head>`, JSON-LD, `404.html`, `tools/og-image.html`), replace every `[TODO: ...]`, re-make `og-image.png`, then re-run the checks above, update this log and commit.
 
 ### Still TODO (needs the owner's real details)
-- Fill in every `[TODO: ...]` in `index.html` from section 3: name, role, intro, bio, location, remote yes/no, skills, 2–4 projects, email, GitHub, LinkedIn.
-- Add `assets/images/me.jpg` (optional), project screenshots, and `assets/resume.pdf` (optional).
-- Add an Open Graph image and uncomment its `<meta>` line.
-- Update `<title>` and meta description with the real name.
+- Every `[TODO: ...]` in `index.html`: name, role, intro, bio, city, open-to, skills, RielTrack/FileShift descriptions, features, tech, contact sentence, email.
+- Links: live demos, code (or "Private repo"), GitHub, LinkedIn, Telegram (optional), résumé.
+- Screenshots `assets/images/rieltrack.webp`, `fileshift.webp`; optional `me.webp`, demo videos, demo logins.
+- Whether to show "Available for work" and the Experience section.
+- Domain (then: canonical, og:url, full og:image URL, sitemap.xml).
+- Initials in `favicon.svg`.

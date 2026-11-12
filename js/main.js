@@ -48,7 +48,7 @@
     var onScroll = function () {
       header.classList.toggle('is-scrolled', window.scrollY > 20);
     };
-    onScroll();
+    requestAnimationFrame(onScroll); // first check on the next frame, so the page is not measured twice on load
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
