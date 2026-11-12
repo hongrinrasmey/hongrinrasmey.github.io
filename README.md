@@ -123,15 +123,12 @@ You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in
    Add `--from 0 --to 8 --out test.mp4` for a quick preview.
 
 ## 4. Put it online (free)
-**GitHub Pages**
-1. Create a repository on GitHub and push this folder:
-   ```
-   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
-   git push -u origin main
-   ```
-2. On GitHub: **Settings → Pages → Source: Deploy from a branch → main / (root)** → Save.
-3. After a minute the site is live at `https://YOUR-USERNAME.github.io/YOUR-REPO/`.
-   Tip: name the repository `YOUR-USERNAME.github.io` and the address becomes just `https://YOUR-USERNAME.github.io/`.
+**GitHub Pages** (this site: `https://hongrinrasmey.github.io/portfolio/`, repo `hongrinrasmey/portfolio`)
+1. Push changes: `git push`. The site updates about a minute later.
+2. Pages setting (already on): **Settings → Pages → Source: Deploy from a branch → main / (root)**.
+3. `.nojekyll` tells GitHub to serve the files as they are (no Jekyll build).
+4. The address `/portfolio/` is written in `404.html` and in `<head>` of `index.html` (canonical, og:url,
+   og:image, twitter:image, JSON-LD url). Renaming the repo or moving host: change those.
 
 **Netlify or Vercel** (also free): sign in with GitHub → **Add new site / New project** → pick the repository →
 leave all build settings empty → Deploy. Their security settings come from `_headers` (Netlify) and `vercel.json` (Vercel).
