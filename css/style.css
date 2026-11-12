@@ -414,8 +414,12 @@ main { counter-reset: section; }
 .hero__photo { position: relative; width: min(56%, 240px); margin-bottom: var(--s-5); }
 .hero__photo img {
   position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
-  border: 1px solid var(--border); /* taste-skill-ignore */
-  border-radius: var(--radius);
+  mask-image: linear-gradient(#000 58%, transparent 92%); /* cut-out: suit fades into the page */
+}
+/* Soft light behind the head, so dark hair stands off the dark page */
+.hero__photo::before {
+  content: ""; position: absolute; inset: 5% -10% 20%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent); /* taste-skill-ignore */
 }
 @media (min-width: 1024px) {
   /* text bottom-left; photo centred in the space left */

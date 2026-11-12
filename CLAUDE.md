@@ -259,6 +259,21 @@ Owner said the projects were built with AI and they do not yet know the foundati
 - Uncommitted work from another session (phone screen swap, hero glow follows mouse, skill pill pop-in, section label draw; `css/style.css` + `js/main.js`) was NOT in this commit; its photo `frame-in` animation was removed with the frame. With that work the CSS file is ~31,900 bytes, **over the 30,000 budget**.
 - Checked: headless Edge screenshots at 1440, 1024, 500.
 
+### Update 2026-11-12: motion cut back (owner: "do all of these")
+After a review of the other session's new effects (phone screens, phone drift, hero glow, pill pop, label roll, photo wipe):
+- **Removed:** section label line-draw + number roll, and the hero photo wipe (the photo rises in with the other hero items again). CSS rules, reduced-motion and print selectors, DESIGN.md §11 rows removed.
+- **Phone screens** (`initPhoneScreens` in `js/main.js`): one loop back to the first screen, 1.2s per screen, then stop and disconnect. Measured: swaps 1.4s to 4.1s after the card shows, done before 5s (WCAG 2.2.2), ends in the HTML order, no change after. Hover/focus still pauses.
+- Kept: phone drift, hero glow follow, skill pill pop-in.
+- Tests (headless Edge, CDP, 4x CPU): frames median 16.7ms, p95 16.8ms; no console errors; no horizontal scroll at 1440; reduced motion: no clones, pills and photo visible; clone images have alt="" (6 real alts).
+- Sizes: CSS 31,200 (old budget 30,000; DESIGN.md says 33,000, raised by the other session), JS 17,921 (old 15,000; DESIGN.md says 18,000). **Owner has not approved the raised budgets.**
+- Not committed: the same files hold the other session's unfinished work (photo cut-out mask, new idevo screenshots). Lint has 1 FAIL from that session (`.hero__photo img` mask gradient), not from this change.
+
+### Update 2026-11-12: hero photo is a cut-out
+- Owner asked to fix the photo "box". Three drafts built and screenshotted in dark + light (scratchpad only): A fade edges (fine in dark, a brown smudge in light: rejected), B cut-out (works in both: **chosen**), C arch-top box.
+- `me.webp` (800×1000, ~40 KB) is now transparent: made by `tools/photo-cutout.py` from the original jpg (blue key flood-filled from the top/side edges only so the blue tie stays; blue gaps in the top 60% also removed; edge despill; premultiplied resize so no blue halo). New photo → re-run that script (it needs a plain blue/flat backdrop).
+- CSS: `.hero__photo img` has no border/radius, `mask-image` fades the suit out (58% → 92%); `.hero__photo::before` is a 16% orange radial light behind the head. `tools/og-image.html` avatar got `background: #161311` so the share image keeps its dark circle.
+- Checked: headless Edge over CDP, 6 loads each at 390 and 1440 in light + dark: photo loaded, opacity 1, no console errors, no horizontal scroll. (Flipping `data-theme` after load in headless stops frame rendering: a test-tool quirk, not the page.) Screenshots 1440/1024/600.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
