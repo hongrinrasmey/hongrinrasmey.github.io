@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Records the raw idevo demo on the Android emulator (VIDEOS.md, Method A).
-# Uses the app's own "Learn how to learn" sample path, so no personal data is involved.
-# WARNING: runs "pm clear app.idevo.idevo" at the start AND the end, which deletes all idevo data
-# on the device (the end one also puts the language back). That is why it only runs on the emulator.
+# First runs seed-idevo.sh (the app's own "Learn how to learn" sample path, studied over a few earlier
+# days by moving the emulator clock), so Home and Progress show real history. No personal data.
+# WARNING: "pm clear app.idevo.idevo" runs in the seed AND at the end (deletes all idevo data; the end one
+# also puts the language back). That is why it only runs on the emulator.
 # Run from the portfolio folder:  bash scripts/record-idevo.sh
 set -u
 cd "$(dirname "$0")/.."
@@ -10,29 +11,28 @@ cd "$(dirname "$0")/.."
 OUT=assets/videos/idevo-raw
 case "${DEVICE:-emulator-5554}" in emulator-*) ;; *) echo "Refusing: pm clear on a real phone"; exit 1;; esac
 
+bash scripts/seed-idevo.sh || { echo "seed failed"; exit 1; }
 demo_on
-$ADB shell pm clear app.idevo.idevo >/dev/null
 $ADB shell monkey -p app.idevo.idevo -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1
 sleep 5
-has "Choose something to learn" || { echo "idevo Home not found"; exit 1; }
+has "Continue" || { echo "idevo Home with 'Continue' not found"; exit 1; }
 
 TAPLOG=$(mktemp); : > "$TAPLOG"
 rec_start idevo
-sleep 2.5                                          # Home
-tapt "Choose something to learn" 1.5
-tapt "Or try a sample path" 2.5                    # path with 3 lessons
-tapt "Start: Test yourself" 2.2                    # lesson 1
+sleep 2.5                                          # Home: continue learning, this week
+tapt "Continue" 2.5                                # lesson 2 "Space it out"
 swipe 1700 1000 700 1.2                            # down to the practice question
-tapt "Reading it once, then recalling it from memory" 2.5
-$ADB shell input keyevent KEYCODE_BACK; sleep 1.2  # back to the path
-$ADB shell input keyevent KEYCODE_BACK; sleep 1.2  # back to Learn
+tapt "Soon, so you can practise it again" 2.5
+swipe 1500 1000 500 0.8
+tapt "Mark as complete" 2
+$ADB shell input keyevent KEYCODE_BACK; sleep 1.5
 tapc "Tab 4 of 4" 2                                # Review
 tapt "Start review" 2
 tapt "Show answer" 2.5
-tapt "Good, comes back in 1 day" 1.5
+tapc "Good, comes back" 1.5
 $ADB shell input keyevent KEYCODE_BACK; sleep 1.2
-tapc "Tab 3 of 4" 1.5                              # Learn
-tapt "Your progress" 3
+tapc "Tab 3 of 4" 2                                # Learn: the path
+tapt "Your progress" 3.5
 $ADB shell input keyevent KEYCODE_BACK; sleep 1
 tapc "Tab 1 of 4" 2                                # Home
 tapt "Settings" 1.5

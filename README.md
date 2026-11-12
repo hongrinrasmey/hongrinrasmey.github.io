@@ -110,8 +110,10 @@ The three videos are real recordings with motion graphics added (frame, zoom, ta
 You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in any folder
 (`npm i playwright@1.49.1`, then set `NODE_PATH` to that folder's `node_modules`).
 1. Record (Git Bash, from this folder):
-   - RielTrack: `bash scripts/record-rieltrack.sh` (needs the sample data in the app first, see the top of the script)
-   - idevo: `bash scripts/record-idevo.sh` (emulator only: it wipes the app's data and loads the sample path)
+   - RielTrack: `bash scripts/record-rieltrack.sh` (needs the sample data in the app first, see the top of the script;
+     `bash scripts/seed-rieltrack.sh` adds the older, past-dated sample entries, run it once)
+   - idevo: `bash scripts/record-idevo.sh` (emulator only: it runs `scripts/seed-idevo.sh` first, which wipes the app,
+     loads the sample path and studies it on earlier days by moving the emulator clock, then sets the clock back)
    - KH Halal: `node scripts/record-kh-halal-marketplace.js` (live site: guest, then customer wishlist, then seller
      pages; never checkout or payment). It signs in off camera with logins from environment variables only:
      `KH_CUSTOMER_EMAIL`, `KH_CUSTOMER_PASSWORD`, `KH_SELLER_EMAIL`, `KH_SELLER_PASSWORD` (never write them in a file).
