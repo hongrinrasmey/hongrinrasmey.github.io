@@ -136,6 +136,9 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 - Inspector: `node <taste-skill>/scripts/inspect.mjs index.html --allow few-pictures`. Run it from PowerShell, because the Bash sandbox blocks the browser.
 - Lighthouse: serve the folder locally, then `npx -y lighthouse@12.8.2 http://localhost:PORT/ --chrome-flags="--headless=new"` with `CHROME_PATH` set to Edge (`C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`).
 
+### Next step (owner decided 2026-11-12)
+The owner will fill in section 3 themselves. **Next agent:** if section 3 has real values (no `[...]`), copy them into `index.html` and replace every `[TODO: ...]`. Then re-run the inspector (without `--allow` if screenshots were added) and Lighthouse, update this log, and commit.
+
 ### Still TODO (needs the owner's real details)
 - Fill in every `[TODO: ...]` in `index.html` from section 3: name, role, intro, bio, location, remote yes/no, skills, 2–4 projects, email, GitHub, LinkedIn.
 - Add `assets/images/me.jpg` (optional), project screenshots, and `assets/resume.pdf` (optional).
