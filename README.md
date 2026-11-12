@@ -15,7 +15,7 @@ js/main.js            theme toggle, mobile menu, animations, copy buttons, video
 assets/images/        project screenshots, your photo (later), og-image.png (link preview picture)
 assets/icons/         tech logos from simpleicons.org (the page uses copies inside index.html)
 assets/fonts/         Geist + Geist Mono font files (self-hosted) and their licence
-assets/videos/        short project demo clips (create this folder when you have one)
+assets/videos/        project demo videos + poster pictures (made by scripts/, see "Demo videos" below)
 assets/resume.pdf     your résumé (optional)
 favicon.svg           the small icon in the browser tab (+ favicon-32.png, apple-touch-icon.png)
 site.webmanifest      name and colour when someone saves the site to a phone home screen
@@ -97,6 +97,20 @@ Press `T` to switch light / dark theme.
 - Use real screens with realistic data, and hide personal information.
 - Demo videos: MP4, 20–40 seconds, muted, under 5 MB.
 
+### Demo videos (re-make after an app update)
+The three videos are real recordings with motion graphics added (frame, zoom, tap ripples, captions).
+You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in any folder
+(`npm i playwright@1.49.1`, then set `NODE_PATH` to that folder's `node_modules`).
+1. Record (Git Bash, from this folder):
+   - RielTrack: `bash scripts/record-rieltrack.sh` (needs the sample data in the app first, see the top of the script)
+   - idevo: `bash scripts/record-idevo.sh` (emulator only: it wipes the app's data and loads the sample path)
+   - KH Halal: `node scripts/record-kh-halal-marketplace.js` (live site, guest only, stops at the cart)
+   Raw files land in `assets/videos/<slug>-raw/` (not uploaded to GitHub).
+2. In `scripts/motion/<slug>.json`, point `raw` and `tapLog` at the new files and adjust the clip times
+   (`segments`), captions and zoom.
+3. Render: `node scripts/motion/render.js scripts/motion/<slug>.json` → `assets/videos/<slug>.mp4` + poster.
+   Add `--from 0 --to 8 --out test.mp4` for a quick preview.
+
 ## 4. Put it online (free)
 **GitHub Pages**
 1. Create a repository on GitHub and push this folder:
@@ -141,4 +155,5 @@ The live site updates by itself within a minute or two. Change "Last updated" in
 - [x] RielTrack: phone screenshots (`assets/images/rieltrack.webp`, `-2`, `-3`).
 - [x] Your photo (`assets/images/me.webp`, `me-avatar.webp`).
 - [x] Education (Bachelor's in Business Information Technology, National University of Management, 2023–2026).
-- [ ] Optional: demo videos, `assets/resume.pdf`, "Currently" line, quick stats, reply time.
+- [x] Demo videos for all 3 projects (`assets/videos/`, "Watch video" on each card).
+- [ ] Optional: `assets/resume.pdf`, "Currently" line, quick stats, reply time.

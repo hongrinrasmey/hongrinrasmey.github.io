@@ -296,6 +296,17 @@ Owner asked what the tool list was for; agreed it repeated the card tags and inv
 - Checks: lint 0/0; CDP at real widths 360/390/768/1024/1366/1440/1843, dark + light: photo loaded + visible, no horizontal scroll, no console errors; equal-ish space above/below at every width. CSS 31,736 bytes.
 - Only my hero lines were committed; the other session's phone-swap work in the same files is still uncommitted.
 
+### Update 2026-11-12: demo videos for all 3 projects (VIDEOS.md)
+Owner approved the plan, the shot lists and an 8 s style test ("do all of these", "that look great").
+- **Files:** `assets/videos/kh-halal-marketplace.mp4` (1920×1080, 24.9 s, 3.95 MB), `idevo.mp4` (720×1560, 26.2 s, 1.94 MB), `rieltrack.mp4` (720×1560, 24.0 s, 1.81 MB), each with `<slug>-poster.webp`. H.264, no audio, `+faststart`. Wired into the three "Watch video" buttons (`data-video` / `data-poster` in `index.html`).
+- **Real footage only.** Android: the `Pixel_API37` emulator (owner's phone never touched; it showed `unauthorized`), RielTrack 1.6 + idevo 0.6.4 from the public download repos (SHA-256 checked; the old emulator copies 1.4-debug / 0.5.0 had no data). RielTrack sample data typed in (salary $850, PassApp $3.50, internet $24.99, shopping ៛45,000, $500 limit); the video adds ៛12,000 Food live. idevo uses the app's own "Learn how to learn" sample path. KH Halal: live site as a guest (cart is localStorage; the only POST is `cart/validate`), stops at the cart, never checkout.
+- **Motion graphics** (`scripts/motion/compose.html` scene + `render.js`): dark `#0C0A09` stage, orange glow, 64px grid, phone or browser frame sliding in, gentle sway, zoom on the key moment, tap ripples and a cursor drawn from the logged taps/mouse path, Geist captions (real features only), end card with the card's tech tags, `>_ Hong Rinrasmey`. Rendered frame by frame (smooth 30 fps), then ffmpeg. Per-project config: `scripts/motion/<slug>.json` (clip times, speed, captions, zoom).
+- **Recording scripts:** `scripts/record-rieltrack.sh`, `scripts/record-idevo.sh` (wipes idevo data: refuses anything but an emulator), `scripts/record-kh-halal-marketplace.js`, helpers `scripts/lib-adb.sh` (taps by label from a UI dump, never guessed coordinates; demo mode on/off). README "Demo videos" says how to re-make them.
+- Raw takes in `assets/videos/<slug>-raw/` are git-ignored.
+- Cleanup: demo mode off (`sysui_demo_allowed 0`), temp files deleted, emulator closed. Android's "No screen lock" notification was snoozed 2 h on the emulator (comes back by itself).
+- Checked in headless Edge (file://, 1440 and 390): all 3 buttons show, videos load + play, phone-size pop-up for the Android cards (418px), Esc closes, focus returns, no horizontal scroll, no console errors.
+- Committed with a separate index: only these lines/files. The other session's uncommitted work (CSS/JS, icons, terminal, `btn--sm`, etc.) is still uncommitted.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
