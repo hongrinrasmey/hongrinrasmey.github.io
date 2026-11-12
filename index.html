@@ -83,7 +83,140 @@
       <p class="hero__meta hero__item">[TODO: City], Cambodia · [TODO: open to full-time / freelance / remote]</p>
     </section>
 
+    <!-- ===== 01 · PROJECTS =====
+         HOW TO EDIT A PROJECT CARD
+         - Buttons: put the real address in href="..." and the button appears.
+           Leave href="#" and it stays hidden. No live demo yet? A "Demo coming soon" note shows by itself.
+         - Video: put the file path (assets/videos/name.mp4) or a YouTube link in data-video="...".
+           data-poster="..." is the still picture shown before the video plays (optional).
+         - Demo login: write it in BOTH the visible text and data-copy="...", then delete the word hidden.
+         - Private code: delete the "View code" link and remove the comment marks around "Private repo".
+         - Screenshot: replace the <div class="placeholder">…</div> with:
+             <img src="assets/images/rieltrack.webp" alt="RielTrack: describe what the screenshot shows"
+                  width="1600" height="1000" loading="lazy" decoding="async">
+         - Add a project: copy one whole <article class="project-card"> … </article> block
+           into the "Other projects" list and change it.
+    -->
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="section-label">Selected work</p>
+          <h2 class="section__title" id="work-title">Things I've built</h2>
+        </div>
+
+        <!-- FEATURED PROJECT: RielTrack (full width) -->
+        <article class="project-card project-card--featured reveal">
+          <div class="project-card__media">
+            <div class="placeholder">Screenshot coming soon</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">RielTrack</h3>
+            <p class="project-card__lead">[TODO: one line: what RielTrack does]</p>
+            <p class="project-card__text">[TODO: 1–2 sentences: the problem it solves and how. My role: TODO]</p>
+            <ul class="project-card__features" aria-label="Key features">
+              <li>[TODO: key feature 1]</li>
+              <li>[TODO: key feature 2]</li>
+              <li>[TODO: key feature 3]</li>
+            </ul>
+            <ul class="tags" aria-label="Built with">
+              <li>[TODO: tech]</li>
+              <li>[TODO: tech]</li>
+              <li>[TODO: tech]</li>
+            </ul>
+            <p class="project-card__login" hidden>
+              <span>Demo: <span class="project-card__login-text">[TODO: demo email] / [TODO: demo password]</span></span>
+              <button class="btn btn--secondary btn--sm copy-btn" type="button" data-copy="[TODO: demo email] / [TODO: demo password]" aria-label="Copy RielTrack demo login">
+                <svg class="copy-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                <svg class="copy-btn__done" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+                <span class="copy-btn__label">Copy</span>
+              </button>
+            </p>
+            <div class="project-card__actions">
+              <a class="btn btn--primary btn-live link-opt" href="#" target="_blank" rel="noopener noreferrer">
+                Try live demo
+                <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+              </a>
+              <button class="btn btn--secondary link-opt video-btn" type="button" data-video="" data-poster="" data-title="RielTrack demo video">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                Watch video
+              </button>
+              <a class="btn btn--secondary link-opt" href="#" target="_blank" rel="noopener noreferrer">View code</a>
+              <!-- <span class="project-card__note">Private repo</span> -->
+              <span class="project-card__note demo-soon">Demo coming soon</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- OTHER PROJECTS (2 columns on tablet and desktop) -->
+        <div class="projects__grid">
+
+          <!-- PROJECT: FileShift -->
+          <article class="project-card reveal reveal--d1">
+            <div class="project-card__media">
+              <div class="placeholder">Screenshot coming soon</div>
+            </div>
+            <div class="project-card__body">
+              <h3 class="project-card__title">FileShift</h3>
+              <p class="project-card__lead">[TODO: one line: what FileShift does]</p>
+              <p class="project-card__text">[TODO: 1–2 sentences: the problem it solves and how. My role: TODO]</p>
+              <ul class="project-card__features" aria-label="Key features">
+                <li>[TODO: key feature 1]</li>
+                <li>[TODO: key feature 2]</li>
+                <li>[TODO: key feature 3]</li>
+              </ul>
+              <ul class="tags" aria-label="Built with">
+                <li>[TODO: tech]</li>
+                <li>[TODO: tech]</li>
+                <li>[TODO: tech]</li>
+              </ul>
+              <p class="project-card__login" hidden>
+                <span>Demo: <span class="project-card__login-text">[TODO: demo email] / [TODO: demo password]</span></span>
+                <button class="btn btn--secondary btn--sm copy-btn" type="button" data-copy="[TODO: demo email] / [TODO: demo password]" aria-label="Copy FileShift demo login">
+                  <svg class="copy-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <svg class="copy-btn__done" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+                  <span class="copy-btn__label">Copy</span>
+                </button>
+              </p>
+              <div class="project-card__actions">
+                <a class="btn btn--primary btn-live link-opt" href="#" target="_blank" rel="noopener noreferrer">
+                  Try live demo
+                  <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                </a>
+                <button class="btn btn--secondary link-opt video-btn" type="button" data-video="" data-poster="" data-title="FileShift demo video">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                  Watch video
+                </button>
+                <a class="btn btn--secondary link-opt" href="#" target="_blank" rel="noopener noreferrer">View code</a>
+                <!-- <span class="project-card__note">Private repo</span> -->
+                <span class="project-card__note demo-soon">Demo coming soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Add more projects here (copy the FileShift block above).
+               With one card it fills the full width; with two or more they sit side by side. -->
+
+        </div>
+      </div>
+    </section>
+
   </main>
+
+  <!-- ===== VIDEO POP-UP (filled by js/main.js when a "Watch video" button is pressed) ===== -->
+  <dialog class="video-modal" id="video-modal" aria-labelledby="video-modal-title">
+    <div class="video-modal__inner">
+      <div class="video-modal__head">
+        <p class="video-modal__title" id="video-modal-title">Demo video</p>
+        <button class="icon-btn video-modal__close" type="button" aria-label="Close video">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="video-modal__frame"></div>
+    </div>
+  </dialog>
+
+  <!-- Screen readers hear "Copied!" from here -->
+  <p class="visually-hidden" id="live-region" aria-live="polite"></p>
 
   <script src="js/main.js" defer></script>
 </body>

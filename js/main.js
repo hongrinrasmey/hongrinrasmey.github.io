@@ -103,4 +103,136 @@
     }, { rootMargin: '-45% 0px -50% 0px' }); // a thin line across the middle of the screen
     sections.forEach(function (s) { navObserver.observe(s); });
   }
+
+  // ----- Screen reader announcements ("Copied!") -----
+  var liveRegion = document.getElementById('live-region');
+  function announce(message) {
+    if (!liveRegion) return;
+    liveRegion.textContent = '';
+    setTimeout(function () { liveRegion.textContent = message; }, 50);
+  }
+
+  // ----- Copy buttons -----
+  // A button with data-copy="text" copies that text.
+  // A button with data-copy-from="#id" copies that link's email address (or its text).
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return fallbackCopy(text); }
+      );
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function fallbackCopy(text) {
+    // Older way, still needed when the page is opened straight from a file.
+    var active = document.activeElement;
+    var area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    area.remove();
+    if (active && active.focus) active.focus();
+    return ok;
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy], [data-copy-from]');
+    if (!btn) return;
+
+    var text = btn.getAttribute('data-copy') || '';
+    var from = btn.getAttribute('data-copy-from');
+    if (from) {
+      var source = document.querySelector(from);
+      if (source) {
+        text = (source.getAttribute('href') || '').replace(/^mailto:/, '') || source.textContent.trim();
+      }
+    }
+    if (!text) return;
+
+    var label = btn.querySelector('.copy-btn__label');
+    if (label && !btn.hasAttribute('data-label')) btn.setAttribute('data-label', label.textContent);
+
+    copyText(text).then(function (ok) {
+      var message = ok ? 'Copied!' : 'Could not copy. Please select the text and copy it.';
+      if (label) label.textContent = ok ? 'Copied!' : 'Copy failed';
+      btn.classList.toggle('is-copied', ok);
+      announce(message);
+      clearTimeout(btn._copyTimer);
+      btn._copyTimer = setTimeout(function () {
+        if (label) label.textContent = btn.getAttribute('data-label');
+        btn.classList.remove('is-copied');
+      }, 2000);
+    });
+  });
+
+  // ----- Video pop-up -----
+  var modal = document.getElementById('video-modal');
+  var frame = modal && modal.querySelector('.video-modal__frame');
+  var modalTitle = document.getElementById('video-modal-title');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var lastTrigger = null;
+
+  function youTubeId(url) {
+    var m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function openVideo(btn) {
+    var src = btn.getAttribute('data-video');
+    if (!src || !modal || !frame || typeof modal.showModal !== 'function') return;
+    var title = btn.getAttribute('data-title') || 'Demo video';
+    var autoplay = !reduceMotion.matches; // with reduced motion, the visitor presses play
+    var id = youTubeId(src);
+    var player;
+
+    if (id) {
+      player = document.createElement('iframe');
+      player.src = 'https://www.youtube-nocookie.com/embed/' + id +
+        '?mute=1&loop=1&playlist=' + id + '&rel=0' + (autoplay ? '&autoplay=1' : '');
+      player.title = title;
+      player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      player.allowFullscreen = true;
+    } else {
+      // The video file only starts downloading now, when the pop-up opens.
+      player = document.createElement('video');
+      player.src = src;
+      player.muted = true;
+      player.loop = true;
+      player.playsInline = true;
+      player.controls = true;
+      player.autoplay = autoplay;
+      var poster = btn.getAttribute('data-poster');
+      if (poster) player.poster = poster;
+      player.setAttribute('aria-label', title);
+    }
+
+    if (modalTitle) modalTitle.textContent = title;
+    frame.replaceChildren(player);
+    lastTrigger = btn;
+    modal.showModal(); // the browser keeps focus inside and closes it with Esc
+  }
+
+  if (modal && frame) {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.video-btn');
+      if (btn) openVideo(btn);
+    });
+    var closeBtn = modal.querySelector('.video-modal__close');
+    if (closeBtn) closeBtn.addEventListener('click', function () { modal.close(); });
+    // Clicking the dark area around the video closes it.
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) modal.close();
+    });
+    // However it was closed: stop the video and return focus to the button.
+    modal.addEventListener('close', function () {
+      frame.replaceChildren();
+      if (lastTrigger) lastTrigger.focus();
+    });
+  }
 })();
