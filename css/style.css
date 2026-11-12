@@ -1,11 +1,6 @@
-/* ==========================================================================
-   style.css — all styles for the portfolio
-   Order: 1 tokens · 2 reset/base · 3 layout · 4 components · 5 sections
-          6 animation · 7 media queries · 8 reduced motion · 9 print
-   To re-colour the site, change --accent and --accent-text below (both themes).
-   ========================================================================== */
+/* style.css. To re-colour the site, change --accent and --accent-text (both themes). */
 
-/* ===== 0. FONTS (self-hosted, latin subset; licence in assets/fonts/OFL.txt) ===== */
+/* ===== 0. FONTS (licence: assets/fonts) ===== */
 @font-face {
   font-family: "Geist";
   font-style: normal;
@@ -21,8 +16,7 @@
   src: url("../assets/fonts/geist-mono-latin.woff2") format("woff2");
 }
 
-/* Fallback fonts sized to match Geist, so text does not jump when Geist arrives (DESIGN.md §12).
-   Measured in the browser: Geist is 3.1% wider than Arial; the label font is as wide as Courier New. */
+/* Fallbacks sized like Geist: no jump on load */
 @font-face {
   font-family: "Geist Fallback";
   src: local("Arial");
@@ -58,8 +52,8 @@
   --fs-h2:    clamp(2rem, 4vw, 3rem);
   --fs-h3:    clamp(1.25rem, 2vw, 1.5rem);
   --fs-body:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --fs-small: 0.875rem;  /* small sans text: nav, footer, notes (DESIGN.md §9.3: 12–14px) */
-  --fs-label: 0.75rem;   /* mono labels, tags, dates: 12px (DESIGN.md §9.6) */
+  --fs-small: 0.875rem;  /* nav, footer, notes */
+  --fs-label: 0.75rem;   /* mono labels, tags, dates */
 
   /* Spacing (8px scale) */
   --s-1: 4px;  --s-2: 8px;  --s-3: 16px; --s-4: 24px; --s-5: 32px;
@@ -92,7 +86,7 @@
   --muted:       #57534E;
   --accent:      #FF6B35;
   --accent-fg:   #0C0A09;
-  --accent-text: #C2410C;  /* darker orange for text, so it is readable on white */
+  --accent-text: #C2410C;  /* darker, readable on white */
 }
 
 /* ===== 2. RESET + BASE ===== */
@@ -134,16 +128,16 @@ h1, h2, h3 {
 }
 p { max-width: 65ch; text-wrap: pretty; }
 
-/* Text links: an orange underline grows from the left on hover */
+/* Text links: underline grows on hover */
 a { color: inherit; }
-.text-link, .about__bio a, .contact__text a, .contact__email {
+:is(.about__bio, .contact__text) a, .contact__email {
   position: relative;
   color: var(--text);
   text-decoration: underline 1px var(--border);
   text-underline-offset: 0.2em;
   transition: color var(--dur-fast) var(--ease-out);
 }
-.text-link::after, .about__bio a::after, .contact__text a::after, .contact__email::after {
+:is(.about__bio, .contact__text) a::after, .contact__email::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 2px;
@@ -152,8 +146,8 @@ a { color: inherit; }
   transform-origin: left;
   transition: transform var(--dur-base) var(--ease-out);
 }
-.text-link:hover, .about__bio a:hover, .contact__text a:hover, .contact__email:hover { color: var(--accent-text); }
-.text-link:hover::after, .about__bio a:hover::after, .contact__text a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
+:is(.about__bio, .contact__text) a:hover, .contact__email:hover { color: var(--accent-text); }
+:is(.about__bio, .contact__text) a:hover::after, .contact__email:hover::after { transform: scaleX(1); }
 
 ::selection { background: var(--accent); color: var(--accent-fg); }
 
@@ -187,27 +181,30 @@ main:focus { outline: none; }
   padding-block: var(--s-7);
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
-/* Below-the-fold sections render only when near the screen (DESIGN.md §12) */
-/* (not on the sections themselves: that would reset the 01 / 02 label counters) */
+/* Not on sections: it resets the 01/02 counters */
 .projects__grid, .about__grid { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 
 .section__head { margin-bottom: var(--s-5); }
 .section__title { font-size: var(--fs-h2); margin-top: var(--s-3); max-width: 20ch; }
 
-/* Section label: "01 / WORK". Numbers count up by themselves. */
+/* Mono labels, tags, dates */
+.section-label, .tags li, .platform-tag, .hero__status, .hero__now, .stats__label, .project-card__login, /* taste-skill-ignore */
+.project-card__note, .skill-group__title, .timeline__dates {
+  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
+}
+.section-label, .platform-tag, .hero__status, .stats__label, .project-card__note, .skill-group__title, /* taste-skill-ignore */
+.timeline__dates { text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* "01 / WORK": numbers count by themselves */
 main { counter-reset: section; }
 .section-label { /* taste-skill-ignore */
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--font-mono); /* taste-skill-ignore */
-  font-size: var(--fs-label);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--muted);
 }
-/* both pseudo-elements are flex items; "order" puts them before the text: line, then number */
+/* line, then number */
 .section-label::before {
   content: "";
   order: -2;
@@ -222,7 +219,7 @@ main { counter-reset: section; }
 
 /* ===== 4. COMPONENTS ===== */
 
-/* Skip link: first thing keyboard users reach */
+/* Skip link */
 .skip-link {
   position: absolute; left: var(--s-3); top: var(--s-3); z-index: 100;
   padding: 12px 20px; border-radius: var(--radius-pill);
@@ -252,7 +249,7 @@ main { counter-reset: section; }
 .btn__arrow { transition: transform var(--dur-base) var(--ease-out); }
 .btn:hover .btn__arrow { transform: translateX(4px); }
 
-/* Round icon buttons (theme, menu, socials) */
+/* Round icon buttons */
 .icon-btn {
   display: inline-grid; place-items: center;
   width: 44px; height: 44px;
@@ -265,7 +262,7 @@ main { counter-reset: section; }
 }
 .icon-btn:hover { border-color: var(--accent-text); color: var(--accent-text); }
 
-/* Links/buttons with no address yet are hidden (put a real URL in and they appear) */
+/* Hidden until they get a real address */
 .link-opt[href="#"], .link-opt[href=""], .video-btn[data-video=""] { display: none; }
 
 /* Tags (tech, skills) */
@@ -276,25 +273,16 @@ main { counter-reset: section; }
   border-radius: var(--radius-pill);
   background: var(--surface-2);
   color: var(--muted);
-  font-family: var(--font-mono); /* taste-skill-ignore */
-  font-size: var(--fs-label);
   line-height: 1.6;
 }
 .tags svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
 
-/* Platform tag on project cards (WEB / ANDROID) */
+/* WEB / ANDROID tag */
 .project-card__meta { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-3); }
-.platform-tag {
-  font-family: var(--font-mono); /* taste-skill-ignore */
-  font-size: var(--fs-label);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent-text);
-}
+.platform-tag { font-weight: 500; color: var(--accent-text); }
 .platform-tag + .platform-tag::before { content: "·"; margin-right: var(--s-2); color: var(--muted); }
 
-/* Copy buttons: icon swaps to a tick and the label says "Copied!" */
+/* Copy buttons: tick icon + "Copied!" */
 .copy-btn__done { display: none; }
 .copy-btn.is-copied .copy-btn__icon { display: none; }
 .copy-btn.is-copied .copy-btn__done { display: block; }
@@ -322,7 +310,7 @@ main { counter-reset: section; }
   border-bottom: 1px solid transparent; /* taste-skill-ignore */
   transition: background-color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }
-/* After ~20px of scroll: --bg at 80% + 12px blur + 1px border (DESIGN.md §8.1) */
+/* After 20px of scroll (set by js/main.js) */
 .site-header.is-scrolled {
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   -webkit-backdrop-filter: blur(12px); /* taste-skill-ignore */
@@ -356,13 +344,13 @@ main { counter-reset: section; }
 
 .header__resume { display: none; }
 
-/* Theme toggle: show the sun in dark mode, the moon in light mode */
+/* Theme toggle: sun in dark mode, moon in light */
 .theme-toggle svg { grid-area: 1 / 1; transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out); }
 .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.6); }
 [data-theme="light"] .icon-sun { opacity: 0; transform: rotate(90deg) scale(0.6); }
 [data-theme="light"] .icon-moon { opacity: 1; transform: none; }
 
-/* Menu + theme buttons need JavaScript, so they only show when it runs */
+/* These buttons need JavaScript */
 .theme-toggle, .menu-toggle { display: none; }
 .js .theme-toggle { display: inline-grid; }
 
@@ -398,11 +386,11 @@ main { counter-reset: section; }
 .hero {
   position: relative; isolation: isolate;
   display: flex;
-  /* about one screen tall; capped on very tall monitors */
+  /* about one screen tall */
   min-height: min(calc(100svh - var(--header-h)), 900px);
   padding-block: var(--s-8) var(--s-7); /* 96 / 64 on phones, 128 / 96 from 768px */
 }
-/* Very faint grid that fades out toward the bottom (DESIGN.md §9.7) */
+/* Faint grid fading out toward the bottom */
 .hero::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
@@ -428,8 +416,7 @@ main { counter-reset: section; }
 .hero__status {
   display: inline-flex; align-items: center; gap: 10px;
   margin-bottom: var(--s-4);
-  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore */
-  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 500;
 }
 .status-dot {
   width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
@@ -443,7 +430,7 @@ main { counter-reset: section; }
   line-height: 1.05;
   letter-spacing: -0.03em;
   max-width: 12ch;
-  margin-left: -0.04em; /* optical alignment: big letters have extra side space (DESIGN.md §9.7) */
+  margin-left: -0.04em; /* optical alignment */
   overflow-wrap: anywhere;
 }
 .hero__intro {
@@ -454,7 +441,7 @@ main { counter-reset: section; }
   color: var(--muted);
 }
 .hero__role { color: var(--text); font-weight: 500; }
-.hero__now { margin-top: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); } /* taste-skill-ignore */
+.hero__now { margin-top: var(--s-3); color: var(--muted); }
 .hero__now-label { color: var(--accent-text); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--btn-gap, 12px); margin-top: var(--s-5); }
 .hero__meta { margin-top: var(--s-4); font-size: var(--fs-small); color: var(--muted); }
@@ -463,13 +450,12 @@ main { counter-reset: section; }
 .stats__item { padding-inline: var(--s-4); border-left: 1px solid var(--border); } /* taste-skill-ignore */
 .stats__item:first-child { padding-left: 0; border-left: 0; }
 .stats__value { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.stats__label { order: 2; font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore */
+.stats__label { order: 2; color: var(--muted); }
 .stats__item { display: flex; flex-direction: column-reverse; }
 
-/* Split-text hero name: each word rises from behind a mask (set up by js/main.js) */
+/* Hero name: words rise from a mask (js/main.js) */
 .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .word__inner { display: inline-block; }
-
 
 /* --- Projects --- */
 .projects__grid { display: grid; gap: var(--s-4); margin-top: var(--s-4); } /* 24px, 32px from 768px */
@@ -485,7 +471,7 @@ main { counter-reset: section; }
 }
 .project-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
 
-/* Cursor spotlight (desktop): a faint orange glow that follows the mouse */
+/* Cursor spotlight (mouse only) */
 .project-card::after {
   content: "";
   position: absolute; inset: 0;
@@ -508,7 +494,7 @@ main { counter-reset: section; }
   transition: transform var(--dur-base) var(--ease-out);
 }
 .project-card:hover .project-card__media > img { transform: scale(1.03); }
-/* Web app screenshot: its own 16:10 frame with 12px radius and 1px border (DESIGN.md §8.3) */
+/* Web screenshot: 16:10 frame, radius, border */
 .project-card__media--web {
   margin: var(--card-pad) var(--card-pad) 0;
   border: 1px solid var(--border); /* taste-skill-ignore */
@@ -535,7 +521,7 @@ main { counter-reset: section; }
 .phone:nth-child(2) { transform: translateY(-4%); }
 .project-card:hover .phone { transform: translateY(-2%); }
 .project-card:hover .phone:nth-child(2) { transform: translateY(-6%); }
-/* Neutral box shown until a screenshot is added */
+/* "Screenshot coming soon" */
 .placeholder {
   display: grid; place-items: center;
   height: 100%;
@@ -562,7 +548,6 @@ main { counter-reset: section; }
 .project-card__login {
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
   margin-top: var(--s-4);
-  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
 }
 .project-card__login[hidden] { display: none; }
 .project-card__actions {
@@ -572,8 +557,6 @@ main { counter-reset: section; }
 .project-card__note {
   display: inline-flex; align-items: center; gap: 6px;
   min-height: 44px;
-  font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
-  text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--muted);
 }
 .project-card__note + .project-card__note { margin-left: 8px; }
@@ -585,12 +568,11 @@ main { counter-reset: section; }
 .about__skills { display: grid; gap: var(--s-4); }
 .skill-group__title {
   margin-bottom: 12px;
-  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; /* taste-skill-ignore */
-  text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.4;
+  font-weight: 500; line-height: 1.4;
   color: var(--muted);
 }
 
-/* Photo (when you add one): accent frame behind, slightly grey until hover */
+/* Photo with orange frame */
 .about__photo { position: relative; margin-top: var(--s-6); max-width: 360px; }
 .about__photo::before {
   content: ""; position: absolute; inset: 12px -12px -12px 12px;
@@ -610,7 +592,7 @@ main { counter-reset: section; }
   content: ""; position: absolute; left: calc(-1 * var(--s-4) - 4px); top: 0.55em;
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
 }
-.timeline__dates { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); text-transform: uppercase; } /* taste-skill-ignore */
+.timeline__dates { color: var(--muted); }
 .timeline__role { margin-top: var(--s-1); font-size: var(--fs-h3); }
 .timeline__company { color: var(--muted); }
 .timeline__text { margin-top: var(--s-2); }
@@ -618,7 +600,7 @@ main { counter-reset: section; }
 .education__title { font-size: var(--fs-body); margin-bottom: var(--s-2); }
 .education__list { color: var(--muted); }
 
-/* --- Contact: one lit panel, a step lighter than the page --- */
+/* --- Contact --- */
 .contact__grid {
   display: grid; gap: var(--s-6);
   padding-block: var(--s-6);
@@ -659,7 +641,6 @@ main { counter-reset: section; }
 .footer__arrow { transition: transform var(--dur-base) var(--ease-out); }
 .footer__top:hover .footer__arrow { transform: translateY(-3px); }
 
-
 /* --- 404 page --- */
 .not-found {
   display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: var(--s-4);
@@ -681,11 +662,11 @@ main { counter-reset: section; }
 .video-modal__title { font-weight: 600; }
 .video-modal__frame { aspect-ratio: 16 / 9; background: #000; }
 .video-modal__frame video, .video-modal__frame iframe { width: 100%; height: 100%; border: 0; }
-/* Phone app videos: narrow and tall (420px) */
+/* Phone app videos: 420px */
 .video-modal--phone { width: min(420px, calc(100vw - 32px)); }
 .video-modal--phone .video-modal__frame { aspect-ratio: 9 / 16; max-height: calc(100svh - 120px); }
 
-/* ===== 6. ANIMATION (only when JavaScript runs; content is visible without it) ===== */
+/* ===== 6. ANIMATION (only when JavaScript runs) ===== */
 
 /* Hero items stagger in on load */
 .js .hero__item { animation: rise var(--dur-slow) var(--ease-out-expo) both; }
@@ -701,8 +682,7 @@ main { counter-reset: section; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 @keyframes word-up { from { transform: translateY(105%); } }
 
-/* Sections fade + slide up once, when 15% is on screen.
-   Uses the "translate" property so it never fights the card tilt (which uses "transform"). */
+/* Fade + slide up once ("translate" never fights the tilt) */
 .js-ready .reveal {
   opacity: 0;
   translate: 0 24px;
@@ -713,13 +693,12 @@ main { counter-reset: section; }
 
 /* ===== 7. MEDIA QUERIES ===== */
 
-/* Phones: cards and the contact panel run edge to edge, so their text lines up with the page margin */
 /* Phones: the contact panel runs edge to edge */
 @media (max-width: 639.98px) {
   .contact__grid { width: 100%; border-radius: 0; }
 }
 
-/* "Desktop" column of the spacing table in DESIGN.md §9.4 */
+/* Desktop spacing (DESIGN.md §9.4) */
 @media (min-width: 768px) {
   :root { --gutter: 32px; --header-h: 72px; --card-pad: 28px; --btn-gap: 16px; }
   .section { padding-block: var(--s-8); }
@@ -733,7 +712,7 @@ main { counter-reset: section; }
 @media (min-width: 1024px) {
   .section { padding-block: var(--s-8); }
   .header__resume { display: inline-flex; margin-inline: var(--s-2); }
-  /* Featured card: media ~7/12, text ~5/12 (DESIGN.md §8.3) */
+  /* Featured card: media 7/12, text 5/12 */
   .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: start; }
   .project-card--featured .project-card__media--web { margin: var(--card-pad); }
   .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; height: 100%; }
@@ -741,7 +720,7 @@ main { counter-reset: section; }
   .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-8) var(--s-7); min-height: 70svh; }
 }
 
-/* Short screens (landscape phones): the hero must never be cut off */
+/* Landscape phones: never cut the hero off */
 @media (max-height: 520px) {
   .hero { min-height: 0; }
 }
@@ -749,17 +728,17 @@ main { counter-reset: section; }
 /* Mouse-only effects (tilt, spotlight) */
 @media (hover: hover) and (pointer: fine) {
   .project-card:hover::after { opacity: 1; }
-  /* About photo: slightly grey until hovered, mouse only (always full colour on touch) */
+  /* About photo: slightly grey until hovered */
   .about__photo img { filter: grayscale(30%); transition: filter 400ms var(--ease-out); }
   .about__photo:hover img { filter: none; }
   .about__photo:hover::before { transform: translate(4px, 4px); }
   .project-card.is-tilting { transition: transform 120ms linear, border-color var(--dur-fast) var(--ease-out); }
 }
 
-/* Theme switch circle reveal (View Transitions API) */
+/* Theme circle reveal */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
-/* ===== 8. REDUCED MOTION: everything still, content shown at once ===== */
+/* ===== 8. REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -776,7 +755,7 @@ main { counter-reset: section; }
   .about__photo img { filter: none; }
 }
 
-/* ===== 9. PRINT: black on white, no menus, link addresses shown ===== */
+/* ===== 9. PRINT ===== */
 @media print {
   :root, [data-theme="light"] {
     --bg: #fff; --surface: #fff; --surface-2: #fff; --border: #ccc;

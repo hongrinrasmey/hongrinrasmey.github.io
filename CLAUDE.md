@@ -143,7 +143,8 @@ Fixed to match the spec exactly:
 - About photo: 1px border; greyscale-to-colour only for mouse users.
 - Fallback fonts with matched metrics (§12): "Geist Fallback" = Arial at size-adjust 103.1%, ascent 98%, descent 29.1%; "Geist Mono Fallback" = Courier New 100%, ascent 101%, descent 30% (measured in Edge with canvas measureText).
 - `content-visibility: auto` on `.projects__grid` and `.about__grid` only. **Not on the sections**: style containment resets the CSS counters, and every label became "01 /".
-- Budgets: raw CSS 31.7 KB / JS 16.7 KB because of the teaching comments; gzipped (what is sent) CSS 8.4 KB, JS 5.5 KB, whole page 192 KB transferred.
+- Budgets (§12) met as raw files: CSS 29,860 bytes (≤ 30,000), JS 14,999 bytes (≤ 15,000), measured on the LF files git stores. Done by shortening comments, one shared rule for all mono labels/tags/dates (`.section-label, .tags li, .platform-tag, …` near the top of section 3), `:is()` for the text-link underline, and tighter JS (same behaviour). Gzipped: CSS ~8 KB, JS ~5.5 KB; page 192 KB transferred. **Keep an eye on these two numbers when adding code.**
+- Card tilt caches the card position on mouseenter (§12) and clamps the cursor to the card, so the tilt never passes ±4° even if the page scrolls under a resting mouse.
 Checks (final): lint 0/0; inspector 0 FAIL with `--allow ...,small-text` (12px tags are §9.6); sizes 12/14/18/24/48/104; WARNs no-footage, off-centre (optical h1 nudge + ragged text; frame is 165/165), hero-void, defended in `.taste-skill/critique.md` round 4. scenes.mjs ran (no scenes). Functional test all pass, plus video modal (420/900, preload none, focus in and back, emptied on close). 60fps scroll at 4× CPU slowdown (median frame 16.7ms, none over 33ms). Lighthouse with gzip: mobile 99/100/100/100 LCP 1.8s CLS 0; desktop 100 ×4. Screens checked: light + dark, 1440, 1366×768, 390, 844×390 landscape.
 
 ### Note about the earlier session
