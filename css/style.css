@@ -414,7 +414,7 @@ main { counter-reset: section; }
 .hero__photo { position: relative; width: min(56%, 240px); margin-bottom: var(--s-5); }
 .hero__photo img {
   position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
-  mask-image: linear-gradient(#000 58%, transparent 92%); /* cut-out: suit fades into the page */
+  mask-image: linear-gradient(#000 58%, transparent 92%); /* cut-out: suit fades into the page; taste-skill-ignore: a mask, not a fill */
 }
 /* Soft light behind the head, so dark hair stands off the dark page */
 .hero__photo::before {
