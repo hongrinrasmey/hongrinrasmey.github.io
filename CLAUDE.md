@@ -506,3 +506,12 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 
 ### Update 2026-11-12: slots for the review's content items (owner: "add all, I will put it later")
 - Review rated the site 7.5/10; the gaps were content. Added a commented-out `WHAT I DID / LEARNED` `<p class="project-card__text">[TODO…]</p>` under the lead of all 3 project cards in `index.html` (existing style, no CSS change). Already there: résumé buttons (header + Contact, `href="#"` hides them), LinkedIn button, bio + "learning now" slot in About. Photo: swap `assets/images/me.webp` via `tools/photo-cutout.py`. Nothing shows on the page until the owner fills a slot. check.mjs all PASS. Not committed.
+
+### Update 2026-11-12: review follow-up, items 1-8 (owner: "do all of these, one by one")
+- **1 Checkpoint commit** 9695302 (all uncommitted work of earlier sessions). Repo `user.email` is now `248713826+hongrinrasmey@users.noreply.github.com` (owner chose to hide the private address before going public).
+- **8 Fewer effects:** hero dots canvas (`initHeroDots`, `.hero__dots`) and 3D phone turn removed. Screenshot `settle` zoom kept. DESIGN.md/README updated.
+- **5 Text:** `--fs-label` 13 → 14px (mono tags + labels). Card text was already 18px at 1440, muted contrast 7.2:1 (dark).
+- **7 Tests** (headless Edge, CDP): light + dark at 1440/390/360: images load, reveals visible, no sideways scroll, no console errors; terminal help/whoami/projects/email/contact pass (use `form.requestSubmit()` in tests: a fake Enter keydown does not submit); KH Halal + RielTrack videos play; scroll at 4× CPU median 16.7ms. Fast headless scrolls can leave reveals at opacity 0 (frames skipped): a test quirk, passes 6/6 at normal speed.
+- **2 Deploy prep** (9c10e40): address `https://hongrinrasmey.github.io/portfolio/` in canonical, og:url, og/twitter image, JSON-LD url; `404.html` paths `/portfolio/…`; `.nojekyll`; README deploy steps.
+- **3 KH Halal logins:** no change (row stays hidden; videos instead).
+- **Blocked:** creating public repos (`hongrinrasmey/portfolio`, profile README `hongrinrasmey/hongrinrasmey`, README ready in the session scratchpad) was denied by the permission system: owner must allow or run it. Commit-email rewrite (filter-branch, 60+ commits) and dark phone screenshots (**6**) wait for session `my-portfolio-website-7b`, which was re-rendering idevo/RielTrack videos and holds the emulator. Its uncommitted files were left alone.
