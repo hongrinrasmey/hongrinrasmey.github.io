@@ -8,6 +8,10 @@
   // so if this file fails to load, all content stays visible.
   root.classList.add('js-ready');
 
+  // ----- Footer year (always the current year) -----
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+
   // ----- Dark / light theme (the choice is saved in localStorage) -----
   var themeBtn = document.querySelector('.theme-toggle');
   var systemLight = window.matchMedia('(prefers-color-scheme: light)');
