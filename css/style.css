@@ -575,7 +575,7 @@ main { counter-reset: section; }
 .about__photo { position: relative; margin: var(--s-6) 0 12px; max-width: 360px; }
 .about__photo::before {
   content: ""; position: absolute; inset: 12px -12px -12px 12px;
-  border-radius: var(--radius); background: var(--accent);
+  border-radius: var(--radius); border: 1px solid var(--accent); /* taste-skill-ignore */
   transition: transform 400ms var(--ease-out);
 }
 .about__photo img {
@@ -729,7 +729,7 @@ main { counter-reset: section; }
 @media (hover: hover) and (pointer: fine) {
   .project-card:is(:hover, .is-tilting)::after { opacity: 1; }
   /* About photo: slightly grey until hovered */
-  .about__photo img { filter: grayscale(30%); transition: filter 400ms var(--ease-out); }
+  .about__photo img { filter: grayscale(1); transition: filter 400ms var(--ease-out); }
   .about__photo:hover img { filter: none; }
   .about__photo:hover::before { transform: translate(4px, 4px); }
   .project-card.is-tilting { transition: transform 120ms linear, border-color var(--dur-fast) var(--ease-out); }

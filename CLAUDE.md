@@ -213,6 +213,9 @@ Owner asked for less empty space at the sides on wide screens.
 - Checked over CDP 360–1920: h1 wraps to 2 lines on phones and fits (314px in a 312–314px column), no horizontal scroll, no console errors (index + 404).
 - Still TODO: role, intro, bio, city, remote, contact sentence, LinkedIn.
 
+### Update 2026-11-12: About photo frame
+- Solid orange block behind the photo → 1px orange outline offset 12px (`.about__photo::before`). Mouse users: photo fully greyscale until hover (was 30%), so the bright blue ID-photo background no longer fights the orange. Touch devices still see full colour. CSS 29,858 bytes.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
