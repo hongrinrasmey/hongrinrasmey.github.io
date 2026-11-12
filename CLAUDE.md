@@ -118,12 +118,18 @@ I want a website that is easy for ME to edit and update. Simple beats impressive
 - Open Graph image line is commented out in `<head>` until a real image exists (no fake image).
 - Light mode accent: buttons keep lime `#C6F432` with dark text; accent-coloured text/links use darker `#4A6600` for contrast.
 
-### Done
+### Done (2026-11-12)
 1. Moved old Astro project into `_old-astro-version/`.
 2. Built the one-page site per sections 4–8.
-3. Checked layout at 360 / 390 / 768 / 1024 / 1440 widths.
-4. Ran through the section 9 checklist.
-5. Wrote README.md, then git init and commit.
+3. Checked layout at 360 / 390 / 768 / 1024 / 1440 widths. No horizontal scroll at any width.
+4. Tested in a headless browser: theme toggle + saved choice after reload, mobile menu (opens, closes on link, closes on Escape and returns focus), scroll reveal, copy-email, footer year, one `<h1>`, no console errors.
+5. Wrote README.md, then ran git init and the first commit.
+6. Added contact layout (2 columns on desktop), hero height cap, and `scroll-margin-top` so menu links don't land under the sticky header.
+
+### Known checker results (taste-skill inspector) and why they stay
+- "few-pictures" / "no-footage": rule 3 forbids stock/city photos. These clear once the owner adds real project screenshots.
+- "eyebrow" on "Screenshot coming soon": this box is required by rule 3 until real screenshots exist.
+- Inter "default font" warning: Inter is named in section 4.
 
 ### Still TODO (needs the owner's real details)
 - Fill in every `[TODO: ...]` in `index.html` from section 3: name, role, intro, bio, location, remote yes/no, skills, 2–4 projects, email, GitHub, LinkedIn.
