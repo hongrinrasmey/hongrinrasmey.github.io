@@ -157,6 +157,13 @@ Owner approved after a design review:
 - Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs as before (off-centre now 116/154 at 1440: optical h1 nudge + ragged text); Lighthouse mobile 100/100/100/100, LCP 1.7s, CLS 0. CSS 29,820 bytes (budget 30,000).
 - Still open from the review: hero right-half void and thin About need the owner's photo, name and bio (content, not CSS).
 
+### Update 2026-11-12 (fifth pass): links + screenshots found by the agent
+- **KH Halal live demo**: `https://kh-halal-marketplace.onrender.com/` (service name from the repo's `render.yaml`; checked live, title "KH Halal Marketplace"). "Try live demo" now shows; "Demo coming soon" removed. Owner should confirm it is theirs and safe for public visitors (Bakong points at the SIT test API).
+- **idevo download**: none public. APKs exist only in releases of the PRIVATE `Idevo` repo (v0.6.4), so visitors can't download them. Kept "Download coming soon". A public `Idevo-Downloads` repo (like RielTrack-Downloads) would fix it; ask the owner, never create it.
+- **RielTrack screenshots**: none on GitHub or in `E:\RielTrack Project`. Taken by the agent: public 1.6 APK (SHA-256 checked) on the `Pixel_API37` emulator, the app's own preview sample data entered by hand (salary $850, lunch ៛12,000, PassApp $3.50, internet $24.99, shopping ៛45,000, $500 monthly limit), Android demo-mode status bar 9:41. Home / History / Budgets → `assets/images/rieltrack.webp`, `-2`, `-3` (390×844, ~20 KB each), in phone frames like idevo.
+- Featured card (≥1024px) `align-items: center`, so the screenshot no longer floats at the top with empty space under it.
+- Checks: lint 0/0; inspector 0 FAIL, same 3 WARNs; Lighthouse mobile (gzip) 100/100/100/100, LCP 1.8s, CLS 0, page 254 KiB, no console errors. CSS 29,821 bytes.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
