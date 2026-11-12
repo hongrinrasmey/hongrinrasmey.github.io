@@ -147,6 +147,8 @@ Fixed to match the spec exactly:
 - Card tilt caches the card position on mouseenter (§12) and clamps the cursor to the card, so the tilt never passes ±4° even if the page scrolls under a resting mouse.
 Checks (final): lint 0/0; inspector 0 FAIL with `--allow ...,small-text` (12px tags are §9.6); sizes 12/14/18/24/48/104; WARNs no-footage, off-centre (optical h1 nudge + ragged text; frame is 165/165), hero-void, defended in `.taste-skill/critique.md` round 4. scenes.mjs ran (no scenes). Functional test all pass, plus video modal (420/900, preload none, focus in and back, emptied on close). 60fps scroll at 4× CPU slowdown (median frame 16.7ms, none over 33ms). Lighthouse with gzip: mobile 99/100/100/100 LCP 1.8s CLS 0; desktop 100 ×4. Screens checked: light + dark, 1440, 1366×768, 390, 844×390 landscape.
 
+**Owner decision (2026-11-12, final):** keep the site on DESIGN.md. Do NOT add found/stock photos, credits, found video clips or the taste-skill sheet layouts ("The dark room", seed 1825430341) even though the skill asks for them; DESIGN.md rule 4 and §8 win. The remaining inspector WARNs (no-footage, off-centre, hero-void) are accepted until the owner sends their photo, name, bio, RielTrack screenshots and videos.
+
 ### Note about the earlier session
 Another agent session worked on this repo until 13:39 (commits up to f854a43) from the OLD DESIGN.md (RielTrack/FileShift). Commit 049de5c replaced its `index.html`, `css/style.css`, `js/main.js` with the new-spec build. Its one small JS fix (stop the demo video on Esc via the dialog `cancel` event) was ported.
 
