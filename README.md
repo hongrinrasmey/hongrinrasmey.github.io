@@ -124,12 +124,12 @@ You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in
    `node video-studio/render.js video-studio/<slug>.json` (add `--portrait` for the phone version).
 
 ## 4. Put it online (free)
-**GitHub Pages** (this site: `https://hongrinrasmey.github.io/portfolio/`, repo `hongrinrasmey/portfolio`)
+**GitHub Pages** (this site: `https://hongrinrasmey.github.io/`, repo `hongrinrasmey/hongrinrasmey.github.io`)
 1. Push changes: `git push`. The site updates about a minute later.
 2. Pages setting (already on): **Settings → Pages → Source: Deploy from a branch → main / (root)**.
 3. `.nojekyll` tells GitHub to serve the files as they are (no Jekyll build).
-4. The address `/portfolio/` is written in `404.html` and in `<head>` of `index.html` (canonical, og:url,
-   og:image, twitter:image, JSON-LD url). Renaming the repo or moving host: change those.
+4. The full address is written in `<head>` of `index.html` (canonical, og:url,
+   og:image, twitter:image, JSON-LD url). The repo name `hongrinrasmey.github.io` is what puts the site at the root address. Renaming the repo or moving host: change those.
 
 **Netlify or Vercel** (also free): sign in with GitHub → **Add new site / New project** → pick the repository →
 leave all build settings empty → Deploy. Their security settings come from `_headers` (Netlify) and `vercel.json` (Vercel).
