@@ -563,3 +563,8 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - **idevo**: re-recorded at 08:51 real time, so Home says "Good morning" with the 9:41 status bar. Take `idevo-085148` (ends on Khmer Settings: the Home frame after Back was not captured). Lesson cut to the practice question, Khmer part shortened, no zooms, blank route-change frames (25.0-25.2, 29.3, 43.4, 47.6) outside the cut. 26.5 s.
 - Both: no blank frames (entropy check), frame sheets reviewed. Emulator: demo mode off by the scripts, idevo `pm clear` at the end (as before).
 - KH Halal in progress: see next entry.
+
+### Update 2026-11-13: KH Halal card shows 3 screenshots (owner chose "main + 2 small")
+- New `.project-card__shots` grid in the featured card (`index.html`): first `.project-card__media--web` full width, the rest 2 per row. Copy a block to add a screenshot. CSS: 2 lines above `.project-card__media--web`; the ≥1024px margin rule now targets `.project-card__shots`.
+- New images from the LIVE site as a guest (Playwright 1.49.1, 1280×800, light): `kh-halal-product.webp` (Black Hijab, KHR 20,500 / USD 5.00), `kh-halal-cart.webp` (cart after Add to Cart; only POST was `cart/validate`, cart is browser-only). No login, no checkout.
+- Checks: check.mjs all PASS; screenshots 1440 + 390: no sideways scroll, no console errors. Seller dashboard shot not added (needs a login).

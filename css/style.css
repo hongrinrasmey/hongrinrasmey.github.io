@@ -500,8 +500,9 @@ main { counter-reset: section; }
   transition: transform var(--dur-base) var(--ease-out);
 }
 /* Web screenshot: 16:10 frame, radius, border */
+.project-card__shots { display: grid; grid-template-columns: 1fr 1fr; gap: var(--btn-gap); margin: var(--card-pad) var(--card-pad) 0; }
+.project-card__shots > :first-child { grid-column: 1 / -1; } /* first big, rest 2 per row */
 .project-card__media--web {
-  margin: var(--card-pad) var(--card-pad) 0;
   border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: var(--radius);
 }
@@ -715,7 +716,8 @@ main { counter-reset: section; }
 }
 .js-ready .reveal.is-visible { opacity: 1; translate: none; }
 /* Stacked blocks arrive alone: no stagger */
-@media (max-width: 1023.98px) { .js-ready :is(.about__side, .contact__details) { transition-delay: 0ms; } }
+.js-ready .contact__details { transition-delay: 0ms; }
+@media (max-width: 1023.98px) { .js-ready .about__side { transition-delay: 0ms; } }
 @media (max-width: 767.98px) { .js-ready .reveal { transition-delay: 0ms; } }
 
 
@@ -744,13 +746,13 @@ main { counter-reset: section; }
   .header__resume { display: inline-flex; margin-inline: var(--s-2); }
   /* Featured card: media 7/12, text 5/12 */
   .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: center; }
-  .project-card--featured .project-card__media--web { margin: var(--card-pad); }
+  .project-card--featured .project-card__shots { margin: var(--card-pad); }
   .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; }
   /* About: heading left, details right */
   .about__layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
   .about__layout > .section__head { margin: 0; display: grid; justify-items: start; } /* grid: label tops level with Education */
-  .contact__grid { grid-template-columns: 1fr 1fr; gap: var(--s-8); padding: var(--s-7); align-items: end; }
-  .contact__details { justify-self: end; } /* right edge of the panel */
+  .contact__grid { padding: var(--s-7); } /* one column: no empty middle */
+  .contact__email { font-size: var(--fs-h2); } /* main action, near heading size */
 }
 
 /* Landscape phones: never cut the hero off */
