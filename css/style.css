@@ -514,6 +514,7 @@ main { counter-reset: section; }
   gap: clamp(8px, 2.5%, 16px); /* no overlap */
   aspect-ratio: 4 / 3; /* bigger phones */
   padding: 6% 4%;
+  background: color-mix(in srgb, var(--text) 7%, var(--surface)); /* lifts dark screens off the panel */
 }
 .phone {
   position: relative;
@@ -521,7 +522,7 @@ main { counter-reset: section; }
   height: 100%;
   --r: clamp(10px, 1.6vw, 20px); /* Android corners */
   padding: 3px;
-  border: 1px solid var(--border); /* taste-skill-ignore */
+  border: 1px solid color-mix(in srgb, var(--text) 24%, transparent); /* taste-skill-ignore */
   border-radius: var(--r);
   background: #0C0A09; /* both themes */
   overflow: hidden;
@@ -533,8 +534,6 @@ main { counter-reset: section; }
   translate: -50% -50%;
 }
 .phone img { width: auto; height: 100%; border-radius: calc(var(--r) - 3px); }
-.phone:first-child, .phone:last-child { transform: translateY(3%); }
-.phone:nth-child(2) { z-index: 1; transform: translateY(-4%); }
 /* Screen swap (initPhoneScreens): quick, a slow fade mixed layouts */
 .phone.is-cycling img { position: relative; opacity: 0; transition: opacity 0s var(--dur-fast); }
 .phone.is-cycling .phone__alt { position: absolute; top: 3px; left: 3px; height: calc(100% - 6px); }
@@ -604,9 +603,11 @@ main { counter-reset: section; }
   border-radius: var(--radius);
   max-width: var(--container);
   width: calc(100% - 2 * var(--gutter)); /* same edges as the project cards */
+  justify-items: center; text-align: center; /* one column, centred: no empty right side */
 }
 .contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); }
-.contact__text { margin-top: var(--s-4); max-width: 30rem; color: var(--muted); }
+.contact__text { margin: var(--s-4) auto 0; max-width: 30rem; color: var(--muted); }
+#about { padding-bottom: 0; } /* About + Contact padding stacked into a big hole */
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
 .contact__email {
   display: inline-flex; align-items: center;
@@ -621,10 +622,10 @@ main { counter-reset: section; }
   overflow-wrap: anywhere;
 }
 .contact__email:hover { text-decoration-thickness: 3px; }
-.contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap) var(--s-4); }
-/* Profiles: quiet links under the email row */
-.contact__social { display: flex; flex-wrap: wrap; column-gap: var(--s-4); margin-top: var(--s-3); }
-.social-link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; color: var(--muted); font-size: var(--fs-small); font-weight: 500; text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
+.contact__actions, .contact__social { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--btn-gap) var(--s-4); }
+/* Profiles: links under the email row */
+.contact__social { gap: 0 var(--s-5); margin-top: var(--s-3); }
+.social-link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; color: var(--muted); font-size: var(--fs-body); font-weight: 500; text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
 .social-link:hover { color: var(--accent-text); }
 .social-link:hover .btn__arrow { transform: translate(2px, -2px); }
 
@@ -787,7 +788,7 @@ main { counter-reset: section; }
     transition-delay: 0ms !important;
   }
   .js-ready .reveal { opacity: 1; translate: none; }
-  .project-card:hover, .phone:nth-child(2) { transform: none; }
+  .project-card:hover { transform: none; }
   .project-card__media--web > img { animation: none; } /* scroll-linked: the duration rule above can't stop these */
   .project-card:hover .project-card__media > img { transform: none; }
 }

@@ -585,3 +585,13 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - The other session's commit 9ad1142 swept in this change's CSS; the HTML came in the next commit.
 - Tests (headless Edge, CDP): 1440/390/360: all contact targets ≥44px, no sideways scroll, one mailto, no "Email me", GitHub + Telegram shown, LinkedIn hidden; social hover colour changes; terminal email + github answer; print shows email, hides buttons; copy button (stub clipboard) copies the exact address, shows + announces "Copied!", resets after 2s; no console errors; check.mjs all PASS. A real-click copy test fails the same way on the old version too (headless clipboard/visibility quirk). CSS 34,611 / 35,000.
 - **Main KH Halal shot re-made (owner chose "show real products"):** `kh-halal-marketplace.webp` is now the live home page scrolled down 363px (guest, 1280×800 shot at 2x, scaled to 1280×800, 79 KB): bottom of the banner + "Featured Products" with the first row of 5 real listings (riel + dollar prices, discounts). Before it ended in an empty white strip under the "Featured Products" heading. Alt text updated. No requests other than GET. Checked dark 1440/1100/390: no sideways scroll, no console errors, check.mjs all PASS.
+
+### Update 2026-11-13: UI review fixes (owner: "do all of these, one by one")
+Review rated the site 7.5/10. Done (CSS only, `css/style.css`):
+- **Phone cards:** phone panel background `--text` 7% over `--surface` (was `--surface-2`), phone border `--text` 24%: dark app screens no longer blend into the panel. All 3 phones level (raised middle phone removed; also from the reduced-motion rule). Phones NOT made bigger: 3 phones already fill ~98% of the 4:3 panel width.
+- **Contact:** content centred in the panel (`justify-items`/`text-align: center`, rows `justify-content: center`); profile links 14px → body size (18px), gap 32px.
+- **About → Contact gap:** `#about { padding-bottom: 0 }` (two stacked section paddings made ~256px of empty space at desktop).
+- **Not changed (review was wrong):** KH Halal small shots are already the same height (both 16:10 frames, 960×600). Hero gap: the empty space only showed in a very tall test window; at 1440×900 the hero is balanced and check.mjs measures 0px centring difference.
+- **Waiting on the owner:** bio + "learning now" (slot in About), relaxed photo (`tools/photo-cutout.py`).
+- Checks: check.mjs all PASS (360–1920); lint 0/0; screenshots 1440 dark + light. CSS 34,775 / 35,000 bytes.
+- `index.html` had another session's uncommitted change (4 lines); not part of this commit.
