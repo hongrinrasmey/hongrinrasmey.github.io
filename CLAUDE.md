@@ -574,4 +574,5 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - Email bigger: `clamp(1.5rem, 2.5vw, 2.25rem)` from 768px (24px at 768, 36px from 1440; heading is 48px). Phones keep `--fs-h3` (20px): bigger would not fit 360px.
 - `.contact__details` reveal delay 0 at every width (stacked, so no stagger).
 - Checks: check.mjs all PASS; CDP screenshots dark + light at 360/390/768/1024/1440/1920: no sideways scroll, no console errors, email fits (503px at 1440, 279px at 360), underline pixel = #FF6B35 dark / #C2410C light. CSS 33,9xx / 35,000.
-- Waiting on the owner: Telegram username (button is built, `href="#"` hides it), start date ("available from …"), LinkedIn, résumé PDF.
+- Telegram: `https://t.me/Rasmey_12` (owner sent @Rasmey_12; checked: t.me shows "Hong rin rasmey"). Phone number from the same screenshot NOT put on the site.
+- Waiting on the owner: start date ("available from …"), LinkedIn, résumé PDF.
