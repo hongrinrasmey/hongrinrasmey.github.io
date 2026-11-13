@@ -13,7 +13,8 @@ Commands to re-make them are in README ("Demo videos"). This file is the rules a
 - **Method A, Android apps** (RielTrack, idevo): the `Pixel_API37` emulator only, never a real phone
   (`scripts/record-rieltrack.sh`, `scripts/record-idevo.sh`). Demo-mode status bar 9:41, turned off after.
 - **Method C, web app** (KH Halal): the live site in a real **1920x1080** browser window
-  (`scripts/record-kh-halal-marketplace.js`). Logins only from environment variables. Checkout and the KHQR
+  (`scripts/record-kh-halal-marketplace.js`), and at a real phone size (Pixel 7, mobile layout) for the phone version
+  (`scripts/record-kh-halal-mobile.js`; never opens the Account page on camera: it shows email, address, phone). Logins only from environment variables. Checkout and the KHQR
   payment page are shown (owner, 2026-11-13) but "Place order" is never pressed and order/payment requests are
   blocked; email, phone and address are blurred. Never filmed: messages, notifications, orders with buyer names,
   payouts, verification, profile pages. Signed-in usernames are blurred (`blurs` in the config).

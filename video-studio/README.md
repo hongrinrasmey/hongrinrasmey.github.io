@@ -12,6 +12,7 @@ camera moves, highlights, labels and text around it.
 |---|---|
 | `rieltrack.json`, `idevo.json`, `kh-halal-marketplace.json` | The storyboard for each video: text, which part of the recording plays, highlights. **Edit these.** |
 | `kh-halal-marketplace-full.json` | The longer "Full demo" (KH Halal only: the site has no public demo login; same style, numbered chapters, one explanation line each). Owner, 2026-11-13: idevo and RielTrack have a download, so no full demo. They write `assets/videos/<name>.mp4`. |
+| `kh-halal-marketplace-mobile.json` | The KH Halal phone version: the real mobile site in a phone frame. Render with `--portrait`; it writes `kh-halal-marketplace-promo-mobile.mp4`. |
 | `promo.html` | The scene: layout, colours, fonts and every animation. |
 | `render.js` | Turns a storyboard into an mp4 (and the poster image). |
 | `FACTS.md` | Where every word in the videos comes from. Update it when you change a caption. |
@@ -63,6 +64,9 @@ Useful extras:
 - **Phone (portrait) framing of the website**: the tall window follows each highlight; `"px"` on a beat or `"cx"` on a highlight sets where it centres.
 - **Pan the tall window inside one beat**: `"camTall": [[srcTime, 1, x, 540, seconds]]` (KH dashboard). `"cam"` is desktop only.
 - **Website text too small on desktop**: `"push": [zoom, x, y]` on a beat = a slow push-in over the beat (desktop only). Keep every highlight inside the final view; keep the seller sidebar (view starting at x 0).
+- **The same site on a desktop and a phone** (desktop only): `{ "type": "duo", "dur": 2.8, "caption": "...", "a": { "src": 1.5, "role": "DESKTOP" }, "b": { "src": 2.0, "take": "mobile", "phone": true, "role": "PHONE" } }`. The browser steps aside and comes back.
+- **KH Halal on phones**: `kh-halal-marketplace-mobile.json` (`"out": "kh-halal-marketplace-promo"`, render with `--portrait`) uses the phone-size take, so phones see the real mobile site.
+- **Blur on a phone take**: add `"strong": true` (the screen is scaled down more, so the normal blur can stay readable).
 - **Dark app on the dark stage**: in `"app"`, `"bezel"` (phone frame colour), `"rim"` (its edge) and `"glowA"` (glow strength, two hex alphas, default `["1A", "0A"]`). idevo uses `#26292A`, teal edge, `["33", "14"]`.
 - **A highlight that should end at a cut**: put its `"to"` 0.1 s before the clip end (exactly on the cut it stays to the end of the beat).
 - **Android gesture bar over app text** (apps that draw behind it): a top-anchored `"cam"` of about 1.08 crops it off (idevo AI lesson).

@@ -336,7 +336,9 @@ function cameraAt(g, t) {
 function blursInto(host, src, k = 'main') {
   host.textContent = '';
   for (const b of C.blurs || []) if ((b.take || 'main') === k && src >= b.from && src <= b.to) {
-    const d = el('div', 'blur'); Object.assign(d.style, { left: b.x + 'px', top: b.y + 'px', width: b.w + 'px', height: b.h + 'px' }); host.appendChild(d); }
+    const d = el('div', 'blur'); Object.assign(d.style, { left: b.x + 'px', top: b.y + 'px', width: b.w + 'px', height: b.h + 'px' });
+    if (b.strong) Object.assign(d.style, { backdropFilter: 'blur(30px)', background: 'rgba(232,240,236,.7)' });   // phone takes are scaled down more: blur harder
+    host.appendChild(d); }
 }
 
 function renderSpots(g, t, cam, clean) {
@@ -453,26 +455,34 @@ function renderTextBeat(t, g) {
 }
 
 function renderPanels(t, g) {
-  const P = $('panels'), on = g && g.type === 'finale'; P.style.display = on ? 'block' : 'none'; if (!on) return;
+  // "finale": two browser panels (shopper / seller). "duo" (desktop only): the same site on a desktop and on a phone
+  // (panel "phone": true = a phone-shaped screen from a phone-sized take, e.g. "take": "mobile")
+  const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
   const a = g.start / FPS, e = g.end / FPS;
   const out = inEase(prog(t, e - .35, .35));
   const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
-  [['pa', g.a, 140], ['pb', g.b, 1040]].forEach(([id, p, x], i) => {
+  const PW = 260, PH = Math.round(PW * 2400 / 1080);   // phone panel screen (1080x2400 takes)
+  const duo = g.type === 'duo', xs = duo ? [310, 1350] : [140, 1040];
+  [['pa', g.a, xs[0]], ['pb', g.b, xs[1]]].forEach(([id, p, x], i) => {
     const n = $(id), u = outExpo(prog(t, a + .4 + i * .15, .7));   // after the device has left (.45 s)
+    const sw = p.phone ? PW : 740, sh = p.phone ? PH : 416, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
     if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
-    else { n.style.top = ''; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
+    else { n.style.top = (p.phone ? 566 - 58 - sh / 2 : 300) + 'px'; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
+    n.style.width = sw + 'px';
     n.style.opacity = u * (1 - out);
     n.style.transform = PT ? 'none' : `perspective(2200px) rotateY(${(i ? -1 : 1) * 10 * u}deg)`;
     const pill = n.querySelector('.pill'); pill.textContent = p.role; pill.style.background = C.roles[p.role]; pill.style.color = fgFor(C.roles[p.role]);
+    const scr = n.querySelector('.scr'); Object.assign(scr.style, { width: sw + 'px', height: sh + 'px', borderRadius: p.phone ? '30px' : '14px' });
     const img = n.querySelector('img'), url = C.frameUrl(p.src, p.take); if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; }
-    img.style.transform = `scale(${740 / D.srcW})`;
-    const pb = n.querySelector('.pb'); pb.style.cssText = `position:absolute;left:0;top:0;width:${D.srcW}px;height:${D.srcH}px;transform-origin:0 0;transform:scale(${740 / D.srcW})`;
+    Object.assign(img.style, { width: srcW + 'px', height: srcH + 'px', transform: `scale(${sw / srcW})` });
+    const pb = n.querySelector('.pb'); pb.style.cssText = `position:absolute;left:0;top:0;width:${srcW}px;height:${srcH}px;transform-origin:0 0;transform:scale(${sw / srcW})`;
     blursInto(pb, p.src, p.take || 'main'); });
   const lu = inOut(prog(t, a + 1.0, .6)); const ln = $('link');
+  const l0 = xs[0] + 740, l1 = xs[1];   // from the right edge of panel a to the left edge of panel b
   if (PT) Object.assign(ln.style, { left: '539px', top: 520 + 70 + 418 + 'px', width: '2px', height: 1320 - 1008 + 'px', transformOrigin: '50% 0', transform: `scaleY(${lu})`, opacity: 1 - out });
-  else Object.assign(ln.style, { left: 140 + 740 + 'px', width: 1040 - 880 + 'px', height: '2px', transformOrigin: '0 50%', transform: `scaleX(${lu})`, opacity: 1 - out, top: 300 + 58 + 208 + 'px' });
+  else Object.assign(ln.style, { left: l0 + 'px', width: l1 - l0 + 'px', height: '2px', transformOrigin: '0 50%', transform: `scaleX(${lu})`, opacity: 1 - out, top: 300 + 58 + 208 + 'px' });
   const cu = outExpo(prog(t, a + 1.4, .5)); const ck = $('check');
-  Object.assign(ck.style, { left: (PT ? 540 : 960) + 'px', top: (PT ? 1008 + 156 : 300 + 58 + 209) + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
+  Object.assign(ck.style, { left: (PT ? 540 : (l0 + l1) / 2) + 'px', top: (PT ? 1008 + 156 : 300 + 58 + 209) + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
 }
 
 function renderOutro(t) {
@@ -509,7 +519,12 @@ window.renderAt = async (t, clean) => {
     tr += ` scale(${1 - .08 * shade}) rotateY(${ang}deg)`;
   }
   const leaveAt = (beats.find(b => b.type === 'finale') || { start: outroStart }).start / FPS;
-  const lv = inEase(prog(t, leaveAt, .45)); op *= 1 - lv; tr += ` translateY(${lv * 40}px)`;
+  let lv = inEase(prog(t, leaveAt, .45));
+  for (const b of beats) if (b.type === 'duo') {   // steps aside for a duo beat, then comes back
+    const da = b.start / FPS, de = b.end / FPS;
+    if (t >= da && t < de + .6) lv = Math.max(lv, inEase(prog(t, da, .45)) * (1 - outExpo(prog(t, de, .6))));
+  }
+  op *= 1 - lv; tr += ` translateY(${lv * 40}px)`;
   dev.style.opacity = op; dev.style.transform = tr;
   $('shadow').style.opacity = op * spring(t - devIn) * .9;
   const blurOn = g && g.type === 'text' ? outExpo(prog(t, g.start / FPS, .5)) * (1 - inEase(prog(t, g.end / FPS - .35, .35))) : 0;
