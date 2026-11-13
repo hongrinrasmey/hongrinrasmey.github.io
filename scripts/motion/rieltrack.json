@@ -1,7 +1,7 @@
 {
   "slug": "rieltrack",
-  "raw": "assets/videos/rieltrack-raw/rieltrack-221225.mp4",
-  "tapLog": "assets/videos/rieltrack-raw/rieltrack-221225.taps.txt",
+  "raw": "assets/videos/rieltrack-raw/rieltrack-084450.mp4",
+  "tapLog": "assets/videos/rieltrack-raw/rieltrack-084450.taps.txt",
   "tapOffset": -0.2,
   "frameWidth": 1080,
   "W": 720,
@@ -33,60 +33,64 @@
   "outro": 2.6,
   "segments": [
     [
-      4.3,
-      7.2
+      4.2,
+      7
     ],
     [
-      9.6,
-      12
+      9.5,
+      12.6
     ],
     [
-      12.6,
-      14.6
+      13.4,
+      14.9
     ],
     [
-      17.5,
-      19.8
+      17.4,
+      19.2
     ],
     [
-      22.8,
-      25
+      22.2,
+      24.4
     ],
     [
-      27.6,
-      28.9
+      27,
+      29.3
     ],
     [
-      29.8,
-      32.2
+      31.8,
+      33.2
     ],
     [
-      35.8,
-      37.9
+      33.9,
+      36.4
     ],
     [
-      45.1,
-      46
+      39.9,
+      42
     ],
     [
-      48.3,
-      50.2
+      50.3,
+      51.4
     ],
     [
-      50.9,
-      52.6
+      53.4,
+      55.2
+    ],
+    [
+      55.9,
+      57.5
     ]
   ],
   "camera": [
     [
-      9.8,
+      9.7,
       1.6,
       540,
       640,
       0.7
     ],
     [
-      12.6,
+      12.4,
       1,
       540,
       1200,
@@ -96,35 +100,35 @@
   "captions": [
     {
       "text": "Your month at a glance",
-      "from": 4.3,
-      "to": 6.8
+      "from": 4.2,
+      "to": 7
     },
     {
       "text": "Add an expense in riel",
-      "from": 9.6,
-      "to": 19.8
+      "from": 9.5,
+      "to": 24.4
     },
     {
       "text": "USD and riel together",
-      "from": 22.8,
-      "to": 25
+      "from": 27,
+      "to": 29.3
     },
     {
       "text": "Compare with last month",
-      "from": 27.6,
-      "to": 32.2
+      "from": 31.8,
+      "to": 36.4
     },
     {
       "text": "Monthly budgets",
-      "from": 35.8,
-      "to": 37.9
+      "from": 39.9,
+      "to": 42
     },
     {
       "text": "In Khmer or English",
-      "from": 45.1,
-      "to": 52.6
+      "from": 50.3,
+      "to": 57.5
     }
   ],
-  "poster": 6.5,
+  "poster": 6.6,
   "crf": 23
 }

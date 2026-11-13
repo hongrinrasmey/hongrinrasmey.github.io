@@ -1,7 +1,7 @@
 {
   "slug": "idevo",
-  "raw": "assets/videos/idevo-raw/idevo-222435.mp4",
-  "tapLog": "assets/videos/idevo-raw/idevo-222435.taps.txt",
+  "raw": "assets/videos/idevo-raw/idevo-085148.mp4",
+  "tapLog": "assets/videos/idevo-raw/idevo-085148.taps.txt",
   "tapOffset": -0.2,
   "frameWidth": 1080,
   "W": 720,
@@ -33,73 +33,61 @@
   "outro": 2.6,
   "segments": [
     [
-      4.2,
+      4,
       6.4
     ],
     [
-      7,
-      8.9
+      12.6,
+      15
     ],
     [
-      12.8,
-      15.3
-    ],
-    [
-      19,
-      21
+      18.9,
+      20.6
     ],
     [
       21.6,
       24
     ],
     [
-      25.9,
-      27.6
+      25.4,
+      27
     ],
     [
-      30.1,
-      31.5
+      29.5,
+      31
     ],
     [
-      33.9,
-      36.3
+      33.3,
+      35.6
     ],
     [
-      38.6,
-      40.4
+      38.1,
+      39.6
     ],
     [
-      48.8,
-      51.6
+      47.7,
+      50.3
     ],
     [
-      59.6,
-      60.9
+      60,
+      61.4
     ],
     [
-      61.3,
-      62.9
-    ],
-    [
-      65.2,
-      66.9
-    ],
-    [
-      68,
-      70
+      63.8,
+      66.4
     ]
   ],
   "camera": [],
   "captions": [
     {
       "text": "Pick up where you left off",
-      "from": 4.2,
+      "from": 4,
       "to": 6.4
     },
     {
       "text": "Practise as you read",
-      "from": 7,
-      "to": 21
+      "from": 12.6,
+      "to": 20.6
     },
     {
       "text": "Keep a study streak",
@@ -108,20 +96,20 @@
     },
     {
       "text": "Spaced-repetition flashcards",
-      "from": 25.9,
-      "to": 40.4
+      "from": 25.4,
+      "to": 39.6
     },
     {
       "text": "Track your progress",
-      "from": 48.8,
-      "to": 51.6
+      "from": 47.7,
+      "to": 50.3
     },
     {
       "text": "In Khmer or English",
-      "from": 59.6,
-      "to": 70
+      "from": 60,
+      "to": 66.4
     }
   ],
-  "poster": 21.4,
+  "poster": 19,
   "crf": 23
 }

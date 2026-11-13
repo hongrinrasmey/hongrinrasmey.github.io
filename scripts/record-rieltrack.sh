@@ -34,12 +34,13 @@ tapt "KHR (៛)" 0.8
 typeslow 12000; sleep 1
 $ADB shell input keyevent KEYCODE_BACK; sleep 0.6    # hide keyboard
 swipe 1500 900 700 1.2                               # Food and drinks is already selected
-tapt "Save transaction" 2.8                          # back on Home, totals updated
+tapt "Save transaction" 4.6                          # back on Home, totals updated; wait out the snackbar
+swipe 1700 1200 600 1.8                              # new lunch row in Recent transactions, no snackbar over it
 tapt "History" 2.5
 tapt "Reports" 2
 swipe 1700 700 1200 2.5                              # spending by category
 tapt "Budgets" 2.8
-tapt "Home" 1.5
+tapt "Home" 1.2; swipe 700 1700 400 0.8              # Home back at the top (the gear is there)
 tapt "Settings" 1.5
 tapt "ខ្មែរ" 2.2                                      # language: Khmer
 $ADB shell input keyevent KEYCODE_BACK; sleep 3      # Home in Khmer
