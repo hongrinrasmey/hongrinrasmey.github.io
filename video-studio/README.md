@@ -11,7 +11,7 @@ camera moves, highlights, labels and text around it.
 | File | What it is |
 |---|---|
 | `rieltrack.json`, `idevo.json`, `kh-halal-marketplace.json` | The storyboard for each video: text, which part of the recording plays, highlights. **Edit these.** |
-| `rieltrack-full.json`, `idevo-full.json`, `kh-halal-marketplace-full.json` | The longer "Full demo" of each app (same style, numbered chapters, one explanation line each). They write `assets/videos/<name>.mp4`. |
+| `kh-halal-marketplace-full.json` | The longer "Full demo" (KH Halal only: the site has no public demo login; same style, numbered chapters, one explanation line each). Owner, 2026-11-13: idevo and RielTrack have a download, so no full demo. They write `assets/videos/<name>.mp4`. |
 | `promo.html` | The scene: layout, colours, fonts and every animation. |
 | `render.js` | Turns a storyboard into an mp4 (and the poster image). |
 | `FACTS.md` | Where every word in the videos comes from. Update it when you change a caption. |
@@ -61,6 +61,11 @@ Useful extras:
 - **Explanation line and chapter numbers** (full demos): `"sub"` on a beat, `"chapters": true` at the top. `"out"` sets the file name.
 - **A second recording in one video**: list it under `"takes"` and give the beat `"take": "<name>"` (RielTrack income, idevo lesson).
 - **Phone (portrait) framing of the website**: the tall window follows each highlight; `"px"` on a beat or `"cx"` on a highlight sets where it centres.
+- **Pan the tall window inside one beat**: `"camTall": [[srcTime, 1, x, 540, seconds]]` (KH dashboard). `"cam"` is desktop only.
+- **Website text too small on desktop**: `"push": [zoom, x, y]` on a beat = a slow push-in over the beat (desktop only). Keep every highlight inside the final view; keep the seller sidebar (view starting at x 0).
+- **Dark app on the dark stage**: in `"app"`, `"bezel"` (phone frame colour), `"rim"` (its edge) and `"glowA"` (glow strength, two hex alphas, default `["1A", "0A"]`). idevo uses `#26292A`, teal edge, `["33", "14"]`.
+- **A highlight that should end at a cut**: put its `"to"` 0.1 s before the clip end (exactly on the cut it stays to the end of the beat).
+- **Android gesture bar over app text** (apps that draw behind it): a top-anchored `"cam"` of about 1.08 crops it off (idevo AI lesson).
 - **A tap ring that appears too late or early**: `"tapShift": [[loggedTime, offset]]` moves that one tap.
 
 ## Rules (from MOTION.md)

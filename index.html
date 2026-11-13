@@ -163,7 +163,7 @@
            Optional data-video-short="..." = a tall PORTRAIT version that phones (640px and narrower) play instead
            (data-poster-short = its poster, if its shape differs from the main poster).
            data-poster="..." is the still picture shown before the video plays (optional).
-           data-wide = a 16:9 video on an Android card (promo and full demo) opens the wide pop-up. "Full demo" (video-btn--full) is hidden on phones.
+           data-wide = a 16:9 video on an Android card (the promo) opens the wide pop-up. "Full demo" (video-btn--full, KH Halal only) is hidden on phones.
          - Public code: add this inside the card's project-card__actions:
              <a class="btn btn--secondary" href="https://github.com/..." target="_blank" rel="noopener noreferrer">View code</a>
          - Add a project: copy one whole <article class="project-card"> … </article> block and change it.
@@ -299,10 +299,6 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
-                <button class="btn btn--secondary btn--sm video-btn video-btn--full link-opt" type="button" data-video="assets/videos/idevo.mp4" data-poster="assets/videos/idevo-poster.webp" data-wide data-title="idevo full demo video" aria-describedby="idevo-video-desc">
-                  Full demo
-                </button>
-                <p class="visually-hidden" id="idevo-video-desc">Silent full demo, about 1 minute 50 seconds, in 11 numbered chapters with captions. Home with the next lesson, a short lesson with a check-yourself question, a study streak, flashcards due per day, rating a flashcard (Again 10 minutes, Hard 1 day, Good 3 days, Easy 4 days), a learning path, the built-in AI filling in a new path from one sentence and planning its modules, the AI drafting three lessons to check before saving, one AI lesson marked as an AI draft (the AI runs on my own server for now), the progress screen, then the app switches to Khmer.</p>
                 <p class="visually-hidden" id="idevo-promo-desc">Silent promo video, about 45 seconds, with captions (phones get the same video in a tall layout). Home with the next lesson and today's reviews, a lesson question with its answer, a flashcard with its four review choices (Again 10 minutes, Hard 1 day, Good 3 days, Easy 4 days), the built-in AI filling in a learning path and drafting lessons to check, the progress screen, "No account. Study offline, AI online.", then the app switches to Khmer.</p>
                 <span class="project-card__note">v0.6.4</span>
               </div>
@@ -352,10 +348,6 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
-                <button class="btn btn--secondary btn--sm video-btn video-btn--full link-opt" type="button" data-video="assets/videos/rieltrack.mp4" data-poster="assets/videos/rieltrack-poster.webp" data-wide data-title="RielTrack full demo video" aria-describedby="rieltrack-video-desc">
-                  Full demo
-                </button>
-                <p class="visually-hidden" id="rieltrack-video-desc">Silent full demo, about 1 minute 15 seconds, in 9 numbered chapters with captions. The month at a glance, a 12,000 riel expense added and shown in dollars too, a $150 freelance income added, the history with search and filters, a comparison with last month, spending by category, the monthly budget, then the app switches to Khmer.</p>
                 <p class="visually-hidden" id="rieltrack-promo-desc">Silent promo video, about 47 seconds, with captions (phones get the same video in a tall layout). The month at a glance in dollars and riel, a 12,000 riel expense added, a $150 freelance income added, the history with riel and dollar amounts side by side, a comparison with last month, the monthly budget, "No account. No cloud. No ads.", then the app switches to Khmer.</p>
                 <span class="project-card__note">Android 8.0+ · v1.6</span>
               </div>

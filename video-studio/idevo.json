@@ -5,7 +5,7 @@
   "tapOffset": -0.48,
   "takes": { "ai": { "raw": "assets/videos/idevo-raw/idevo-ai-193200.mp4", "tapLog": "assets/videos/idevo-raw/idevo-ai-193200.taps.txt", "tapOffset": -0.1 } },
   "device": { "type": "phone", "srcW": 1080, "srcH": 2400 },
-  "app": { "accent": "#3BC0A9", "ui": "#3BC0A9", "glow": "#3BC0A9" },
+  "app": { "accent": "#3BC0A9", "ui": "#3BC0A9", "glow": "#3BC0A9", "rim": "rgba(59,192,169,.40)", "bezel": "#26292A", "glowA": ["33", "14"] },
   "hook": {
     "dur": 3.5,
     "lines": [
