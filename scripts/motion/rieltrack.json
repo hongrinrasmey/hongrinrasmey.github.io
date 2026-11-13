@@ -23,13 +23,14 @@
   "title": {
     "kicker": "ANDROID APP",
     "name": "RielTrack",
-    "size": 96
+    "size": 96,
+    "tagline": "Track spending in riel and dollars."
   },
   "end": {
     "size": 84,
     "tags": "Kotlin · Jetpack Compose · Room"
   },
-  "intro": 1.5,
+  "intro": 2.8,
   "outro": 2.6,
   "segments": [
     [
@@ -62,7 +63,7 @@
     ],
     [
       33.9,
-      36.4
+      37.4
     ],
     [
       39.9,
@@ -116,7 +117,7 @@
     {
       "text": "Compare with last month",
       "from": 31.8,
-      "to": 36.4
+      "to": 37.4
     },
     {
       "text": "Monthly budgets",
@@ -129,6 +130,38 @@
       "to": 57.5
     }
   ],
-  "poster": 6.6,
-  "crf": 23
+  "poster": 7.8999999999999995,
+  "crf": 23,
+  "highlights": [
+    {
+      "from": 22.9,
+      "to": 24.4,
+      "x": 50,
+      "y": 1480,
+      "w": 980,
+      "h": 180,
+      "label": "Saved in riel, shown in dollars too"
+    },
+    {
+      "from": 27.4,
+      "to": 29.3,
+      "x": 790,
+      "y": 990,
+      "w": 230,
+      "h": 960,
+      "label": "Riel and dollars in one list",
+      "right": true
+    },
+    {
+      "from": 35.3,
+      "to": 37.4,
+      "x": 80,
+      "y": 350,
+      "w": 720,
+      "h": 220,
+      "label": "30% less than October",
+      "below": true
+    }
+  ],
+  "hlSize": 26
 }

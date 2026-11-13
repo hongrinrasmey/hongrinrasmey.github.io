@@ -1,5 +1,5 @@
 // Records the raw KH Halal Marketplace demo from the LIVE site (VIDEOS.md, Method C), in three parts:
-//   1. guest:    home, product, add to cart (browser-only cart), cart page, Khmer, mosques
+//   1. guest:    home, product, add to cart (browser-only cart), cart page, Khmer
 //   2. customer: signed in OFF camera, then the wishlist
 //   3. seller:   signed in OFF camera, then dashboard, products, the add-product form: types a demo
 //                product name, presses no button, never saves (the page keeps drafts in the browser only)
@@ -13,9 +13,12 @@ const fs = require('fs'), path = require('path'), { spawnSync } = require('child
 const { chromium } = require('playwright');
 
 const SITE = 'https://kh-halal-marketplace.onrender.com';
-const W = 1280, H = 800, GAP = 0.5;               // seconds of "nothing" between the parts
+// 1120 wide: the narrowest window that keeps the desktop layout (1024 wraps the header), so text is
+// bigger in the video; 650 high fits the stage at 1480 px wide
+const W = 1120, H = 650, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
 const env = k => { const v = process.env[k]; if (!v) { console.error('Missing env var ' + k); process.exit(1); } return v; };
-const LOGIN = { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
+const PARTS = (process.env.KH_PARTS || 'guest,customer,seller').split(',');   // KH_PARTS=guest: test run, no logins
+const LOGIN = PARTS.length === 1 && PARTS[0] === 'guest' ? {} : { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
 const root = path.resolve(__dirname, '..');
 const outDir = path.join(root, 'assets/videos/kh-halal-marketplace-raw');
 const stamp = new Date().toTimeString().slice(0, 8).replace(/:/g, '');
@@ -27,6 +30,7 @@ const frames = [], log = [];
 let base = 0;                                      // time offset of the current part in the joined video
 
 async function part(browser, name, role, setupUrl, act) {
+  if (!PARTS.includes(name)) return;
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, locale: 'en-US', colorScheme: 'light' });
   const page = await ctx.newPage();
   const errors = []; page.on('pageerror', e => errors.push(e.message));
@@ -57,7 +61,7 @@ async function part(browser, name, role, setupUrl, act) {
     page,
     sleep,
     // eased mouse path, every step logged so the video can draw the cursor
-    move: async (x, y, ms = 650) => {
+    move: async (x, y, ms = 450) => {
       const sx = mx, sy = my, n = Math.max(8, Math.round(ms / 16));
       for (let i = 1; i <= n; i++) {
         const u = i / n, e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
@@ -66,7 +70,7 @@ async function part(browser, name, role, setupUrl, act) {
         await sleep(ms / n);
       }
     },
-    click: async (loc, ms = 650) => {
+    click: async (loc, ms = 450) => {
       await loc.waitFor({ state: 'visible', timeout: 30000 }); await loc.scrollIntoViewIfNeeded();
       const b = await loc.boundingBox(), x = b.x + b.width / 2, y = b.y + b.height / 2;
       await h.move(x, y, ms); await sleep(200);
@@ -99,29 +103,27 @@ async function part(browser, name, role, setupUrl, act) {
     await sleep(2200);                                                         // home
     await move(800, 450, 800); await scroll(560); await sleep(1200);           // Featured Products
     await click(page.locator('a[href="/app/products/1"]').filter({ hasText: 'Black Hijab' }).first());
-    await page.waitForLoadState('networkidle'); await sleep(2200);             // product: riel + dollars
+    await page.waitForLoadState('networkidle'); await sleep(2400);             // product: riel + dollars
+    await move(760, 420, 350); await scroll(160, 20); await sleep(500);        // Add to Cart into view, smoothly
     await click(page.getByRole('button', { name: /^add to cart$/i }).first()); await sleep(1600);
     await click(page.locator('header a[href="/customer/cart"]:visible').first(), 800);
     await page.waitForLoadState('networkidle'); await sleep(2400);             // cart (no checkout)
     await click(page.getByRole('link', { name: 'Home', exact: true }).first(), 800);
     await page.waitForLoadState('networkidle'); await sleep(1200);
     await click(page.getByRole('button', { name: 'ខ្មែរ' }).first(), 800); await sleep(2600);   // Khmer
-    await click(page.getByRole('button', { name: 'English' }).first(), 500); await sleep(1200);
-    await click(page.locator('a[href="/mosques"]:visible').first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2000);             // mosques
-    await move(640, 520, 600); await scroll(380); await sleep(1800);
+    await click(page.getByRole('button', { name: 'English' }).first(), 500); await sleep(800);  // back (off the cut)
   });
 
   await part(browser, 'customer', 'customer', '/', async ({ page, sleep, click }) => {
-    await sleep(1500);                                                         // home, signed in
+    await sleep(2000);                                                         // home, signed in (role card on top)
     await click(page.locator('header a[href="/customer/wishlist"]:visible').first(), 800);
     await page.waitForLoadState('networkidle'); await sleep(2800);             // wishlist
   });
 
   await part(browser, 'seller', 'seller', '/seller/dashboard', async ({ page, sleep, move, click, scroll }) => {
-    await sleep(2600);                                                         // dashboard
+    await sleep(3600);                                                         // dashboard (role card, then time to read)
     await click(page.getByRole('link', { name: 'Products', exact: true }).first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2000);             // product list
+    await page.waitForLoadState('networkidle'); await sleep(2600);             // product list
     await move(700, 500, 500); await scroll(320); await sleep(1500);
     await click(page.getByRole('link', { name: /add new product/i }).first()
       .or(page.getByRole('button', { name: /add new product/i }).first()).first(), 800);

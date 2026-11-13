@@ -23,13 +23,14 @@
   "title": {
     "kicker": "ANDROID APP",
     "name": "idevo",
-    "size": 104
+    "size": 104,
+    "tagline": "Lessons, flashcards and spaced repetition."
   },
   "end": {
     "size": 92,
     "tags": "Flutter · Dart · Drift · SQLite"
   },
-  "intro": 1.5,
+  "intro": 2.8,
   "outro": 2.6,
   "segments": [
     [
@@ -58,7 +59,7 @@
     ],
     [
       33.3,
-      35.6
+      36.6
     ],
     [
       38.1,
@@ -110,6 +111,46 @@
       "to": 66.4
     }
   ],
-  "poster": 19,
-  "crf": 23
+  "poster": 21.3,
+  "crf": 23,
+  "highlights": [
+    {
+      "from": 13.3,
+      "to": 15,
+      "x": 52,
+      "y": 600,
+      "w": 976,
+      "h": 730,
+      "label": "A question inside the lesson"
+    },
+    {
+      "from": 22,
+      "to": 24,
+      "x": 96,
+      "y": 1630,
+      "w": 350,
+      "h": 90,
+      "label": "Studied 5 of the last 7 days"
+    },
+    {
+      "from": 34.4,
+      "to": 36.6,
+      "x": 50,
+      "y": 2010,
+      "w": 980,
+      "h": 290,
+      "label": "You choose when it comes back"
+    },
+    {
+      "from": 48.4,
+      "to": 50.3,
+      "x": 50,
+      "y": 410,
+      "w": 980,
+      "h": 750,
+      "label": "Real study history",
+      "below": true
+    }
+  ],
+  "hlSize": 26
 }
