@@ -139,7 +139,10 @@ window.init = cfg => {
   // segments: [srcStart, srcEnd, speed=1, holdAfter=0], laid end to end after the intro (hard cuts between them).
   // A segment where a caption starts gets a chapter hold first: its first frame stays still while the caption comes in.
   const starts = (C.captions || []).map(c => c.from);
+  // "speed" (config, default 1) plays every segment faster and shortens its end hold; nothing is cut
+  const sp = C.speed || 1;
   let o = C.intro; segs = C.segments.map(([a, b, v = 1, post = 0]) => {
+    v *= sp; post /= sp;
     const pre = C.chapterHolds === false ? 0 : (starts.some(f => Math.abs(f - a) < .01) ? T.chapterHold : 0);
     const g = { a, b, v, o, pre, post, run: (b - a) / v }; g.d = pre + g.run + post; o += g.d; return g; });
   contentEnd = o; total = contentEnd + C.outro;
