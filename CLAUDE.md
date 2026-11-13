@@ -666,3 +666,10 @@ Honest review of the whole-screens version (7/10) listed 5 problems; all fixed:
 - **Auto-play:** `initMonitor` -> `initDeck` (`js/main.js`): next screen every 3s, looping, only while the deck is half on screen; pauses on hover/focus; never fades to a screen that has not loaded; a screen button stops it for good (WCAG 2.2.2 needs a way to stop moving content that runs longer than 5s); reduced motion: no auto change.
 - Tests (headless Edge, CDP): 0 -> 1 at 3.06s -> 2 at 6.12s -> 0 at 9.05s (loops); button stops it; Full size opens the screen showing (1920 wide); focus back; hover pauses; reduced motion: no change, buttons work; 390: 44px buttons, no sideways scroll; no JS: first screen, buttons hidden; no console errors; check.mjs all PASS; lint 0/0. Committed CSS ~35.4 KB / 36 KB.
 - Committed with a separate index: the other session's uncommitted Contact edits in the same files are NOT in this commit.
+
+### Update 2026-11-13: KH Halal re-recorded with bigger text
+- Owner set `KH_CUSTOMER_*` / `KH_SELLER_*` as Windows **user** env vars (not in any file). The Bash tool does not see them: run the recorder from PowerShell, copying them into `env:` inside the same command (values never printed).
+- Window **1200×696** (not 1120: below 1200 the seller sidebar collapses into an "Open seller tools" drawer and the seller header clips the logo). Stage browser 1480×858 (`device.srcW 1200, sw 1480, sh 858, top 44`, `frameWidth 1200`, `caption.y 968`): text ~20% bigger than the old 1280 take.
+- Take `kh-100337`: guest, customer (role card → wishlist click), seller (dashboard, products, add-product form, name typed, nothing saved). Server writes: login, `cart/validate`, `wishlist/sync` (empty browser list) only.
+- Cuts from scene-change times (product settles 8.5 s, cart 17.1, Khmer 24.45, wishlist 34.0). 4 highlights, typing zoom 1.6 at (650, 440). 40.6 s, 3.9 MB. No blank frames; check.mjs PASS.
+- Owner may now remove the env vars (command in chat) and should change both KH passwords if not done.
