@@ -641,3 +641,10 @@ Honest review of the whole-screens version (7/10) listed 5 problems; all fixed:
 - Still open: KH bigger-text take (needs the 4 `KH_*` env vars).
 - Checks: entropy scan at 30 fps on all three (only hit = idevo Settings during the cut brightening, real content), frame sheets, check.mjs PASS.
 - Tip for new takes: compare `select='gt(scene,0.06)'` times with the tap log to find `tapOffset` before cutting.
+
+### Update 2026-11-13: KH Halal main screenshot in a desktop monitor (owner chose it)
+- Owner: "i want it to show the desktop". Options given (monitor frame / browser window / one big screen); owner chose the **desktop monitor frame**. The first `<figure>` in `.project-card__shots` has class `monitor` (`index.html`); the 2 smaller screens stay plain.
+- CSS only (`.monitor` after `a.project-card__media` in `css/style.css`): bezel `#0C0A09` in both themes (like the phone frames), `--b: clamp(6px, 1vw, 10px)`, chin 2.4x the bezel, 1px outline `--text` 20% over `--surface`; stand = `.monitor::after` with two flat `linear-gradient(colour 0 0)` blocks (neck 34% x 75%, base 100% x 25%; marked taste-skill-ignore, it is not a gradient fill). The link is `box-sizing: content-box` so the screen stays exactly 16:10 (border-box would shrink it and `object-fit: cover` would crop the screenshot). Remove the `monitor` class to go back to a plain frame.
+- **Owner approved raising the CSS budget 35 -> 36 KB** (DESIGN.md section 12). CSS 35,583 bytes with the other session's uncommitted Contact work.
+- Tests (headless Edge, CDP): screen content 701x438 at 1440, 477x298 at 1024, 288x180 at 390 (ratio 1.600, no crop), bezel 10/10/6px; dark + light screenshots reviewed; pop-up still opens all 3 (titles right, fits, no scrollbar); settle zoom still ends at 1 when the screen is fully visible; video still opens; no console errors; no sideways scroll; check.mjs all PASS; lint 0/0.
+- Committed with a separate index: the other session's uncommitted Contact edits in the same files are NOT in this commit.
