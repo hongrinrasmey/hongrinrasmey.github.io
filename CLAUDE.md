@@ -568,3 +568,10 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - New `.project-card__shots` grid in the featured card (`index.html`): first `.project-card__media--web` full width, the rest 2 per row. Copy a block to add a screenshot. CSS: 2 lines above `.project-card__media--web`; the ≥1024px margin rule now targets `.project-card__shots`.
 - New images from the LIVE site as a guest (Playwright 1.49.1, 1280×800, light): `kh-halal-product.webp` (Black Hijab, KHR 20,500 / USD 5.00), `kh-halal-cart.webp` (cart after Add to Cart; only POST was `cart/validate`, cart is browser-only). No login, no checkout.
 - Checks: check.mjs all PASS; screenshots 1440 + 390: no sideways scroll, no console errors. Seller dashboard shot not added (needs a login).
+
+### Update 2026-11-13: Contact panel in one column
+- Owner: "do all of these" after a Contact review. The two columns left ~500px empty in the middle at ≥1024px. Now one column at every width (label, heading, sentence, email, buttons): `.contact__grid` keeps only `padding: var(--s-7)` at ≥1024px; `justify-self: end` removed. (The first half of this was swept into the other session's commit 78a3e45.)
+- Email bigger: `clamp(1.5rem, 2.5vw, 2.25rem)` from 768px (24px at 768, 36px from 1440; heading is 48px). Phones keep `--fs-h3` (20px): bigger would not fit 360px.
+- `.contact__details` reveal delay 0 at every width (stacked, so no stagger).
+- Checks: check.mjs all PASS; CDP screenshots dark + light at 360/390/768/1024/1440/1920: no sideways scroll, no console errors, email fits (503px at 1440, 279px at 360), underline pixel = #FF6B35 dark / #C2410C light. CSS 33,9xx / 35,000.
+- Waiting on the owner: Telegram username (button is built, `href="#"` hides it), start date ("available from …"), LinkedIn, résumé PDF.

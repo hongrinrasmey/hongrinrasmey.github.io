@@ -234,7 +234,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - One friendly sentence + reply time (if provided).
 - Email as big clickable text (`mailto:`, thin orange underline, 2px on hover) + copy button ("Copied!" for 2s, announced via `aria-live`).
 - GitHub / LinkedIn / Telegram as small labelled buttons in the same row (icon + name + ↗; `href="#"` stays hidden); "Download résumé" button (if provided).
-- Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). ≥1024px: 64px padding, the right block sits against the panel's right edge.
+- Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). One column at every width (label, heading, sentence, email, buttons; 2026-11-13: two columns left ~500px empty in the middle). Email 24→36px from 768px (smaller than the heading). ≥1024px: 64px padding.
 - No contact form (it's in Future ideas).
 
 ### 8.7 Footer
