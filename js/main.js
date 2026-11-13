@@ -334,7 +334,7 @@
       img.alt = link.querySelector('img').alt;
       var cap = link.closest('figure');
       cap = cap && cap.querySelector('figcaption');
-      if (modalTitle) modalTitle.textContent = cap ? cap.textContent : 'Screenshot';
+      if (modalTitle) modalTitle.textContent = cap ? cap.textContent : img.alt.split(':')[0];
       modal.classList.remove('video-modal--phone');
       modal.classList.add('video-modal--img');
       frame.replaceChildren(img);

@@ -1,4 +1,4 @@
-/* Re-colour: change --accent and --accent-text in both themes. */
+/* Re-colour: --accent + --accent-text, both themes */
 
 /* ===== 0. FONTS (licence: assets/fonts) ===== */
 @font-face {
@@ -16,7 +16,7 @@
   src: url("../assets/fonts/geist-mono-latin.woff2") format("woff2");
 }
 
-/* Fallbacks sized like Geist: no jump on load */
+/* Fallbacks sized like Geist: no jump */
 @font-face {
   font-family: "Geist Fallback";
   src: local("Arial");
@@ -41,7 +41,7 @@
   --muted:       #A8A29E;
   --accent:      #FF6B35;  /* fills: buttons, dot, selection */
   --accent-fg:   #0C0A09;  /* text ON orange (always dark) */
-  --accent-text: #FF6B35;  /* orange used as text / links / focus ring */
+  --accent-text: #FF6B35;  /* text, links, focus ring */
 
   /* Fonts */
   --font-sans: "Geist", "Geist Fallback", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -66,6 +66,7 @@
   --gutter: 24px;
   --header-h: 64px;   /* 72px from 768px up */
   --card-pad: 20px;   /* 28px from 768px up */
+  --btn-gap: 12px;    /* 16px from 768px up */
 
   /* Motion (DESIGN.md §11.1) */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* entrances, reveals */
@@ -178,7 +179,7 @@ a { color: inherit; }
 }
 
 .section { padding-block: var(--s-7); }
-/* Work on a faint full-width band (page rhythm) */
+/* Work: faint full-width band */
 .section--band { background: color-mix(in srgb, var(--text) 3%, var(--bg)); border-block: 1px solid var(--border); } /* taste-skill-ignore */
 [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 
@@ -193,7 +194,7 @@ a { color: inherit; }
 .section-label, .platform-tag, .hero__status, .stats__label, .skill-group__title, /* taste-skill-ignore */
 .timeline__dates { text-transform: uppercase; letter-spacing: 0.05em; }
 
-/* "01 / WORK": numbers count by themselves */
+/* "01 / WORK": auto numbers */
 main { counter-reset: section; }
 .section-label { /* taste-skill-ignore */
   display: inline-flex;
@@ -294,7 +295,7 @@ main { counter-reset: section; }
   border-bottom: 1px solid transparent; /* taste-skill-ignore */
   transition: background-color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }
-/* After 20px of scroll (set by js/main.js) */
+/* After 20px scroll (js/main.js) */
 .site-header.is-scrolled {
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   -webkit-backdrop-filter: blur(12px); /* taste-skill-ignore */
@@ -314,7 +315,7 @@ main { counter-reset: section; }
 .wordmark:hover { color: var(--accent-text); }
 /* >_ prompt, same as favicon.svg */
 .wordmark__mark { font-family: var(--font-mono); font-weight: 500; color: var(--accent-text); letter-spacing: -0.04em; } /* taste-skill-ignore */
-/* With JS the >_ is a 44px button that opens the terminal */
+/* JS: >_ is a 44px terminal button */
 .term-btn, .js .wordmark__mark--nojs { display: none; }
 .js .term-btn {
   display: inline-grid; place-items: center;
@@ -338,7 +339,7 @@ main { counter-reset: section; }
 
 .header__resume { display: none; }
 
-/* Theme toggle: sun in dark mode, moon in light */
+/* Theme toggle: sun dark, moon light */
 .theme-toggle svg { grid-area: 1 / 1; transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out); }
 .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.6); }
 [data-theme="light"] .icon-sun { opacity: 0; transform: rotate(90deg) scale(0.6); }
@@ -385,7 +386,7 @@ main { counter-reset: section; }
   min-height: min(calc(100svh - var(--header-h) - 64px), 836px);
   padding-block: var(--s-8) var(--s-7); /* 96/64; 128/96 from 768px */
 }
-/* Faint grid fading out toward the bottom */
+/* Faint grid fading down */
 .hero::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
@@ -414,7 +415,7 @@ main { counter-reset: section; }
   background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent); /* taste-skill-ignore */
 }
 @media (min-width: 1024px) {
-  /* 1fr rows above/below 4 text rows centre it; more items? add an "auto". ::before fills row 1 */
+  /* rows 1fr + 4 auto + 1fr centre the text; ::before fills row 1 */
   .hero__inner { display: grid; grid-template: 1fr repeat(4, auto) 1fr / auto 1fr; column-gap: var(--s-7); }
   .hero__inner::before { content: ""; grid-area: 1 / 1; }
   .hero__inner > * { grid-column: 1; }
@@ -443,7 +444,7 @@ main { counter-reset: section; }
 }
 .hero__intro {
   margin-top: var(--s-4);
-  max-width: 50rem; /* role + sentence fit one line on wide screens */
+  max-width: 50rem; /* one line on wide screens */
   font-size: var(--fs-h3);
   line-height: 1.5;
   color: var(--muted);
@@ -451,7 +452,7 @@ main { counter-reset: section; }
 .hero__role { color: var(--text); font-weight: 500; }
 .hero__now { margin-top: var(--s-3); color: var(--muted); }
 .hero__now-label { color: var(--accent-text); }
-.hero__actions { display: flex; flex-wrap: wrap; gap: var(--btn-gap, 12px); margin-top: var(--s-5); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--btn-gap); margin-top: var(--s-5); }
 .hero__meta { margin-top: var(--s-4); font-size: var(--fs-small); color: var(--muted); }
 
 .stats { display: flex; margin-top: var(--s-6); }
@@ -499,11 +500,12 @@ main { counter-reset: section; }
   object-fit: cover; object-position: top;
   transition: transform var(--dur-base) var(--ease-out);
 }
-/* Web screenshot: 16:10 frame, radius, border */
+/* Web screenshot frame */
 .project-card__shots { display: grid; grid-template-columns: 1fr 1fr; gap: var(--btn-gap); margin: var(--card-pad) var(--card-pad) 0; }
 .project-card__shots > :first-child { grid-column: 1 / -1; } /* first big, rest 2 per row */
 .project-card__shot figcaption { margin-top: var(--s-2); color: var(--muted); }
 a.project-card__media { display: block; cursor: zoom-in; }
+.shot-hint { position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; background: rgb(12 10 9 / .8); color: #FAFAF9; font-size: var(--fs-label); }
 .project-card__media--web {
   border: 1px solid var(--border); /* taste-skill-ignore */
   border-radius: var(--radius);
@@ -535,11 +537,11 @@ a.project-card__media { display: block; cursor: zoom-in; }
   translate: -50% -50%;
 }
 .phone img { width: auto; height: 100%; border-radius: calc(var(--r) - 3px); }
-/* Screen swap (initPhoneScreens): quick, a slow fade mixed layouts */
+/* Screen swap (initPhoneScreens) */
 .phone.is-cycling img { position: relative; opacity: 0; transition: opacity 0s var(--dur-fast); }
 .phone.is-cycling .phone__alt { position: absolute; top: 3px; left: 3px; height: calc(100% - 6px); }
 .phone.is-cycling .is-on { z-index: 1; opacity: 1; transition: opacity var(--dur-fast) var(--ease-out); }
-/* Screenshot zoom 1.15 → 1 until fully on screen */
+/* zoom 1.15 → 1 until fully on screen */
 @supports (animation-timeline: view()) {
   .project-card__media--web { view-timeline: --shot; }
   .project-card__media--web > img { animation: settle linear both; animation-timeline: --shot; animation-range: entry 0% entry 100%; }
@@ -570,7 +572,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 }
 .project-card .tags { margin-top: var(--s-4); }
 .project-card__actions {
-  display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap, 12px);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap);
   margin-top: auto; padding-top: var(--s-4);
 }
 .project-card__note {
@@ -608,7 +610,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 }
 .contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); }
 .contact__text { margin: var(--s-4) auto 0; max-width: 30rem; color: var(--muted); }
-#about { padding-bottom: 0; } /* About + Contact padding stacked into a big hole */
+#about { padding-bottom: 0; } /* no double gap before Contact */
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
 .contact__email {
   display: inline-flex; align-items: center;
@@ -664,7 +666,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 .video-modal::backdrop, .term::backdrop { background: rgb(12 10 9 / 0.7); backdrop-filter: blur(8px); } /* taste-skill-ignore */
 .video-modal__head, .term__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: 12px 12px 12px var(--s-4); }
 .video-modal__title, .term__title { font-weight: 600; }
-.video-modal__frame { aspect-ratio: 16 / 9; background: #0C0A09; } /* = the videos' own background: no visible bars */
+.video-modal__frame { aspect-ratio: 16 / 9; background: #0C0A09; } /* = video background */
 .video-modal__frame > * { display: block; width: 100%; height: 100%; border: 0; }
 /* Screenshot: as big as fits */
 .video-modal--img { width: min(1400px, calc(100vw - 32px), (100svh - 120px) * 1.6); }
@@ -673,7 +675,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 .video-modal--phone { width: min(420px, calc(100vw - 32px), calc((100svh - 120px) * 720 / 1560)); } /* never wider than the video */
 .video-modal--phone .video-modal__frame { aspect-ratio: 720 / 1560; max-height: calc(100svh - 120px); }
 
-/* --- Terminal (initTerminal). Top: keyboard never covers it; 16px: no iOS zoom --- */
+/* --- Terminal: at the top (keyboard); 16px: no iOS zoom --- */
 .term {
   width: min(640px, calc(100vw - 32px)); margin: max(16px, 12svh) auto auto;
   padding: 0; border: 1px solid var(--border); border-radius: var(--radius); /* taste-skill-ignore */
@@ -699,7 +701,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 .term__chips button:hover { color: var(--text); border-color: var(--accent-text); }
 .term__form { display: flex; align-items: center; gap: var(--s-2); padding: var(--s-2) var(--s-4); border-top: 1px solid var(--border); background: var(--bg); } /* taste-skill-ignore */
 .term__input { flex: 1; min-width: 0; min-height: 44px; border: 0; background: none; color: inherit; font: inherit; caret-color: var(--accent); }
-.term__input:focus-visible { outline: none; } /* focus shows as the orange bar on the left */
+.term__input:focus-visible { outline: none; } /* focus: orange bar on the left */
 .term__form:focus-within { box-shadow: inset 2px 0 var(--accent-text); } /* taste-skill-ignore */
 
 /* ===== 6. ANIMATION (only when JavaScript runs) ===== */
@@ -718,7 +720,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 @keyframes word-up { from { transform: translateY(105%); } }
 
-/* Fade + slide up once ("translate" never fights the hover lift) */
+/* Fade + slide up once (translate: no clash with hover) */
 .js-ready .reveal {
   opacity: 0;
   translate: 0 24px;
@@ -726,7 +728,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
   transition-delay: calc(var(--d, 0) * 100ms);
 }
 .js-ready .reveal.is-visible { opacity: 1; translate: none; }
-/* Stacked blocks arrive alone: no stagger */
+/* stacked: no stagger */
 .js-ready .contact__details { transition-delay: 0ms; }
 @media (max-width: 1023.98px) { .js-ready .about__side { transition-delay: 0ms; } }
 @media (max-width: 767.98px) { .js-ready .reveal { transition-delay: 0ms; } }
@@ -736,6 +738,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 
 /* Phones: the contact panel runs edge to edge */
 @media (max-width: 639.98px) {
+  .project-card__shots { grid-template-columns: 1fr; }
   .contact__grid { width: 100%; padding-inline: var(--gutter); border-radius: 0; border-inline: 0; }
 }
 
@@ -757,7 +760,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 @media (min-width: 1024px) {
   .header__resume { display: inline-flex; margin-inline: var(--s-2); }
   /* Featured card: media 7/12, text 5/12 */
-  .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: center; }
+  .project-card--featured { display: grid; grid-template-columns: 7fr 5fr; align-items: start; }
   .project-card--featured .project-card__shots { margin: var(--card-pad); }
   .project-card--featured .project-card__body { padding: var(--card-pad) var(--card-pad) var(--card-pad) 0; }
   /* About: heading left, details right */
@@ -766,12 +769,12 @@ a.project-card__media { display: block; cursor: zoom-in; }
   .contact__grid { padding: var(--s-7); } /* one column: no empty middle */
 }
 
-/* Landscape phones: never cut the hero off */
+/* Landscape phones: hero never cut */
 @media (max-height: 520px) {
   .hero { min-height: 0; }
 }
 
-/* Mouse only: a tap would leave the card stuck in hover */
+/* Mouse only: taps leave hover stuck */
 @media (hover: hover) and (pointer: fine) {
   .project-card:is(:hover, .is-hover) { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
   .project-card:is(:hover, .is-hover) .project-card__media > img { transform: scale(1.03); }
@@ -793,7 +796,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
   }
   .js-ready .reveal { opacity: 1; translate: none; }
   .project-card:hover { transform: none; }
-  .project-card__media--web > img { animation: none; } /* scroll-linked: the duration rule above can't stop these */
+  .project-card__media--web > img { animation: none; } /* scroll-linked: not stopped above */
   .project-card:hover .project-card__media > img { transform: none; }
 }
 
