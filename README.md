@@ -105,36 +105,23 @@ at the bottom of `js/main.js`.
 - Demo videos: MP4 (H.264), muted, HD: 1920×1080 for web, 1080×2340 for phone apps; about 1–2 minutes, under 10 MB.
 
 ### Demo videos (re-make after an app update)
-The three videos are real recordings with motion graphics added (frame, chapter captions, highlights, gentle zoom, taps).
-Each video is a few chapters: one point per chapter, a 3–4 second hold on the result, one effect at a time.
-The recording scripts pause on purpose so every result stays on screen; KH Halal is filmed in a real 1920×1080 window.
+The videos are real recordings of the apps with motion graphics added (frame, captions, highlights, slow zoom, taps).
+"Watch video" plays a short promo (`<slug>-promo.mp4`; phones get the tall `<slug>-promo-mobile.mp4`);
+KH Halal also has a "Full demo" (`kh-halal-marketplace.mp4`). Rules and the QA checklist: `VIDEOS.md`.
 You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in any folder
 (`npm i playwright@1.49.1`, then set `NODE_PATH` to that folder's `node_modules`).
-1. Record (Git Bash, from this folder):
-   - RielTrack: `bash scripts/record-rieltrack.sh` (needs the sample data in the app first, see the top of the script;
-     `bash scripts/seed-rieltrack.sh` adds the older, past-dated sample entries, run it once)
-   - idevo: `bash scripts/record-idevo.sh` (emulator only: it runs `scripts/seed-idevo.sh` first, which wipes the app,
-     loads the sample path and studies it on earlier days by moving the emulator clock, then sets the clock back)
-   - KH Halal: `node scripts/record-kh-halal-marketplace.js` (live site: guest, then customer wishlist, then seller
-     pages; never checkout or payment). It signs in off camera with logins from environment variables only:
-     `KH_CUSTOMER_EMAIL`, `KH_CUSTOMER_PASSWORD`, `KH_SELLER_EMAIL`, `KH_SELLER_PASSWORD` (never write them in a file).
+1. Record (Git Bash, from this folder; KH Halal from PowerShell so it can read your logins):
+   - RielTrack: `bash scripts/record-rieltrack.sh` and `bash scripts/record-rieltrack-income.sh` (sample data first, see
+     the top of each script; `bash scripts/seed-rieltrack.sh` adds the older, past-dated sample entries, run it once)
+   - idevo: `bash scripts/record-idevo.sh` and `bash scripts/record-idevo-ai.sh` (emulator only: both wipe the app;
+     the AI one needs `IDEVO_AI_URL` and `IDEVO_AI_TOKEN` set, never written in a file)
+   - KH Halal: `node scripts/record-kh-halal-marketplace.js` (desktop) and `node scripts/record-kh-halal-mobile.js`
+     (phone size). Live site: guest, customer up to the payment page (never "Place order"), seller adds a product that
+     the script deletes after. Logins from environment variables only: `KH_CUSTOMER_EMAIL`, `KH_CUSTOMER_PASSWORD`,
+     `KH_SELLER_EMAIL`, `KH_SELLER_PASSWORD` (never write them in a file).
    Raw files land in `assets/videos/<slug>-raw/` (not uploaded to GitHub).
-2. In `scripts/motion/<slug>.json`, point `raw` and `tapLog` at the new files and adjust:
-   - `segments`: `[start, end, speed, holdAfter]` in recorded seconds. Each caption starts a chapter; the first frame of
-     its segment stays still for `chapterHold` seconds while the caption comes in, so never start a chapter on a frame
-     where the screen is still changing (check with a frame sheet).
-   - `captions`: `{text, sub, tag?, from, to}`: `text` = the point, `sub` = one plain sentence about what it does for the user.
-   - `highlights`: `{from, to, x, y, w, h, label, below?}` in recorded pixels: an orange box that draws itself around the result.
-   - `camera`: `[time, zoom, x, y, seconds]`, zoom at most about 1.4.
-   - `tapOffset`: compare `ffmpeg ... select='gt(scene,0.06)'` times with the tap log (screen changes vs logged taps).
-   - `scale`: 1.5 for phone videos (720×1560 layout rendered as 1080×2340), 1 for web. `posterAt` = poster time (recorded seconds).
-   - Short cuts for phones: `scripts/motion/<slug>-short.json` (same raw take, 5–6 key chapters, about 40 s) renders
-     `assets/videos/<slug>-short.mp4`. The "Watch video" button plays it on screens 640px and narrower (`data-video-short`).
-     Short cuts are portrait (1080×2340) so they fill a phone. KH Halal's is a moving window into the 1920×1080 desktop take:
-     `"cover": true` + `srcH` in `device`, and one `camera` keyframe per chapter (`x` = which part of the page).
-   - Poster only (leaves the video alone): add `--poster-only`. Posters are drawn clean (no highlight, no progress line).
-3. Render: `node scripts/motion/render.js scripts/motion/<slug>.json` → `assets/videos/<slug>.mp4` + poster.
-   Add `--from 0 --to 8 --out test.mp4` for a quick preview.
+2. Edit and render with `video-studio/` (steps in `video-studio/README.md`):
+   `node video-studio/render.js video-studio/<slug>.json` (add `--portrait` for the phone version).
 
 ## 4. Put it online (free)
 **GitHub Pages** (this site: `https://hongrinrasmey.github.io/portfolio/`, repo `hongrinrasmey/portfolio`)

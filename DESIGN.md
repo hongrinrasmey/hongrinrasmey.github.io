@@ -92,8 +92,8 @@ Projects (exactly these 3, in this order; #1 is the featured card. Fill the TODO
      Result/impact:   [real numbers only, from me, or leave empty]
      Live / Download: [TODO from GitHub: live URL (web) or APK / store link (mobile), or none]
      Demo login:      none (2026-11-12: owner chose videos only; real-money checkout)
-     Video:           assets/videos/<slug>.mp4 + <slug>-poster.webp (made with VIDEOS.md). Done for all 3
-                      (2026-11-12): kh-halal-marketplace, idevo, rieltrack. Scripts: scripts/record-*, scripts/motion/
+     Video:           assets/videos/<slug>-promo.mp4 (+ -mobile) + posters (VIDEOS.md). Done for all 3;
+                      KH Halal also has the full demo <slug>.mp4. Scripts: scripts/record-*, video-studio/
      Code:            [TODO from GitHub: public repo URL, or "private"]
      Screenshots:     assets/images/<slug>.webp (+ <slug>-2.webp, <slug>-3.webp for mobile apps)
 
@@ -217,7 +217,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "Full demo" (KH Halal, wider than 640px only) · "View code" (public repos only; private repos show nothing). Hide any button without a link.
 - **Demo login** (only if one exists): small mono line with a copy button.
 - **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
-- **Demo videos:** HD (web 1920x1080, Android 1080x2340), told in numbered chapters with one highlight each; phones (640px and narrower) get a portrait ~40 s short cut (`data-video-short`); posters are clean frames. Full rules and QA checklist: `VIDEOS.md`. The old portrait shorts (`<slug>-short.mp4`) are no longer used: phones play `<slug>-promo-mobile.mp4`.
+- **Demo videos:** HD (web 1920x1080, Android 1080x2340), told in numbered chapters with one highlight each; phones (640px and narrower) play the tall `<slug>-promo-mobile.mp4` (`data-video-short`); posters are clean frames. Full rules and QA checklist: `VIDEOS.md`.
 - **Promo videos:** "Watch video" plays `<slug>-promo.mp4` on screens wider than 640px: 16:9, silent, about 35-45 s, hook text, real screens with one highlight per beat, outro with the download or live link. Made in `video-studio/` (MOTION.md + VIDEO_CONCEPTS.md; every word sourced in `video-studio/FACTS.md`). `data-wide` opens the wide pop-up on Android cards. Phones (640px and narrower) play the tall version of the same promo, `<slug>-promo-mobile.mp4` (1080x2340, `--portrait`), so captions and labels stay readable.
 - **Full demo video (KH Halal only):** "Full demo" (wider than 640px) plays `kh-halal-marketplace.mp4`: proof of the whole flow for a site visitors cannot try (no public demo login). idevo and RielTrack have a download, so no full demo (owner, 2026-11-13). Same style as the promo, 16:9, about 100 s, numbered chapters (`03 / 08`) with one explanation line each (`video-studio/<slug>-full.json`). Owner rules for every video: show the KH Halal checkout + KHQR page (stopped before "Place order", personal details blurred), idevo making a path and lessons with its built-in AI, RielTrack adding an income.
 

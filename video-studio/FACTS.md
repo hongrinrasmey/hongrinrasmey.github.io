@@ -67,10 +67,10 @@ No admin screens are shown. The signed-in name chip is blurred in every signed-i
 
 "Hong Rinrasmey · hongrinrasmey.github.io/portfolio": the owner's name and the live portfolio (returns 200, no custom domain on 2026-11-13).
 
-## Full demos (`<slug>-full.json` -> `assets/videos/<slug>.mp4`, the "Full demo" button)
+## Full demo (`kh-halal-marketplace-full.json` -> `assets/videos/kh-halal-marketplace.mp4`, the "Full demo" button; KH Halal only since 2026-11-13, the idevo and RielTrack rows below are kept as history)
 
 Same takes and the same facts as above, plus these lines. Explanation lines (`sub`) come from the earlier walkthrough
-captions (`scripts/motion/<slug>.json`), which were checked against the READMEs and the screens.
+captions (the old `scripts/motion/<slug>.json`, removed 2026-11-13, still in git history), which were checked against the READMEs and the screens.
 
 | Text in the video | Source |
 |---|---|
