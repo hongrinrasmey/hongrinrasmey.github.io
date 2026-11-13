@@ -49,9 +49,9 @@ AI is not mentioned: it only runs for the owner for now (`index.html`).
 | One marketplace. / Two sides. / Built on trust. · SHOPPER · SELLER | Headline approved by the owner (2026-11-13). |
 | Halal clothing and dry food | Live site hero "Halal Clothing & Dry Food". Recording 0.6–3.2 s. |
 | Filter by halal claim · HALAL CLAIM · VERIFIED SELLERS ONLY | Recording 16.6–19.8 s (filter panel: "Halal claim", "Verified sellers only"). The site says some claims are seller-declared, so the video says "halal claim", never "certified". |
-| Every seller is identity-verified · RIEL AND DOLLARS · IDENTITY VERIFIED | Recording 25.7–30.5 s ("KHR 20,500 USD 5.00", "Identity verified by marketplace"). |
+| Every seller is identity-verified · IDENTITY VERIFIED | Recording 25.7–30.5 s ("Identity verified by marketplace"). Phone version also shows RIEL AND DOLLARS once, in the first beat ("KHR 10,250 USD 2.50"). |
 | Check out, pay with KHQR · KHQR IN RIEL | Recording 77.85–80.4 s (Checkout: delivery details filled from the account) and 97.9–100.9 s ("KHQR payment", "Pay in KHR"). The take stops before "Place order": no order, no payment. Email, phone and address are blurred. |
-| Add to cart, no account needed · IN THE CART AS A GUEST | Recording 31.3–33.0 s (Add to Cart pressed while signed out: "Login" / "Sign Up" in the header) and 38.0–40.8 s (Shopping cart). |
+| Add to cart, no account needed · IN THE CART AS A GUEST | Recording 38.0–41.4 s (Shopping cart while signed out: "Login" / "Sign Up" in the header). |
 | Price-drop alerts on your wishlist · PRICE DROPS · BACK IN STOCK | Recording 66.3–69.3 s ("We'll notify you when a saved item drops in price or comes back in stock"). |
 | Full Khmer version | Recording 47.0–49.8 s (site switches to Khmer). |
 | A dashboard for every seller · SALES · ORDERS · REFUNDS | Recording 108.9–111.9 s. The figures belong to the live seller account and are not captioned. |
@@ -65,7 +65,7 @@ No admin screens are shown. The signed-in name chip is blurred in every signed-i
 
 ## Every video
 
-"Hong Rinrasmey · hongrinrasmey.github.io/portfolio": the owner's name and the live portfolio (returns 200, no custom domain on 2026-11-13).
+"Hong Rinrasmey · hongrinrasmey.github.io": the owner's name and the live portfolio (returns 200, no custom domain on 2026-11-13).
 
 ## Full demo (`kh-halal-marketplace-full.json` -> `assets/videos/kh-halal-marketplace.mp4`, the "Full demo" button; KH Halal only since 2026-11-13, the idevo and RielTrack rows below are kept as history)
 
@@ -81,13 +81,13 @@ captions (the old `scripts/motion/<slug>.json`, removed 2026-11-13, still in git
 | idevo: Rate how well you remembered | Screen text "How well did you remember it?" (46.4–54.6 s). |
 | idevo: Follow a learning path · PATH PROGRESS | Recording 62.45–66.6 s (Learn: "A sample path: three short lessons", "3 of 3 lessons completed"); README "build your own learning paths". The "New path" button is never pressed. |
 | KH: Prices in riel and dollars · KHR AND USD | Recording 6.0–13.0 s (Featured Products with KHR and USD prices). |
-| KH: Add to cart as a guest · IN THE CART | Recording 31.2–33.2 s and 38.0–41.4 s, signed out. "Proceed to checkout" is never pressed. |
-| KH: Save favourites | Recording 64.6–70.4 s (heart in the header, then "My wishlist"). |
-| KH: Add a product: photo and details · Price and stock · PRICE · STOCK · WEIGHT · Review, then submit | Recording 122.0–167.9 s (steps "Product", "Price & stock", "Review"; fields "Selling Price (KHR)", "Stock quantity", "Weight (kg)"; button "Submit for review"). |
+| KH: Add to cart as a guest · IN THE CART | Recording 38.0–41.4 s, signed out. "Proceed to checkout" is never pressed. |
+| KH: Save favourites · PRICE DROPS · BACK IN STOCK | Recording 66.3–70.4 s ("My wishlist"). |
+| KH: Add a product in three steps · PRODUCT · PRICE & STOCK · REVIEW · PRICE · STOCK · WEIGHT | Recording 122.0–125.6, 147.4–149.15, 157.6–167.9 s (steps "Product", "Price & stock", "Review"; fields "Selling Price (KHR)", "Stock quantity", "Weight (kg)"; button "Submit for review"). No photo is uploaded (an image link is pasted), so the caption does not say "photo"; the Supabase image link is blurred. |
 | KH: Waiting for admin review | Recording 169.2–173.6 s ("Pending review"). |
 | KH: Works on phones too · DESKTOP / PHONE | Desktop take home page (1.5 s) next to the phone take `khm-212214` home page (2.0 s): the same live site, mobile layout (owner, 2026-11-13: "it is a web app, it is responsive too"). |
-| KH phone version (`kh-halal-marketplace-mobile.json`) | Take `khm-212214` (`scripts/record-kh-halal-mobile.js`, Pixel 7 size 412x915, mobile layout, live site). Same captions as the desktop promo, except the wishlist: the mobile wishlist does not show the price-drop notice on screen, so it says "Save favourites to a wishlist · ONE TAP TO THE CART" ("Move to cart" button). Filter label "HALAL CLAIM" (the Filters sheet section). Checkout email, phone and address blurred (strong blur); "Place order" never pressed; the demo product (id 43) was deleted after the take (public page 404). |
-| KH: Cart and checkout · DELIVERY FEE | Recording 72.75–91.2 s (cart, checkout, district + province, delivery fee for Phnom Penh). Blurred: email, phone, address. |
+| KH phone version (`kh-halal-marketplace-mobile.json`) | Take `khm-212214` (`scripts/record-kh-halal-mobile.js`, Pixel 7 size 412x915, mobile layout, live site). Same captions as the desktop promo, except the wishlist: the mobile wishlist does not show the price-drop notice on screen, so it says "Save favourites to a wishlist · ONE TAP TO THE CART" ("Move to cart" button). Filter label "HALAL CLAIM" (the Filters sheet section). Checkout email, phone and address blurred (strong blur); "Place order" never pressed; the demo product (id 43) was deleted after the take (public page 404). Add-product beat: 101.5–103.0 s (empty step 1) and 125.0–130.6 s (filled "Selling Price (KHR)", "Stock quantity", "Weight (kg)" = PRICE · STOCK · WEIGHT, then "Review before saving"); the image link field is never on screen. |
+| KH: Checkout · DELIVERY FEE | Recording 77.85–80.2 and 86.8–90.9 s (checkout, then the delivery fee once the province is set). Blurred: email, phone, address. |
 | KH: Pay with KHQR · KHQR IN RIEL · STOPPED HERE: NO ORDER PLACED | Recording 91.95–103.5 s. "Place order" is never pressed (the recording script blocks order and payment requests). |
 | RielTrack: Add income too · NEW INCOME IN THE LIST | Take `rieltrack-income-190346`, Recent transactions "Freelance +$150.00". |
 | idevo: Set up a path with AI · FILLED IN BY AI / AI PLANS THE MODULES; Let AI write the lessons · AI DRAFT · YOU CHECK IT; Study the AI lessons · MARKED AS AN AI DRAFT | Take `idevo-ai-193200` (see above). Sub line "The AI runs on my own server for now." matches the idevo card lead. |
