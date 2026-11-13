@@ -621,7 +621,7 @@ main { counter-reset: section; }
   overflow-wrap: anywhere;
 }
 .contact__email:hover { text-decoration-thickness: 3px; }
-.contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap) var(--s-4); margin-top: var(--s-4); }
+.contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--btn-gap) var(--s-4); }
 /* Profiles: quiet links under the email row */
 .contact__social { display: flex; flex-wrap: wrap; column-gap: var(--s-4); margin-top: var(--s-3); }
 .social-link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; color: var(--muted); font-size: var(--fs-small); font-weight: 500; text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
