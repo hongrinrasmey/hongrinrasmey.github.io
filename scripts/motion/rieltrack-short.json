@@ -154,5 +154,6 @@
     }
   ],
   "hlSize": 24,
-  "roles": []
+  "roles": [],
+  "speed": 1.3
 }

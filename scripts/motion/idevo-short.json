@@ -141,5 +141,6 @@
   ],
   "hlSize": 24,
   "camera": [],
-  "roles": []
+  "roles": [],
+  "speed": 1.3
 }

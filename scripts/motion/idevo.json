@@ -207,5 +207,6 @@
     }
   ],
   "hlSize": 24,
-  "posterAt": 70.3
+  "posterAt": 70.3,
+  "speed": 1.3
 }
