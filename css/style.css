@@ -738,6 +738,7 @@ main { counter-reset: section; }
   .projects__grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-5); margin-top: var(--s-5); }
   .project-card__body { padding-top: 24px; } /* card media → title */
   .site-footer { padding-block: 40px; }
+  .contact__email { font-size: clamp(1.5rem, 2.5vw, 2.25rem); } /* main action; stays under the heading */
 }
 
 @media (min-width: 1280px) { :root { --gutter: 48px; } }
@@ -752,7 +753,6 @@ main { counter-reset: section; }
   .about__layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
   .about__layout > .section__head { margin: 0; display: grid; justify-items: start; } /* grid: label tops level with Education */
   .contact__grid { padding: var(--s-7); } /* one column: no empty middle */
-  .contact__email { font-size: var(--fs-h2); } /* main action, near heading size */
 }
 
 /* Landscape phones: never cut the hero off */
