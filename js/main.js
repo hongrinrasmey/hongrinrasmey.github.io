@@ -183,8 +183,9 @@
 
   // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
   // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
-  // Screen deck: next screen every 3s while it is on screen. Paused on hover/focus; never fades to a screen still
-  // loading. A screen button stops it for good (WCAG 2.2.2: a way to stop). Reduced motion: no auto change.
+  // Screen deck: next screen every 5s while it is on screen. Paused on hover/focus; never fades to a screen still
+  // loading. A screen button stops it for good (WCAG 2.2.2: a way to stop). Reduced motion or phone width: no auto change.
+  var narrow = matchMedia('(max-width: 767.98px)');
   function initDeck() {
     document.querySelectorAll('.deck').forEach(function (mon) {
       var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
@@ -206,9 +207,9 @@
         clearInterval(timer);
         if (entries[entries.length - 1].isIntersecting) timer = setInterval(function () {
           var next = (step + 1) % imgs.length;
-          if (mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
+          if (narrow.matches || mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
           show(step = next);
-        }, 3000);
+        }, 5000);
       }, { threshold: 0.5 });
       io.observe(link);
     });
