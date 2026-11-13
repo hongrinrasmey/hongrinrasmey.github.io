@@ -11,6 +11,7 @@ camera moves, highlights, labels and text around it.
 | File | What it is |
 |---|---|
 | `rieltrack.json`, `idevo.json`, `kh-halal-marketplace.json` | The storyboard for each video: text, which part of the recording plays, highlights. **Edit these.** |
+| `rieltrack-full.json`, `idevo-full.json`, `kh-halal-marketplace-full.json` | The longer "Full demo" of each app (same style, numbered chapters, one explanation line each). They write `assets/videos/<name>.mp4`. |
 | `promo.html` | The scene: layout, colours, fonts and every animation. |
 | `render.js` | Turns a storyboard into an mp4 (and the poster image). |
 | `FACTS.md` | Where every word in the videos comes from. Update it when you change a caption. |
@@ -45,6 +46,7 @@ Useful extras:
 | `--stills 5,12.5 --dir out` | Full-size pictures at those seconds. |
 | `--out test.mp4 --from 5 --to 12` | A test render of part of the video. It never touches `assets/videos/`. |
 | `--poster-only` | Only remake the poster image. |
+| `--portrait` | The tall phone version (1080x2340): `<name>-mobile.mp4`. Phones play it from "Watch video". |
 
 ## Change something
 
@@ -56,6 +58,9 @@ Useful extras:
 - **A highlight**: `"spots"` takes `x, y, w, h` in pixels of the recording (1080×2400 for the phones, 1920×1080 for the website),
   `from` / `to` in recording seconds, and an optional `label`.
 - **The poster**: `"poster"` is a time in seconds of the finished video.
+- **Explanation line and chapter numbers** (full demos): `"sub"` on a beat, `"chapters": true` at the top. `"out"` sets the file name.
+- **A second recording in one video**: list it under `"takes"` and give the beat `"take": "<name>"` (RielTrack income, idevo lesson).
+- **Phone (portrait) framing of the website**: the tall window follows each highlight; `"px"` on a beat or `"cx"` on a highlight sets where it centres.
 - **A tap ring that appears too late or early**: `"tapShift": [[loggedTime, offset]]` moves that one tap.
 
 ## Rules (from MOTION.md)
@@ -63,4 +68,5 @@ Useful extras:
 - Only real screens and real facts. Never draw a screen or invent a number.
 - No music, no logo. The videos are silent.
 - Never record again on the live KH Halal site for these videos: it takes real money. Reuse the existing takes.
+- Owner rules: show the KH Halal checkout + KHQR page (stop before "Place order", blur personal details), idevo making a path and lessons with its built-in AI (`scripts/record-idevo-ai.sh`, address + token from env vars only), RielTrack adding an income.
 - Personal details stay blurred (`"blurs"` in the KH storyboard).

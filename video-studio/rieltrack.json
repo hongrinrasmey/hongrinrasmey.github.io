@@ -4,6 +4,7 @@
   "tapLog": "assets/videos/rieltrack-raw/rieltrack-104550.taps.txt",
   "tapOffset": -0.45,
   "tapShift": [[8.303, -0.7], [12.708, -0.65], [25.213, -0.85]],
+  "takes": { "income": { "raw": "assets/videos/rieltrack-raw/rieltrack-income-190346.mp4", "tapLog": "assets/videos/rieltrack-raw/rieltrack-income-190346.taps.txt", "tapOffset": -0.05 } },
   "device": { "type": "phone", "srcW": 1080, "srcH": 2400 },
   "app": { "accent": "#0B7751", "ui": "#238F6B", "glow": "#0B7751" },
   "hook": {
@@ -21,6 +22,8 @@
     { "caption": "Add an expense in riel", "clips": [[7.3, 8.4, 1], [8.4, 11.9, 3], [11.9, 15.6, 1], [15.6, 23.7, 4], [23.7, 25.3, 1]],
       "cam": [[12.3, 1.4, 540, 760], [15.5, 1, 540, 1200, 0.7]],
       "spots": [{ "from": 12.6, "to": 15.5, "x": 210, "y": 520, "w": 660, "h": 460, "r": 24, "label": "Each amount in its own currency" }] },
+    { "take": "income", "caption": "Add income too", "clips": [[6.2, 7.4, 1], [7.4, 10.5, 2], [10.5, 17.8, 6], [17.8, 18.8, 1], [18.8, 22.7, 6], [22.7, 25.0, 1]],
+      "spots": [{ "from": 23.3, "x": 90, "y": 690, "w": 420, "h": 150, "r": 20, "label": "Monthly income" }] },
     { "caption": "Every transaction in one list", "clips": [[37.9, 40.9, 1]],
       "spots": [{ "from": 38.3, "x": 790, "y": 960, "w": 250, "h": 1020, "r": 20, "label": "Riel and dollars side by side" }] },
     { "caption": "Compare with last month", "clips": [[47.8, 51.0, 1]],

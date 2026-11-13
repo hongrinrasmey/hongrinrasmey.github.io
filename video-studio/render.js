@@ -16,31 +16,38 @@ const args = process.argv.slice(2), cfgPath = path.resolve(args[0]);
 const opt = k => { const i = args.indexOf('--' + k); return i > -1 ? args[i + 1] : null; };
 const has = k => args.includes('--' + k);
 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
+if (args.includes('--portrait')) cfg.portrait = true;   // phones: 1080x2340, writes <name>-mobile.mp4
 
-// 1. recorded frames at a constant 30 fps, full size, extracted once (screenrecord files have a variable rate)
-const raw = path.join(root, cfg.raw);
-const work = path.join(os.tmpdir(), 'promo-frames', path.basename(raw, '.mp4'));
-if (!fs.existsSync(path.join(work, 'done'))) {
-  fs.mkdirSync(work, { recursive: true });
-  console.log('extracting frames ->', work);
-  const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', raw, '-vf', `fps=${FPS}`, '-q:v', '2', path.join(work, 'f_%05d.jpg')], { stdio: 'inherit' });
-  if (r.status !== 0) throw new Error('frame extraction failed');
-  fs.writeFileSync(path.join(work, 'done'), '');
+// 1. recorded frames at a constant 30 fps, full size, extracted once (screenrecord files have a variable rate).
+//    "takes": extra recordings a beat can use ("take": "<name>"); the top-level "raw" is the take "main".
+// 2. tap / mouse log from each recording script: "seconds kind x y label"
+const takes = Object.assign({ main: { raw: cfg.raw, tapLog: cfg.tapLog, tapOffset: cfg.tapOffset, tapShift: cfg.tapShift } }, cfg.takes || {});
+cfg.tk = {};
+let work;
+for (const [name, t] of Object.entries(takes)) {
+  const raw = path.join(root, t.raw), dir = path.join(os.tmpdir(), 'promo-frames', path.basename(raw, '.mp4'));
+  if (!fs.existsSync(path.join(dir, 'done'))) {
+    fs.mkdirSync(dir, { recursive: true });
+    console.log('extracting frames ->', dir);
+    const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', raw, '-vf', `fps=${FPS}`, '-q:v', '2', path.join(dir, 'f_%05d.jpg')], { stdio: 'inherit' });
+    if (r.status !== 0) throw new Error('frame extraction failed: ' + t.raw);
+    fs.writeFileSync(path.join(dir, 'done'), '');
+  }
+  const tapLines = [];
+  if (t.tapLog) for (const line of fs.readFileSync(path.join(root, t.tapLog), 'utf8').split('\n')) {
+    const [s, kind, x, y] = line.trim().split(' ');
+    if (kind === 'tap' || kind === 'move') tapLines.push({ s: +s, kind, x: +x, y: +y });
+  }
+  cfg.tk[name] = { frames: 'file:///' + dir.replace(/\\/g, '/'), nFrames: fs.readdirSync(dir).filter(f => f.endsWith('.jpg')).length,
+    tapLines, tapOffset: t.tapOffset || 0, tapShift: t.tapShift || [] };
+  if (name === 'main') work = dir;
 }
-cfg.frames = 'file:///' + work.replace(/\\/g, '/');
-cfg.nFrames = fs.readdirSync(work).filter(f => f.endsWith('.jpg')).length;
-
-// 2. tap / mouse log from the recording script: "seconds kind x y label"
-cfg.tapLines = [];
-if (cfg.tapLog) for (const line of fs.readFileSync(path.join(root, cfg.tapLog), 'utf8').split('\n')) {
-  const [s, kind, x, y] = line.trim().split(' ');
-  if (kind === 'tap' || kind === 'move') cfg.tapLines.push({ s: +s, kind, x: +x, y: +y });
-}
+cfg.nFrames = cfg.tk.main.nFrames;
 
 (async () => {
   const preview = has('preview');
   const browser = await chromium.launch({ headless: !preview, args: ['--allow-file-access-from-files', '--force-color-profile=srgb'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: preview ? 1140 : 1080 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: { width: cfg.portrait ? 1080 : 1920, height: (cfg.portrait ? 2340 : 1080) + (preview ? 60 : 0) }, deviceScaleFactor: 1 });
   page.on('pageerror', e => { console.error('PAGE ERROR', e.message); process.exit(1); });
   page.on('console', m => { if (m.type() === 'error') console.error('CONSOLE', m.text()); });
   await page.goto('file:///' + path.join(__dirname, 'promo.html').replace(/\\/g, '/'));
@@ -70,7 +77,8 @@ if (cfg.tapLog) for (const line of fs.readFileSync(path.join(root, cfg.tapLog), 
   }
 
   const test = !!opt('out');
-  const out = path.resolve(opt('out') || path.join(root, 'assets/videos', cfg.slug + '-promo.mp4'));
+  const name = (cfg.out || cfg.slug + '-promo') + (cfg.portrait ? '-mobile' : '');                 // "out": file name in assets/videos (full demo: <slug>)
+  const out = path.resolve(opt('out') || path.join(root, 'assets/videos', name + '.mp4'));
   if (!has('poster-only')) {
     const from = +(opt('from') || 0), to = Math.min(+(opt('to') || total), total);
     const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
@@ -90,7 +98,7 @@ if (cfg.tapLog) for (const line of fs.readFileSync(path.join(root, cfg.tapLog), 
   if (!test && poster != null) {
     await page.evaluate(t => window.renderAt(t, true), poster);
     const png = path.join(work, 'poster.png'); await stage.screenshot({ path: png });
-    const p = path.join(root, 'assets/videos', cfg.slug + '-promo-poster.webp');
+    const p = path.join(root, 'assets/videos', name + '-poster.webp');
     spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', png, '-q:v', '82', p], { stdio: 'inherit' });
     console.log('  poster', p, (fs.statSync(p).size / 1e3).toFixed(0) + ' KB');
   }

@@ -4,6 +4,8 @@ Every caption, callout and outro line in the three promos, with its source.
 "Recording" times are seconds in the raw take named in each storyboard file (`<slug>.json`).
 Numbers that appear on screen (money, counts, streaks) are never captioned.
 
+**Owner rules (2026-11-13):** every video shows the KH Halal checkout + KHQR payment page (stopped before "Place order", personal details blurred), idevo making a path and its lessons with its built-in AI (owner, later the same day), and RielTrack adding an income.
+
 ## RielTrack (`rieltrack.json`, take `rieltrack-104550`)
 
 | Text in the video | Source |
@@ -16,6 +18,7 @@ Numbers that appear on screen (money, counts, streaks) are never captioned.
 | Stay inside your budget · MONTHLY LIMIT · ON TRACK | README "Budgets". Recording 60.7–63.8 s ("Overall monthly limit", "On track"). |
 | No account. / No cloud. / No ads. | README "No account, no cloud, no analytics, no ads." |
 | Use it in Khmer · ENGLISH AND ខ្មែរ | README "English and ភាសាខ្មែរ". Recording 76.4–82.4 s (Settings → ខ្មែរ → Home in Khmer). |
+| Add income too · MONTHLY INCOME | Take `rieltrack-income-190346` (`scripts/record-rieltrack-income.sh`): Add income, $150, Freelance, saved; Home income goes from $850.00 to $1,000.00. Sample entry, deleted again after the take. Categories on screen: Salary, Freelance, Allowance, Gifts, Other income. |
 | v1.6 · Android 8.0+ · Download APK | Latest release `v1.6` on `RielTrack-Downloads`; README "Requires Android 8.0 (API 26) or newer". |
 | github.com/hongrinrasmey/RielTrack-Downloads | Checked: `releases/latest` returns 200 (2026-11-13). |
 
@@ -30,8 +33,9 @@ On-screen amounts are sample data typed in by `scripts/seed-rieltrack.sh`.
 | Short lessons with a check · INSTANT ANSWER, WITH THE REASON | Recording 15.9–20.7 s ("Check yourself" question, answer and reason). |
 | Flashcards that come back · SPACED REPETITION | `index.html`: "Spaced-repetition flashcards". Recording 46.2–54.2 s. |
 | Again 10 min · Hard 1 day · Good 3 days · Easy 4 days | Read from the rating buttons on screen at 47.6–53.9 s (first review of this card; the app changes them per card). |
+| Let AI write the lessons · FILLED IN BY AI / AI DRAFT · YOU CHECK IT | Take `idevo-ai-193200` (`scripts/record-idevo-ai.sh`), the app's built-in AI on the owner's own server (gpt-oss-120b on Cloudflare Workers AI; not open to everyone yet, as the card says). Typed: "I want to learn Flutter to build a simple app screen". Everything else on screen is the AI's real answer: path "Flutter Simple App Screen", 4 modules, 3 lessons. App text: "Check what AI filled in, then tap Create.", "AI draft. It can be wrong: read it, and edit or untick anything before saving.", lesson note "AI draft (gpt-oss-120b). Check facts before relying on them." Server address and token typed off camera from env vars; `pm clear` after. |
 | See your progress · DAYS STUDIED · LESSONS · QUIZ | Recording 68.2–71.6 s. Study days are sample data from `scripts/seed-idevo.sh`. |
-| No account. / Works offline. | `Idevo-Downloads` README: "No account and no analytics", "Works fully offline". |
+| No account. / Study offline, AI online. | `Idevo-Downloads` README: "No account and no analytics", "Works fully offline" (lessons, flashcards, reviews). The built-in AI needs the internet: the app sends the request over HTTPS to the owner's Cloudflare Worker (`ai_client.dart`), which runs Workers AI (owner, 2026-11-13: "it not offline anymore" once AI is shown). |
 | Use it in Khmer · ENGLISH AND ខ្មែរ | README "English and ខ្មែរ". Recording 86.4–92.8 s. |
 | Lessons, flashcards and spaced repetition. | `index.html` idevo card + README ("learning paths, flashcards and quizzes"). |
 | Early build · v0.6.4 · Download APK | README "Version 0.6.4 is an early build"; release `v0.6.4`. No Android version is shown: none is confirmed. |
@@ -46,8 +50,8 @@ AI is not mentioned: it only runs for the owner for now (`index.html`).
 | Halal clothing and dry food | Live site hero "Halal Clothing & Dry Food". Recording 0.6–3.2 s. |
 | Filter by halal claim · HALAL CLAIM · VERIFIED SELLERS ONLY | Recording 16.6–19.8 s (filter panel: "Halal claim", "Verified sellers only"). The site says some claims are seller-declared, so the video says "halal claim", never "certified". |
 | Every seller is identity-verified · RIEL AND DOLLARS · IDENTITY VERIFIED | Recording 25.7–30.5 s ("KHR 20,500 USD 5.00", "Identity verified by marketplace"). |
-| Guest checkout, no account needed · GUEST CHECKOUT | Recording 38.2–41.0 s ("Guest checkout is available"). |
-| Pay with KHQR in riel or dollars · KHQR IN RIEL | Recording 97.9–100.9 s ("KHQR payment", "Pay in USD", "Pay in KHR"). The take stops before "Place order": no order, no payment. Phone and address are blurred. |
+| Check out, pay with KHQR · KHQR IN RIEL | Recording 77.85–80.4 s (Checkout: delivery details filled from the account) and 97.9–100.9 s ("KHQR payment", "Pay in KHR"). The take stops before "Place order": no order, no payment. Email, phone and address are blurred. |
+| Add to cart, no account needed · IN THE CART AS A GUEST | Recording 31.3–33.0 s (Add to Cart pressed while signed out: "Login" / "Sign Up" in the header) and 38.0–40.8 s (Shopping cart). |
 | Price-drop alerts on your wishlist · PRICE DROPS · BACK IN STOCK | Recording 66.3–69.3 s ("We'll notify you when a saved item drops in price or comes back in stock"). |
 | Full Khmer version | Recording 47.0–49.8 s (site switches to Khmer). |
 | A dashboard for every seller · SALES · ORDERS · REFUNDS | Recording 108.9–111.9 s. The figures belong to the live seller account and are not captioned. |
@@ -62,3 +66,26 @@ No admin screens are shown. The signed-in name chip is blurred in every signed-i
 ## Every video
 
 "Hong Rinrasmey · hongrinrasmey.github.io/portfolio": the owner's name and the live portfolio (returns 200, no custom domain on 2026-11-13).
+
+## Full demos (`<slug>-full.json` -> `assets/videos/<slug>.mp4`, the "Full demo" button)
+
+Same takes and the same facts as above, plus these lines. Explanation lines (`sub`) come from the earlier walkthrough
+captions (`scripts/motion/<slug>.json`), which were checked against the READMEs and the screens.
+
+| Text in the video | Source |
+|---|---|
+| RielTrack: Shown in dollars too · DOLLAR VALUE UNDER RIEL | Recording 29.4–34.0 s (Home: "−12,000 ៛" with "≈ $2.93" under it). |
+| RielTrack: SEARCH AND FILTERS · BIGGEST CHANGES BY CATEGORY · EACH CATEGORY'S SHARE · SPENT · LIMIT · LEFT | Read off the screens: History search + Type/Date/Currency/Category filters; Reports "Biggest changes", "Spending by category" with percentages; Budgets "Spent", "Limit", "Left". |
+| idevo: Keep a study streak · STUDY STREAK | Recording 29.9–35.2 s ("2-day streak", "You studied on 5 of the last 7 days": sample days). |
+| idevo: Flashcards on a schedule · CARDS DUE PER DAY | Recording 36.95–42.2 s (Review: "Coming up", "Flashcards due per day"). |
+| idevo: Rate how well you remembered | Screen text "How well did you remember it?" (46.4–54.6 s). |
+| idevo: Follow a learning path · PATH PROGRESS | Recording 62.45–66.6 s (Learn: "A sample path: three short lessons", "3 of 3 lessons completed"); README "build your own learning paths". The "New path" button is never pressed. |
+| KH: Prices in riel and dollars · KHR AND USD | Recording 6.0–13.0 s (Featured Products with KHR and USD prices). |
+| KH: Add to cart as a guest · IN THE CART | Recording 31.2–33.2 s and 38.0–41.4 s, signed out. "Proceed to checkout" is never pressed. |
+| KH: Save favourites | Recording 64.6–70.4 s (heart in the header, then "My wishlist"). |
+| KH: Add a product: photo and details · Price and stock · PRICE · STOCK · WEIGHT · Review, then submit | Recording 122.0–167.9 s (steps "Product", "Price & stock", "Review"; fields "Selling Price (KHR)", "Stock quantity", "Weight (kg)"; button "Submit for review"). |
+| KH: Waiting for admin review | Recording 169.2–173.6 s ("Pending review"). |
+| KH: Cart and checkout · DELIVERY FEE | Recording 72.75–91.2 s (cart, checkout, district + province, delivery fee for Phnom Penh). Blurred: email, phone, address. |
+| KH: Pay with KHQR · KHQR IN RIEL · STOPPED HERE: NO ORDER PLACED | Recording 91.95–103.5 s. "Place order" is never pressed (the recording script blocks order and payment requests). |
+| RielTrack: Add income too · NEW INCOME IN THE LIST | Take `rieltrack-income-190346`, Recent transactions "Freelance +$150.00". |
+| idevo: Set up a path with AI · FILLED IN BY AI / AI PLANS THE MODULES; Let AI write the lessons · AI DRAFT · YOU CHECK IT; Study the AI lessons · MARKED AS AN AI DRAFT | Take `idevo-ai-193200` (see above). Sub line "The AI runs on my own server for now." matches the idevo card lead. |
