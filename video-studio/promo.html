@@ -191,7 +191,7 @@ window.init = cfg => {
   C.W = P ? 1080 : 1920; C.H = P ? 2340 : 1080; stage.style.width = C.W + 'px'; stage.style.height = C.H + 'px';
   D.srcH = D.srcH || D.srcW * 9 / 16;
   if (ph) { D.sh = P ? 1440 : D.sh || 880; D.sw = Math.round(D.sh * D.srcW / D.srcH); D.pad = 12; D.bar = 0; }
-  else if (P) { D.sw = 960; D.sh = 1500; D.pad = 0; D.bar = 44; D.cover = true; }   // a tall window into the desktop page
+  else if (P) { D.sw = 1000; D.sh = 1500; D.pad = 0; D.bar = 44; D.cover = true; }   // a tall window into the desktop page
   else { D.sw = D.sw || 1536; D.sh = Math.round(D.sw * D.srcH / D.srcW); D.pad = 0; D.bar = 44; }
   D.k = D.cover ? D.sh / D.srcH : D.sw / D.srcW;
   D.ow = D.sw + 2 * D.pad + 3; D.oh = D.sh + 2 * D.pad + D.bar + 3;
@@ -199,6 +199,8 @@ window.init = cfg => {
   D.top = P ? (ph ? 600 : 560) : ph ? Math.round((1080 - D.oh) / 2) : 30;
   D.sx = D.left + 1.5 + D.pad; D.sy = D.top + 1.5 + D.pad + D.bar;      // screen origin on stage
   const dev = $('device'); dev.className = D.type;
+  if (C.app.rim) dev.style.borderColor = C.app.rim;      // dark app on the dark stage: a brighter edge
+  if (C.app.bezel) dev.style.background = C.app.bezel;   // and a lighter bezel keep the phone apart
   Object.assign(dev.style, { left: D.left + 'px', top: D.top + 'px' });
   Object.assign($('viewport').style, { width: D.sw + 'px', height: D.sh + 'px' });
   Object.assign($('cam').style, { width: D.srcW + 'px', height: D.srcH + 'px' });
@@ -206,7 +208,7 @@ window.init = cfg => {
   $('url').textContent = D.url || '';
   const cx = D.left + D.ow / 2, cy = D.top + D.oh / 2;
   Object.assign($('glow').style, { left: cx - 750 + 'px', top: cy - 750 + 'px',
-    background: `radial-gradient(circle, ${C.app.glow}1A 0%, ${C.app.glow}0A 38%, transparent 66%)` });
+    background: `radial-gradient(circle, ${C.app.glow}${(C.app.glowA || ['1A', '0A'])[0]} 0%, ${C.app.glow}${(C.app.glowA || ['1A', '0A'])[1]} 38%, transparent 66%)` });
   Object.assign($('shadow').style, { left: cx - D.ow * .55 + 'px', width: D.ow * 1.1 + 'px', top: D.top + D.oh - 30 + 'px', height: '80px' });
   if (!ph) { $('shadow').style.display = 'none'; if (!P) Object.assign($('caption').style, { top: D.top + D.oh + 26 + 'px', left: D.left + 'px', width: D.ow + 'px' }); }
 
@@ -317,7 +319,10 @@ function cameraAt(g, t) {
   const cxOf = sp => sp.cx ?? sp.x + sp.w / 2;   // "cx": where the portrait window centres for a highlight wider than it
   let st = { z: 1, x: g.px ?? (D.cover && sp0 ? cxOf(sp0) : D.srcW / 2), y: D.srcH / 2 };
   // portrait window with no camera of its own: glide to each later highlight as it appears
-  const kfs = g.cam || (D.cover ? (g.spots || []).slice(1).map(sp => [sp.from, 1, cxOf(sp), D.srcH / 2, .7]) : []);
+  // "push": [zoom, x, y] = desktop only: a slow push-in over the whole beat (bigger text, no jump)
+  const push = !C.portrait && g.push ? [[g.clips[0][0], g.push[0], g.push[1], g.push[2], (g.end - g.start) / FPS]] : null;
+  // "cam" is desktop framing; the tall phone window (cover) uses "camTall", or follows the highlights at 1x
+  const kfs = (D.cover ? g.camTall : g.cam) || push || (D.cover ? (g.spots || []).slice(1).map(sp => [sp.from, 1, cxOf(sp), D.srcH / 2, .7]) : []);
   for (const kf of kfs) {
     const o = outOf(g, kf[0]); if (o == null) continue; if (t < o) break;
     const u = inOut(prog(t, o, kf[4] || .9)), to = { z: kf[1], x: kf[2], y: kf[3] };
