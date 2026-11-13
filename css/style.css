@@ -188,11 +188,11 @@ a { color: inherit; }
 
 /* Mono labels, tags, dates */
 .section-label, .tags li, .platform-tag, .hero__status, .hero__now, .stats__label, /* taste-skill-ignore */
-.project-card__note, .skill-group__title, .timeline__dates {
+.project-card__note, .skill-group__title, .timeline__dates, .contact__key {
   font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
 }
 .section-label, .platform-tag, .hero__status, .stats__label, .skill-group__title, /* taste-skill-ignore */
-.timeline__dates { text-transform: uppercase; letter-spacing: 0.05em; }
+.timeline__dates, .contact__key { text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* "01 / WORK": auto numbers */
 main { counter-reset: section; }
@@ -284,7 +284,6 @@ main { counter-reset: section; }
 .copy-btn__done { display: none; }
 .copy-btn.is-copied .copy-btn__icon { display: none; }
 .copy-btn.is-copied .copy-btn__done { display: block; }
-.copy-btn.is-copied { border-color: var(--accent-text); color: var(--accent-text); }
 
 /* ===== 5. SECTIONS ===== */
 
@@ -405,7 +404,7 @@ main { counter-reset: section; }
 .hero__photo { position: relative; width: min(56%, 240px); margin-bottom: var(--s-5); }
 .hero__photo img {
   position: relative; aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
-  /* suit + shoulders fade out; taste-skill-ignore: a mask */
+  /* suit fades out; taste-skill-ignore: a mask */
   mask: linear-gradient(#000 58%, transparent 92%), linear-gradient(90deg, transparent, #000 18% 82%, transparent); /* taste-skill-ignore */
   mask-composite: intersect;
 }
@@ -615,31 +614,27 @@ a.project-card__media { display: block; cursor: zoom-in; }
   border-radius: var(--radius);
   max-width: var(--container);
   width: calc(100% - 2 * var(--gutter)); /* same edges as the project cards */
-  justify-items: center; text-align: center; /* one column, centred: no empty right side */
 }
-.contact__title { margin-top: var(--s-3); font-size: var(--fs-h2); }
-.contact__text { margin: var(--s-4) auto 0; max-width: 30rem; color: var(--muted); }
+.contact__title { margin-top: var(--s-3); font-size: clamp(2.5rem, 5vw, 4rem); }
+.contact__text { margin-top: var(--s-4); max-width: 30rem; color: var(--muted); }
 #about { padding-bottom: 0; } /* no double gap before Contact */
 .contact__reply { margin-top: var(--s-2); color: var(--muted); font-size: var(--fs-small); }
-.contact__email {
-  display: inline-flex; align-items: center;
-  min-height: 44px; /* tap target (DESIGN.md §10) */
-  font-size: var(--fs-h3);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
-  text-decoration: underline 2px var(--accent-text);
-  text-underline-offset: 0.25em;
-  transition: color var(--dur-fast) var(--ease-out);
-  overflow-wrap: anywhere;
+/* Contact: big email row, small profile rows */
+.contact__details { max-width: 36rem; border-bottom: 1px solid var(--border); } /* taste-skill-ignore */
+.contact__row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); min-height: 56px;
+  padding-block: var(--s-2); border-top: 1px solid var(--border); text-decoration: none; /* taste-skill-ignore */
 }
-.contact__email:hover { text-decoration-thickness: 3px; }
-.contact__actions, .contact__social { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--btn-gap) var(--s-4); }
-/* Profiles: links under the email row */
-.contact__social { gap: 0 var(--s-5); margin-top: var(--s-3); }
-.social-link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; color: var(--muted); font-size: var(--fs-body); font-weight: 500; text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
-.social-link:hover { color: var(--accent-text); }
+.contact__row--main { padding-block: var(--s-4); }
+.contact__key { display: inline-flex; align-items: center; gap: var(--s-2); width: 8rem; color: var(--muted); }
+.contact__key svg { flex: none; transition: color var(--dur-fast) var(--ease-out); }
+.contact__row--main .contact__key { width: 100%; }
+.contact__value { font-weight: 500; overflow-wrap: anywhere; transition: color var(--dur-fast) var(--ease-out); }
+.contact__row .btn__arrow { color: var(--muted); }
+a.contact__row:hover :is(.contact__value, .btn__arrow, svg) { color: var(--accent-text); }
 .social-link:hover .btn__arrow { transform: translate(2px, -2px); }
+.contact__email { min-height: 44px; display: inline-flex; align-items: center; font-size: clamp(1.25rem, 2.2vw, 1.875rem); font-weight: 600; letter-spacing: -0.02em; text-decoration: underline 2px var(--accent-text); text-underline-offset: 0.25em; }
+.contact__email:hover { color: var(--accent-text); }
 
 /* --- Footer --- */
 .site-footer { padding-block: var(--s-5); /* 32px, 40px from 768px */ border-top: 1px solid var(--border); color: var(--muted); font-size: var(--fs-small); } /* taste-skill-ignore */
@@ -745,10 +740,9 @@ a.project-card__media { display: block; cursor: zoom-in; }
 
 /* ===== 7. MEDIA QUERIES ===== */
 
-/* Phones: the contact panel runs edge to edge */
+/* Phones: contact panel edge to edge */
 @media (max-width: 639.98px) {
-  .contact__grid { width: 100%; padding-inline: var(--gutter); border-radius: 0; border-inline: 0; }
-}
+  .contact__grid { width: 100%; padding-inline: var(--gutter); border-radius: 0; border-inline: 0; }}
 
 /* Desktop spacing (DESIGN.md §9.4) */
 @media (min-width: 768px) {
@@ -760,7 +754,6 @@ a.project-card__media { display: block; cursor: zoom-in; }
   .projects__grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-5); margin-top: var(--s-5); }
   .project-card__body { padding-top: 24px; } /* card media → title */
   .site-footer { padding-block: 40px; }
-  .contact__email { font-size: clamp(1.5rem, 2.5vw, 2.25rem); } /* main action; stays under the heading */
 }
 
 @media (min-width: 1280px) { :root { --gutter: 48px; } }
@@ -774,7 +767,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
   /* About: heading left, details right */
   .about__layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
   .about__layout > .section__head { margin: 0; display: grid; justify-items: start; } /* grid: label tops level with Education */
-  .contact__grid { padding: var(--s-7); } /* one column: no empty middle */
+  .contact__grid { padding: var(--s-6); grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); gap: var(--s-6); align-items: center; }
 }
 
 /* Landscape phones: hero never cut */
@@ -815,7 +808,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
     --text: #000; --muted: #333; --accent-text: #000;
   }
   .site-header, .skip-link, .project-card__actions .btn,
-  .contact__actions .btn, .contact__social, .footer__top, .video-modal { display: none !important; }
+  .contact__details .btn, .footer__top, .video-modal { display: none !important; }
   body { font-size: 11pt; }
   .hero { min-height: 0; padding-block: 0 24pt; }
   .section { padding-block: 24pt; }

@@ -231,11 +231,10 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 
 ### 8.6 Contact
 - Section label `04 / CONTACT` (renumber labels if Experience is hidden).
-- Large heading: "Get in touch." (owner's choice, 2026-11-12; "work together" read as freelance).
+- Large heading: "Get in touch." (owner's choice, 2026-11-12; "work together" read as freelance). Size `clamp(2.5rem, 5vw, 4rem)` (40→64px; bigger than h2, smaller than h1).
 - One friendly sentence + reply time (if provided).
-- Row 1: email as big clickable text (the only `mailto:` link; 2px orange underline, 3px on hover) + copy button ("Copied!" for 2s, announced via `aria-live`) + "Download résumé" button (if provided). No separate "Email me" button (2026-11-13: it repeated the email link).
-- Row 2: GitHub / LinkedIn / Telegram as text links (body size 18px since 2026-11-13, muted, orange on hover, icon + name + ↗, 44px tap height; `href="#"` stays hidden).
-- Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). One column at every width (label, heading, sentence, email row, profile links; 2026-11-13: two columns left ~500px empty in the middle). Email 24→36px from 768px (smaller than the heading). ≥1024px: 64px padding. Content centred in the panel (2026-11-13: left-aligned it left the right ~60% empty). About has no bottom padding, so only Contact's top padding sits between them.
+- Contact list (owner chose it 2026-11-13): one row each for Email, GitHub, LinkedIn, Telegram, Résumé, split by 1px lines (top of each row + bottom of the list). Email row first and largest (`.contact__row--main`): label on its own line, then the address (20→30px, 600, 2px orange underline, the only `mailto:` link) with the orange primary **Copy** button right after it (16px gap; wraps under the address on phones). Copy says "Copied!" + check icon for 2s, announced via `aria-live`. Every label has an 18px grey logo in front (envelope, GitHub, LinkedIn, Telegram, document for Résumé; `aria-hidden`, turns orange with the row on hover). Profile rows are quiet, one line, 56px tall: logo + mono label (8rem wide), name at body size 500, ↗ right after the name; the whole row is a link (name + arrow turn orange on hover). A row with `href="#"` stays hidden. No separate "Email me" button. List max width 36rem.
+- Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). ≥1024px: 48px padding, columns `minmax(0, 1fr) minmax(0, 36rem)`, 48px gap (heading/sentence left, list right, centred vertically). Below: stacked, left-aligned. About has no bottom padding, so only Contact's top padding sits between them.
 - No contact form (it's in Future ideas).
 
 ### 8.7 Footer
