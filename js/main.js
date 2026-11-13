@@ -183,10 +183,10 @@
 
   // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
   // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
-  // Desktop monitor: Home -> Product -> All products -> Home once (1.6s steps, under 5s: WCAG 2.2.2), then stop.
-  // Buttons pick a screen (and end the tour). Paused on hover/focus; never fades to a screen still loading.
-  function initMonitor() {
-    document.querySelectorAll('.monitor').forEach(function (mon) {
+  // Screen deck: next screen every 3s while it is on screen. Paused on hover/focus; never fades to a screen still
+  // loading. A screen button stops it for good (WCAG 2.2.2: a way to stop). Reduced motion: no auto change.
+  function initDeck() {
+    document.querySelectorAll('.deck').forEach(function (mon) {
       var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
       var btns = mon.querySelectorAll('[data-screen]'), step = 0, timer, io;
       function show(i) {
@@ -208,8 +208,7 @@
           var next = (step + 1) % imgs.length;
           if (mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
           show(step = next);
-          if (!step) stop(); // back on the first screen: done
-        }, 1600);
+        }, 3000);
       }, { threshold: 0.5 });
       io.observe(link);
     });
@@ -362,7 +361,7 @@
     // Screenshot links: full size in the same pop-up (Ctrl/middle click still opens the file)
     function openShot(link, trigger) {
       var img = new Image();
-      img.src = link.href; // initMonitor points it at the screen showing
+      img.src = link.href; // initDeck points it at the screen showing
       img.alt = (link.querySelector('img.is-on') || link.querySelector('img')).alt;
       if (modalTitle) modalTitle.textContent = img.alt.split(':')[0];
       modal.classList.remove('video-modal--phone');
@@ -375,7 +374,7 @@
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.video-btn');
       if (btn) openVideo(btn);
-      var shot = e.target.closest('.shot-link, [data-shot]'); // [data-shot]: the "Full size" button under a monitor
+      var shot = e.target.closest('.shot-link, [data-shot]'); // [data-shot]: the "Full size" button under a deck
       if (shot && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.button) {
         e.preventDefault();
         openShot(shot.href ? shot : shot.closest('figure').querySelector('.shot-link'), shot);
@@ -526,7 +525,7 @@
   initReveal();
   initSpotlight();
   initPhoneScreens();
-  initMonitor();
+  initDeck();
   initCountUp();
   initCopy();
   initVideo();
