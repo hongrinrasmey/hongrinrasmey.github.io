@@ -1,0 +1,56 @@
+{
+  "slug": "kh-halal-marketplace",
+  "raw": "assets/videos/kh-halal-marketplace-raw/kh-165516.mp4",
+  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-165516.taps.txt",
+  "tapOffset": 0,
+  "device": { "type": "browser", "srcW": 1920, "srcH": 1080, "url": "kh-halal-marketplace.onrender.com" },
+  "app": { "accent": "#077B50", "ui": "#0E9A63", "glow": "#077B50" },
+  "roles": { "SHOPPER": "#077B50", "SELLER": "#A7E8CC" },
+  "hook": {
+    "dur": 3.6,
+    "lines": [
+      { "text": "One marketplace.", "at": 0.15 },
+      { "text": "Two sides.", "at": 0.85 },
+      { "text": "Built on trust.", "key": "trust", "at": 1.55 }
+    ],
+    "pills": ["SHOPPER", "SELLER"], "extraAt": 2.2
+  },
+  "blurs": [
+    { "from": 60.5, "to": 107.5, "x": 1744, "y": 50, "w": 150, "h": 50 },
+    { "from": 77.3, "to": 91.6, "x": 264, "y": 622, "w": 1010, "h": 56 },
+    { "from": 77.3, "to": 91.6, "x": 264, "y": 738, "w": 1010, "h": 56 },
+    { "from": 77.3, "to": 91.6, "x": 264, "y": 856, "w": 1010, "h": 56 },
+    { "from": 91.6, "to": 107.5, "x": 538, "y": 835, "w": 226, "h": 70 },
+    { "from": 91.6, "to": 107.5, "x": 302, "y": 916, "w": 934, "h": 70 },
+    { "from": 108.1, "to": 176.5, "x": 1784, "y": 6, "w": 122, "h": 50 }
+  ],
+  "beats": [
+    { "role": "SHOPPER", "caption": "Halal clothing and dry food", "clips": [[0.6, 3.2, 1]] },
+    { "role": "SHOPPER", "caption": "Filter by halal claim", "clips": [[16.6, 19.8, 1]],
+      "spots": [{ "from": 17.0, "x": 240, "y": 340, "w": 320, "h": 680, "r": 14, "label": "Halal claim · verified sellers only", "side": "right" }] },
+    { "role": "SHOPPER", "caption": "Every seller is identity-verified", "clips": [[25.7, 30.5, 1]],
+      "cam": [[25.9, 1.3, 1150, 340]],
+      "spots": [{ "from": 26.4, "to": 28.3, "x": 962, "y": 262, "w": 270, "h": 52, "r": 10, "label": "Riel and dollars" },
+                { "from": 28.5, "x": 976, "y": 354, "w": 340, "h": 84, "r": 12, "label": "Identity verified" }] },
+    { "role": "SHOPPER", "caption": "Guest checkout, no account needed", "clips": [[38.2, 41.0, 1]],
+      "spots": [{ "from": 38.6, "x": 1370, "y": 626, "w": 300, "h": 60, "r": 10, "label": "Guest checkout" }] },
+    { "role": "SHOPPER", "caption": "Pay with KHQR in riel or dollars", "clips": [[97.9, 100.9, 1]],
+      "spots": [{ "from": 98.7, "x": 286, "y": 594, "w": 966, "h": 86, "r": 12, "label": "KHQR in riel" }] },
+    { "role": "SHOPPER", "caption": "Price-drop alerts on your wishlist", "clips": [[66.3, 69.3, 1]],
+      "spots": [{ "from": 66.8, "x": 240, "y": 496, "w": 1140, "h": 284, "r": 14, "label": "Price drops · back in stock" }] },
+    { "role": "SHOPPER", "caption": "Full Khmer version", "clips": [[47.0, 49.8, 1]] },
+    { "type": "flip", "dur": 1.2 },
+    { "role": "SELLER", "caption": "A dashboard for every seller", "clips": [[108.9, 111.9, 1]],
+      "spots": [{ "from": 109.3, "x": 356, "y": 396, "w": 1440, "h": 110, "r": 12, "label": "Sales · orders · refunds" }] },
+    { "role": "SELLER", "caption": "Every product at a glance", "clips": [[117.2, 120.2, 1]],
+      "spots": [{ "from": 117.6, "x": 940, "y": 440, "w": 300, "h": 480, "r": 12, "label": "Listing quality + status", "side": "right" }] },
+    { "role": "SELLER", "caption": "Add a product in three steps", "clips": [[123.6, 126.4, 1]],
+      "spots": [{ "from": 124.0, "x": 268, "y": 254, "w": 1432, "h": 66, "r": 12, "label": "Product · price & stock · review" }] },
+    { "role": "SELLER", "caption": "Reviewed before it goes live", "clips": [[169.4, 172.2, 1]],
+      "spots": [{ "from": 169.8, "x": 280, "y": 482, "w": 1424, "h": 64, "r": 12, "label": "Pending admin review" }] },
+    { "type": "finale", "dur": 2.4, "a": { "src": 29.8, "role": "SHOPPER" }, "b": { "src": 111.0, "role": "SELLER" } }
+  ],
+  "outro": { "dur": 3.8, "name": "KH Halal Marketplace", "value": "Halal products from verified sellers in Cambodia.", "platform": "WEB",
+    "meta": "Khmer + English", "cta": "Try it live", "link": "kh-halal-marketplace.onrender.com" },
+  "poster": 13.9
+}

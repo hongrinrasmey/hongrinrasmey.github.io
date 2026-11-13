@@ -678,6 +678,8 @@ a.contact__row:hover :is(.contact__value, .btn__arrow, svg) { color: var(--accen
 /* Phone app videos: 420px */
 .video-modal--phone { width: min(420px, calc(100vw - 32px), calc((100svh - 120px) * 720 / 1560)); } /* never wider than the video */
 .video-modal--phone .video-modal__frame { aspect-ratio: 720 / 1560; max-height: calc(100svh - 120px); }
+/* Phones play the short portrait cut from "Watch video": no "Full demo" */
+@media (max-width: 640px) { .video-btn--full { display: none; } }
 
 /* --- Terminal: at the top (keyboard); 16px: no iOS zoom --- */
 .term {

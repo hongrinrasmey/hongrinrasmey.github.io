@@ -352,10 +352,10 @@
         player.setAttribute('aria-label', title);
       }
       if (modalTitle) modalTitle.textContent = title;
-      // Phone apps and every short cut (all portrait): tall pop-up; web apps: wide
+      // Phone apps and every short cut (all portrait): tall pop-up; web apps and data-wide (16:9 promos): wide
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
-      modal.classList.toggle('video-modal--phone', !!short || (!!tag && /android|ios/i.test(tag.textContent)));
+      modal.classList.toggle('video-modal--phone', !!short || (!btn.hasAttribute('data-wide') && !!tag && /android|ios/i.test(tag.textContent)));
       modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
       lastTrigger = btn;
