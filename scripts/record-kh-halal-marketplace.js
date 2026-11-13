@@ -13,10 +13,8 @@ const fs = require('fs'), path = require('path'), { spawnSync } = require('child
 const { chromium } = require('playwright');
 
 const SITE = 'https://kh-halal-marketplace.onrender.com';
-// 1200 wide: the narrowest window with the full desktop layout everywhere (below it the seller sidebar
-// collapses into a drawer and the header clips the logo), so text is bigger in the video than at 1280;
-// 696 high fits the stage at 1480 px wide
-const W = 1200, H = 696, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
+// 1920x1080: a real Full HD desktop window (owner, 2026-11-13), so the site shows its full desktop layout
+const W = 1920, H = 1080, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
 const env = k => { const v = process.env[k]; if (!v) { console.error('Missing env var ' + k); process.exit(1); } return v; };
 const PARTS = (process.env.KH_PARTS || 'guest,customer,seller').split(',');   // KH_PARTS=guest: test run, no logins
 const LOGIN = PARTS.length === 1 && PARTS[0] === 'guest' ? {} : { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
@@ -83,6 +81,7 @@ async function part(browser, name, role, setupUrl, act) {
   await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: W, maxHeight: H, everyNthFrame: 1 });
   await sleep(300); await page.mouse.move(mx + 1, my);
   h.mark(name + '-start');
+  log.push(`${now().toFixed(3)} move ${mx} ${my}`);         // where the mouse really starts, so the drawn cursor never carries over from the last part
   await act(h);
   h.mark(name + '-end');
   const end = now();
@@ -100,39 +99,41 @@ async function part(browser, name, role, setupUrl, act) {
 (async () => {
   const browser = await chromium.launch();
 
+  // slow on purpose (owner, 2026-11-13): every result stays on screen 3-5 s so the video can explain it
   await part(browser, 'guest', null, '/', async ({ page, sleep, move, click, scroll }) => {
-    await sleep(2200);                                                         // home
-    await move(800, 450, 800); await scroll(560); await sleep(1200);           // Featured Products
-    await click(page.locator('a[href="/app/products/1"]').filter({ hasText: 'Black Hijab' }).first());
-    await page.waitForLoadState('networkidle'); await sleep(2400);             // product: riel + dollars
-    await move(760, 420, 350); await scroll(160, 20); await sleep(500);        // Add to Cart into view, smoothly
-    await click(page.getByRole('button', { name: /^add to cart$/i }).first()); await sleep(1600);
-    await click(page.locator('header a[href="/customer/cart"]:visible').first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2400);             // cart (no checkout)
-    await click(page.getByRole('link', { name: 'Home', exact: true }).first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(1200);
-    await click(page.getByRole('button', { name: 'ខ្មែរ' }).first(), 800); await sleep(2600);   // Khmer
+    await sleep(4000);                                                         // home: hero, verified sellers
+    await move(960, 600, 1000); await scroll(700, 60); await sleep(4500);      // Featured Products: riel + dollars
+    await click(page.getByRole('link', { name: /view all/i }).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(4500);             // All Products: filters + grid
+    await move(960, 500, 700); await scroll(-2000, 30); await sleep(600);
+    await click(page.locator('a[href*="/products/1"]').filter({ hasText: 'Black Hijab' }).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(5000);             // product: price, verified seller
+    await click(page.getByRole('button', { name: /^add to cart$/i }).first(), 900); await sleep(3000);
+    await click(page.locator('header a[href="/customer/cart"]:visible').first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(4500);             // cart (no checkout)
+    await click(page.getByRole('link', { name: 'Home', exact: true }).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(1500);
+    await click(page.getByRole('button', { name: 'ខ្មែរ' }).first(), 900); await sleep(3500);   // Khmer
+    await move(960, 600, 700); await scroll(700, 60); await sleep(3500);       // Khmer product cards
     await click(page.getByRole('button', { name: 'English' }).first(), 500); await sleep(800);  // back (off the cut)
   });
 
   await part(browser, 'customer', 'customer', '/', async ({ page, sleep, click }) => {
-    await sleep(2000);                                                         // home, signed in (role card on top)
-    await click(page.locator('header a[href="/customer/wishlist"]:visible').first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2800);             // wishlist
+    await sleep(3000);                                                         // home, signed in (role card on top)
+    await click(page.locator('header a[href="/customer/wishlist"]:visible').first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(4500);             // wishlist
   });
 
   await part(browser, 'seller', 'seller', '/seller/dashboard', async ({ page, sleep, move, click, scroll }) => {
-    await sleep(3600);                                                         // dashboard (role card, then time to read)
-    await click(page.getByRole('link', { name: 'Products', exact: true }).first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(2600);             // product list
-    await move(700, 500, 500); await scroll(320); await sleep(1500);
+    await sleep(6000);                                                         // dashboard (role card, then time to read)
+    await click(page.getByRole('link', { name: 'Products', exact: true }).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(4500);             // product list + status
     await click(page.getByRole('link', { name: /add new product/i }).first()
-      .or(page.getByRole('button', { name: /add new product/i }).first()).first(), 800);
-    await page.waitForLoadState('networkidle'); await sleep(1600);             // add-product form
-    await move(700, 520, 400); await scroll(300); await sleep(600);
+      .or(page.getByRole('button', { name: /add new product/i }).first()).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(3500);             // add-product form
     const name = page.getByPlaceholder(/Premium Halal Beef Jerky/i).first();  // demo text only; no button is pressed
-    await click(name, 700); await sleep(300);
-    await page.keyboard.type('Halal Beef Jerky 200g', { delay: 70 }); await sleep(2200);
+    await click(name, 900); await sleep(400);
+    await page.keyboard.type('Halal Beef Jerky 200g', { delay: 110 }); await sleep(3500);
   });
 
   await browser.close();

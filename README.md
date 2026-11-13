@@ -102,10 +102,12 @@ at the bottom of `js/main.js`.
 - Use **WebP**. Web screenshots about **1600 px wide**, under **300 KB**; phone screenshots about 390–780 px wide.
 - Free tool: https://squoosh.app (drop the image in, choose WebP, quality ~75).
 - Use real screens with realistic data, and hide personal information.
-- Demo videos: MP4, 20–40 seconds, muted, under 5 MB.
+- Demo videos: MP4 (H.264), muted, HD: 1920×1080 for web, 1080×2340 for phone apps; about 1–2 minutes, under 10 MB.
 
 ### Demo videos (re-make after an app update)
-The three videos are real recordings with motion graphics added (frame, zoom, tap ripples, captions).
+The three videos are real recordings with motion graphics added (frame, chapter captions, highlights, gentle zoom, taps).
+Each video is a few chapters: one point per chapter, a 3–4 second hold on the result, one effect at a time.
+The recording scripts pause on purpose so every result stays on screen; KH Halal is filmed in a real 1920×1080 window.
 You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in any folder
 (`npm i playwright@1.49.1`, then set `NODE_PATH` to that folder's `node_modules`).
 1. Record (Git Bash, from this folder):
@@ -117,9 +119,20 @@ You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in
      pages; never checkout or payment). It signs in off camera with logins from environment variables only:
      `KH_CUSTOMER_EMAIL`, `KH_CUSTOMER_PASSWORD`, `KH_SELLER_EMAIL`, `KH_SELLER_PASSWORD` (never write them in a file).
    Raw files land in `assets/videos/<slug>-raw/` (not uploaded to GitHub).
-2. In `scripts/motion/<slug>.json`, point `raw` and `tapLog` at the new files and adjust the clip times
-   (`segments`, optional speed as a third number), captions (`tag` = GUEST / CUSTOMER / SELLER) and
-   `camera` zooms (`[time, zoom, x, y]` in recorded pixels).
+2. In `scripts/motion/<slug>.json`, point `raw` and `tapLog` at the new files and adjust:
+   - `segments`: `[start, end, speed, holdAfter]` in recorded seconds. Each caption starts a chapter; the first frame of
+     its segment stays still for `chapterHold` seconds while the caption comes in, so never start a chapter on a frame
+     where the screen is still changing (check with a frame sheet).
+   - `captions`: `{text, sub, tag?, from, to}`: `text` = the point, `sub` = one plain sentence about what it does for the user.
+   - `highlights`: `{from, to, x, y, w, h, label, below?}` in recorded pixels: an orange box that draws itself around the result.
+   - `camera`: `[time, zoom, x, y, seconds]`, zoom at most about 1.4.
+   - `tapOffset`: compare `ffmpeg ... select='gt(scene,0.06)'` times with the tap log (screen changes vs logged taps).
+   - `scale`: 1.5 for phone videos (720×1560 layout rendered as 1080×2340), 1 for web. `posterAt` = poster time (recorded seconds).
+   - Short cuts for phones: `scripts/motion/<slug>-short.json` (same raw take, 5–6 key chapters, about 40 s) renders
+     `assets/videos/<slug>-short.mp4`. The "Watch video" button plays it on screens 640px and narrower (`data-video-short`).
+     Short cuts are portrait (1080×2340) so they fill a phone. KH Halal's is a moving window into the 1920×1080 desktop take:
+     `"cover": true` + `srcH` in `device`, and one `camera` keyframe per chapter (`x` = which part of the page).
+   - Poster only (leaves the video alone): add `--poster-only`. Posters are drawn clean (no highlight, no progress line).
 3. Render: `node scripts/motion/render.js scripts/motion/<slug>.json` → `assets/videos/<slug>.mp4` + poster.
    Add `--from 0 --to 8 --out test.mp4` for a quick preview.
 

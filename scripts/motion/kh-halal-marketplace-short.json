@@ -1,0 +1,260 @@
+{
+  "slug": "kh-halal-marketplace-short",
+  "raw": "assets/videos/kh-halal-marketplace-raw/kh-112740.mp4",
+  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-112740.taps.txt",
+  "tapOffset": 0,
+  "frameWidth": 1920,
+  "W": 720,
+  "H": 1560,
+  "scale": 1.5,
+  "crf": 20,
+  "device": {
+    "type": "browser",
+    "url": "kh-halal-marketplace.onrender.com",
+    "srcW": 1920,
+    "srcH": 1080,
+    "cover": true,
+    "sw": 680,
+    "sh": 1180,
+    "top": 72,
+    "tapScale": 0.9,
+    "cursorScale": 1.1
+  },
+  "caption": {
+    "y": 1326,
+    "size": 33,
+    "w": 664
+  },
+  "labelSize": 22,
+  "brandBottom": 40,
+  "title": {
+    "kicker": "WEB APP",
+    "name": "KH Halal Marketplace",
+    "size": 60,
+    "tagline": "Halal products from verified sellers in Cambodia."
+  },
+  "end": {
+    "size": 54,
+    "tags": "Vue 3 · Express · PostgreSQL",
+    "cta": "Live demo: kh-halal-marketplace.onrender.com"
+  },
+  "intro": 2.6,
+  "outro": 3.6,
+  "chapterHold": 0.6,
+  "segments": [
+    [
+      8.6,
+      13.2,
+      1,
+      0.3
+    ],
+    [
+      25.4,
+      30.5
+    ],
+    [
+      37.1,
+      42.2,
+      1,
+      0.3
+    ],
+    [
+      46.6,
+      50.45,
+      1,
+      0.3
+    ],
+    [
+      70.5,
+      76.0,
+      1,
+      0.3
+    ],
+    [
+      90.9,
+      97.0,
+      1,
+      0.8
+    ]
+  ],
+  "camera": [
+    [
+      8.6,
+      1,
+      470,
+      540,
+      0.01
+    ],
+    [
+      25.4,
+      1,
+      1179,
+      540,
+      0.01
+    ],
+    [
+      37.1,
+      1,
+      1500,
+      540,
+      0.01
+    ],
+    [
+      46.6,
+      1,
+      1600,
+      540,
+      0.01
+    ],
+    [
+      47.3,
+      1,
+      540,
+      540,
+      1.2
+    ],
+    [
+      70.5,
+      1,
+      660,
+      540,
+      0.01
+    ],
+    [
+      90.9,
+      1,
+      580,
+      540,
+      0.01
+    ]
+  ],
+  "captions": [
+    {
+      "text": "Prices in riel and dollars",
+      "sub": "Every product shows its price in KHR and USD.",
+      "from": 8.6,
+      "to": 13.2
+    },
+    {
+      "text": "Verified sellers",
+      "sub": "Each product shows its identity-verified seller.",
+      "from": 25.4,
+      "to": 30.5
+    },
+    {
+      "text": "Shop as a guest",
+      "sub": "Add to cart and check out without an account.",
+      "from": 37.1,
+      "to": 42.2
+    },
+    {
+      "text": "Full Khmer version",
+      "sub": "Switch the whole site to Khmer with one click.",
+      "from": 46.6,
+      "to": 50.45
+    },
+    {
+      "text": "Seller dashboard",
+      "sub": "Sales, orders and refund requests at a glance.",
+      "tag": "SELLER",
+      "from": 70.5,
+      "to": 76.0
+    },
+    {
+      "text": "Add a product",
+      "sub": "Three steps, then an admin reviews it before it goes live.",
+      "tag": "SELLER",
+      "from": 90.9,
+      "to": 97.0
+    }
+  ],
+  "roles": [
+    {
+      "at": 70.5,
+      "tag": "SIGNED IN AS",
+      "text": "Seller"
+    }
+  ],
+  "highlights": [
+    {
+      "from": 9.2,
+      "to": 13.2,
+      "x": 240,
+      "y": 244,
+      "w": 224,
+      "h": 292,
+      "label": "KHR 20,500 · USD 5.00",
+      "below": true
+    },
+    {
+      "from": 26.2,
+      "to": 28.3,
+      "x": 962,
+      "y": 262,
+      "w": 270,
+      "h": 52,
+      "label": "Price in riel and dollars",
+      "below": true
+    },
+    {
+      "from": 28.4,
+      "to": 30.5,
+      "x": 976,
+      "y": 354,
+      "w": 340,
+      "h": 84,
+      "label": "Identity verified by marketplace",
+      "below": true
+    },
+    {
+      "from": 38.4,
+      "to": 42.2,
+      "x": 1370,
+      "y": 626,
+      "w": 300,
+      "h": 60,
+      "label": "Guest checkout available",
+      "below": true
+    },
+    {
+      "from": 72.4,
+      "to": 76.0,
+      "x": 356,
+      "y": 396,
+      "w": 362,
+      "h": 110,
+      "label": "KHR 73,800 sales in 30 days",
+      "below": true
+    },
+    {
+      "from": 93.4,
+      "to": 97.0,
+      "x": 274,
+      "y": 716,
+      "w": 612,
+      "h": 68,
+      "label": "Demo text only: never submitted",
+      "below": true
+    }
+  ],
+  "hlSize": 24,
+  "posterAt": 28.0,
+  "blurs": [
+    {
+      "from": 60.17,
+      "to": 69.8,
+      "x": 1744,
+      "y": 50,
+      "w": 150,
+      "h": 50
+    },
+    {
+      "from": 70.59,
+      "to": 97.2,
+      "x": 1784,
+      "y": 6,
+      "w": 122,
+      "h": 50
+    }
+  ]
+}

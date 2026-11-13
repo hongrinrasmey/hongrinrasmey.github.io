@@ -1,25 +1,27 @@
 {
   "slug": "idevo",
-  "raw": "assets/videos/idevo-raw/idevo-093736.mp4",
-  "tapLog": "assets/videos/idevo-raw/idevo-093736.taps.txt",
-  "tapOffset": -0.6,
+  "raw": "assets/videos/idevo-raw/idevo-153647.mp4",
+  "tapLog": "assets/videos/idevo-raw/idevo-153647.taps.txt",
+  "tapOffset": -0.48,
   "frameWidth": 1080,
   "W": 720,
   "H": 1560,
+  "scale": 1.5,
   "device": {
     "type": "phone",
     "srcW": 1080,
-    "sw": 504,
-    "sh": 1120,
-    "top": 110,
-    "tapScale": 0.85
+    "sw": 540,
+    "sh": 1200,
+    "top": 72,
+    "tapScale": 0.9
   },
   "caption": {
-    "y": 1318,
-    "size": 30
+    "y": 1326,
+    "size": 33,
+    "w": 664
   },
   "labelSize": 22,
-  "brandBottom": 56,
+  "brandBottom": 40,
   "title": {
     "kicker": "ANDROID APP",
     "name": "idevo",
@@ -28,134 +30,182 @@
   },
   "end": {
     "size": 92,
-    "tags": "Flutter · Dart · Drift · SQLite"
+    "tags": "Flutter · Dart · Drift · SQLite",
+    "cta": "Free download on GitHub"
   },
-  "intro": 2.8,
-  "outro": 2.6,
+  "intro": 2.6,
+  "outro": 3.4,
+  "chapterHold": 0.6,
   "segments": [
     [
-      4,
-      5.8
+      0.5,
+      7.75,
+      1,
+      0.35
     ],
     [
-      6.25,
-      7
+      8.0,
+      11.85
     ],
     [
-      12.4,
-      14.8
+      11.95,
+      14.2
     ],
     [
-      18.6,
-      20.3
+      17.1,
+      21.95
     ],
     [
-      21.4,
-      23.8
+      22.0,
+      30.25
     ],
     [
-      25.6,
-      26.4
+      30.55,
+      36.57,
+      1,
+      0.35
     ],
     [
-      33.4,
-      35.9
+      37.1,
+      42.33,
+      1,
+      0.35
     ],
     [
-      38.2,
-      39.2
+      42.45,
+      44.65
     ],
     [
-      47.95,
-      50.3
+      47.05,
+      53.85
     ],
     [
-      60.4,
-      61.6
+      53.95,
+      56.85
     ],
     [
-      64.3,
-      65.3
+      57.1,
+      62.13,
+      1,
+      0.35
     ],
     [
-      67.2,
-      69.8
+      62.85,
+      67.6,
+      1,
+      0.35
+    ],
+    [
+      67.75,
+      72.65
+    ],
+    [
+      79.3,
+      84.9
+    ],
+    [
+      87.2,
+      94.35,
+      1,
+      1.0
     ]
   ],
-  "camera": [],
   "captions": [
     {
       "text": "Pick up where you left off",
-      "from": 4,
-      "to": 7
+      "sub": "Home shows your next lesson and today's reviews.",
+      "from": 0.5,
+      "to": 7.75
     },
     {
-      "text": "Practise as you read",
-      "from": 12.4,
-      "to": 20.3
+      "text": "Learn with short lessons",
+      "sub": "Each lesson has a question to check yourself.",
+      "from": 8.0,
+      "to": 30.25
     },
     {
       "text": "Keep a study streak",
-      "from": 21.4,
-      "to": 23.8
+      "sub": "Home counts the days you studied this week.",
+      "from": 30.55,
+      "to": 36.57
     },
     {
-      "text": "Spaced-repetition flashcards",
-      "from": 25.6,
-      "to": 39.2
+      "text": "Flashcards on a schedule",
+      "sub": "Spaced repetition: each card returns when it is due.",
+      "from": 37.1,
+      "to": 62.13
     },
     {
-      "text": "Track your progress",
-      "from": 47.95,
-      "to": 50.3
+      "text": "See your progress",
+      "sub": "Days studied, lessons, reviews and quiz score.",
+      "from": 62.85,
+      "to": 72.65
     },
     {
-      "text": "In Khmer or English",
-      "from": 60.4,
-      "to": 69.8
+      "text": "Use it in Khmer",
+      "sub": "Switch the whole app to Khmer in Settings.",
+      "from": 79.3,
+      "to": 94.35
     }
   ],
-  "poster": 17.45,
-  "crf": 23,
   "highlights": [
     {
-      "from": 12.9,
-      "to": 14.8,
+      "from": 2.4,
+      "to": 7.75,
       "x": 52,
-      "y": 600,
-      "w": 976,
-      "h": 730,
-      "label": "A question inside the lesson"
-    },
-    {
-      "from": 21.8,
-      "to": 23.8,
-      "x": 96,
-      "y": 1630,
-      "w": 350,
-      "h": 90,
-      "label": "Studied 5 of the last 7 days",
+      "y": 782,
+      "w": 974,
+      "h": 816,
+      "label": "Next lesson + today's reviews",
       "below": true
     },
     {
-      "from": 34.2,
-      "to": 35.9,
-      "x": 50,
-      "y": 2010,
-      "w": 980,
-      "h": 290,
-      "label": "You choose when it comes back"
+      "from": 18.2,
+      "to": 21.95,
+      "x": 52,
+      "y": 604,
+      "w": 974,
+      "h": 734,
+      "label": "Instant answer, with the reason"
     },
     {
-      "from": 48.4,
-      "to": 50.3,
-      "x": 50,
-      "y": 410,
-      "w": 980,
-      "h": 750,
-      "label": "Real study history",
+      "from": 31.65,
+      "to": 36.57,
+      "x": 52,
+      "y": 1610,
+      "w": 974,
+      "h": 542,
+      "label": "2-day streak · 5 of the last 7 days"
+    },
+    {
+      "from": 38.2,
+      "to": 42.33,
+      "x": 54,
+      "y": 1144,
+      "w": 974,
+      "h": 504,
+      "label": "Cards due per day, next 7 days"
+    },
+    {
+      "from": 48.2,
+      "to": 53.85,
+      "x": 54,
+      "y": 2012,
+      "w": 972,
+      "h": 282,
+      "label": "Sets when the card comes back"
+    },
+    {
+      "from": 68.6,
+      "to": 72.65,
+      "x": 54,
+      "y": 420,
+      "w": 972,
+      "h": 730,
+      "label": "5 study days · 3 lessons · 100% quiz",
       "below": true
     }
   ],
-  "hlSize": 26
+  "hlSize": 24,
+  "posterAt": 70.3
 }

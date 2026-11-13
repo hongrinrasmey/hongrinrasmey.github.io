@@ -668,7 +668,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 
 /* --- Video pop-up --- */
 .video-modal {
-  width: min(900px, calc(100vw - 32px)); /* web video */
+  width: min(1400px, calc(100vw - 32px), (100svh - 120px) * 16 / 9); /* web video: as big as fits */
   padding: 0; border: 1px solid var(--border); border-radius: var(--radius); /* taste-skill-ignore */
   background: var(--surface); color: var(--text);
 }

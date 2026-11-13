@@ -1,5 +1,5 @@
-// Renders a demo video from a raw recording + a scene config (VIDEOS.md §7).
-//   node scripts/motion/render.js scripts/motion/rieltrack.json [--from 0 --to 8] [--out file.mp4]
+// Renders a demo video from a raw recording + a scene config (VIDEOS.md).
+//   node scripts/motion/render.js scripts/motion/rieltrack.json [--from 0 --to 8] [--out file.mp4] [--poster-only]
 // Needs ffmpeg on PATH and Playwright (npm i playwright@1.49.1 in any folder, then set NODE_PATH
 // to that folder's node_modules). Writes assets/videos/<slug>.mp4 and <slug>-poster.webp.
 const fs = require('fs'), path = require('path'), { spawnSync, spawn } = require('child_process');
@@ -35,34 +35,37 @@ cfg.device.k = cfg.device.sw / cfg.device.srcW;        // recorded px -> screen 
 
 (async () => {
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files', '--force-color-profile=srgb'] });
-  const page = await browser.newPage({ viewport: { width: cfg.W, height: cfg.H }, deviceScaleFactor: 1 });
+  // scale: the stage is laid out at W x H and rendered at W*scale x H*scale (1.5 -> 720x1560 becomes 1080x2340)
+  const page = await browser.newPage({ viewport: { width: cfg.W, height: cfg.H }, deviceScaleFactor: cfg.scale || 1 });
   page.on('pageerror', e => { console.error('PAGE ERROR', e.message); process.exit(1); });
   await page.goto('file:///' + path.join(__dirname, 'compose.html').replace(/\\/g, '/'));
   await page.evaluate(() => document.fonts.ready);
-  const total = await page.evaluate(c => window.init(c), cfg);
+  const { total, poster } = await page.evaluate(c => window.init(c), cfg);
   await page.evaluate(() => Promise.all([...document.fonts].map(f => f.load())));
   const from = +(opt('from') || 0), to = Math.min(+(opt('to') || total), total);
   const out = path.resolve(opt('out') || path.join(root, 'assets/videos', cfg.slug + '.mp4'));
-  const crf = opt('crf') || String(cfg.crf || 23);
+  const crf = opt('crf') || String(cfg.crf || 18);
   console.log(`${cfg.slug}: ${from}-${to.toFixed(2)}s of ${total.toFixed(2)}s, ${cfg.nFrames} source frames -> ${out}`);
 
-  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', crf, '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', out],
-    { stdio: ['pipe', 'inherit', 'inherit'] });
-  const done = new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg exit ' + c))));
-  const n = Math.round((to - from) * FPS);
-  for (let i = 0; i < n; i++) {
-    await page.evaluate(t => window.renderAt(t), from + i / FPS);
-    const png = await page.screenshot({ type: 'png' });
-    if (!ff.stdin.write(png)) await new Promise(r => ff.stdin.once('drain', r));
-    if (i % 60 === 0) process.stdout.write(`\r  frame ${i}/${n}`);
+  if (!args.includes('--poster-only')) {   // --poster-only: leaves the video file alone, makes just the poster
+    const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
+      '-c:v', 'libx264', '-preset', 'slow', '-crf', crf, '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', out],
+      { stdio: ['pipe', 'inherit', 'inherit'] });
+    const done = new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg exit ' + c))));
+    const n = Math.round((to - from) * FPS);
+    for (let i = 0; i < n; i++) {
+      await page.evaluate(t => window.renderAt(t), from + i / FPS);
+      const png = await page.screenshot({ type: 'png' });
+      if (!ff.stdin.write(png)) await new Promise(r => ff.stdin.once('drain', r));
+      if (i % 60 === 0) process.stdout.write(`\r  frame ${i}/${n}`);
+    }
+    ff.stdin.end(); await done;
+    console.log(`\r  frames ${n}/${n} done, ${(fs.statSync(out).size / 1e6).toFixed(2)} MB`);
   }
-  ff.stdin.end(); await done;
-  console.log(`\r  frames ${n}/${n} done, ${(fs.statSync(out).size / 1e6).toFixed(2)} MB`);
 
   // 3. poster: one still frame (the best-looking screen), as WebP
-  if (cfg.poster != null && !opt('from')) {
-    await page.evaluate(t => window.renderAt(t), cfg.poster);
+  if (poster != null && !opt('from')) {
+    await page.evaluate(t => window.renderAt(t, true), poster);
     const png = path.join(work, 'poster.png');
     await page.screenshot({ path: png });
     const p = path.join(root, 'assets/videos', cfg.slug + '-poster.webp');

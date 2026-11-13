@@ -329,7 +329,9 @@
     if (!frame || !modal.showModal) return;
 
     function openVideo(btn) {
-      var src = btn.getAttribute('data-video');
+      // phones get the short cut (data-video-short) when there is one
+      var short = matchMedia('(max-width: 640px)').matches && btn.getAttribute('data-video-short');
+      var src = short || btn.getAttribute('data-video');
       if (!src) return;
       var title = btn.getAttribute('data-title') || 'Demo video';
       var autoplay = !reduceMotion.matches; // reduced motion: visitor presses play
@@ -345,14 +347,15 @@
         // The file downloads only now, when the pop-up opens
         player = document.createElement('video');
         Object.assign(player, { src: src, muted: true, loop: true, playsInline: true, controls: true, preload: 'none', autoplay: autoplay });
-        if (btn.getAttribute('data-poster')) player.poster = btn.getAttribute('data-poster');
+        var poster = (short && btn.getAttribute('data-poster-short')) || btn.getAttribute('data-poster');
+        if (poster) player.poster = poster;
         player.setAttribute('aria-label', title);
       }
       if (modalTitle) modalTitle.textContent = title;
-      // Phone apps: 420px pop-up, web apps: 900px
+      // Phone apps and every short cut (all portrait): tall pop-up; web apps: wide
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
-      modal.classList.toggle('video-modal--phone', !!tag && /android|ios/i.test(tag.textContent));
+      modal.classList.toggle('video-modal--phone', !!short || (!!tag && /android|ios/i.test(tag.textContent)));
       modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
       lastTrigger = btn;
