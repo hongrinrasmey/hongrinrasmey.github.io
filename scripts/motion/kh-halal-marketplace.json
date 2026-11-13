@@ -1,23 +1,23 @@
 {
   "slug": "kh-halal-marketplace",
-  "raw": "assets/videos/kh-halal-marketplace-raw/kh-223023.mp4",
-  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-223023.taps.txt",
+  "raw": "assets/videos/kh-halal-marketplace-raw/kh-100337.mp4",
+  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-100337.taps.txt",
   "tapOffset": 0,
-  "frameWidth": 1280,
+  "frameWidth": 1200,
   "W": 1920,
   "H": 1080,
   "device": {
     "type": "browser",
     "url": "kh-halal-marketplace.onrender.com",
-    "srcW": 1280,
-    "sw": 1312,
-    "sh": 820,
-    "top": 56,
+    "srcW": 1200,
+    "sw": 1480,
+    "sh": 858,
+    "top": 44,
     "tapScale": 0.6,
     "cursorScale": 1.5
   },
   "caption": {
-    "y": 951,
+    "y": 968,
     "size": 30
   },
   "labelSize": 24,
@@ -37,86 +37,95 @@
   "segments": [
     [
       1.6,
-      2.5
+      2.6
     ],
     [
-      2.5,
-      5.7,
-      2.2
-    ],
-    [
-      6.75,
-      8.35,
-      1.4
-    ],
-    [
-      8.95,
-      11.6
-    ],
-    [
-      11.6,
-      13.6
-    ],
-    [
-      13.63,
-      15.5,
-      1.6
-    ],
-    [
-      16.1,
-      17.8
-    ],
-    [
-      20.92,
-      22.8,
-      1.6
-    ],
-    [
-      22.8,
-      25.4
-    ],
-    [
-      38.9,
-      40.3
-    ],
-    [
-      40.4,
-      42.4
-    ],
-    [
-      43.7,
-      46.31
-    ],
-    [
-      46.31,
-      48.5,
-      1.5
-    ],
-    [
-      48.5,
-      50.3
-    ],
-    [
-      53.71,
-      55.7,
-      1.5
-    ],
-    [
-      57.07,
-      59,
+      2.6,
+      5.4,
       2
     ],
     [
-      61,
-      63.6
+      5.6,
+      7.95,
+      1.4
+    ],
+    [
+      8.5,
+      10.85
+    ],
+    [
+      10.85,
+      13,
+      1.3
+    ],
+    [
+      13,
+      15.4
+    ],
+    [
+      15.4,
+      16.95,
+      1.5
+    ],
+    [
+      17.15,
+      19.2
+    ],
+    [
+      21.6,
+      24.25,
+      1.6
+    ],
+    [
+      24.45,
+      26.9
+    ],
+    [
+      32.3,
+      33.75
+    ],
+    [
+      34,
+      36
+    ],
+    [
+      37.4,
+      40.9
+    ],
+    [
+      40.9,
+      43,
+      1.5
+    ],
+    [
+      43.2,
+      45.4
+    ],
+    [
+      49.2,
+      51,
+      1.5
+    ],
+    [
+      51.3,
+      53.1
+    ],
+    [
+      53.1,
+      54.3,
+      2
+    ],
+    [
+      56,
+      59.4
     ]
   ],
   "camera": [
     [
-      61,
+      56.4,
       1.6,
-      640,
-      470,
+      650,
+      440,
       0.8
     ]
   ],
@@ -125,103 +134,103 @@
       "tag": "GUEST",
       "text": "Halal products in Cambodia",
       "from": 1.6,
-      "to": 5.7
+      "to": 5.4
     },
     {
       "tag": "GUEST",
       "text": "Prices in riel and dollars",
-      "from": 6.75,
-      "to": 11.6
+      "from": 5.6,
+      "to": 10.85
     },
     {
       "tag": "GUEST",
       "text": "Cart without an account",
-      "from": 11.6,
-      "to": 17.8
+      "from": 10.85,
+      "to": 19.2
     },
     {
       "tag": "GUEST",
       "text": "Khmer and English",
-      "from": 20.92,
-      "to": 25.4
+      "from": 21.6,
+      "to": 26.9
     },
     {
       "tag": "CUSTOMER",
       "text": "Wishlist for later",
-      "from": 39.6,
-      "to": 42.4
+      "from": 33,
+      "to": 36
     },
     {
       "tag": "SELLER",
       "text": "Seller dashboard",
-      "from": 45.1,
-      "to": 48.5
+      "from": 38.8,
+      "to": 43
     },
     {
       "tag": "SELLER",
       "text": "Manage products",
-      "from": 48.5,
-      "to": 50.3
+      "from": 43.2,
+      "to": 45.4
     },
     {
       "tag": "SELLER",
       "text": "Add products for review",
-      "from": 53.71,
-      "to": 63.6
+      "from": 49.2,
+      "to": 59.4
     }
   ],
-  "poster": 7.15,
+  "poster": 7.68,
   "crf": 26,
   "roles": [
     {
-      "at": 38.9,
+      "at": 32.3,
       "tag": "SIGNED IN AS",
       "text": "Customer"
     },
     {
-      "at": 43.7,
+      "at": 37.4,
       "tag": "SIGNED IN AS",
       "text": "Seller"
     }
   ],
   "highlights": [
     {
-      "from": 9.1,
-      "to": 10.3,
-      "x": 640,
+      "from": 8.7,
+      "to": 9.8,
+      "x": 600,
       "y": 262,
-      "w": 270,
-      "h": 50,
+      "w": 268,
+      "h": 52,
       "label": "Riel and dollars",
       "below": true
     },
     {
-      "from": 10.3,
-      "to": 11.6,
-      "x": 650,
-      "y": 360,
-      "w": 300,
-      "h": 66,
+      "from": 9.8,
+      "to": 10.85,
+      "x": 616,
+      "y": 362,
+      "w": 296,
+      "h": 68,
       "label": "Identity-verified seller",
       "below": true
     },
     {
-      "from": 12.1,
-      "to": 13.6,
-      "x": 1060,
-      "y": 722,
+      "from": 13.7,
+      "to": 15.4,
+      "x": 980,
+      "y": 616,
       "w": 206,
-      "h": 62,
+      "h": 58,
       "label": "No account needed",
       "right": true
     },
     {
-      "from": 45,
-      "to": 46.6,
-      "x": 265,
-      "y": 395,
-      "w": 990,
-      "h": 110,
+      "from": 39,
+      "to": 40.9,
+      "x": 260,
+      "y": 392,
+      "w": 892,
+      "h": 116,
       "label": "Sales, products and orders",
       "below": true
     }

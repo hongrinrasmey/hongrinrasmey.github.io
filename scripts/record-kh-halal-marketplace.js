@@ -13,9 +13,10 @@ const fs = require('fs'), path = require('path'), { spawnSync } = require('child
 const { chromium } = require('playwright');
 
 const SITE = 'https://kh-halal-marketplace.onrender.com';
-// 1120 wide: the narrowest window that keeps the desktop layout (1024 wraps the header), so text is
-// bigger in the video; 650 high fits the stage at 1480 px wide
-const W = 1120, H = 650, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
+// 1200 wide: the narrowest window with the full desktop layout everywhere (below it the seller sidebar
+// collapses into a drawer and the header clips the logo), so text is bigger in the video than at 1280;
+// 696 high fits the stage at 1480 px wide
+const W = 1200, H = 696, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
 const env = k => { const v = process.env[k]; if (!v) { console.error('Missing env var ' + k); process.exit(1); } return v; };
 const PARTS = (process.env.KH_PARTS || 'guest,customer,seller').split(',');   // KH_PARTS=guest: test run, no logins
 const LOGIN = PARTS.length === 1 && PARTS[0] === 'guest' ? {} : { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
