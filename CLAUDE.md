@@ -613,3 +613,15 @@ Review rated the site 7.5/10. Done (CSS only, `css/style.css`):
 - `.video-modal__frame > *` replaces the video/iframe selector (also sizes the img). CSS comments shortened to stay in budget: CSS 34,978 / 35,000 (with the other session's uncommitted Contact work), JS 23,415 / 27,000.
 - Tests (headless Edge, CDP) at 1440, 1366×768, 390: all 3 open, image 1600×1000, title = caption, pop-up fits the screen with no scrollbar (1248×849 at 1440×900), Esc closes, focus back on the link, frame emptied; video button still opens a video without the image class; no console errors; no sideways scroll. check.mjs all PASS; lint 0/0.
 - Committed with a separate index: the other session's uncommitted Contact edits in the same files are NOT in this commit.
+
+### Update 2026-11-13: KH Halal card polish (owner: "do all of these")
+Honest review of the whole-screens version (7/10) listed 5 problems; all fixed:
+1. **Khmer shot looked like a copy of the main one** (same layout + same photo). Replaced by the **All Products** page (`kh-halal-products.webp`, 1600x1000, live site, guest, reached through the site's own nav link, GET only): filters + product grid with riel/dollar prices. `kh-halal-khmer.webp` deleted (unused). Khmer is still shown by the "Khmer + English" tag, the text and the video.
+2. **No hint that shots open bigger** (phones had none): each shot link has a visible `.shot-hint` chip "Full size" with an expand icon (bottom right, dark 80% pill, white 14px). It is part of the link text, so the accessible name is alt + "Full size" (the hidden "(open full size)" span is gone).
+3. **Phones:** shots stack in one column under 640px (`.project-card__shots { grid-template-columns: 1fr }`); 2 per row made them ~158px wide.
+4. **Featured card text top-aligned** (`align-items: start` at >=1024px; was centred with ~200px empty above the title).
+5. **No caption under the main shot.** The pop-up title then comes from the alt text before ":" ("KH Halal Marketplace home page").
+- **Bug found and fixed:** `--btn-gap` was only defined from 768px, so `gap: var(--btn-gap)` was 0 on phones (shots touched; two other rules hid it with a `12px` fallback). Now `--btn-gap: 12px` in `:root` (16px from 768px), fallbacks removed. This also gives the Contact rows their intended 12px gap on phones.
+- CSS budget: 23 comments shortened (no rules removed). CSS 34,914 / 35,000 (with the other session's uncommitted Contact work), JS 23,424 / 27,000.
+- Tests (headless Edge, CDP): 1440, 1366x768, 390: pop-up titles right, 1600x1000 images, fits with no scrollbar, Esc + focus back, frame emptied; video still opens; gaps 12px (390) / 16px (1440); hint 14px Geist 30px tall; no console errors; no sideways scroll; check.mjs all PASS; lint 0/0. Screenshots 1440 + 390 reviewed.
+- Committed with a separate index: the other session's uncommitted Contact edits in the same files are NOT in this commit.
