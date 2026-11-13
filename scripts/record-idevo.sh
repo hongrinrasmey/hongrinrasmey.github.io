@@ -39,6 +39,9 @@ tapt "Settings" 1.5
 logev tap "540 940" "Language"; $ADB shell input tap 540 940; sleep 1.5   # Language row
 tapt "ខ្មែរ" 2.5                                    # language: Khmer
 $ADB shell input keyevent KEYCODE_BACK; sleep 3    # Home in Khmer
+# screenrecord can drop the last frames when stopped: a small scroll makes it write the Khmer Home
+# frames out (the cut ends before the scroll)
+swipe 1700 1500 400 1.5
 rec_stop idevo "$OUT"
 
 $ADB shell pm clear app.idevo.idevo >/dev/null && echo "idevo reset (data + language)"

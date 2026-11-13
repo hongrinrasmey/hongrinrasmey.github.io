@@ -2,7 +2,7 @@
   "slug": "rieltrack",
   "raw": "assets/videos/rieltrack-raw/rieltrack-084450.mp4",
   "tapLog": "assets/videos/rieltrack-raw/rieltrack-084450.taps.txt",
-  "tapOffset": -0.2,
+  "tapOffset": -0.3,
   "frameWidth": 1080,
   "W": 720,
   "H": 1560,
@@ -67,7 +67,7 @@
     ],
     [
       39.9,
-      42
+      42.6
     ],
     [
       50.3,
@@ -75,11 +75,11 @@
     ],
     [
       53.4,
-      55.2
+      54.4
     ],
     [
-      55.9,
-      57.5
+      56,
+      58
     ]
   ],
   "camera": [
@@ -110,7 +110,7 @@
       "to": 24.4
     },
     {
-      "text": "USD and riel together",
+      "text": "Every transaction in one list",
       "from": 27,
       "to": 29.3
     },
@@ -122,12 +122,12 @@
     {
       "text": "Monthly budgets",
       "from": 39.9,
-      "to": 42
+      "to": 42.6
     },
     {
       "text": "In Khmer or English",
       "from": 50.3,
-      "to": 57.5
+      "to": 58
     }
   ],
   "poster": 7.8999999999999995,
@@ -161,6 +161,15 @@
       "h": 220,
       "label": "30% less than October",
       "below": true
+    },
+    {
+      "from": 40.6,
+      "to": 42.6,
+      "x": 80,
+      "y": 630,
+      "w": 920,
+      "h": 190,
+      "label": "On track: 10% of the limit used"
     }
   ],
   "hlSize": 26

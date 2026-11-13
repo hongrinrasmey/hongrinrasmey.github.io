@@ -36,13 +36,13 @@
   "outro": 2.6,
   "segments": [
     [
-      1,
+      1.6,
       2.5
     ],
     [
       2.5,
       5.7,
-      1.8
+      2.2
     ],
     [
       6.75,
@@ -76,7 +76,7 @@
       25.4
     ],
     [
-      37.6,
+      38.9,
       40.3
     ],
     [
@@ -124,7 +124,7 @@
     {
       "tag": "GUEST",
       "text": "Halal products in Cambodia",
-      "from": 1,
+      "from": 1.6,
       "to": 5.7
     },
     {
@@ -148,7 +148,7 @@
     {
       "tag": "CUSTOMER",
       "text": "Wishlist for later",
-      "from": 39,
+      "from": 39.6,
       "to": 42.4
     },
     {
@@ -170,11 +170,11 @@
       "to": 63.6
     }
   ],
-  "poster": 8.3,
+  "poster": 7.15,
   "crf": 26,
   "roles": [
     {
-      "at": 37.6,
+      "at": 38.9,
       "tag": "SIGNED IN AS",
       "text": "Customer"
     },
@@ -216,24 +216,6 @@
       "right": true
     },
     {
-      "from": 16.4,
-      "to": 17.8,
-      "x": 940,
-      "y": 626,
-      "w": 290,
-      "h": 64,
-      "label": "Guest checkout"
-    },
-    {
-      "from": 40.8,
-      "to": 42.4,
-      "x": 28,
-      "y": 575,
-      "w": 930,
-      "h": 190,
-      "label": "Saved for later"
-    },
-    {
       "from": 45,
       "to": 46.6,
       "x": 265,
@@ -241,16 +223,6 @@
       "w": 990,
       "h": 110,
       "label": "Sales, products and orders",
-      "below": true
-    },
-    {
-      "from": 48.9,
-      "to": 50.3,
-      "x": 270,
-      "y": 210,
-      "w": 980,
-      "h": 90,
-      "label": "Stock and review status",
       "below": true
     }
   ],
