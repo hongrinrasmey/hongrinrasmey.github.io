@@ -1,0 +1,34 @@
+{
+  "slug": "idevo",
+  "raw": "assets/videos/idevo-raw/idevo-153647.mp4",
+  "tapLog": "assets/videos/idevo-raw/idevo-153647.taps.txt",
+  "tapOffset": -0.48,
+  "device": { "type": "phone", "srcW": 1080, "srcH": 2400 },
+  "app": { "accent": "#3BC0A9", "ui": "#3BC0A9", "glow": "#3BC0A9" },
+  "hook": {
+    "dur": 3.5,
+    "lines": [
+      { "text": "Learn it once.", "at": 0.15 },
+      { "text": "Remember it longer.", "key": "longer", "at": 1.15 }
+    ],
+    "dots": 5, "extraAt": 1.75
+  },
+  "beats": [
+    { "caption": "Pick up where you left off", "clips": [[1.2, 4.6, 1]],
+      "spots": [{ "from": 2.4, "x": 52, "y": 782, "w": 974, "h": 816, "r": 36, "label": "Next lesson + today's reviews" }] },
+    { "caption": "Short lessons with a check", "clips": [[15.9, 20.7, 1]],
+      "spots": [{ "from": 18.1, "x": 52, "y": 604, "w": 974, "h": 734, "r": 32, "label": "Instant answer, with the reason" }] },
+    { "caption": "Flashcards that come back", "clips": [[46.2, 50.8, 1], [50.8, 54.2, 1.7]],
+      "spots": [{ "from": 48.0, "x": 54, "y": 2012, "w": 972, "h": 282, "r": 28, "label": "Spaced repetition" }],
+      "timeline": { "from": 48.3, "y": 120, "pos": [0, 0.36, 0.72, 1],
+        "stops": [["Again", "10 min"], ["Hard", "1 day"], ["Good", "3 days"], ["Easy", "4 days"]] } },
+    { "caption": "See your progress", "clips": [[68.2, 71.6, 1]],
+      "spots": [{ "from": 68.6, "x": 54, "y": 420, "w": 972, "h": 730, "r": 32, "label": "Days studied · lessons · quiz" }] },
+    { "type": "text", "dur": 2.6, "lines": ["No account.", "Works offline."] },
+    { "caption": "Use it in Khmer", "clips": [[86.4, 88.6, 1], [88.6, 91.0, 3], [91.0, 92.8, 1]],
+      "spots": [{ "from": 86.6, "to": 87.6, "x": 40, "y": 1880, "w": 1000, "h": 400, "r": 28, "label": "English and ខ្មែរ" }] }
+  ],
+  "outro": { "dur": 3.8, "name": "idevo", "value": "Lessons, flashcards and spaced repetition.", "platform": "ANDROID",
+    "meta": "Early build · v0.6.4", "cta": "Download APK", "link": "github.com/hongrinrasmey/Idevo-Downloads" },
+  "poster": 15.6
+}
