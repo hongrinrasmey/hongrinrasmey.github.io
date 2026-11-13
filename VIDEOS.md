@@ -13,9 +13,14 @@ Commands to re-make them are in README ("Demo videos"). This file is the rules a
 - **Method A, Android apps** (RielTrack, idevo): the `Pixel_API37` emulator only, never a real phone
   (`scripts/record-rieltrack.sh`, `scripts/record-idevo.sh`). Demo-mode status bar 9:41, turned off after.
 - **Method C, web app** (KH Halal): the live site in a real **1920x1080** browser window
-  (`scripts/record-kh-halal-marketplace.js`). Logins only from environment variables. Never filmed: checkout,
-  payment, messages, notifications, orders with buyer names, payouts, verification, profile pages.
-  Signed-in usernames are blurred (`blurs` in the config).
+  (`scripts/record-kh-halal-marketplace.js`). Logins only from environment variables. Checkout and the KHQR
+  payment page are shown (owner, 2026-11-13) but "Place order" is never pressed and order/payment requests are
+  blocked; email, phone and address are blurred. Never filmed: messages, notifications, orders with buyer names,
+  payouts, verification, profile pages. Signed-in usernames are blurred (`blurs` in the config).
+- Owner rules (2026-11-13): idevo shows making a path and its lessons with the built-in AI (`scripts/record-idevo-ai.sh`;
+  the AI server address and token come only from the env vars `IDEVO_AI_URL` / `IDEVO_AI_TOKEN`, typed off camera,
+  wiped by `pm clear` after; never in a file) and RielTrack shows adding an income (`scripts/record-rieltrack-income.sh`),
+  both sample data, deleted after. (`scripts/record-idevo-create.sh` = the same without AI, not used now.)
 - Scripts pause on purpose (3-5 s on every result) so the edit has real footage to hold on.
 
 ## 3. Sizes

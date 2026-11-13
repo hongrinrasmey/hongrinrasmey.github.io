@@ -15,7 +15,7 @@
     --app: #0B7751; --ui: #238F6B; --sans: "Geist", "Noto Sans Khmer", Arial, sans-serif; --mono: "Geist Mono", "Noto Sans Khmer", monospace; }
   * { margin: 0; box-sizing: border-box; }
   html, body { background: var(--bg); overflow: hidden; }
-  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); }
+  #stage { position: relative; width: 1920px; height: 1080px; /* init() sets the real size */ overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); }
   #grid { position: absolute; inset: -64px; background-image:
       linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
     background-size: 64px 64px; -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 10%, transparent 72%); }
@@ -59,7 +59,13 @@
   .dot { position: absolute; top: 22px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: var(--ui); }
   #caption { position: absolute; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; text-wrap: balance; }
   .phonecap #caption { left: 160px; width: 680px; top: 540px; font-size: 64px; }
-  .browsercap #caption { left: 192px; width: 1536px; top: 976px; font-size: 42px; display: flex; align-items: center; gap: 22px; }
+  .browsercap #caption { left: 192px; width: 1536px; top: 976px; font-size: 42px; }
+  .browsercap #crow { display: flex; align-items: center; gap: 22px; }
+  #cnum { font: 500 24px/1 var(--mono); color: var(--muted); letter-spacing: .04em; white-space: nowrap; }
+  #cnum b { color: var(--ui); font-weight: 500; }
+  .phonecap #cnum { display: block; margin-bottom: 22px; }
+  #csub { font-size: 30px; font-weight: 400; line-height: 1.35; color: var(--muted); letter-spacing: -0.005em; margin-top: 20px; max-width: 600px; text-wrap: pretty; }
+  .browsercap #csub { font-size: 26px; margin-top: 10px; max-width: none; }
   #role { position: relative; flex: none; font: 500 22px/1 var(--mono); letter-spacing: .06em; padding: 11px 16px; border-radius: 999px;
     color: #fff; background: var(--rc, var(--app)); overflow: hidden; }
   #ctext { display: block; }
@@ -85,7 +91,21 @@
     display: grid; place-items: center; box-shadow: 0 0 0 8px var(--bg); }
   #outro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-bottom: 60px; }
   #oname { font-size: 124px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; }
-  #oname span { display: inline-block; white-space: pre; }
+  #oname .wd { display: inline-block; white-space: nowrap; }
+  #oname .ch { display: inline-block; white-space: pre; }
+  /* portrait (phones, 1080x2340): captions on top, device centred, labels inside the screen */
+  .portrait #caption { left: 72px !important; width: 936px !important; top: 150px !important; }
+  .portrait #crow { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .portrait #cnum { display: block; flex-basis: 100%; margin-bottom: 4px; font-size: 30px; }
+  .portrait #role { font-size: 28px; }
+  .portrait #ctext { font-size: 64px; }
+  .portrait #csub, .portrait.browsercap #csub { font-size: 38px; max-width: none; margin-top: 18px; }
+  .portrait .pill { font-size: 34px; }
+  .portrait .callout { max-width: 860px; }
+  .portrait #textbeat { left: 0; right: 0; text-align: center; }
+  .portrait #oname { font-size: 104px; padding: 0 60px; }
+  .portrait #ovalue { font-size: 36px; max-width: 900px; }
+  .portrait #tl .st b { font-size: 32px; } .portrait #tl .st small { font-size: 26px; }
   #ovalue { margin-top: 22px; font-size: 38px; color: var(--muted); letter-spacing: -0.01em; }
   #orow { margin-top: 34px; display: flex; gap: 18px; align-items: center; font: 500 24px/1 var(--mono); color: var(--muted); letter-spacing: .03em; }
   #orow .tag { color: var(--text); padding: 10px 16px; border: 1.5px solid rgba(255,255,255,.28); border-radius: 10px; letter-spacing: .06em; }
@@ -104,7 +124,7 @@
     <div id="viewport"><div id="hole"></div><div id="cam"><img id="screen" alt=""><div id="blurs"></div><div id="spots"></div><div id="rings"></div>
       <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div></div></div>
   <div id="callouts"></div>
-  <div id="caption"><span id="role"><span id="rtext"></span></span><span id="ctext"></span></div>
+  <div id="caption"><div id="crow"><span id="cnum"></span><span id="role"><span id="rtext"></span></span><span id="ctext"></span></div><p id="csub"></p></div>
   <div id="tl"></div>
   <div id="textbeat"></div>
   <div id="hook"><div id="glyph"></div><div id="hlines"></div><div id="hookx"></div></div>
@@ -162,17 +182,21 @@ function clipFrames(clips) {
 
 window.init = cfg => {
   C = cfg; D = C.device; const ph = D.type === 'phone';
-  C.frameUrl = s => `${C.frames}/f_${String(clamp(Math.floor(s * FPS + 1e-6) + 1, 1, C.nFrames)).padStart(5, '0')}.jpg`;
+  // C.tk[take] = { frames, nFrames, tapLines, tapOffset, tapShift } (render.js); a beat uses "take" or "main"
+  C.frameUrl = (s, k = 'main') => `${C.tk[k].frames}/f_${String(clamp(Math.floor(s * FPS + 1e-6) + 1, 1, C.tk[k].nFrames)).padStart(5, '0')}.jpg`;
   const r = document.documentElement.style;
   r.setProperty('--app', C.app.accent); r.setProperty('--ui', C.app.ui);
   // layout: phone right of a text column, callouts right of the phone; browser wide with a caption row under it
-  const stage = $('stage'); stage.className = ph ? 'phonecap' : 'browsercap';
+  const stage = $('stage'), P = !!C.portrait; stage.className = (ph ? 'phonecap' : 'browsercap') + (P ? ' portrait' : '');
+  C.W = P ? 1080 : 1920; C.H = P ? 2340 : 1080; stage.style.width = C.W + 'px'; stage.style.height = C.H + 'px';
   D.srcH = D.srcH || D.srcW * 9 / 16;
-  if (ph) { D.sh = 880; D.sw = Math.round(D.sh * D.srcW / D.srcH); D.pad = 12; D.bar = 0; }
-  else { D.sw = 1536; D.sh = Math.round(D.sw * D.srcH / D.srcW); D.pad = 0; D.bar = 44; }
-  D.k = D.sw / D.srcW;
+  if (ph) { D.sh = P ? 1440 : D.sh || 880; D.sw = Math.round(D.sh * D.srcW / D.srcH); D.pad = 12; D.bar = 0; }
+  else if (P) { D.sw = 960; D.sh = 1500; D.pad = 0; D.bar = 44; D.cover = true; }   // a tall window into the desktop page
+  else { D.sw = D.sw || 1536; D.sh = Math.round(D.sw * D.srcH / D.srcW); D.pad = 0; D.bar = 44; }
+  D.k = D.cover ? D.sh / D.srcH : D.sw / D.srcW;
   D.ow = D.sw + 2 * D.pad + 3; D.oh = D.sh + 2 * D.pad + D.bar + 3;
-  D.left = ph ? Math.round(1150 - D.ow / 2) : Math.round((1920 - D.ow) / 2); D.top = ph ? Math.round((1080 - D.oh) / 2) : 30;
+  D.left = P ? Math.round((C.W - D.ow) / 2) : ph ? Math.round(1150 - D.ow / 2) : Math.round((1920 - D.ow) / 2);
+  D.top = P ? (ph ? 600 : 560) : ph ? Math.round((1080 - D.oh) / 2) : 30;
   D.sx = D.left + 1.5 + D.pad; D.sy = D.top + 1.5 + D.pad + D.bar;      // screen origin on stage
   const dev = $('device'); dev.className = D.type;
   Object.assign(dev.style, { left: D.left + 'px', top: D.top + 'px' });
@@ -184,33 +208,41 @@ window.init = cfg => {
   Object.assign($('glow').style, { left: cx - 750 + 'px', top: cy - 750 + 'px',
     background: `radial-gradient(circle, ${C.app.glow}1A 0%, ${C.app.glow}0A 38%, transparent 66%)` });
   Object.assign($('shadow').style, { left: cx - D.ow * .55 + 'px', width: D.ow * 1.1 + 'px', top: D.top + D.oh - 30 + 'px', height: '80px' });
-  if (!ph) $('shadow').style.display = 'none';
+  if (!ph) { $('shadow').style.display = 'none'; if (!P) Object.assign($('caption').style, { top: D.top + D.oh + 26 + 'px', left: D.left + 'px', width: D.ow + 'px' }); }
 
   // taps + mouse path from the recording script's log ("seconds kind x y label")
   // tapShift [[loggedTime, offset]]: one tap whose screen change is further from its log time than the rest
-  const shift = s => ((C.tapShift || []).find(q => Math.abs(q[0] - s) < .01) || [0, C.tapOffset || 0])[1];
-  C.taps = (C.tapLines || []).filter(l => l.kind === 'tap').map(l => ({ s: l.s + shift(l.s), x: l.x, y: l.y }));
-  C.path = (C.tapLines || []).filter(l => l.kind === 'move').map(l => ({ s: l.s, x: l.x, y: l.y }));
+  for (const T of Object.values(C.tk)) {
+    const shift = s => (T.tapShift.find(q => Math.abs(q[0] - s) < .01) || [0, T.tapOffset])[1];
+    T.taps = T.tapLines.filter(l => l.kind === 'tap').map(l => ({ s: l.s + shift(l.s), x: l.x, y: l.y }));
+    T.path = T.tapLines.filter(l => l.kind === 'move').map(l => ({ s: l.s, x: l.x, y: l.y }));
+  }
 
   // beats -> per-frame table { b: beat index, s: source time }
   beats = []; frames = [];
-  const push = (b, s) => frames.push({ b, s });
+  const push = (b, s, k) => frames.push({ b, s, k });
   hookEnd = Math.round(C.hook.dur * FPS);
-  const firstSrc = C.beats.find(b => b.clips).clips[0][0];
-  for (let i = 0; i < hookEnd; i++) push(-1, firstSrc);
-  let lastSrc = firstSrc;
+  const first = C.beats.find(b => b.clips), firstSrc = first.clips[0][0];
+  for (let i = 0; i < hookEnd; i++) push(-1, firstSrc, first.take || 'main');
+  let lastSrc = firstSrc, lastK = first.take || 'main';
   C.beats.forEach((b, bi) => {
-    const g = Object.assign({ i: bi, start: frames.length }, b); beats.push(g);
-    if (b.clips) { const ss = clipFrames(b.clips); g.ss = ss; ss.forEach(s => push(bi, s));
-      for (let k = 0; k < Math.round((b.hold || 0) * FPS); k++) push(bi, ss[ss.length - 1]); lastSrc = ss[ss.length - 1]; }
-    else { const n = Math.round(b.dur * FPS), next = (C.beats.slice(bi + 1).find(x => x.clips) || {}).clips;
-      for (let k = 0; k < n; k++) push(bi, b.type === 'flip' && k >= n / 2 && next ? next[0][0] : lastSrc); }
+    const g = Object.assign({ i: bi, start: frames.length, take: b.take || 'main' }, b); beats.push(g);
+    if (b.clips) { const ss = clipFrames(b.clips); g.ss = ss; ss.forEach(s => push(bi, s, g.take));
+      for (let k = 0; k < Math.round((b.hold || 0) * FPS); k++) push(bi, ss[ss.length - 1], g.take); lastSrc = ss[ss.length - 1]; lastK = g.take; }
+    else { const n = Math.round(b.dur * FPS), next = C.beats.slice(bi + 1).find(x => x.clips);
+      for (let k = 0; k < n; k++) { const nx = b.type === 'flip' && k >= n / 2 && next;
+        push(bi, nx ? next.clips[0][0] : lastSrc, nx ? next.take || 'main' : lastK); } }
     g.end = frames.length;
   });
   outroStart = frames.length;
-  for (let i = 0; i < Math.round(C.outro.dur * FPS); i++) push(-2, lastSrc);
+  for (let i = 0; i < Math.round(C.outro.dur * FPS); i++) push(-2, lastSrc, lastK);
   total = frames.length / FPS;
   devIn = beats.find(b => b.clips).start / FPS;
+  // a hard cut (new beat or a jump in the recording): the screen settles from 1.2% bigger (frames[i].cut = frame of the last cut)
+  let lc = -99; frames.forEach((f, i) => { const p = frames[i - 1];
+    if (i && f.b >= 0 && beats[f.b].ss && (f.b !== p.b || Math.abs(f.s - p.s) > .5) && f.b !== beats.findIndex(b => b.clips)) lc = i; f.cut = lc; });
+  // chapter numbers ("chapters": true): one per caption change
+  let n = 0, last = null; beats.forEach(g => { if (g.caption && g.caption !== last) n++; if (g.caption) g.chap = n; last = g.caption || last; }); C.nChap = n;
 
   // static text
   buildHook(); buildOutro();
@@ -239,7 +271,7 @@ function words(host, text, key) {
 const rise = (w, u) => { w.style.transform = `translateY(${(1 - u) * 112}%)`; };
 
 function buildHook() {
-  const H = C.hook, box = $('hlines'); box.textContent = '';
+  const H = C.hook, box = $('hlines'); box.textContent = ''; $('hook').style.fontSize = (C.portrait ? 84 : H.size || 104) + 'px';
   H.lines.forEach(l => { const d = el('div'); box.appendChild(d); words(d, l.text, l.key); });
   const gl = $('glyph'); gl.textContent = ''; gl.style.display = H.glyphs ? '' : 'none';
   // the riel sign draws much smaller than "$" in Noto Sans Khmer: scale it up to match
@@ -251,7 +283,8 @@ function buildHook() {
 }
 function buildOutro() {
   const O = C.outro, n = $('oname'); n.textContent = '';
-  for (const ch of O.name) n.appendChild(el('span', null, ch));
+  O.name.split(' ').forEach((w, i) => { if (i) n.appendChild(document.createTextNode(' ')); const wd = el('span', 'wd');
+    for (const ch of w) wd.appendChild(el('span', 'ch', ch)); n.appendChild(wd); });
   $('ovalue').textContent = O.value; $('otag').textContent = O.platform; $('ometa').textContent = O.meta || '';
   $('octa').textContent = O.cta; $('olink').textContent = O.link || '';
   $('ofoot').innerHTML = ''; $('ofoot').append('Hong Rinrasmey', el('small', null, 'hongrinrasmey.github.io/portfolio'));
@@ -280,9 +313,13 @@ function renderHook(t) {
 
 function cameraAt(g, t) {
   // keyframes [srcTime, zoom, x, y, moveSeconds=.9]: start moving when the clip reaches srcTime
-  let st = { z: 1, x: D.srcW / 2, y: D.srcH / 2 };
-  for (const kf of (g.cam || [])) {
-    const o = outOf(g, kf[0]); if (o == null || t < o) break;
+  const sp0 = (g.spots || [])[0];   // portrait window: starts on the beat's first highlight (or "px")
+  const cxOf = sp => sp.cx ?? sp.x + sp.w / 2;   // "cx": where the portrait window centres for a highlight wider than it
+  let st = { z: 1, x: g.px ?? (D.cover && sp0 ? cxOf(sp0) : D.srcW / 2), y: D.srcH / 2 };
+  // portrait window with no camera of its own: glide to each later highlight as it appears
+  const kfs = g.cam || (D.cover ? (g.spots || []).slice(1).map(sp => [sp.from, 1, cxOf(sp), D.srcH / 2, .7]) : []);
+  for (const kf of kfs) {
+    const o = outOf(g, kf[0]); if (o == null) continue; if (t < o) break;
     const u = inOut(prog(t, o, kf[4] || .9)), to = { z: kf[1], x: kf[2], y: kf[3] };
     st = { z: st.z + (to.z - st.z) * u, x: st.x + (to.x - st.x) * u, y: st.y + (to.y - st.y) * u };
   }
@@ -291,9 +328,9 @@ function cameraAt(g, t) {
   return { s, tx, ty, z: st.z };
 }
 
-function blursInto(host, src) {
+function blursInto(host, src, k = 'main') {
   host.textContent = '';
-  for (const b of C.blurs || []) if (src >= b.from && src <= b.to) {
+  for (const b of C.blurs || []) if ((b.take || 'main') === k && src >= b.from && src <= b.to) {
     const d = el('div', 'blur'); Object.assign(d.style, { left: b.x + 'px', top: b.y + 'px', width: b.w + 'px', height: b.h + 'px' }); host.appendChild(d); }
 }
 
@@ -322,7 +359,7 @@ function renderSpots(g, t, cam, clean) {
     const u = outExpo(prog(t, a + .35, .5)), pill = el('span', 'pill callout', sp.label);
     pill.style.opacity = u * dout; co.appendChild(pill);
     const ph = pill.offsetHeight, pw = pill.offsetWidth;
-    if (D.type === 'phone') {
+    if (D.type === 'phone' && !C.portrait) {
       const edge = Math.min(L.x + L.w, scr.r - 6), cy = clamp(L.y + L.h / 2, Math.max(scr.y + 30, L.y + 10), Math.min(scr.b - 30, L.y + L.h - 10));
       const px = D.left + D.ow + 56, py = clamp(cy - ph / 2, 120, 1080 - 120 - ph);
       pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transform = `translateX(${(1 - u) * 24}px)`;
@@ -346,20 +383,20 @@ function renderSpots(g, t, cam, clean) {
 function renderTaps(g, t, src, cam, clean) {
   const host = $('rings'); host.textContent = ''; const cur = $('cursor');
   cur.style.display = 'none'; if (!g || !g.ss || clean) return;
-  const web = D.type === 'browser';
-  for (const tp of C.taps) {
+  const web = D.type === 'browser', T = C.tk[g.take];
+  for (const tp of T.taps) {
     const o = outOf(g, tp.s); if (o == null) continue; const u = (t - o) / .55; if (u < 0 || u > 1) continue;
     const d = (web ? 30 + 44 * outExpo(u) : 40 + 64 * outExpo(u)) / cam.s, r = el('div', 'ring');
     Object.assign(r.style, { left: tp.x + 'px', top: tp.y + 'px', width: d + 'px', height: d + 'px', opacity: (1 - u) * .95,
       border: `${2.5 / cam.s}px solid ${web ? C.app.ui : 'rgba(255,255,255,.95)'}`, background: web ? 'transparent' : 'rgba(255,255,255,.16)' });
     host.appendChild(r);
   }
-  if (web && C.path.length) {                                    // mouse cursor along the logged path (Catmull-Rom)
-    const p = C.path; let i = p.findIndex(q => q.s > src); if (i < 0) i = p.length - 1; if (i < 1) i = 1;
+  if (web && T.path.length) {                                    // mouse cursor along the logged path (Catmull-Rom)
+    const p = T.path; let i = p.findIndex(q => q.s > src); if (i < 0) i = p.length - 1; if (i < 1) i = 1;
     const P = j => p[clamp(j, 0, p.length - 1)], a = P(i - 1), b = P(i), uu = clamp((src - a.s) / Math.max(1e-3, b.s - a.s));
     const cr = (q0, q1, q2, q3) => .5 * (2 * q1 + (-q0 + q2) * uu + (2 * q0 - 5 * q1 + 4 * q2 - q3) * uu * uu + (-q0 + 3 * q1 - 3 * q2 + q3) * uu ** 3);
     const x = cr(P(i - 2).x, a.x, b.x, P(i + 1).x), y = cr(P(i - 2).y, a.y, b.y, P(i + 1).y);
-    const press = C.taps.some(tp => src >= tp.s - .05 && src <= tp.s + .15);
+    const press = T.taps.some(tp => src >= tp.s - .05 && src <= tp.s + .15);
     cur.style.display = 'block';
     cur.style.transform = `translate(${x - 3 / cam.s}px, ${y - 2 / cam.s}px) scale(${1.25 / cam.s * (press ? .86 : 1)})`;
   }
@@ -374,13 +411,17 @@ function renderCaption(t, fi) {
   const same = b => b && b.caption === text;
   const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : .12);
   const out = same(next) ? 0 : inEase(prog(t, ge - .28, .28));
-  if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text); }
+  if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text);
+    $('cnum').innerHTML = C.chapters ? `<b>${String(g.chap).padStart(2, '0')}</b> / ${String(C.nChap).padStart(2, '0')}` : '';
+    $('cnum').style.display = C.chapters ? '' : 'none'; $('csub').textContent = g.sub || ''; $('csub').style.display = g.sub ? '' : 'none'; }
   [...ct.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .045, .5))));
+  const su = outExpo(prog(t, a + .3, .6)); $('csub').style.opacity = su; $('csub').style.transform = `translateY(${(1 - su) * 12}px)`;
+  const cu = outExpo(prog(t, a, .5)); $('cnum').style.opacity = cu;
   cap.style.opacity = 1 - out;
   const rl = $('role'); rl.style.display = role ? '' : 'none';
   if (role) { $('rtext').textContent = role; rl.style.setProperty('--rc', C.roles[role]); rl.style.color = fgFor(C.roles[role]);
     rl.style.opacity = outExpo(prog(t, devIn, .5)); }
-  if (D.type === 'phone') cap.style.transform = `translateY(-50%)`;
+  if (D.type === 'phone' && !C.portrait) { cap.style.transform = `translateY(-50%)`; cap.style.top = (g.timeline ? 450 : 540) + 'px'; }
 }
 
 function renderTimeline(t, g) {
@@ -388,7 +429,8 @@ function renderTimeline(t, g) {
   const a = outOf(g, T.from), ge = g.end / FPS; if (a == null) return;
   if (tl.dataset.b !== String(g.i)) { tl.dataset.b = g.i; tl.textContent = ''; tl.appendChild(el('div', 'base'));
     T.stops.forEach(s => { const d = el('div', 'dot'); const st = el('div', 'st'); st.append(el('b', null, s[0]), el('small', null, s[1])); tl.append(d, st); }); }
-  tl.style.top = (540 + T.y) + 'px';
+  tl.style.top = (C.portrait ? D.top + D.oh + 40 : $('caption').getBoundingClientRect().bottom + (T.y || 44)) + 'px';   // under the caption (portrait: under the phone)
+  if (C.portrait) tl.style.left = (C.W - 520) / 2 + 'px';
   const out = 1 - inEase(prog(t, ge - .28, .28)); tl.style.opacity = out;
   tl.querySelector('.base').style.transform = `scaleX(${outExpo(prog(t, a, .6))})`;
   const dots = tl.querySelectorAll('.dot'), sts = tl.querySelectorAll('.st');
@@ -409,26 +451,30 @@ function renderPanels(t, g) {
   const P = $('panels'), on = g && g.type === 'finale'; P.style.display = on ? 'block' : 'none'; if (!on) return;
   const a = g.start / FPS, e = g.end / FPS;
   const out = inEase(prog(t, e - .35, .35));
+  const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
   [['pa', g.a, 140], ['pb', g.b, 1040]].forEach(([id, p, x], i) => {
-    const n = $(id), u = outExpo(prog(t, a + .1 + i * .15, .7));
-    n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; n.style.opacity = u * (1 - out);
-    n.style.transform = `perspective(2200px) rotateY(${(i ? -1 : 1) * 10 * u}deg)`;
+    const n = $(id), u = outExpo(prog(t, a + .4 + i * .15, .7));   // after the device has left (.45 s)
+    if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
+    else { n.style.top = ''; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
+    n.style.opacity = u * (1 - out);
+    n.style.transform = PT ? 'none' : `perspective(2200px) rotateY(${(i ? -1 : 1) * 10 * u}deg)`;
     const pill = n.querySelector('.pill'); pill.textContent = p.role; pill.style.background = C.roles[p.role]; pill.style.color = fgFor(C.roles[p.role]);
-    const img = n.querySelector('img'), url = C.frameUrl(p.src); if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; }
+    const img = n.querySelector('img'), url = C.frameUrl(p.src, p.take); if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; }
     img.style.transform = `scale(${740 / D.srcW})`;
     const pb = n.querySelector('.pb'); pb.style.cssText = `position:absolute;left:0;top:0;width:${D.srcW}px;height:${D.srcH}px;transform-origin:0 0;transform:scale(${740 / D.srcW})`;
-    blursInto(pb, p.src); });
-  const lu = inOut(prog(t, a + .7, .6)); const ln = $('link');
-  Object.assign(ln.style, { left: 140 + 740 + 'px', width: 1040 - 880 + 'px', transform: `scaleX(${lu})`, opacity: 1 - out, top: 300 + 58 + 208 + 'px' });
-  const cu = outExpo(prog(t, a + 1.1, .5)); const ck = $('check');
-  Object.assign(ck.style, { left: 960 + 'px', top: 300 + 58 + 209 + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
+    blursInto(pb, p.src, p.take || 'main'); });
+  const lu = inOut(prog(t, a + 1.0, .6)); const ln = $('link');
+  if (PT) Object.assign(ln.style, { left: '539px', top: 520 + 70 + 418 + 'px', width: '2px', height: 1320 - 1008 + 'px', transformOrigin: '50% 0', transform: `scaleY(${lu})`, opacity: 1 - out });
+  else Object.assign(ln.style, { left: 140 + 740 + 'px', width: 1040 - 880 + 'px', height: '2px', transformOrigin: '0 50%', transform: `scaleX(${lu})`, opacity: 1 - out, top: 300 + 58 + 208 + 'px' });
+  const cu = outExpo(prog(t, a + 1.4, .5)); const ck = $('check');
+  Object.assign(ck.style, { left: (PT ? 540 : 960) + 'px', top: (PT ? 1008 + 156 : 300 + 58 + 209) + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
 }
 
 function renderOutro(t) {
   const a = outroStart / FPS, on = t >= a; $('outro').style.display = on ? '' : 'none'; $('ofoot').style.display = on ? '' : 'none';
   if (!on) return;
   const r = t - a;
-  [...$('oname').children].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
+  [...$('oname').querySelectorAll('.ch')].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
   const fade = (id, at) => { const u = outExpo(prog(r, at, .6)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
   fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('ofoot', 1.4);
 }
@@ -436,7 +482,7 @@ function renderOutro(t) {
 // ---------- one frame ----------
 window.renderAt = async (t, clean) => {
   const fi = clamp(Math.round(t * FPS), 0, frames.length - 1), f = frames[fi], g = f.b >= 0 ? beats[f.b] : null, src = f.s;
-  const img = $('screen'), url = C.frameUrl(src);
+  const img = $('screen'), url = C.frameUrl(src, f.k);
   if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; await img.decode(); }
   $('grid').style.transform = `translate(${(t * 3) % 64}px, ${(t * 1.6) % 64}px)`;
   renderHook(t);
@@ -466,8 +512,9 @@ window.renderAt = async (t, clean) => {
 
   const cg = g && g.ss ? g : null;
   const cam = cg ? cameraAt(cg, t) : { s: D.k, tx: 0, ty: 0, z: 1 };
-  $('cam').style.transform = `translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
-  blursInto($('blurs'), src);
+  const st = f.cut >= 0 ? .012 * (1 - outExpo(prog(t, f.cut / FPS, .4))) : 0, vx = D.sw / 2, vy = D.sh / 2;
+  $('cam').style.transform = `translate(${vx}px, ${vy}px) scale(${1 + st}) translate(${-vx}px, ${-vy}px) translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
+  blursInto($('blurs'), src, f.k);
   renderSpots(cg, t, cam, clean);
   renderTaps(cg, t, src, cam, clean);
   renderCaption(t, fi);
@@ -480,7 +527,7 @@ window.renderAt = async (t, clean) => {
 
 // preview (render.js --preview): scrub slider + play, for checking a cut before rendering
 window.preview = () => {
-  const bar = el('div'); bar.style.cssText = 'position:fixed;left:0;right:0;top:1080px;height:60px;display:flex;gap:12px;align-items:center;padding:0 16px;background:#111;color:#ccc;font:14px monospace';
+  const bar = el('div'); bar.style.cssText = 'position:fixed;left:0;right:0;top:' + C.H + 'px;height:60px;display:flex;gap:12px;align-items:center;padding:0 16px;background:#111;color:#ccc;font:14px monospace';
   const play = el('button', null, 'play'), r = el('input'), lab = el('span');
   r.type = 'range'; r.min = 0; r.max = total; r.step = 1 / FPS; r.value = 0; r.style.flex = 1;
   bar.append(play, r, lab); document.body.appendChild(bar); document.body.style.overflow = 'visible';
