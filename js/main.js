@@ -183,6 +183,38 @@
 
   // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
   // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
+  // Desktop monitor: Home -> Product -> All products -> Home once (1.6s steps, under 5s: WCAG 2.2.2), then stop.
+  // Buttons pick a screen (and end the tour). Paused on hover/focus; never fades to a screen still loading.
+  function initMonitor() {
+    document.querySelectorAll('.monitor').forEach(function (mon) {
+      var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
+      var btns = mon.querySelectorAll('[data-screen]'), step = 0, timer, io;
+      function show(i) {
+        imgs.forEach(function (im, k) {
+          im.classList.toggle('is-on', k === i);
+          if (k === i) im.removeAttribute('aria-hidden'); else im.setAttribute('aria-hidden', 'true');
+        });
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i); });
+        link.href = imgs[i].getAttribute('src');
+      }
+      function stop() { clearInterval(timer); if (io) io.disconnect(); }
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () { stop(); show(+b.dataset.screen); });
+      });
+      if (reduceMotion.matches || !hasIO) return;
+      io = new IntersectionObserver(function (entries) {
+        clearInterval(timer);
+        if (entries[entries.length - 1].isIntersecting) timer = setInterval(function () {
+          var next = (step + 1) % imgs.length;
+          if (mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
+          show(step = next);
+          if (!step) stop(); // back on the first screen: done
+        }, 1600);
+      }, { threshold: 0.5 });
+      io.observe(link);
+    });
+  }
+
   function initPhoneScreens() {
     if (reduceMotion.matches || !hasIO) return;
     document.querySelectorAll('.project-card__media--phones').forEach(function (media) {
@@ -328,25 +360,26 @@
     }
 
     // Screenshot links: full size in the same pop-up (Ctrl/middle click still opens the file)
-    function openShot(link) {
+    function openShot(link, trigger) {
       var img = new Image();
-      img.src = link.href;
-      img.alt = link.querySelector('img').alt;
-      var cap = link.closest('figure');
-      cap = cap && cap.querySelector('figcaption');
-      if (modalTitle) modalTitle.textContent = cap ? cap.textContent : img.alt.split(':')[0];
+      img.src = link.href; // initMonitor points it at the screen showing
+      img.alt = (link.querySelector('img.is-on') || link.querySelector('img')).alt;
+      if (modalTitle) modalTitle.textContent = img.alt.split(':')[0];
       modal.classList.remove('video-modal--phone');
       modal.classList.add('video-modal--img');
       frame.replaceChildren(img);
-      lastTrigger = link;
+      lastTrigger = trigger || link;
       modal.showModal();
     }
 
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.video-btn');
       if (btn) openVideo(btn);
-      var shot = e.target.closest('.shot-link');
-      if (shot && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.button) { e.preventDefault(); openShot(shot); }
+      var shot = e.target.closest('.shot-link, [data-shot]'); // [data-shot]: the "Full size" button under a monitor
+      if (shot && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.button) {
+        e.preventDefault();
+        openShot(shot.href ? shot : shot.closest('figure').querySelector('.shot-link'), shot);
+      }
     });
     modal.querySelector('.video-modal__close').addEventListener('click', function () { modal.close(); });
     // Click outside the video, or Esc ("cancel" stops it at once)
@@ -493,6 +526,7 @@
   initReveal();
   initSpotlight();
   initPhoneScreens();
+  initMonitor();
   initCountUp();
   initCopy();
   initVideo();
