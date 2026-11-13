@@ -550,3 +550,10 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - New cut from the same raw take (`kh-223023`), only `scripts/motion/kh-halal-marketplace.json` changed: guest browse, product, price, add to cart, cart, Khmer; customer wishlist; seller dashboard, products, add-product form with the name typed. Mosques removed. **Only 2 zooms**: the riel + dollar price (1.4x) and the typed product name (1.6x); every other screen is shown whole. Cart segment starts at 16.1s (page load blank before that).
 - 32.4 s, 2.58 MB, new poster (price zoom). `index.html` video description updated (about 30 seconds, no mosque list). check.mjs all PASS.
 - Render needs Playwright 1.49.1 via `NODE_PATH` (installed in the session scratchpad this time).
+
+### Update 2026-11-13: idevo + RielTrack videos re-cut (owner: "all the video, best cut")
+- QA found in the old idevo video 4 **blank white flashes** (route changes at raw 25.5-25.7, 29.9, 44.3, 48.6 sat inside segments) and 4 tiny 1.12x zoom pulses that only wobbled. RielTrack: a 0.3s Home flash between Budgets and Settings, and a crop zoom on the language row that cut words.
+- idevo (`scripts/motion/idevo.json`): cuts moved off the blank frames, Learn tab pass-through dropped (straight to Progress), segments 1.4-2.8s (no sub-second flashes), **no zooms**. 31.8 s, 1.73 MB, poster = Progress.
+- RielTrack (`scripts/motion/rieltrack.json`): one zoom only (the 12000 ៛ amount), Settings starts at 45.1 (after its fade-in), whole screen shown when it turns Khmer. 26.2 s, 1.93 MB.
+- Blank check: ffmpeg `entropy` on the phone/browser area, 10 fps; old idevo shows hits (<0.31), all 3 new videos none. Frame sheets reviewed. `index.html` idevo description "about 30 seconds". check.mjs all PASS.
+- Same raw takes (no new recording).
