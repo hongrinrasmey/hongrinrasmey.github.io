@@ -544,3 +544,9 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 ### Update 2026-11-12: KH Halal demo logins: videos only (owner chose A)
 - No public demo login (real-money checkout). The hidden `project-card__login` row, its CSS and the "Demo login" edit notes (index.html comment, README) were removed. The copy-button JS stays (Contact email uses it). DESIGN.md §5 project entry says "none". Do not add demo logins back.
 - check.mjs all PASS.
+
+### Update 2026-11-13: KH Halal video re-cut (owner: "not good", no Mosques, fewer zooms)
+- QA review of the old cut: zoom on almost every screen (7 keyframes, some cut text mid-sentence, e.g. cart summary), Mosques part not wanted, ~2s logged-in home that looked the same as the guest home, a blank white frame while the cart page loaded. The working copy also held a broken half-rendered mp4 from an earlier session (no moov atom).
+- New cut from the same raw take (`kh-223023`), only `scripts/motion/kh-halal-marketplace.json` changed: guest browse, product, price, add to cart, cart, Khmer; customer wishlist; seller dashboard, products, add-product form with the name typed. Mosques removed. **Only 2 zooms**: the riel + dollar price (1.4x) and the typed product name (1.6x); every other screen is shown whole. Cart segment starts at 16.1s (page load blank before that).
+- 32.4 s, 2.58 MB, new poster (price zoom). `index.html` video description updated (about 30 seconds, no mosque list). check.mjs all PASS.
+- Render needs Playwright 1.49.1 via `NODE_PATH` (installed in the session scratchpad this time).
