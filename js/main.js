@@ -321,14 +321,32 @@
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
       modal.classList.toggle('video-modal--phone', !!tag && /android|ios/i.test(tag.textContent));
+      modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
       lastTrigger = btn;
       modal.showModal(); // browser keeps focus inside; Esc closes it
     }
 
+    // Screenshot links: full size in the same pop-up (Ctrl/middle click still opens the file)
+    function openShot(link) {
+      var img = new Image();
+      img.src = link.href;
+      img.alt = link.querySelector('img').alt;
+      var cap = link.closest('figure');
+      cap = cap && cap.querySelector('figcaption');
+      if (modalTitle) modalTitle.textContent = cap ? cap.textContent : 'Screenshot';
+      modal.classList.remove('video-modal--phone');
+      modal.classList.add('video-modal--img');
+      frame.replaceChildren(img);
+      lastTrigger = link;
+      modal.showModal();
+    }
+
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.video-btn');
       if (btn) openVideo(btn);
+      var shot = e.target.closest('.shot-link');
+      if (shot && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.button) { e.preventDefault(); openShot(shot); }
     });
     modal.querySelector('.video-modal__close').addEventListener('click', function () { modal.close(); });
     // Click outside the video, or Esc ("cancel" stops it at once)
