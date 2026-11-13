@@ -557,3 +557,9 @@ Honest review listed: thin About, ID-style photo, big gap under the hero, Contac
 - RielTrack (`scripts/motion/rieltrack.json`): one zoom only (the 12000 ៛ amount), Settings starts at 45.1 (after its fade-in), whole screen shown when it turns Khmer. 26.2 s, 1.93 MB.
 - Blank check: ffmpeg `entropy` on the phone/browser area, 10 fps; old idevo shows hits (<0.31), all 3 new videos none. Frame sheets reviewed. `index.html` idevo description "about 30 seconds". check.mjs all PASS.
 - Same raw takes (no new recording).
+
+### Update 2026-11-13: videos round 2: RielTrack + idevo re-recorded (owner: "do all of these")
+- **RielTrack**: `scripts/seed-rieltrack.sh extra` adds 4 early-October entries (run once, done) so Home says "27% more than last month" (was 1340%: Home compares the same days of last month). `record-rieltrack.sh` now waits out the "Transaction added" snackbar and scrolls so the new ៛12,000 row shows; scrolls Home to the top before Settings. New take `rieltrack-084450`, video 28.3 s, one zoom (amount).
+- **idevo**: re-recorded at 08:51 real time, so Home says "Good morning" with the 9:41 status bar. Take `idevo-085148` (ends on Khmer Settings: the Home frame after Back was not captured). Lesson cut to the practice question, Khmer part shortened, no zooms, blank route-change frames (25.0-25.2, 29.3, 43.4, 47.6) outside the cut. 26.5 s.
+- Both: no blank frames (entropy check), frame sheets reviewed. Emulator: demo mode off by the scripts, idevo `pm clear` at the end (as before).
+- KH Halal in progress: see next entry.

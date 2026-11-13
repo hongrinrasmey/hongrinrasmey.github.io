@@ -35,6 +35,7 @@ add() {
   has "Add expense" && echo "added: $1 $2 $3 $5 $6" || { echo "NOT BACK ON HOME after $5"; exit 1; }
 }
 
+if [ "${1:-}" != extra ]; then
 add income  850   USD 1 "Thursday, October 1, 2026"      "Salary"
 add expense 15000 KHR 1 "Saturday, October 10, 2026"     "Food and drinks"
 add expense 4     USD 1 "Thursday, October 15, 2026"     "Transportation"
@@ -44,4 +45,11 @@ add expense 10000 KHR 0 "Tuesday, November 3, 2026"      "Food and drinks"
 add expense 2.50  USD 0 "Saturday, November 7, 2026"     "Transportation"
 add expense 8000  KHR 0 "Monday, November 9, 2026"       "Food and drinks"
 add expense 14000 KHR 0 "Wednesday, November 11, 2026"   "Food and drinks"
+fi
+# early-October spending, so Home's "compared with the same days last month" is a normal number
+# (without it: ~1340% more). Already seeded before 2026-11-13? Run only these: bash scripts/seed-rieltrack.sh extra
+add expense 40000 KHR 1 "Friday, October 2, 2026"        "Shopping"
+add expense 3     USD 1 "Tuesday, October 6, 2026"       "Transportation"
+add expense 20    USD 1 "Thursday, October 8, 2026"      "Bills and utilities"
+add expense 12000 KHR 1 "Monday, October 12, 2026"       "Food and drinks"
 echo "Seed done."
