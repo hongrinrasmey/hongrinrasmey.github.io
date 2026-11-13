@@ -28,23 +28,27 @@ GEAR=$(center "Settings")                            # gear position, still vali
 
 TAPLOG=$(mktemp); : > "$TAPLOG"
 rec_start rieltrack
-sleep 2.5                                            # Home: month at a glance
-tapt "Add expense" 1.2
-tapt "KHR (៛)" 0.8
-typeslow 12000; sleep 1
-$ADB shell input keyevent KEYCODE_BACK; sleep 0.6    # hide keyboard
-swipe 1500 900 700 1.2                               # Food and drinks is already selected
+# slow on purpose (owner, 2026-11-13): every result stays on screen 3-4 s so the video can explain it
+sleep 4.5                                            # Home: month at a glance
+tapt "Add expense" 2
+tapt "KHR (៛)" 1.2
+for d in 1 2 0 0 0; do $ADB shell input text "$d"; sleep 0.3; done; sleep 2.5   # 12000, typed like a person
+$ADB shell input keyevent KEYCODE_BACK; sleep 1      # hide keyboard
+swipe 1500 900 700 2.5                               # Food and drinks is already selected
 tapt "Save transaction" 4.6                          # back on Home, totals updated; wait out the snackbar
-swipe 1700 1200 600 1.8                              # new lunch row in Recent transactions, no snackbar over it
-tapt "History" 2.5
-tapt "Reports" 2
-swipe 1700 700 1200 2.5                              # spending by category
-tapt "Budgets" 2.8
+swipe 1700 1200 600 4.5                              # new lunch row in Recent transactions, no snackbar over it
+tapt "History" 4.5
+tapt "Reports" 3
+swipe 1700 700 1200 4.5                              # compared with last month + biggest changes
+swipe 1700 900 1200 3.5                              # spending by category
+tapt "Budgets" 5
 tapt "Home" 1.2; swipe 700 1700 400 0.8              # Home back at the top (the gear is there)
-tapt "Settings" 1.5
-tapt "ខ្មែរ" 2.2                                      # language: Khmer
-$ADB shell input keyevent KEYCODE_BACK; sleep 3      # Home in Khmer
+tapt "Settings" 3.5
+tapt "ខ្មែរ" 3                                        # language: Khmer
+$ADB shell input keyevent KEYCODE_BACK; sleep 2.5    # Home in Khmer
+swipe 1300 1260 300 2.5                              # tiny scroll: screenrecord only writes frames on change
 rec_stop rieltrack "$OUT"
+demo_off                                             # status bar back to normal
 
 # back to English (off camera)
 logev() { :; }

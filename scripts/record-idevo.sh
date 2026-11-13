@@ -19,30 +19,32 @@ has "Continue" || { echo "idevo Home with 'Continue' not found"; exit 1; }
 
 TAPLOG=$(mktemp); : > "$TAPLOG"
 rec_start idevo
-sleep 2.5                                          # Home: continue learning, this week
-tapt "Continue" 2.5                                # lesson 2 "Space it out"
-swipe 1700 1000 700 1.2                            # down to the practice question
-tapt "Soon, so you can practise it again" 2.5
-swipe 1500 1000 500 0.8
-tapt "Mark as complete" 2
-$ADB shell input keyevent KEYCODE_BACK; sleep 1.5
-tapc "Tab 4 of 4" 2                                # Review
-tapt "Start review" 2
-tapt "Show answer" 2.5
-tapc "Good, comes back" 1.5
-$ADB shell input keyevent KEYCODE_BACK; sleep 1.2
-tapc "Tab 3 of 4" 2                                # Learn: the path
-tapt "Your progress" 3.5
+# slow on purpose (owner, 2026-11-13): every result stays on screen 3-4 s so the video can explain it
+sleep 4.5                                          # Home: continue learning, this week
+tapt "Continue" 4                                  # lesson 2 "Space it out": read the top
+swipe 1700 1000 700 3                              # down to the practice question
+tapt "Soon, so you can practise it again" 4        # answer + explanation
+swipe 1500 1000 500 1.5
+tapt "Mark as complete" 4                          # path finished
+$ADB shell input keyevent KEYCODE_BACK; sleep 4    # Home: streak + this week
+tapc "Tab 4 of 4" 3.5                              # Review: flashcards due + coming up
+tapt "Start review" 3
+tapt "Show answer" 4                               # answer + the 4 grading buttons
+tapc "Good, comes back" 3
+$ADB shell input keyevent KEYCODE_BACK; sleep 3    # Review: one fewer due, schedule updated
+tapc "Tab 3 of 4" 3                                # Learn: the path
+tapt "Your progress" 5
 $ADB shell input keyevent KEYCODE_BACK; sleep 1
 tapc "Tab 1 of 4" 2                                # Home
-tapt "Settings" 1.5
-logev tap "540 940" "Language"; $ADB shell input tap 540 940; sleep 1.5   # Language row
-tapt "ខ្មែរ" 2.5                                    # language: Khmer
+tapt "Settings" 2.5
+logev tap "540 940" "Language"; $ADB shell input tap 540 940; sleep 2.5   # Language row
+tapt "ខ្មែរ" 3.5                                    # language: Khmer
 $ADB shell input keyevent KEYCODE_BACK; sleep 3    # Home in Khmer
 # screenrecord can drop the last frames when stopped: a small scroll makes it write the Khmer Home
 # frames out (the cut ends before the scroll)
-swipe 1700 1500 400 1.5
+swipe 1700 1500 400 2
 rec_stop idevo "$OUT"
+demo_off                                             # status bar back to normal
 
 $ADB shell pm clear app.idevo.idevo >/dev/null && echo "idevo reset (data + language)"
 echo "Done. Raw take in $OUT"

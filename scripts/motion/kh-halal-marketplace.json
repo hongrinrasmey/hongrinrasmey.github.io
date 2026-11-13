@@ -1,24 +1,27 @@
 {
   "slug": "kh-halal-marketplace",
-  "raw": "assets/videos/kh-halal-marketplace-raw/kh-100337.mp4",
-  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-100337.taps.txt",
+  "raw": "assets/videos/kh-halal-marketplace-raw/kh-112740.mp4",
+  "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-112740.taps.txt",
   "tapOffset": 0,
-  "frameWidth": 1200,
+  "frameWidth": 1920,
   "W": 1920,
   "H": 1080,
+  "scale": 1,
+  "crf": 20,
   "device": {
     "type": "browser",
     "url": "kh-halal-marketplace.onrender.com",
-    "srcW": 1200,
-    "sw": 1480,
-    "sh": 858,
-    "top": 44,
-    "tapScale": 0.6,
-    "cursorScale": 1.5
+    "srcW": 1920,
+    "sw": 1488,
+    "sh": 837,
+    "top": 36,
+    "tapScale": 0.7,
+    "cursorScale": 1.1
   },
   "caption": {
-    "y": 968,
-    "size": 30
+    "y": 942,
+    "size": 30,
+    "w": 1100
   },
   "labelSize": 24,
   "brandBottom": 48,
@@ -30,210 +33,347 @@
   },
   "end": {
     "size": 96,
-    "tags": "Vue 3 · Express · PostgreSQL"
+    "tags": "Vue 3 · Express · PostgreSQL",
+    "cta": "Live demo: kh-halal-marketplace.onrender.com"
   },
-  "intro": 2.8,
-  "outro": 2.6,
+  "intro": 2.6,
+  "outro": 3.6,
+  "chapterHold": 0.6,
   "segments": [
     [
-      1.6,
-      2.6
+      0.4,
+      4.15
     ],
     [
-      2.6,
-      5.4,
-      2
+      5.9,
+      15.15,
+      1,
+      0.3
     ],
     [
-      5.6,
-      7.95,
-      1.4
+      15.7,
+      24.75,
+      1,
+      0.3
     ],
     [
-      8.5,
-      10.85
+      25.4,
+      30.5
     ],
     [
-      10.85,
-      13,
-      1.3
+      30.6,
+      36.75,
+      1,
+      0.3
     ],
     [
-      13,
-      15.4
+      37.1,
+      43.3,
+      1,
+      0.3
     ],
     [
-      15.4,
-      16.95,
-      1.5
+      43.7,
+      50.45
     ],
     [
-      17.15,
-      19.2
+      52.9,
+      58.4
     ],
     [
-      21.6,
-      24.25,
-      1.6
+      60.3,
+      62.6
     ],
     [
-      24.45,
-      26.9
+      64.4,
+      69.6
     ],
     [
-      32.3,
-      33.75
+      70.5,
+      78.7,
+      1,
+      0.3
     ],
     [
-      34,
-      36
+      79.1,
+      85.15,
+      1,
+      0.3
     ],
     [
-      37.4,
-      40.9
-    ],
-    [
-      40.9,
-      43,
-      1.5
-    ],
-    [
-      43.2,
-      45.4
-    ],
-    [
-      49.2,
-      51,
-      1.5
-    ],
-    [
-      51.3,
-      53.1
-    ],
-    [
-      53.1,
-      54.3,
-      2
-    ],
-    [
-      56,
-      59.4
+      85.4,
+      97.0,
+      1,
+      1.0
     ]
   ],
   "camera": [
     [
-      56.4,
-      1.6,
-      650,
-      440,
-      0.8
+      7.4,
+      1.25,
+      960,
+      560,
+      1.0
+    ],
+    [
+      15.7,
+      1.25,
+      760,
+      600,
+      0.01
+    ],
+    [
+      25.4,
+      1.4,
+      1250,
+      420,
+      0.01
+    ],
+    [
+      37.1,
+      1.2,
+      960,
+      480,
+      0.01
+    ],
+    [
+      43.7,
+      1,
+      960,
+      540,
+      0.01
+    ],
+    [
+      60.3,
+      1,
+      960,
+      540,
+      0.01
+    ],
+    [
+      66.0,
+      1.35,
+      900,
+      480,
+      0.01
+    ],
+    [
+      70.5,
+      1.3,
+      1080,
+      460,
+      0.01
+    ],
+    [
+      79.1,
+      1.25,
+      1000,
+      520,
+      0.01
+    ],
+    [
+      85.4,
+      1.3,
+      980,
+      560,
+      0.01
     ]
   ],
   "captions": [
     {
-      "tag": "GUEST",
-      "text": "Halal products in Cambodia",
-      "from": 1.6,
-      "to": 5.4
+      "text": "Halal shopping from verified sellers",
+      "sub": "Clothing and dry food, with clear halal information.",
+      "from": 0.4,
+      "to": 4.15
     },
     {
-      "tag": "GUEST",
       "text": "Prices in riel and dollars",
-      "from": 5.6,
-      "to": 10.85
+      "sub": "Every product shows its price in KHR and USD.",
+      "from": 5.9,
+      "to": 15.15
     },
     {
-      "tag": "GUEST",
-      "text": "Cart without an account",
-      "from": 10.85,
-      "to": 19.2
+      "text": "Browse and filter",
+      "sub": "Filter by price, halal claim or verified sellers only.",
+      "from": 15.7,
+      "to": 24.75
     },
     {
-      "tag": "GUEST",
-      "text": "Khmer and English",
-      "from": 21.6,
-      "to": 26.9
+      "text": "Every product shows its seller",
+      "sub": "Sellers are identity-verified by the marketplace.",
+      "from": 25.4,
+      "to": 30.5
     },
     {
+      "text": "Shop as a guest",
+      "sub": "Add to cart and check out without an account.",
+      "from": 30.6,
+      "to": 43.3
+    },
+    {
+      "text": "Full Khmer version",
+      "sub": "Switch the whole site to Khmer with one click.",
+      "from": 43.7,
+      "to": 58.4
+    },
+    {
+      "text": "Save favourites",
       "tag": "CUSTOMER",
-      "text": "Wishlist for later",
-      "from": 33,
-      "to": 36
+      "sub": "A wishlist that tells you when a price drops.",
+      "from": 60.3,
+      "to": 69.6
     },
     {
+      "text": "A dashboard for every seller",
       "tag": "SELLER",
-      "text": "Seller dashboard",
-      "from": 38.8,
-      "to": 43
+      "sub": "Sales, orders and refund requests at a glance.",
+      "from": 70.5,
+      "to": 78.7
     },
     {
+      "text": "Manage every product",
       "tag": "SELLER",
-      "text": "Manage products",
-      "from": 43.2,
-      "to": 45.4
+      "sub": "Price, stock, quality score and status in one table.",
+      "from": 79.1,
+      "to": 85.15
     },
     {
+      "text": "Add a product",
       "tag": "SELLER",
-      "text": "Add products for review",
-      "from": 49.2,
-      "to": 59.4
+      "sub": "Three steps, then an admin reviews it before it goes live.",
+      "from": 85.4,
+      "to": 97.0
     }
   ],
-  "poster": 7.68,
-  "crf": 26,
   "roles": [
     {
-      "at": 32.3,
+      "at": 60.3,
       "tag": "SIGNED IN AS",
       "text": "Customer"
     },
     {
-      "at": 37.4,
+      "at": 70.5,
       "tag": "SIGNED IN AS",
       "text": "Seller"
     }
   ],
   "highlights": [
     {
-      "from": 8.7,
-      "to": 9.8,
-      "x": 600,
+      "from": 9.0,
+      "to": 15.15,
+      "x": 240,
+      "y": 244,
+      "w": 224,
+      "h": 292,
+      "label": "KHR 20,500 · USD 5.00",
+      "below": true
+    },
+    {
+      "from": 17.4,
+      "to": 24.75,
+      "x": 240,
+      "y": 340,
+      "w": 320,
+      "h": 680,
+      "label": "Price · halal claim · verified sellers only"
+    },
+    {
+      "from": 26.4,
+      "to": 28.4,
+      "x": 962,
       "y": 262,
-      "w": 268,
+      "w": 270,
       "h": 52,
-      "label": "Riel and dollars",
+      "label": "Price in riel and dollars",
       "below": true
     },
     {
-      "from": 9.8,
-      "to": 10.85,
-      "x": 616,
-      "y": 362,
-      "w": 296,
+      "from": 28.5,
+      "to": 30.5,
+      "x": 976,
+      "y": 354,
+      "w": 340,
+      "h": 84,
+      "label": "Identity verified by marketplace",
+      "below": true
+    },
+    {
+      "from": 38.6,
+      "to": 43.3,
+      "x": 1370,
+      "y": 626,
+      "w": 300,
+      "h": 60,
+      "label": "Guest checkout available",
+      "below": true
+    },
+    {
+      "from": 66.8,
+      "to": 69.6,
+      "x": 240,
+      "y": 496,
+      "w": 1140,
+      "h": 284,
+      "label": "Alerts when the price drops or it is back in stock"
+    },
+    {
+      "from": 72.6,
+      "to": 78.7,
+      "x": 356,
+      "y": 396,
+      "w": 1440,
+      "h": 110,
+      "label": "KHR 73,800 sales in 30 days · 47 orders",
+      "below": true
+    },
+    {
+      "from": 80.6,
+      "to": 85.15,
+      "x": 940,
+      "y": 440,
+      "w": 300,
+      "h": 480,
+      "label": "Quality score + status for each product"
+    },
+    {
+      "from": 86.6,
+      "to": 90.0,
+      "x": 268,
+      "y": 254,
+      "w": 1432,
+      "h": 66,
+      "label": "Product · Price & stock · Review",
+      "below": true
+    },
+    {
+      "from": 93.6,
+      "to": 97.0,
+      "x": 270,
+      "y": 716,
+      "w": 1430,
       "h": 68,
-      "label": "Identity-verified seller",
-      "below": true
-    },
-    {
-      "from": 13.7,
-      "to": 15.4,
-      "x": 980,
-      "y": 616,
-      "w": 206,
-      "h": 58,
-      "label": "No account needed",
-      "right": true
-    },
-    {
-      "from": 39,
-      "to": 40.9,
-      "x": 260,
-      "y": 392,
-      "w": 892,
-      "h": 116,
-      "label": "Sales, products and orders",
+      "label": "Demo text only: never submitted",
       "below": true
     }
   ],
-  "hlSize": 22
+  "hlSize": 22,
+  "posterAt": 27.0,
+  "blurs": [
+    {
+      "from": 60.17,
+      "to": 69.8,
+      "x": 1744,
+      "y": 50,
+      "w": 150,
+      "h": 50
+    },
+    {
+      "from": 70.59,
+      "to": 97.2,
+      "x": 1784,
+      "y": 6,
+      "w": 122,
+      "h": 50
+    }
+  ]
 }

@@ -682,3 +682,39 @@ Honest review of the whole-screens version (7/10) listed 5 problems; all fixed:
 ### Update 2026-11-13: idevo AI note
 - Owner: idevo has AI built in, but it works only for the owner for now (not public users). Card lead (`index.html` #idevo): "An offline-first notes library and learning companion. AI help is built in, but for now it only runs on my own server, not for everyone yet." Same note added to the hidden feature comment. When the AI opens to everyone, shorten the lead.
 - check.mjs all PASS. Committed with a separate index (other session's Contact edits in `index.html` left out).
+
+### Update 2026-11-13: all 3 demo videos remade in HD with chapters (owner: "do all of these")
+Owner: videos were not HD, KH Halal not at real desktop size, too short/fast, no explanation of the main points. Length is not a limit.
+- **Engine** `scripts/motion/compose.html` v4: chapter hold (first frame of each chapter still for `chapterHold` s, light dim, caption comes in), caption bar = `02 / 08` + point + one-line `sub`, highlights draw themselves (SVG stroke, 35% dim), soft white tap rings (orange ring for mouse clicks), thin phone bezel + punch-hole, no sway/drift, still glow, near-still grid, end card tags one by one + `end.cta`, thin progress line (`"progress": false` hides it), Catmull-Rom cursor. Segments `[a, b, speed, holdAfter]`; a tap up to 0.15 s after a segment end still shows during its hold (used to cut BEFORE a route change's blank frame). `posterAt` = source time.
+- `render.js`: `scale` (deviceScaleFactor), x264 `-preset slow -profile high`, CRF 18 default (KH 20). **It writes the poster into `assets/videos`**: restore with `git checkout` after a test render.
+- **New takes, slow on purpose** (3-5 s on every result): `rieltrack-104550` (tapOffset -0.45), `idevo-111248` (-0.07; blank route frames at 8.17, 36.96-37.21, 42.69, 62.52, 67.79 left out), `kh-112740` (KH at a real 1920x1080 window, guest + customer + seller; writes: cart/validate, the 2 logins, wishlist/sync which the site sends itself on load; nothing created).
+- **Results:** RielTrack 82.6 s, 1080x2340, 8.5 MB, 8 chapters. idevo 91.4 s, 1080x2340, 6.2 MB, 6 chapters. KH Halal 104.3 s, 1920x1080, 8.8 MB, 10 chapters (camera at most 1.4x on small seller text). Every chapter-start frame checked for half-loaded/ghost frames; entropy scan: no blank frames.
+- Site: web video pop-up `min(1400px, 100vw - 32px, (100svh - 120px) * 16/9)` (was 900px); phone pop-up unchanged (same ratio). Hidden video descriptions in `index.html` rewritten. README "Demo videos" + DESIGN.md modal line updated.
+- Tests: `node tools/check.mjs` all PASS; Edge (Playwright `channel: 'msedge'`, H.264) at 1440x900, 1366x768, 1920x1080, 390x844: all 3 videos load, play, fit with no scroll, keep their ratio, Esc closes, focus returns, no console errors.
+- Emulator after: demo mode off, clock automatic, idevo `pm clear`, RielTrack back in English (the take's lunch stays; the next run deletes it), emulator closed.
+
+### Update 2026-11-13: video review fixes A-D (owner: "do all of these")
+- A: end-card tags kept their spaces ("Vue 3 · Express", spans are `white-space: pre`); tagline, caption title and sub use `text-wrap: balance` (no lonely last word).
+- B: chapter hold 0.9 -> 0.6 s and no dim on it (the `#dim` layer is gone).
+- C: `record-kh-halal-marketplace.js` logs the real mouse start (1760, 960) at the start of every part; the same lines were added to the take `kh-112740.taps.txt`, so the drawn cursor no longer carries over from the guest part.
+- D: short cuts `scripts/motion/<slug>-short.json` -> `assets/videos/<slug>-short.mp4` (about 36-42 s, 5-6 chapters, same takes, no poster). `index.html` buttons have `data-video-short`; `initVideo()` in `js/main.js` plays it at 640px and narrower. Video descriptions say "about 40 seconds on phones".
+- Bug found in QA and fixed: camera keyframes on a chapter's first frame only started AFTER the chapter hold, so the hold showed the previous chapter's zoom crop, then jumped (KH Halal: cart, Khmer, customer, seller chapters). Keyframes now use `outStart`. KH Khmer chapter: second cut 51.7 -> 52.9 s (the carousel's English slide showed for a moment).
+- Final: RielTrack 80.2 s / 8.1 MB, idevo 89.6 s / 5.9 MB, KH Halal 100.1 s / 7.6 MB; short cuts 36.0 / 36.6 / 42.1 s (4.2 / 3.1 / 2.9 MB). Edge test at 1440x900, 1366x768, 1920x1080, 390x844: right file per width (390 plays `-short`), plays, fits, ratio, Esc + focus, no console errors. check.mjs all PASS.
+
+### Update 2026-11-13: clean posters + vertical KH Halal short (owner: "do all of these")
+- Posters: `renderAt(t, true)` draws no highlights and no progress line; `render.js --poster-only` makes just the poster (the mp4 is not touched: checked with md5). The 3 posters re-made: caption and screen now match, nothing dimmed.
+- KH Halal short is now PORTRAIT 1080x2340 (was 1920x1080 in a 350x197 box on phones): `device.cover` shows the 1920x1080 take at full height (k = 1.09) and the camera picks a 622 px-wide window per chapter (featured cards, price + seller column, order summary, header -> Khmer hero pan, sales card, product name). Titles shortened to one line ("Verified sellers", "Seller dashboard"). Own poster `kh-halal-marketplace-short-poster.webp`.
+- Engine: a camera keyframe on the first chapter's first frame is also used during the intro (no jump). Other videos unchanged by this (their first keyframes are mid-chapter).
+- Site (`js/main.js` initVideo): every short cut is portrait, so a short uses the tall pop-up; `data-poster-short` = poster for a short with another shape (KH only).
+- Tests (Edge, 1440x900, 1366x768, 1920x1080, 390x844): right file, right pop-up shape, right poster, plays, fits, ratio, Esc + focus, no console errors. KH on a 390 phone: 332x720. check.mjs all PASS. JS 25,474 / 27,000.
+
+### Update 2026-11-13: final video QA round (owner: "do all of these")
+- KH Halal scrolls checked: every frame unique at 30 fps (no stutter).
+- KH Halal phone short: seller window moved (centre x 1179) so "View Shop" is not half-cut.
+- idevo re-recorded in DARK mode (take `idevo-153647`, tapOffset -0.48; blank route frames 7.80, 36.60-36.83, 42.37, 62.17-62.27, 67.63 left out); full + short retimed and rendered. It matches the dark video stage; the orange highlight reads better.
+- Signed-in username blurred: engine `blurs: [{from, to, x, y, w, h}]` (backdrop blur), customer chip at 1744,50 and seller chip at 1784,6.
+- Record scripts now call `demo_off` after recording (demo mode used to stay on).
+- `VIDEOS.md` created (rules + QA checklist; 11 files pointed to it but it never existed); DESIGN.md has a "Demo videos" line.
+- Not done: chapter cross-fade (an earlier cross-fade made ghost frames; holds are 0.6 s), music (owner must pick a licensed track).
+- Tests: Edge 1440x900, 1366x768, 1920x1080, 390x844, 768x1024, 1024x768 all PASS (file, pop-up shape, poster, plays, fits, ratio, Esc + focus); reduced motion = no autoplay; keyboard Tab/Enter/Esc + focus return; phone short playing after 2.0 s on slow 4G, 1.4 s on fast 4G; Lighthouse (gzip) mobile 99/100/100/100 LCP 2.0 s CLS 0, desktop 100x4; lint 0/0; check.mjs PASS.
+- The 3 local video commits were squashed into one before pushing (smaller history).

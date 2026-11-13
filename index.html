@@ -160,6 +160,8 @@
          HOW TO EDIT A PROJECT CARD
          - Buttons: put the real address in href="..." and the button appears. Leave href="#" and it stays hidden.
          - Video: put the file path (assets/videos/name.mp4) or a YouTube link in data-video="...".
+           Optional data-video-short="..." = a shorter PORTRAIT cut that phones (640px and narrower) play instead
+           (data-poster-short = its poster, if its shape differs from the main poster).
            data-poster="..." is the still picture shown before the video plays (optional).
          - Public code: add this inside the card's project-card__actions:
              <a class="btn btn--secondary" href="https://github.com/..." target="_blank" rel="noopener noreferrer">View code</a>
@@ -232,12 +234,12 @@
                 Try live demo
                 <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
               </a>
-              <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/kh-halal-marketplace.mp4" data-poster="assets/videos/kh-halal-marketplace-poster.webp" data-title="KH Halal Marketplace demo video" aria-describedby="kh-halal-video-desc">
+              <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/kh-halal-marketplace.mp4" data-video-short="assets/videos/kh-halal-marketplace-short.mp4" data-poster-short="assets/videos/kh-halal-marketplace-short-poster.webp" data-poster="assets/videos/kh-halal-marketplace-poster.webp" data-title="KH Halal Marketplace demo video" aria-describedby="kh-halal-video-desc">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                 Watch video
               </button>
               <!-- What the video shows, for people who can't see it. Update it when the video changes. -->
-              <p class="visually-hidden" id="kh-halal-video-desc">Silent demo video, about 40 seconds. A guest browses halal products, sees a price in riel and dollars, adds a hijab to the cart and switches the site to Khmer. A signed-in customer opens their wishlist. A seller opens the dashboard and the product list, and starts adding a product.</p>
+              <p class="visually-hidden" id="kh-halal-video-desc">Silent demo video, about 2 minutes (about 40 seconds on phones), in short chapters with captions. A guest browses halal products with prices in riel and dollars, filters all products, opens a product with its identity-verified seller, adds it to the cart (guest checkout is available) and switches the site to Khmer. A signed-in customer opens their wishlist. A seller opens the dashboard, the product table and the three-step add-product form.</p>
             </div>
             </div>
           </div>
@@ -288,11 +290,11 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/idevo.mp4" data-poster="assets/videos/idevo-poster.webp" data-title="idevo demo video" aria-describedby="idevo-video-desc">
+                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/idevo.mp4" data-video-short="assets/videos/idevo-short.mp4" data-poster="assets/videos/idevo-poster.webp" data-title="idevo demo video" aria-describedby="idevo-video-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
-                <p class="visually-hidden" id="idevo-video-desc">Silent demo video, under 30 seconds. The app continues a sample learning path: a lesson with a practice question, a study streak, a flashcard review and the progress screen, then switches to Khmer.</p>
+                <p class="visually-hidden" id="idevo-video-desc">Silent demo video, about 1.5 minutes (about 40 seconds on phones), in short chapters with captions. Home shows the next lesson, a lesson with a practice question and its answer, a study streak, flashcard review with spaced repetition, the progress screen, then the app switches to Khmer.</p>
                 <span class="project-card__note">v0.6.4</span>
               </div>
               </div>
@@ -337,11 +339,11 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/rieltrack.mp4" data-poster="assets/videos/rieltrack-poster.webp" data-title="RielTrack demo video" aria-describedby="rieltrack-video-desc">
+                <button class="btn btn--secondary btn--sm video-btn link-opt" type="button" data-video="assets/videos/rieltrack.mp4" data-video-short="assets/videos/rieltrack-short.mp4" data-poster="assets/videos/rieltrack-poster.webp" data-title="RielTrack demo video" aria-describedby="rieltrack-video-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
-                <p class="visually-hidden" id="rieltrack-video-desc">Silent demo video, about 30 seconds. A 12,000 riel food expense is added and the month's totals update. Then the history, a report compared with last month and the monthly budget, and the app switches to Khmer.</p>
+                <p class="visually-hidden" id="rieltrack-video-desc">Silent demo video, about 1.5 minutes (about 40 seconds on phones), in short chapters with captions. The month at a glance, a 12,000 riel food expense added and shown in dollars too, the history with filters, a report compared with last month, spending by category, the monthly budget, then the app switches to Khmer.</p>
                 <span class="project-card__note">Android 8.0+ · v1.6</span>
               </div>
               </div>

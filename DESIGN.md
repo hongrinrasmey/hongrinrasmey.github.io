@@ -217,6 +217,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Buttons (by Type):** "Try live demo" (web) or "Download APK" / "Get it on Google Play" / "Download on the App Store" (mobile) · "Watch video" · "View code" (public repos only; private repos show nothing). Hide any button without a link.
 - **Demo login** (only if one exists): small mono line with a copy button.
 - **Video modal:** "Watch video" opens an accessible modal with the muted, looping MP4 (`playsinline`, poster image, loaded only when opened). Closes with Esc, close button or backdrop click; focus returns to the button.
+- **Demo videos:** HD (web 1920x1080, Android 1080x2340), told in numbered chapters with one highlight each; phones (640px and narrower) get a portrait ~40 s short cut (`data-video-short`); posters are clean frames. Full rules and QA checklist: `VIDEOS.md`.
 
 ### 8.4 About (Tech + Education merged; owner 2026-11-12)
 - Section label `02 / ABOUT`, heading "My background", nav "About" (`#about`).
@@ -333,7 +334,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Section label:** mono `01 / WORK`, muted, with a short 24px line before it.
 - **Theme toggle:** 40px icon button (sun/moon inline SVG), `aria-label`, smooth icon swap.
 - **Copy button:** icon + "Copied!" feedback; keyboard accessible.
-- **Modal:** centered, max-width 900px (web video) or 420px (mobile video), `--surface`, 12px radius, backdrop `rgba(0,0,0,0.7)` + 8px blur; focus-trapped.
+- **Modal:** centered, web video as big as fits (up to 1400px, 16:9, never taller than the screen) or 420px (mobile video, never taller than the screen), `--surface`, 12px radius, backdrop `rgba(0,0,0,0.7)` + 8px blur; focus-trapped.
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
