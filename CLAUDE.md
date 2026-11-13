@@ -678,3 +678,7 @@ Honest review of the whole-screens version (7/10) listed 5 problems; all fixed:
 - Review: a change every 3s (dark green home <-> white pages) pulled the eye from the text; on phones the screen is ~300px wide, so auto-play added little.
 - `initDeck` (`js/main.js`): 3s -> **5s** per screen; **no auto-play under 768px** (`narrow = matchMedia('(max-width: 767.98px)')`, checked on every tick, so widening the window starts it and narrowing stops it). Buttons and "Full size" work at every width.
 - Tests (headless Edge, CDP): 1440: 0 -> 1 at 5.1s -> 2 at 10.0s -> 0 at 15.1s; 768: changes at 5.1s; 390: no change in 12s, button -> screen 2; 390 widened to 1440: changes within 5s; hover pause, Full size, reduced motion, no JS unchanged; no console errors; no sideways scroll; check.mjs all PASS; lint 0/0. JS 25,192 / 27,000.
+
+### Update 2026-11-13: idevo AI note
+- Owner: idevo has AI built in, but it works only for the owner for now (not public users). Card lead (`index.html` #idevo): "An offline-first notes library and learning companion. AI help is built in, but for now it only runs on my own server, not for everyone yet." Same note added to the hidden feature comment. When the AI opens to everyone, shorten the lead.
+- check.mjs all PASS. Committed with a separate index (other session's Contact edits in `index.html` left out).
