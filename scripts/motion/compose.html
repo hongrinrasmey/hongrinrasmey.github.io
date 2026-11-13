@@ -48,6 +48,12 @@
   .card h1 span { display: inline-block; white-space: pre; }
   .label { font: 500 var(--lab, 22px)/1.4 "Geist Mono", monospace; color: var(--muted); letter-spacing: .02em; }
   .rule { width: 56px; height: 3px; border-radius: 2px; background: var(--accent); margin: 28px 0; }
+  /* highlight: orange frame + label around one key thing, the rest of the screen dimmed */
+  .hl { position: absolute; border: 3px solid var(--accent); border-radius: 12px; box-shadow: 0 0 0 4000px rgba(12,10,9,.5); }
+  .hl b { position: absolute; left: -3px; white-space: nowrap; padding: .3em .6em; border-radius: 8px; background: var(--accent);
+    color: #0C0A09; font: 600 1em/1.2 "Geist", Arial, sans-serif; }
+  #caption .num { font: 500 .62em/1 "Geist Mono", monospace; color: var(--muted); letter-spacing: .04em; }
+  #tagline { font-size: 34px; color: var(--muted); margin-top: 26px; letter-spacing: -0.01em; }
   #brand { position: absolute; left: 0; right: 0; text-align: center; font: 500 22px "Geist Mono", monospace; color: var(--muted); }
   #brand b { color: var(--accent); font-weight: 500; }
 </style>
@@ -57,10 +63,11 @@
   <div id="glow"></div>
   <div id="grid"></div>
   <div id="device"><div id="bar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url" style="font-weight:400"></b></span></div>
-    <div id="viewport"><div id="cam"><img id="screen" alt=""><div id="ripples"></div>
+    <div id="viewport"><div id="cam"><img id="screen" alt=""><div id="ripples"></div><div id="hls"></div>
       <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div></div>
-  <div id="caption"><span class="tag" id="ctag"></span><span id="ctext"></span></div>
-  <div class="card" id="title"><p class="label" id="kicker" style="margin-bottom:20px"></p><h1 id="name"></h1></div>
+  <div id="caption"><span class="tag" id="ctag"></span><span id="ctext"></span><span class="num" id="cnum"></span></div>
+  <div class="card" id="role"><p class="label" id="rtag" style="color:var(--accent);margin-bottom:18px"></p><h1 id="rtext"></h1></div>
+  <div class="card" id="title"><p class="label" id="kicker" style="margin-bottom:20px"></p><h1 id="name"></h1><p id="tagline"></p></div>
   <div class="card" id="end"><h1 id="endName"></h1><div class="rule" id="rule"></div><p class="label" id="tags"></p></div>
   <p id="brand"><b>&gt;_</b> Hong Rinrasmey</p>
 </div>
@@ -92,6 +99,8 @@ window.init = cfg => {
   $('kicker').textContent = C.title.kicker; letters($('name'), C.title.name); $('name').style.fontSize = C.title.size + 'px';
   letters($('endName'), C.title.name); $('endName').style.fontSize = C.end.size + 'px';
   $('tags').textContent = C.end.tags;
+  $('tagline').textContent = C.title.tagline || '';
+  $('rtext').style.fontSize = (C.roleSize || 72) + 'px'; $('role').style.opacity = 0;
   document.querySelectorAll('.label').forEach(e => e.style.setProperty('--lab', C.labelSize + 'px'));
   $('brand').style.bottom = C.brandBottom + 'px';
   $('cursor').setAttribute('width', 26 * (d.cursorScale || 1)); $('cursor').setAttribute('height', 26 * (d.cursorScale || 1));
@@ -148,16 +157,30 @@ window.renderAt = async t => {
     const u = expo(prog(t, .1 + i * .035, .6));
     sp.style.opacity = u; sp.style.transform = `translateY(${(1 - u) * 40}px)`;
   });
+  const tg = expo(prog(t, .55, .6));
+  $('tagline').style.opacity = tg; $('tagline').style.transform = `translateY(${(1 - tg) * 14}px)`;
   $('title').style.opacity = 1 - tout;
   $('title').style.transform = `translateY(${-tout * 60}px) scale(${1 - tout * .04})`;
+
+  // role card ({at, tag, text}, source time): the screen dims for ~1.4s while "who is using it" shows
+  let rk = 0;
+  for (const r of C.roles || []) {
+    const a = outNear(r.at);
+    if (t >= a && t < a + 1.4) { rk = expo(prog(t, a, .3)) * (1 - inout(prog(t, a + 1.05, .35))); $('rtag').textContent = r.tag; $('rtext').textContent = r.text; }
+  }
+  $('role').style.opacity = rk;
+  $('role').style.transform = `translateY(${(1 - rk) * 16}px)`;
 
   // device: slides up with a small 3D tilt, sways gently, leaves before the end card
   const din = expo(prog(t, C.intro - .4, 1.0)), dout = inout(prog(t, contentEnd + .35, .6));
   const float = Math.sin(t * 1.1) * (d.type === 'phone' ? 4 : 2);
-  $('device').style.opacity = clamp(din * 1.4) * (1 - dout);
+  // cut punch: on each cut the screen starts 2% bigger and a touch brighter, and settles in .35s
+  let punch = 0; for (const g of segs.slice(1)) if (t >= g.o) punch = 1 - expo(prog(t, g.o, .35));
+  $('viewport').style.filter = punch > .01 ? `brightness(${1 + .1 * punch})` : '';
+  $('device').style.opacity = clamp(din * 1.4) * (1 - dout) * (1 - .94 * rk);
   $('device').style.transform = `perspective(1600px) translateY(${(1 - din) * C.H * .35 + float - dout * 40}px)` +
     ` rotateX(${(1 - din) * 16}deg) rotateY(${Math.sin(t * .45) * (d.type === 'phone' ? 2.5 : 1)}deg)` +
-    ` scale(${(.9 + .1 * din) * (1 - .06 * dout)})`;
+    ` scale(${(.9 + .1 * din) * (1 - .06 * dout) * (1 + .02 * punch)})`;
 
   // camera: zoom + pan inside the screen, kept inside the screen edges
   const k = d.sw / d.srcW, cam = camAt(t), z = cam.z;
@@ -180,6 +203,26 @@ window.renderAt = async t => {
     press = Math.max(press, 1 - Math.abs(t - at) / .15);            // cursor press around each click
   }
 
+  // highlights {from, to, x, y, w, h, label?, below?, right?} in source time / source px: frame pops in, label slides in
+  const hls = $('hls'); hls.innerHTML = '';
+  for (const h of C.highlights || []) {
+    const a = outNear(h.from), b = outNear(h.to); if (t < a || t > b) continue;
+    const u = expo(prog(t, a, .4)), o = u * (1 - inout(prog(t, b - .3, .3))), pad = 1 + .12 * (1 - u);
+    const el = document.createElement('div'); el.className = 'hl';
+    const w = h.w * k * pad, hh = h.h * k * pad;
+    Object.assign(el.style, { left: (h.x + h.w / 2) * k - w / 2 + 'px', top: (h.y + h.h / 2) * k - hh / 2 + 'px', width: w + 'px', height: hh + 'px', opacity: o,
+      boxShadow: `0 0 0 4000px rgba(12,10,9,${.5 * o})` });
+    if (h.label) {
+      const lb = document.createElement('b'); lb.textContent = h.label;
+      const lu = expo(prog(t, a + .2, .4));
+      if (h.right) Object.assign(lb.style, { left: 'auto', right: '-3px' });   // label ends at the box's right edge
+      Object.assign(lb.style, { fontSize: (C.hlSize || 22) / z + 'px', opacity: lu,
+        [h.below ? 'top' : 'bottom']: `calc(100% + ${8 / z}px)`, transform: `translateY(${(h.below ? -1 : 1) * (1 - lu) * 10}px)` });
+      el.appendChild(lb);
+    }
+    hls.appendChild(el);
+  }
+
   // mouse cursor (web recordings only): tip of the arrow at the logged position, squeezes on click
   const cur = $('cursor'), cp = C.cursor && C.cursor.length ? cursorAt(src) : null;
   cur.style.display = cp ? 'block' : 'none';
@@ -192,8 +235,10 @@ window.renderAt = async t => {
     if (t >= a && t <= b) { cap = c; cin = expo(prog(t, a + .1, .6)); ck = cin * (1 - inout(prog(t, b - .3, .3))); }
   }
   const ce = $('caption');
+  const ci = C.captions.indexOf(cap), cn = C.captions.length;
+  $('cnum').textContent = cap ? `${String(ci + 1).padStart(2, '0')} / ${String(cn).padStart(2, '0')}` : '';
   if (cap) { $('ctext').textContent = cap.text; $('ctag').textContent = cap.tag || ''; $('ctag').style.display = cap.tag ? '' : 'none'; }
-  ce.style.opacity = cap ? ck : 0;
+  ce.style.opacity = cap ? ck * (1 - rk) : 0;
   ce.style.filter = `blur(${(1 - cin) * 8}px)`;
   ce.style.transform = `translate(-50%, ${(1 - cin) * 18}px) scale(${.96 + .04 * cin})`;
 

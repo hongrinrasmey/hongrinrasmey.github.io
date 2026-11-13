@@ -595,3 +595,9 @@ Review rated the site 7.5/10. Done (CSS only, `css/style.css`):
 - **Waiting on the owner:** bio + "learning now" (slot in About), relaxed photo (`tools/photo-cutout.py`).
 - Checks: check.mjs all PASS (360–1920); lint 0/0; screenshots 1440 dark + light. CSS 34,775 / 35,000 bytes.
 - `index.html` had another session's uncommitted change (4 lines); not part of this commit.
+
+### Update 2026-11-13: video effects + concept (owner: "show the important parts and flow, add effects")
+- `scripts/motion/compose.html` new effects (all three videos): **tagline** under the intro title (`title.tagline`, intro now 2.8 s); **highlights** (`highlights: [{from, to, x, y, w, h, label, below?, right?}]`, source time + source px: orange frame + label, rest of the screen dimmed; replace most zooms); **cut punch** (each cut starts 2% bigger and a little brighter, settles in .35 s); **chapter counter** in the caption (`02 / 06`); **role cards** (`roles: [{at, tag, text}]`, screen dims ~1.4 s, "SIGNED IN AS Customer/Seller").
+- Highlights: RielTrack 3 (new ៛ row, riel + dollar column, 30% less than October), idevo 4 (question in the lesson, streak, grading buttons, progress), KH Halal 7 (price, verified seller, "Added to cart", guest checkout, wishlist, seller stats, product status). Labels only state what is on screen.
+- KH Halal still uses take `kh-223023` (1280×800). `record-kh-halal-marketplace.js` is ready for a bigger-text take (1120×650, no Mosques, faster cursor, `KH_PARTS=guest` test run) but needs `KH_CUSTOMER_*` / `KH_SELLER_*` set as Windows user env vars; then set the config device to `srcW 1120, sw 1480, sh 859, top 44`, `frameWidth 1120`, `caption.y 968` (tested) and redo segments/highlights.
+- Lengths: RielTrack 30.6 s, idevo 28.8 s, KH Halal 36.6 s. No blank frames (entropy hits on idevo are the white flashcard screen, checked). check.mjs all PASS.

@@ -25,13 +25,14 @@
   "title": {
     "kicker": "WEB APP",
     "name": "KH Halal Marketplace",
-    "size": 112
+    "size": 112,
+    "tagline": "Halal products from verified sellers in Cambodia."
   },
   "end": {
     "size": 96,
     "tags": "Vue 3 · Express · PostgreSQL"
   },
-  "intro": 1.5,
+  "intro": 2.8,
   "outro": 2.6,
   "segments": [
     [
@@ -50,12 +51,11 @@
     ],
     [
       8.95,
-      11
+      11.6
     ],
     [
-      11,
-      12.9,
-      1.2
+      11.6,
+      13.6
     ],
     [
       13.63,
@@ -76,7 +76,7 @@
       25.4
     ],
     [
-      39.2,
+      37.6,
       40.3
     ],
     [
@@ -84,8 +84,8 @@
       42.4
     ],
     [
-      43.9,
-      46.3
+      43.7,
+      46.31
     ],
     [
       46.31,
@@ -113,20 +113,6 @@
   ],
   "camera": [
     [
-      9.2,
-      1.4,
-      700,
-      330,
-      0.6
-    ],
-    [
-      10.6,
-      1,
-      640,
-      400,
-      0.5
-    ],
-    [
       61,
       1.6,
       640,
@@ -145,12 +131,12 @@
       "tag": "GUEST",
       "text": "Prices in riel and dollars",
       "from": 6.75,
-      "to": 11
+      "to": 11.6
     },
     {
       "tag": "GUEST",
       "text": "Cart without an account",
-      "from": 11,
+      "from": 11.6,
       "to": 17.8
     },
     {
@@ -162,19 +148,19 @@
     {
       "tag": "CUSTOMER",
       "text": "Wishlist for later",
-      "from": 39.2,
+      "from": 39,
       "to": 42.4
     },
     {
       "tag": "SELLER",
       "text": "Seller dashboard",
-      "from": 43.9,
-      "to": 46.3
+      "from": 45.1,
+      "to": 48.5
     },
     {
       "tag": "SELLER",
       "text": "Manage products",
-      "from": 46.31,
+      "from": 48.5,
       "to": 50.3
     },
     {
@@ -184,6 +170,89 @@
       "to": 63.6
     }
   ],
-  "poster": 7.4,
-  "crf": 26
+  "poster": 8.3,
+  "crf": 26,
+  "roles": [
+    {
+      "at": 37.6,
+      "tag": "SIGNED IN AS",
+      "text": "Customer"
+    },
+    {
+      "at": 43.7,
+      "tag": "SIGNED IN AS",
+      "text": "Seller"
+    }
+  ],
+  "highlights": [
+    {
+      "from": 9.1,
+      "to": 10.3,
+      "x": 640,
+      "y": 262,
+      "w": 270,
+      "h": 50,
+      "label": "Riel and dollars",
+      "below": true
+    },
+    {
+      "from": 10.3,
+      "to": 11.6,
+      "x": 650,
+      "y": 360,
+      "w": 300,
+      "h": 66,
+      "label": "Identity-verified seller",
+      "below": true
+    },
+    {
+      "from": 12.1,
+      "to": 13.6,
+      "x": 1060,
+      "y": 722,
+      "w": 206,
+      "h": 62,
+      "label": "No account needed",
+      "right": true
+    },
+    {
+      "from": 16.4,
+      "to": 17.8,
+      "x": 940,
+      "y": 626,
+      "w": 290,
+      "h": 64,
+      "label": "Guest checkout"
+    },
+    {
+      "from": 40.8,
+      "to": 42.4,
+      "x": 28,
+      "y": 575,
+      "w": 930,
+      "h": 190,
+      "label": "Saved for later"
+    },
+    {
+      "from": 45,
+      "to": 46.6,
+      "x": 265,
+      "y": 395,
+      "w": 990,
+      "h": 110,
+      "label": "Sales, products and orders",
+      "below": true
+    },
+    {
+      "from": 48.9,
+      "to": 50.3,
+      "x": 270,
+      "y": 210,
+      "w": 980,
+      "h": 90,
+      "label": "Stock and review status",
+      "below": true
+    }
+  ],
+  "hlSize": 22
 }
