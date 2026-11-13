@@ -113,7 +113,7 @@ Filled in by the owner (2026-11-12/13). Anything still missing stays a hidden `[
 Full history: `PROGRESS-LOG.md` (every earlier entry, word for word). Read it when you need the reason behind a choice.
 
 ### Current state (2026-11-13)
-- **Live:** https://hongrinrasmey.github.io/portfolio/ (repo `hongrinrasmey/portfolio`, GitHub Pages from `main`). Push = live about a minute later. Repo and global git email: `248713826+hongrinrasmey@users.noreply.github.com`.
+- **Live:** https://hongrinrasmey.github.io/portfolio/ until the repo rename; after it https://hongrinrasmey.github.io/ (repo `hongrinrasmey/hongrinrasmey.github.io`, GitHub Pages from `main`). Files already use the new address (2026-11-13). Push = live about a minute later. Repo and global git email: `248713826+hongrinrasmey@users.noreply.github.com`.
 - **Page:** header (`>_` terminal button, theme toggle) → hero (cut-out photo, name, role, intro) → 01 Work (KH Halal featured with 3 desktop screens, idevo + RielTrack with phone frames) → 02 About (AI note, education, languages) → 03 Contact (list rows) → footer. No `[TODO]` text shows on the page.
 - **Videos:** "Watch video" = promo per app (`<slug>-promo.mp4`, phones `<slug>-promo-mobile.mp4`); "Full demo" = KH Halal only (`kh-halal-marketplace.mp4`, hidden on phones). Made in `video-studio/` (README there); rules + QA in `VIDEOS.md`; recorders in `scripts/`. Raw takes in `assets/videos/*-raw/` (git-ignored): only the 6 takes the configs use are kept.
 - **Budgets (DESIGN.md §12, owner approved):** CSS ≤ 36,000 bytes (about 35,500 used), JS ≤ 27,000 (about 25,500 used). Trim comments before adding code.
@@ -130,3 +130,4 @@ Full history: `PROGRESS-LOG.md` (every earlier entry, word for word). Read it wh
 - Pin the 3 repos on github.com (manual).
 
 ### Latest
+- 2026-11-13: owner chose the free root address. index.html head, 404.html paths, README, promo.html footer now use https://hongrinrasmey.github.io/. Still to do (needs owner yes): rename repo portfolio -> hongrinrasmey.github.io, push. Promo video footers still show the old address until re-rendered.
