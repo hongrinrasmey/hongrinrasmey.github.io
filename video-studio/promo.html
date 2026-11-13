@@ -347,9 +347,10 @@ function renderSpots(g, t, cam, clean) {
   const settled = t > devIn + 1;
   for (const sp of g.spots) {
     const a = outOf(g, sp.from); if (a == null) continue;
-    const bEnd = g.end / FPS, b = sp.to != null ? (outOf(g, sp.to) ?? bEnd) : bEnd;
+    // no "to": the highlight ends by itself after "hold" s (default 3), so most of a beat stays undimmed
+    const bEnd = g.end / FPS, b = sp.to != null ? (outOf(g, sp.to) ?? bEnd) : Math.min(bEnd, a + (sp.hold || 3));
     if (t < a || t > b) continue;
-    const din = outExpo(prog(t, a, .4)), dout = 1 - inEase(prog(t, b - .3, .3)), k = din * dout;
+    const din = outExpo(prog(t, a, .4)), dout = 1 - inOut(prog(t, b - .5, .5)), k = din * dout;   // fade out eased at both ends: no one-frame brightness jump
     const pad = 10, r = (sp.r ?? 16);
     const hole = el('div', 'hole'), x = sp.x - pad, y = sp.y - pad, w = sp.w + 2 * pad, h = sp.h + 2 * pad;
     Object.assign(hole.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', borderRadius: r + 'px',
@@ -416,7 +417,7 @@ function renderCaption(t, fi) {
   const gs = g.start / FPS, ge = g.end / FPS;
   const prev = beats[g.i - 1], next = beats[g.i + 1];
   const same = b => b && b.caption === text;
-  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : .12);
+  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : 0);   // caption rises on the cut frame, never a bare screen
   const out = same(next) ? 0 : inEase(prog(t, ge - .28, .28));
   if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text);
     $('cnum').innerHTML = C.chapters ? `<b>${String(g.chap).padStart(2, '0')}</b> / ${String(C.nChap).padStart(2, '0')}` : '';
@@ -488,7 +489,7 @@ function renderPanels(t, g) {
 function renderOutro(t) {
   const a = outroStart / FPS, on = t >= a; $('outro').style.display = on ? '' : 'none'; $('ofoot').style.display = on ? '' : 'none';
   if (!on) return;
-  const r = t - a;
+  const r = t - a + (beats.some(b => b.type === 'finale') ? .3 : 0);   // after a finale (panels already gone) start at once: no empty frame
   [...$('oname').querySelectorAll('.ch')].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
   const fade = (id, at) => { const u = outExpo(prog(r, at, .6)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
   fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('ofoot', 1.4);

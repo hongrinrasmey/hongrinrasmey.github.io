@@ -6,7 +6,7 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 ## 1. What a video must do
 - Explain the app, not click through it: 5-10 **chapters**, one point each.
 - Each chapter: caption `02 / 08` + the point (bold) + one plain sentence about what it does for the user,
-  then the action, then a 3-5 s hold on the result with **one** highlight around it.
+  then the action, then a 3-5 s hold on the result with **one** highlight around it (the highlight fades after about 3 s; the rest of the hold is undimmed).
 - Real footage only. Captions and labels state only what is on screen. Sample data only, never personal data.
 
 ## 2. Methods

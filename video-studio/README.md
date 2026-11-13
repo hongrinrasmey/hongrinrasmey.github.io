@@ -57,14 +57,14 @@ Useful extras:
   Pieces that touch (`[8.4, 11.9, 3], [11.9, 15.6, 1]`) blend their speed smoothly; a gap between pieces is a hard cut.
   Use speed 1 for taps and typing so they look real.
 - **A highlight**: `"spots"` takes `x, y, w, h` in pixels of the recording (1080×2400 for the phones, 1920×1080 for the website),
-  `from` / `to` in recording seconds, and an optional `label`.
+  `from` / `to` in recording seconds, and an optional `label`. Without `to` it fades out by itself after 3 s (`"hold"` changes that), so the screen is not dimmed for a whole beat.
 - **The poster**: `"poster"` is a time in seconds of the finished video.
 - **Explanation line and chapter numbers** (full demos): `"sub"` on a beat, `"chapters": true` at the top. `"out"` sets the file name.
 - **A second recording in one video**: list it under `"takes"` and give the beat `"take": "<name>"` (RielTrack income, idevo lesson).
 - **Phone (portrait) framing of the website**: the tall window follows each highlight; `"px"` on a beat or `"cx"` on a highlight sets where it centres.
 - **Pan the tall window inside one beat**: `"camTall": [[srcTime, 1, x, 540, seconds]]` (KH dashboard). `"cam"` is desktop only.
-- **Website text too small on desktop**: `"push": [zoom, x, y]` on a beat = a slow push-in over the beat (desktop only). Keep every highlight inside the final view; keep the seller sidebar (view starting at x 0).
-- **The same site on a desktop and a phone** (desktop only): `{ "type": "duo", "dur": 2.8, "caption": "...", "a": { "src": 1.5, "role": "DESKTOP" }, "b": { "src": 2.0, "take": "mobile", "phone": true, "role": "PHONE" } }`. The browser steps aside and comes back.
+- **Website text too small on desktop**: `"push": [zoom, x, y]` on a beat = a slow push-in over the beat (desktop only). Keep every highlight inside the final view; keep the seller sidebar (view starting at x 0). Keep the site logo and header uncut: x about 835 at 1.15 and 800 at 1.2, y 0 to pin the top.
+- **The same site on a desktop and a phone** (desktop only): `{ "type": "duo", "dur": 2.8, "caption": "...", "a": { "src": 1.5, "role": "DESKTOP" }, "b": { "src": 2.0, "take": "mobile", "phone": true, "role": "PHONE" } }`. The browser steps aside and comes back showing the next beat: do not put a `flip` right after a duo (it would show the screen from before the duo again).
 - **KH Halal on phones**: `kh-halal-marketplace-mobile.json` (`"out": "kh-halal-marketplace-promo"`, render with `--portrait`) uses the phone-size take, so phones see the real mobile site.
 - **Blur on a phone take**: add `"strong": true` (the screen is scaled down more, so the normal blur can stay readable).
 - **Dark app on the dark stage**: in `"app"`, `"bezel"` (phone frame colour), `"rim"` (its edge) and `"glowA"` (glow strength, two hex alphas, default `["1A", "0A"]`). idevo uses `#26292A`, teal edge, `["33", "14"]`.
