@@ -505,6 +505,10 @@ main { counter-reset: section; }
 .project-card__shots > :first-child { grid-column: 1 / -1; } /* first big, rest 2 per row */
 .project-card__shot figcaption { margin-top: var(--s-2); color: var(--muted); }
 a.project-card__media { display: block; cursor: zoom-in; }
+/* Desktop monitor: content-box keeps the screen 16:10 */
+.monitor { --b: clamp(6px, 1vw, 10px); --st: color-mix(in srgb, var(--text) 20%, var(--surface)); }
+.monitor > a { box-sizing: content-box; border: var(--b) solid #0C0A09; border-bottom-width: calc(var(--b) * 2.4); box-shadow: 0 0 0 1px var(--st); } /* taste-skill-ignore */
+.monitor::after { content: ""; display: block; width: 26%; height: calc(var(--b) * 4); margin: 1px auto 0; background: linear-gradient(var(--st) 0 0) top / 34% 75% no-repeat, linear-gradient(var(--st) 0 0) bottom / 100% 25% no-repeat; border-radius: 0 0 4px 4px; } /* taste-skill-ignore: two flat blocks (neck, base), not a gradient */
 .shot-hint { position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; background: rgb(12 10 9 / .8); color: #FAFAF9; font-size: var(--fs-label); }
 .project-card__media--web {
   border: 1px solid var(--border); /* taste-skill-ignore */
