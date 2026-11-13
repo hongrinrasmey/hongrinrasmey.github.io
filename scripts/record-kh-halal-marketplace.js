@@ -129,7 +129,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
     await click(page.getByRole('button', { name: 'English' }).first(), 500); await sleep(800);  // back (off the cut)
   });
 
-  // checkout: the email, phone and address fields are blurred in the video (scripts/motion/*.json "blurs");
+  // checkout: the email, phone and address fields are blurred in the video (video-studio/*.json "blurs");
   // keep the page scrolled to the top so they stay where the blurs are
   await part(browser, 'customer', 'customer', '/', async ({ page, sleep, move, click }) => {
     await sleep(3000);                                                         // home, signed in (role card on top)
