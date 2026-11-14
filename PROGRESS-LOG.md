@@ -745,3 +745,7 @@ Owner: videos were not HD, KH Halal not at real desktop size, too short/fast, no
 - **RielTrack**: `"leadIn": 0.45` on the outro: the phone leaves with an eased fade; the tall version's steepest frame step went 33 -> 21 (16:9: 8). 37.6 s, 3.38 / 4.90 MB.
 - **QA**: preview sheets before rendering; full decode of all 6 new files (0 errors), moov first; brightness step scan of every frame; stills of each changed part and both new posters; Edge (Playwright `channel: 'msedge'`, file://) 4 buttons x 6 sizes (1920, 1440, 1366, 768, 390, 360): right file, real duration, plays, fits, Esc closes, focus back, no console errors, 22/22 PASS (full demo button hidden on phones, as designed); `node tools/check.mjs` all passed. Script was in the session scratchpad.
 - Not done: no audio (owner: keep silent). The KH full demo was not re-rendered (no change asked).
+
+### Update 2026-11-14 (final review, part 2): KH full demo lighter dim (owner: "do all of these" again)
+- `kh-halal-marketplace-full.json`: `"dim": 0.3` and `hook.xfade`, re-rendered (64.5 s, 5.70 MB, CRF 27). Timing and chapters unchanged, so the `index.html` description stays right. Brightness jumps over 25 per frame: still 4 (three page-to-page cuts, one exit), none added. Decode 0 errors, moov first, Edge 22/22, check.mjs PASS.
+- Left as is: the three white-page/green-hero hard cuts in the KH promo and full demo (normal edits, once each, not flashing; a crossfade would be new engine work).

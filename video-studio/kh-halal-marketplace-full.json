@@ -1,7 +1,7 @@
 {
   "slug": "kh-halal-marketplace",
   "out": "kh-halal-marketplace",
-  "chapters": true, "crf": 27,
+  "chapters": true, "crf": 27, "dim": 0.3,
   "raw": "assets/videos/kh-halal-marketplace-raw/kh-165516.mp4",
   "tapLog": "assets/videos/kh-halal-marketplace-raw/kh-165516.taps.txt",
   "tapOffset": 0,
@@ -10,7 +10,7 @@
   "app": { "accent": "#077B50", "ui": "#0E9A63", "glow": "#077B50" },
   "roles": { "SHOPPER": "#077B50", "SELLER": "#A7E8CC", "DESKTOP": "#E7E5E4", "PHONE": "#E7E5E4" },
   "hook": {
-    "dur": 2.6, "size": 96,
+    "dur": 2.6, "size": 96, "xfade": true,
     "lines": [
       { "text": "KH Halal Marketplace", "at": 0.15 },
       { "text": "The full demo.", "key": "full", "at": 0.8 }
