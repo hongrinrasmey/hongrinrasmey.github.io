@@ -98,9 +98,12 @@
     nav.addEventListener('click', function (e) {
       if (isOpen() && (e.target === nav || e.target.closest('a'))) setMenu(false);
     });
-    // Esc closes and puts focus back on the menu button
+    // Esc closes and puts focus back on the menu button; Tab loops button <-> links (the button comes after them)
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && isOpen()) { setMenu(false); menuBtn.focus(); }
+      if (!isOpen()) return;
+      var first = nav.querySelector('a');
+      if (e.key === 'Escape') { setMenu(false); menuBtn.focus(); }
+      else if (e.key === 'Tab' && (e.shiftKey ? e.target === first : e.target === menuBtn)) { e.preventDefault(); (e.shiftKey ? menuBtn : first).focus(); }
     });
     matchMedia('(min-width: 768px)').addEventListener('change', function () { setMenu(false); });
   }
