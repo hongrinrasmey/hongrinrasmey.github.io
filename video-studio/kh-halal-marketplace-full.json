@@ -44,7 +44,7 @@
       "cam": [[98.3, 1.4, 965, 640, 1.2]], "clips": [[92.0, 93.4, 1], [93.4, 98.0, 6], [98.0, 102.8, 1]],
       "spots": [{ "from": 98.9, "to": 101.4, "x": 286, "y": 594, "w": 966, "h": 86, "r": 12, "label": "KHQR in riel" },
                 { "from": 101.6, "x": 1314, "y": 646, "w": 322, "h": 50, "r": 10, "label": "Stopped here: no order placed" }] },
-    { "type": "duo", "dur": 2.6, "caption": "Works on phones too", "sub": "The same site, made for small screens.", "a": { "src": 1.5, "role": "DESKTOP" }, "b": { "src": 2.0, "take": "mobile", "phone": true, "role": "PHONE" } },
+    { "type": "duo", "dur": 2.6, "inAt": 0.35, "outAt": 0.25, "caption": "Works on phones too", "sub": "The same site, made for small screens.", "a": { "src": 1.5, "role": "DESKTOP" }, "b": { "src": 2.0, "take": "mobile", "phone": true, "role": "PHONE" } },
     { "role": "SELLER", "caption": "A dashboard for every seller", "sub": "Sales, orders and refund requests at a glance.", "push": [1.3, 1076, 450], "clips": [[108.9, 113.0, 1]],
       "spots": [{ "from": 109.3, "x": 356, "y": 396, "w": 1440, "h": 110, "r": 12, "label": "Sales · orders · refunds" }] },
     { "role": "SELLER", "caption": "Add a product in three steps", "sub": "Details, then price and stock, then a final check.", "push": [1.1, 872, 0],

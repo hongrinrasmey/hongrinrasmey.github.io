@@ -32,7 +32,7 @@
       "spots": [{ "from": 42.7, "to": 44.3, "x": 40, "y": 950, "w": 590, "h": 180, "r": 18, "label": "Whole site in Khmer" }] },
     { "role": "SHOPPER", "caption": "Check out, pay with KHQR", "clips": [[62.0, 63.9, 1], [71.4, 73.0, 1], [81.2, 84.2, 1]],
       "spots": [{ "from": 81.9, "x": 100, "y": 1355, "w": 880, "h": 310, "r": 20, "label": "KHQR in riel" }] },
-    { "type": "flip", "dur": 0.4 },
+    { "type": "flip", "dur": 0.6 },
     { "role": "SELLER", "caption": "A dashboard for every seller", "clips": [[91.0, 94.6, 1]],
       "spots": [{ "from": 91.6, "x": 30, "y": 1500, "w": 1020, "h": 590, "r": 20, "label": "Sales · orders · refunds" }] },
     { "role": "SELLER", "caption": "Add a product in three steps", "clips": [[125.2, 130.4, 1]],

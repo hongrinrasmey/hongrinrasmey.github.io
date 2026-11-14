@@ -427,7 +427,7 @@ function renderCaption(t, fi) {
   const gs = g.start / FPS, ge = g.end / FPS;
   const prev = beats[g.i - 1], next = beats[g.i + 1];
   const same = b => b && b.caption === text;
-  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : g.type === 'duo' ? .65 : 0);   // caption rises on the cut frame, never a bare screen (duo: with its panels)
+  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : g.type === 'duo' ? g.inAt ?? .65 : 0);   // caption rises on the cut frame, never a bare screen (duo: with its panels)
   const lead = next && next.type === 'finale' ? .45 : !next && C.outro.leadIn;   // before a finale / a "leadIn" outro: fades with the device
   const out = same(next) ? 0 : lead ? inEase(prog(t, ge - lead, lead)) : inEase(prog(t, ge - .28, .28));
   if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text);
@@ -472,12 +472,12 @@ function renderPanels(t, g) {
   // (panel "phone": true = a phone-shaped screen from a phone-sized take, e.g. "take": "mobile")
   const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
   const a = g.start / FPS, e = g.end / FPS;
-  const out = inEase(prog(t, e - (g.type === 'duo' ? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
+  const out = inEase(prog(t, e - (g.type === 'duo' ? g.outAt ?? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
   const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
   const PW = 260, PH = Math.round(PW * 2400 / 1080);   // phone panel screen (1080x2400 takes)
   const duo = g.type === 'duo', xs = duo ? [310, 1350] : [140, 1040];
   [['pa', g.a, xs[0]], ['pb', g.b, xs[1]]].forEach(([id, p, x], i) => {
-    const n = $(id), u = outExpo(prog(t, a + (duo ? .65 : 0) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early)
+    const n = $(id), u = outExpo(prog(t, a + (duo ? g.inAt ?? .65 : 0) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early); duo "inAt": earlier, no dark gap
     const sw = p.phone ? PW : 740, sh = p.phone ? PH : 416, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
     if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
     else { n.style.top = (p.phone ? 566 - 58 - sh / 2 : 300) + 'px'; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }

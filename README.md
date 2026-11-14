@@ -19,7 +19,8 @@ assets/resume.pdf     your résumé (optional)
 favicon.svg           the small icon in the browser tab (+ favicon-32.png, apple-touch-icon.png)
 site.webmanifest      name and colour when someone saves the site to a phone home screen
 404.html              the "page not found" page
-robots.txt            tells search engines they may read the site
+robots.txt            tells search engines they may read the site (and where sitemap.xml is)
+sitemap.xml           the page address for search engines (change <lastmod> after a big update)
 vercel.json, _headers security settings for Vercel / Netlify (GitHub Pages ignores them)
 tools/                helpers: og-image.png, PNG icons, photo cut-out, check.mjs (not part of the page)
 tools/source/         your original photo (git-ignored, never put online)
@@ -138,7 +139,7 @@ leave all build settings empty → Deploy. Their security settings come from `_h
 GitHub Pages (Settings → Pages → Custom domain), Netlify (Domain management) or Vercel (Settings → Domains)
 and copy the DNS records they show into your domain seller's DNS settings. HTTPS is switched on by the host.
 Once you have the domain, also fill in the `canonical` / `og:url` lines and the full image address in `<head>`,
-and add a sitemap line to `robots.txt`.
+and change the address in `robots.txt` and `sitemap.xml`.
 
 **404 page note:** `404.html` uses addresses that start with `/`. That is right for Netlify, Vercel, a custom
 domain and `username.github.io`. If your site lives at `username.github.io/REPO-NAME/`, put `/REPO-NAME`
