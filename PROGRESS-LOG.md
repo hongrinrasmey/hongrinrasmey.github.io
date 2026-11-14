@@ -749,3 +749,7 @@ Owner: videos were not HD, KH Halal not at real desktop size, too short/fast, no
 ### Update 2026-11-14 (final review, part 2): KH full demo lighter dim (owner: "do all of these" again)
 - `kh-halal-marketplace-full.json`: `"dim": 0.3` and `hook.xfade`, re-rendered (64.5 s, 5.70 MB, CRF 27). Timing and chapters unchanged, so the `index.html` description stays right. Brightness jumps over 25 per frame: still 4 (three page-to-page cuts, one exit), none added. Decode 0 errors, moov first, Edge 22/22, check.mjs PASS.
 - Left as is: the three white-page/green-hero hard cuts in the KH promo and full demo (normal edits, once each, not flashing; a crossfade would be new engine work).
+
+### Update 2026-11-14 (final review, part 3): KH phone promo shorter, pushed (owner: "do all of these" after the third rating)
+- `kh-halal-marketplace-mobile.json`: cut "Save favourites to a wishlist" and "Every product at a glance" to match the 46 s desktop promo. 54.1 -> 47.3 s, 4.08 MB, poster unchanged (cart, 20.2). `index.html` KH promo description: phone version "about 47 seconds", extra = checkout with delivery fee. FACTS.md updated.
+- QA: decode 0 errors, moov first, only big brightness step = the existing flip to the seller side; frame strip + poster checked (checkout details blurred); Edge 22/22; check.mjs PASS.
