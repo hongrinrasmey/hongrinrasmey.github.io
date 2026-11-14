@@ -6,7 +6,8 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 ## 1. What a video must do
 - Explain the app, not click through it: 5-10 **chapters**, one point each.
 - Each chapter: caption `02 / 08` + the point (bold) + one plain sentence about what it does for the user,
-  then the action, then a 3-5 s hold on the result with **one** highlight around it (the highlight fades after about 3 s; the rest of the hold is undimmed).
+  then the action, then a 3-5 s hold on the result with **one** highlight around it (the highlight fades after about 3 s, short promos about 2 s; the rest of the hold is undimmed, and the dim fades in and out over about 0.5 s, never in one frame).
+  Short promos (`<slug>-promo*.mp4`) keep only the short caption (no number, no sentence); action, result, hold and one highlight still apply.
 - Real footage only. Captions and labels state only what is on screen. Sample data only, never personal data.
 
 ## 2. Methods
@@ -32,13 +33,14 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 | `kh-halal-marketplace.mp4` | 1920x1080, numbered chapters | "Full demo" (KH Halal only, hidden on phones) |
 | `*-poster.webp` | same shape as its video | before play; drawn clean (no highlight) |
 
-H.264 High (x264 slow, CRF 20-25: the KH files use 25 because the slow push-in changes every frame), yuv420p,
+H.264 High (x264 slow, CRF 20-25: the KH files use 25 and RielTrack 23 (`"crf"` in the config) because push-ins change every frame), yuv420p,
 30 fps, no audio, `+faststart`. KH Halal on phones uses the real mobile site (`khm-*` take), not a crop of the desktop.
 
 ## 4. Motion style (`video-studio/promo.html`)
 Dark `#0C0A09` stage, orange `#FF6B35` accent, Geist + Geist Mono. Hook text first, the device rises in, one highlight
-per beat in the app's own colour, speed ramps only inside long waits, slow push-in (1.1-1.3x) on desktop beats so the
-website text is readable, every highlight inside the final view, seller sidebar kept in view. No sway, no particles,
+per beat in the app's own colour, speed ramps only inside long waits, slow push-in (1.1-1.4x) on desktop beats so the
+website text is readable, every highlight inside the final view; key results (cart, KHQR, dashboard numbers,
+pending review) get the stronger push (1.25-1.4x) even if the seller sidebar leaves the view (owner, 2026-11-14). No sway, no particles,
 no music. The app is always the biggest, brightest thing on screen; one effect at a time.
 
 ## 5. QA checklist (every new render)

@@ -190,13 +190,13 @@ window.init = cfg => {
   const stage = $('stage'), P = !!C.portrait; stage.className = (ph ? 'phonecap' : 'browsercap') + (P ? ' portrait' : '');
   C.W = P ? 1080 : 1920; C.H = P ? 2340 : 1080; stage.style.width = C.W + 'px'; stage.style.height = C.H + 'px';
   D.srcH = D.srcH || D.srcW * 9 / 16;
-  if (ph) { D.sh = P ? 1440 : D.sh || 880; D.sw = Math.round(D.sh * D.srcW / D.srcH); D.pad = 12; D.bar = 0; }
+  if (ph) { D.sh = P ? D.shTall || 1440 : D.sh || 880; D.sw = Math.round(D.sh * D.srcW / D.srcH); D.pad = 12; D.bar = 0; }
   else if (P) { D.sw = 1000; D.sh = 1500; D.pad = 0; D.bar = 44; D.cover = true; }   // a tall window into the desktop page
   else { D.sw = D.sw || 1536; D.sh = Math.round(D.sw * D.srcH / D.srcW); D.pad = 0; D.bar = 44; }
   D.k = D.cover ? D.sh / D.srcH : D.sw / D.srcW;
   D.ow = D.sw + 2 * D.pad + 3; D.oh = D.sh + 2 * D.pad + D.bar + 3;
   D.left = P ? Math.round((C.W - D.ow) / 2) : ph ? Math.round(1150 - D.ow / 2) : Math.round((1920 - D.ow) / 2);
-  D.top = P ? (ph ? 600 : 560) : ph ? Math.round((1080 - D.oh) / 2) : 30;
+  D.top = P ? (ph ? D.topTall || 600 : 560) : ph ? Math.round((1080 - D.oh) / 2) : 30;
   D.sx = D.left + 1.5 + D.pad; D.sy = D.top + 1.5 + D.pad + D.bar;      // screen origin on stage
   const dev = $('device'); dev.className = D.type;
   if (C.app.rim) dev.style.borderColor = C.app.rim;      // dark app on the dark stage: a brighter edge
@@ -232,7 +232,7 @@ window.init = cfg => {
     if (b.clips) { const ss = clipFrames(b.clips); g.ss = ss; ss.forEach(s => push(bi, s, g.take));
       for (let k = 0; k < Math.round((b.hold || 0) * FPS); k++) push(bi, ss[ss.length - 1], g.take); lastSrc = ss[ss.length - 1]; lastK = g.take; }
     else { const n = Math.round(b.dur * FPS), next = C.beats.slice(bi + 1).find(x => x.clips);
-      for (let k = 0; k < n; k++) { const nx = b.type === 'flip' && k >= n / 2 && next;
+      for (let k = 0; k < n; k++) { const nx = next && (b.type === 'flip' || b.type === 'text' ? k >= n / 2 : b.type === 'duo' && k >= n - Math.round(.4 * FPS));   // duo: the browser comes back already on the next beat; text: swaps under full blur, so it unblurs onto the next screen
         push(bi, nx ? next.clips[0][0] : lastSrc, nx ? next.take || 'main' : lastK); } }
     g.end = frames.length;
   });
@@ -242,7 +242,8 @@ window.init = cfg => {
   devIn = beats.find(b => b.clips).start / FPS;
   // a hard cut (new beat or a jump in the recording): the screen settles from 1.2% bigger (frames[i].cut = frame of the last cut)
   let lc = -99; frames.forEach((f, i) => { const p = frames[i - 1];
-    if (i && f.b >= 0 && beats[f.b].ss && (f.b !== p.b || Math.abs(f.s - p.s) > .5) && f.b !== beats.findIndex(b => b.clips)) lc = i; f.cut = lc; });
+    if (i && f.b >= 0 && beats[f.b].ss && (Math.abs(f.s - p.s) > .5 || f.k !== p.k) && f.b !== beats.findIndex(b => b.clips)
+      && !(f.b === p.b && (beats[f.b].join || []).some(j => Math.abs(p.s - j) < .06))) lc = i; f.cut = lc; });   // "join": a jump over a still screen is not a cut either   // a new caption on a continuous shot is not a cut
   // chapter numbers ("chapters": true): one per caption change
   let n = 0, last = null; beats.forEach(g => { if (g.caption && g.caption !== last) n++; if (g.caption) g.chap = n; last = g.caption || last; }); C.nChap = n;
 
@@ -289,13 +290,14 @@ function buildOutro() {
     for (const ch of w) wd.appendChild(el('span', 'ch', ch)); n.appendChild(wd); });
   $('ovalue').textContent = O.value; $('otag').textContent = O.platform; $('ometa').textContent = O.meta || '';
   $('octa').textContent = O.cta; $('olink').textContent = O.link || '';
+  if (O.ctaColor) Object.assign($('octa').style, { background: O.ctaColor, color: fgFor(O.ctaColor) });   // the app's own colour: the button downloads the app
   $('ofoot').innerHTML = ''; $('ofoot').append('Hong Rinrasmey', el('small', null, 'hongrinrasmey.github.io'));
 }
 
 // ---------- per-frame pieces ----------
 function renderHook(t) {
-  const H = C.hook, on = t < H.dur + .05, hk = $('hook'); hk.style.display = on ? '' : 'none'; if (!on) return;
-  const exit = inEase(prog(t, H.dur - .4, .4));
+  const H = C.hook, on = t < H.dur + (H.xfade ? .25 : .05), hk = $('hook'); hk.style.display = on ? '' : 'none'; if (!on) return;
+  const exit = H.xfade ? inOut(prog(t, H.dur - .25, .45)) : inEase(prog(t, H.dur - .4, .4));   // "xfade": the text fades over the device's entry (no empty frame between)
   hk.style.transform = `translateY(calc(-50% - ${exit * 40}px))`; hk.style.opacity = 1 - exit;
   [...$('hlines').children].forEach((d, i) => {
     const a = H.lines[i].at; [...d.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .08, .5))));
@@ -341,20 +343,24 @@ function blursInto(host, src, k = 'main') {
     host.appendChild(d); }
 }
 
+// a highlight's [start, end] in output seconds; no "to": it ends by itself after "hold" s (default 3), so most of a beat stays undimmed
+function spotSpan(g, sp) {
+  const a = outOf(g, sp.from); if (a == null) return null;
+  const bEnd = g.end / FPS; return [a, sp.to != null ? (outOf(g, sp.to) ?? bEnd) : Math.min(bEnd, a + (sp.hold || 3))];
+}
+
 function renderSpots(g, t, cam, clean) {
   const host = $('spots'), co = $('callouts'); host.textContent = ''; co.textContent = '';
   if (!g || !g.spots || clean) return;
   const settled = t > devIn + 1;
   for (const sp of g.spots) {
-    const a = outOf(g, sp.from); if (a == null) continue;
-    // no "to": the highlight ends by itself after "hold" s (default 3), so most of a beat stays undimmed
-    const bEnd = g.end / FPS, b = sp.to != null ? (outOf(g, sp.to) ?? bEnd) : Math.min(bEnd, a + (sp.hold || 3));
+    const ab = spotSpan(g, sp); if (!ab) continue; const [a, b] = ab;
     if (t < a || t > b) continue;
-    const din = outExpo(prog(t, a, .4)), dout = 1 - inOut(prog(t, b - .5, .5)), k = din * dout;   // fade out eased at both ends: no one-frame brightness jump
+    const din = inOut(prog(t, a, .45)), dout = 1 - inOut(prog(t, b - .5, .5)), k = din * dout;   // in and out eased at both ends: no one-frame brightness jump
     const pad = 10, r = (sp.r ?? 16);
     const hole = el('div', 'hole'), x = sp.x - pad, y = sp.y - pad, w = sp.w + 2 * pad, h = sp.h + 2 * pad;
     Object.assign(hole.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', borderRadius: r + 'px',
-      boxShadow: `0 0 0 40000px rgba(12,10,9,${(.55 * k).toFixed(3)})` });
+      boxShadow: `0 0 0 40000px rgba(12,10,9,${((C.dim ?? .45) * k).toFixed(3)})` });
     host.appendChild(hole);
     const sw = 3 / cam.s, svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'spotline');
     Object.assign(svg.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
@@ -366,6 +372,8 @@ function renderSpots(g, t, cam, clean) {
     const scr = { x: D.sx, y: D.sy, r: D.sx + D.sw, b: D.sy + D.sh };
     const u = outExpo(prog(t, a + .35, .5)), pill = el('span', 'pill callout', sp.label);
     pill.style.opacity = u * dout; co.appendChild(pill);
+    if (D.labelPx && !C.portrait) { const F = D.focus || 1, ox = D.left + D.ow / 2;   // "labelPx": bigger 16:9 labels, never past the right edge at full focus
+      Object.assign(pill.style, { fontSize: D.labelPx + 'px', maxWidth: Math.round(Math.min(410 * D.labelPx / 24, (1880 - ox) / F + ox - (D.left + D.ow + 56))) + 'px' }); }
     const ph = pill.offsetHeight, pw = pill.offsetWidth;
     if (D.type === 'phone' && !C.portrait) {
       const edge = Math.min(L.x + L.w, scr.r - 6), cy = clamp(L.y + L.h / 2, Math.max(scr.y + 30, L.y + 10), Math.min(scr.b - 30, L.y + L.h - 10));
@@ -375,6 +383,8 @@ function renderSpots(g, t, cam, clean) {
       Object.assign(c.style, { left: edge + 'px', top: ly - 1 + 'px', width: len + 'px', transform: `scaleX(${outExpo(prog(t, a + .3, .45))})`, opacity: dout });
       const dt = el('div', 'cdot'); Object.assign(dt.style, { left: edge + 'px', top: ly + 'px', opacity: din * dout });
       co.append(c, dt);
+    } else if (C.portrait && D.labelsTop) {                       // tall phone: pill in the gap above the phone, never over the app
+      pill.style.left = D.left + 'px'; pill.style.top = D.top - ph - 36 + 'px'; pill.style.transform = `translateY(${(1 - u) * 14}px)`;
     } else {
       if (sp.side === 'right') {                                   // tall spot: pill beside it, centred
         const px = Math.min(L.x + L.w + 16, scr.r - 16 - pw), py = clamp(L.y + L.h / 2 - ph / 2, scr.y + 16, scr.b - 16 - ph);
@@ -417,12 +427,13 @@ function renderCaption(t, fi) {
   const gs = g.start / FPS, ge = g.end / FPS;
   const prev = beats[g.i - 1], next = beats[g.i + 1];
   const same = b => b && b.caption === text;
-  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : 0);   // caption rises on the cut frame, never a bare screen
-  const out = same(next) ? 0 : inEase(prog(t, ge - .28, .28));
+  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : g.type === 'duo' ? .65 : 0);   // caption rises on the cut frame, never a bare screen (duo: with its panels)
+  const lead = next && next.type === 'finale' ? .45 : !next && C.outro.leadIn;   // before a finale / a "leadIn" outro: fades with the device
+  const out = same(next) ? 0 : lead ? inEase(prog(t, ge - lead, lead)) : inEase(prog(t, ge - .28, .28));
   if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text);
     $('cnum').innerHTML = C.chapters ? `<b>${String(g.chap).padStart(2, '0')}</b> / ${String(C.nChap).padStart(2, '0')}` : '';
     $('cnum').style.display = C.chapters ? '' : 'none'; $('csub').textContent = g.sub || ''; $('csub').style.display = g.sub ? '' : 'none'; }
-  [...ct.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .045, .5))));
+  [...ct.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .03, .36))));   // fast: readable within ~.3 s of the cut
   const su = outExpo(prog(t, a + .3, .6)); $('csub').style.opacity = su; $('csub').style.transform = `translateY(${(1 - su) * 12}px)`;
   const cu = outExpo(prog(t, a, .5)); $('cnum').style.opacity = cu;
   cap.style.opacity = 1 - out;
@@ -433,7 +444,8 @@ function renderCaption(t, fi) {
 }
 
 function renderTimeline(t, g) {
-  const tl = $('tl'); const T = g && g.timeline; tl.style.display = T ? '' : 'none'; if (!T) return;
+  const tl = $('tl'); const T = g && g.timeline && !(C.portrait && D.top + D.oh + 160 > C.H) ? g.timeline : null;   // tall phone with no room under it: skip (the buttons show the same)
+  tl.style.display = T ? '' : 'none'; if (!T) return;
   const a = outOf(g, T.from), ge = g.end / FPS; if (a == null) return;
   if (tl.dataset.b !== String(g.i)) { tl.dataset.b = g.i; tl.textContent = ''; tl.appendChild(el('div', 'base'));
     T.stops.forEach(s => { const d = el('div', 'dot'); const st = el('div', 'st'); st.append(el('b', null, s[0]), el('small', null, s[1])); tl.append(d, st); }); }
@@ -460,12 +472,12 @@ function renderPanels(t, g) {
   // (panel "phone": true = a phone-shaped screen from a phone-sized take, e.g. "take": "mobile")
   const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
   const a = g.start / FPS, e = g.end / FPS;
-  const out = inEase(prog(t, e - .35, .35));
+  const out = inEase(prog(t, e - (g.type === 'duo' ? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
   const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
   const PW = 260, PH = Math.round(PW * 2400 / 1080);   // phone panel screen (1080x2400 takes)
   const duo = g.type === 'duo', xs = duo ? [310, 1350] : [140, 1040];
   [['pa', g.a, xs[0]], ['pb', g.b, xs[1]]].forEach(([id, p, x], i) => {
-    const n = $(id), u = outExpo(prog(t, a + .4 + i * .15, .7));   // after the device has left (.45 s)
+    const n = $(id), u = outExpo(prog(t, a + (duo ? .65 : 0) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early)
     const sw = p.phone ? PW : 740, sh = p.phone ? PH : 416, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
     if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
     else { n.style.top = (p.phone ? 566 - 58 - sh / 2 : 300) + 'px'; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
@@ -489,7 +501,7 @@ function renderPanels(t, g) {
 function renderOutro(t) {
   const a = outroStart / FPS, on = t >= a; $('outro').style.display = on ? '' : 'none'; $('ofoot').style.display = on ? '' : 'none';
   if (!on) return;
-  const r = t - a + (beats.some(b => b.type === 'finale') ? .3 : 0);   // after a finale (panels already gone) start at once: no empty frame
+  const r = t - a + (beats.some(b => b.type === 'finale') || C.outro.leadIn ? .3 : 0);   // after a finale (panels already gone) start at once: no empty frame
   [...$('oname').querySelectorAll('.ch')].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
   const fade = (id, at) => { const u = outExpo(prog(r, at, .6)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
   fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('ofoot', 1.4);
@@ -519,22 +531,38 @@ window.renderAt = async (t, clean) => {
     shade = Math.sin(Math.abs(ang) * Math.PI / 180);
     tr += ` scale(${1 - .08 * shade}) rotateY(${ang}deg)`;
   }
-  const leaveAt = (beats.find(b => b.type === 'finale') || { start: outroStart }).start / FPS;
-  let lv = inEase(prog(t, leaveAt, .45));
+  const fin = beats.find(b => b.type === 'finale'), leaveAt = fin ? fin.start / FPS - .45 : outroStart / FPS - (C.outro.leadIn || 0);   // "leadIn": leave before the outro text rises (no overlap)   // finale: leaves with the last caption
+  let lv = (fin || C.outro.leadIn ? inOut : inEase)(prog(t, leaveAt, .45));   // finale / leadIn: eased both ends, no steep brightness drop
   for (const b of beats) if (b.type === 'duo') {   // steps aside for a duo beat, then comes back
     const da = b.start / FPS, de = b.end / FPS;
-    if (t >= da && t < de + .6) lv = Math.max(lv, inEase(prog(t, da, .45)) * (1 - outExpo(prog(t, de, .6))));
+    if (t >= da && t < de + .8) lv = Math.max(lv, inOut(prog(t, da, .75)) * (1 - inOut(prog(t, de - .2, .75))));   // eased out and back (no steep brightness step), back as the panels finish
   }
   op *= 1 - lv; tr += ` translateY(${lv * 40}px)`;
   dev.style.opacity = op; dev.style.transform = tr;
   $('shadow').style.opacity = op * spring(t - devIn) * .9;
-  const blurOn = g && g.type === 'text' ? outExpo(prog(t, g.start / FPS, .5)) * (1 - inEase(prog(t, g.end / FPS - .35, .35))) : 0;
+  const blurOn = g && g.type === 'text' ? inOut(prog(t, g.start / FPS, .45)) * (1 - inOut(prog(t, g.end / FPS - .45, .45))) : 0;
   $('viewport').style.filter = blurOn > .001 ? `blur(${14 * blurOn}px) brightness(${1 - .45 * blurOn})` : shade > .001 ? `brightness(${1 - .75 * shade})` : '';
 
   const cg = g && g.ss ? g : null;
-  const cam = cg ? cameraAt(cg, t) : { s: D.k, tx: 0, ty: 0, z: 1 };
+  // duo / finale: the leaving device keeps the last framing of the beat before (no zoom pop); a duo's last .4 s already shows the next beat at 1x
+  const pb = !cg && g && (g.type === 'duo' || g.type === 'finale') && !(g.type === 'duo' && t >= g.end / FPS - .4) ? beats.slice(0, g.i).reverse().find(b => b.ss) : null;
+  const cam = cg ? cameraAt(cg, t) : pb ? cameraAt(pb, (pb.end - 1) / FPS) : { s: D.k, tx: 0, ty: 0, z: 1 };
   const st = f.cut >= 0 ? .012 * (1 - outExpo(prog(t, f.cut / FPS, .4))) : 0, vx = D.sw / 2, vy = D.sh / 2;
   $('cam').style.transform = `translate(${vx}px, ${vy}px) scale(${1 + st}) translate(${-vx}px, ${-vy}px) translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
+  // 16:9 phone, opt-in: "focus" = phone + labels push in toward each highlight and settle back before it ends;
+  // "chapterMove" = a soft rise when a chapter starts on a real cut (never on a continuous shot)
+  let gz = 1, gy = 0, ox = 0, oy = 0;
+  const FZ = C.portrait ? D.focusTall : D.focus;   // "focusTall": the same push-in in the tall version
+  if (cg && D.type === 'phone') {
+    if (FZ) for (const sp of cg.spots || []) { const ab = spotSpan(cg, sp); if (!ab || t < ab[0] || t > ab[1]) continue;
+      const w = inOut(prog(t, ab[0], .8)) * (1 - inOut(prog(t, ab[1] - .6, .6)));
+      if (C.portrait) { ox = D.left + D.ow / 2; oy = D.top; }   // tall: grow down from the phone's top, the label above it stays clear of the caption
+      else { ox = D.sx + cam.tx + (sp.x + sp.w / 2) * cam.s; oy = D.sy + cam.ty + (sp.y + sp.h / 2) * cam.s; }
+      gz = 1 + (FZ - 1) * w; gy = C.portrait ? 0 : clamp((540 - oy) * .3, -90, 90) * w; }
+    if (D.chapterMove && frames[cg.start].cut === cg.start) gy += 26 * (1 - outExpo(prog(t, cg.start / FPS, .55)));
+  }
+  const G = gz !== 1 || gy ? `translate(0px, ${gy}px) translate(${ox}px, ${oy}px) scale(${gz}) translate(${-ox}px, ${-oy}px)` : '';
+  for (const id of ['dwrap', 'callouts', 'shadow']) { const e = $(id).style; e.transformOrigin = '0 0'; e.transform = G; }
   blursInto($('blurs'), src, f.k);
   renderSpots(cg, t, cam, clean);
   renderTaps(cg, t, src, cam, clean);
