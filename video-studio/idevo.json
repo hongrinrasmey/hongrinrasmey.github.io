@@ -5,10 +5,10 @@
   "tapOffset": -0.48,
   "takes": { "ai": { "raw": "assets/videos/idevo-raw/idevo-ai-112235.mp4", "tapLog": "assets/videos/idevo-raw/idevo-ai-112235.taps.txt", "tapOffset": -0.2 },
              "lesson": { "raw": "assets/videos/idevo-raw/idevo-ailesson-112321.mp4", "tapLog": "assets/videos/idevo-raw/idevo-ailesson-112321.taps.txt", "tapOffset": -0.25 } },
-  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1120, "shTall": 1760, "topTall": 420, "labelsTop": true, "focus": 1.12, "focusTall": 1.06, "chapterMove": true, "labelPx": 26 },
+  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1024, "shTall": 1760, "topTall": 420, "labelsTop": true, "focus": 1.12, "focusTall": 1.06, "chapterMove": true, "labelPx": 26 },
   "app": { "accent": "#3BC0A9", "ui": "#3BC0A9", "glow": "#3BC0A9", "rim": "rgba(59,192,169,.40)", "bezel": "#26292A", "glowA": ["33", "14"] },
   "hook": {
-    "dur": 3.0,
+    "dur": 2.6, "xfade": true,
     "lines": [
       { "text": "Describe what to learn.", "at": 0.15 },
       { "text": "AI drafts the course.", "key": "course", "at": 1.15 }
@@ -16,18 +16,18 @@
   },
   "beats": [
     { "take": "ai", "caption": "Describe it in one sentence",
-      "clips": [[20.8, 22.1, 1], [22.1, 27.8, 4], [27.8, 31.4, 1]],
+      "clips": [[20.8, 22.1, 1], [22.1, 27.8, 8], [27.8, 31.4, 1]],
       "spots": [{ "from": 28.1, "to": 31.3, "x": 36, "y": 1120, "w": 1008, "h": 540, "r": 24, "label": "Filled in by AI" }] },
     { "take": "ai", "caption": "AI plans the modules",
-      "clips": [[42.0, 42.8, 1], [42.8, 45.3, 4], [45.3, 46.2, 1], [46.2, 52.4, 6], [52.4, 55.7, 1]],
+      "clips": [[42.0, 42.8, 1], [42.8, 45.3, 8], [45.3, 46.2, 1], [46.2, 52.4, 10], [52.4, 55.7, 1]],
       "spots": [{ "from": 52.7, "x": 40, "y": 430, "w": 1000, "h": 1460, "r": 28, "label": "AI draft to check" }] },
     { "take": "ai", "caption": "AI writes the lessons",
-      "clips": [[122.9, 151.0, 10], [151.0, 161.5, 30], [161.5, 163.5, 2]] },
+      "clips": [[122.9, 151.0, 16], [151.0, 161.5, 30], [161.5, 163.5, 2]] },
     { "take": "lesson", "caption": "AI writes the lessons",
       "clips": [[5.25, 8.6, 1]], "cam": [[5.25, 1.08, 540, 1111, 0.01]],
       "spots": [{ "from": 5.6,"x": 52, "y": 1530, "w": 976, "h": 220, "r": 28, "label": "Labelled AI draft" }] },
     { "take": "lesson", "caption": "Short lessons with a check",
-      "clips": [[8.6, 30.6, 7], [30.6, 36.4, 4], [36.4, 37.2, 1]], "hold": 3.4, "cam": [[8.6, 1.08, 540, 1111, 0.01]],
+      "clips": [[8.6, 30.6, 7], [30.6, 36.4, 4], [36.4, 37.2, 1]], "hold": 2.6, "cam": [[8.6, 1.08, 540, 1111, 0.01]],
       "spots": [{ "from": 37.12, "x": 52, "y": 390, "w": 976, "h": 1130, "r": 32, "label": "Answer + reason" }] },
     { "type": "text", "dur": 2.4, "lines": ["Remember it longer.", "Offline. No account."] },
     { "caption": "Flashcards that come back",
@@ -36,10 +36,10 @@
       "timeline": { "from": 48.3, "y": 44, "pos": [0, 0.36, 0.72, 1],
         "stops": [["Again", "10 min"], ["Hard", "1 day"], ["Good", "3 days"], ["Easy", "4 days"]] } },
     { "caption": "Use it in Khmer",
-      "clips": [[86.0, 88.4, 1], [88.4, 91.0, 3], [91.0, 93.8, 1]],
+      "clips": [[86.0, 87.7, 1], [87.7, 91.0, 4], [91.0, 93.5, 1]],
       "spots": [{ "from": 86.1, "to": 87.6, "x": 40, "y": 1880, "w": 1000, "h": 400, "r": 28, "label": "English and ខ្មែរ" }] }
   ],
-  "outro": { "dur": 3.8, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
+  "outro": { "dur": 3.5, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
     "meta": "Early build · v0.6.4 · AI runs on my server", "cta": "Download APK", "link": "github.com/hongrinrasmey/Idevo-Downloads" },
-  "poster": 23.15
+  "poster": 20.3
 }

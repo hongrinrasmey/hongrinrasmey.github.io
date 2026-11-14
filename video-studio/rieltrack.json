@@ -1,39 +1,42 @@
 {
-  "slug": "rieltrack",
+  "slug": "rieltrack", "crf": 23,
   "raw": "assets/videos/rieltrack-raw/rieltrack-104550.mp4",
   "tapLog": "assets/videos/rieltrack-raw/rieltrack-104550.taps.txt",
   "tapOffset": -0.45,
   "tapShift": [[8.303, -0.7], [12.708, -0.65], [25.213, -0.85]],
   "takes": { "income": { "raw": "assets/videos/rieltrack-raw/rieltrack-income-190346.mp4", "tapLog": "assets/videos/rieltrack-raw/rieltrack-income-190346.taps.txt", "tapOffset": -0.05 } },
-  "device": { "type": "phone", "srcW": 1080, "srcH": 2400 },
+  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1024, "shTall": 1760, "topTall": 420, "labelsTop": true, "focus": 1.12, "focusTall": 1.06, "chapterMove": true, "labelPx": 26 },
   "app": { "accent": "#0B7751", "ui": "#238F6B", "glow": "#0B7751" },
   "hook": {
-    "dur": 3.4,
+    "dur": 2.4, "xfade": true,
     "lines": [
-      { "text": "Spend in dollars.", "key": "dollars", "at": 0.15 },
-      { "text": "Pay in riel.", "key": "riel", "at": 0.95 },
-      { "text": "Track both.", "key": "both", "at": 1.75 }
+      { "text": "Spend in dollars.", "key": "dollars", "at": 0.1 },
+      { "text": "Pay in riel.", "key": "riel", "at": 0.5 },
+      { "text": "Track both.", "key": "both", "at": 0.9 }
     ],
     "glyphs": ["$", "៛", "$ ៛"]
   },
   "beats": [
-    { "caption": "Your month at a glance", "clips": [[1.0, 4.1, 1]],
-      "spots": [{ "from": 2.2, "x": 54, "y": 376, "w": 972, "h": 618, "r": 28, "label": "Dollars and riel" }] },
-    { "caption": "Add an expense in riel", "clips": [[7.3, 8.4, 1], [8.4, 11.9, 3], [11.9, 15.6, 1], [15.6, 23.7, 4], [23.7, 25.3, 1]],
-      "spots": [{ "from": 12.6, "to": 15.5, "x": 54, "y": 496, "w": 972, "h": 504, "r": 28, "label": "Each amount in its own currency" }] },
-    { "take": "income", "caption": "Add income too", "clips": [[6.2, 7.4, 1], [7.4, 10.5, 2], [10.5, 17.8, 6], [17.8, 18.8, 1], [18.8, 22.7, 6], [22.7, 25.0, 1]],
-      "spots": [{ "from": 23.3, "x": 90, "y": 690, "w": 420, "h": 150, "r": 20, "label": "Monthly income" }] },
-    { "caption": "Every transaction in one list", "clips": [[37.9, 40.9, 1]],
-      "spots": [{ "from": 38.3, "x": 790, "y": 960, "w": 250, "h": 1020, "r": 20, "label": "Riel and dollars side by side" }] },
-    { "caption": "Compare with last month", "clips": [[47.8, 51.0, 1]],
-      "spots": [{ "from": 48.2, "x": 54, "y": 196, "w": 972, "h": 384, "r": 28, "label": "This month vs last month" }] },
-    { "caption": "Stay inside your budget", "clips": [[60.7, 63.8, 1]],
-      "spots": [{ "from": 61.1, "x": 54, "y": 588, "w": 972, "h": 448, "r": 28, "label": "Monthly limit · on track" }] },
-    { "type": "text", "dur": 2.7, "lines": ["No account.", "No cloud.", "No ads."] },
-    { "caption": "Use it in Khmer", "clips": [[76.4, 78.4, 1], [78.4, 80.6, 3], [80.6, 82.4, 1]],
-      "spots": [{ "from": 76.6, "to": 78.3, "x": 54, "y": 1436, "w": 972, "h": 346, "r": 28, "label": "English and ខ្មែរ" }] }
+    { "caption": "Your month at a glance", "clips": [[1.0, 3.9, 1], [7.2, 7.5, 1]], "join": [3.9],
+      "spots": [{ "from": 1.6, "hold": 2.0, "x": 54, "y": 376, "w": 972, "h": 618, "r": 28, "label": "Dollars and riel" }] },
+    { "caption": "Add an expense in riel",
+      "clips": [[7.5, 7.95, 1], [11.85, 12.6, 1], [13.35, 15.6, 1], [24.0, 24.75, 1], [29.45, 32.6, 1]], "join": [12.6],
+      "spots": [{ "from": 30.3, "hold": 2.0, "x": 54, "y": 1550, "w": 972, "h": 190, "r": 28, "label": "12,000 ៛ ≈ $2.93" }] },
+    { "take": "income", "caption": "Add income too",
+      "clips": [[8.45, 9.95, 1], [18.0, 18.45, 1], [22.7, 22.95, 1], [23.3, 25.9, 1]], "join": [18.45],
+      "cam": [[23.25, 1.1, 540, 765, 0.7]],
+      "spots": [{ "from": 23.7, "hold": 1.8, "x": 90, "y": 690, "w": 420, "h": 150, "r": 20, "label": "Monthly income" }] },
+    { "caption": "Every transaction in one list", "clips": [[37.0, 39.4, 1], [43.25, 43.6, 1]], "join": [39.4],
+      "spots": [{ "from": 37.5, "hold": 2.0, "x": 44, "y": 326, "w": 992, "h": 406, "r": 28, "label": "Search and filter by currency" }] },
+    { "caption": "Compare with last month", "clips": [[43.6, 44.2, 1], [46.45, 50.1, 1]], "join": [44.2],
+      "spots": [{ "from": 48.05, "hold": 1.7, "x": 54, "y": 196, "w": 972, "h": 384, "r": 28, "label": "This month vs last month" }] },
+    { "caption": "Stay inside your budget", "clips": [[59.8, 62.5, 1]],
+      "spots": [{ "from": 60.25, "hold": 2.0, "x": 54, "y": 588, "w": 972, "h": 448, "r": 28, "label": "Monthly limit · on track" }] },
+    { "type": "text", "dur": 2.4, "lines": ["No account.", "No cloud.", "No ads."] },
+    { "caption": "Use it in Khmer", "clips": [[77.2, 78.3, 1], [81.25, 83.6, 1]], "hold": 0.5,
+      "spots": [{ "from": 81.55, "hold": 2.0, "x": 54, "y": 384, "w": 972, "h": 650, "r": 28, "label": "Labels in ខ្មែរ" }] }
   ],
-  "outro": { "dur": 3.8, "name": "RielTrack", "value": "Track spending in dollars and riel.", "platform": "ANDROID",
-    "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
-  "poster": 12.6
+  "outro": { "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in dollars and riel.", "platform": "ANDROID",
+    "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "ctaColor": "#0B7751", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
+  "poster": 5.3
 }
