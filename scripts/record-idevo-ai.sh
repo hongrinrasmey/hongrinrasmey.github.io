@@ -54,9 +54,19 @@ tapt "Save 3 lessons" 2.5                                # saved; the app starts
 $ADB shell input keyevent KEYCODE_BACK; sleep 1.5        # leave; if the next module's drafts already started,
 has "Discard" && tapt "Discard" 0                        # the app asks "Discard these drafts?" (unsaved ones only)
 sleep 3.5                                                # the path: Module 1 with its 3 lessons
-tapc "Up next" 4.5                                       # the first lesson, marked "AI draft"
+rec_stop idevo-ai "$OUT"                                 # screenrecord stops by itself at 180 s: second take for the lesson
+TAPLOG=$(mktemp); : > "$TAPLOG"
+rec_start idevo-ailesson
+sleep 1.5
+tapc "Up next" 4.5                                      # the first lesson, marked "AI draft"
 swipe 1500 900 900 3                                     # read on a little
-rec_stop idevo-ai "$OUT"
+# the AI lesson's own "Check yourself" (each AI lesson has 3; 2026-11-14): scroll to the first, show its answer
+for i in 1 2 3 4 5 6 7 8 9 10; do has "Show answer" && break; swipe 1700 1000 900 1.5; done
+has "Show answer" || { echo "Check yourself not found"; rec_stop idevo-ailesson "$OUT"; demo_off; $ADB shell pm clear app.idevo.idevo >/dev/null; exit 1; }
+c=$(center "Show answer"); y=${c#* }; [ "$y" -gt 1500 ] && { swipe 1700 $((1700 - y + 1300)) 900 2; }   # answer area fully on screen
+sleep 2
+tapt "Show answer" 5                                     # the right answer and its reason
+rec_stop idevo-ailesson "$OUT"
 demo_off
 
 $ADB shell pm clear app.idevo.idevo >/dev/null && echo "idevo reset (path, lessons and the AI address + token deleted)"
