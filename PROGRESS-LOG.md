@@ -774,3 +774,11 @@ Owner: videos were not HD, KH Halal not at real desktop size, too short/fast, no
 - sitemap.xml (one URL) + `Sitemap:` line in robots.txt (DESIGN.md: once a domain is known); README updated.
 - Kept `_headers` and `vercel.json` (harmless on GitHub Pages; useful if the site moves).
 - CLAUDE.md Latest: older entries moved word for word to the section above; "never commit during a render" is now a hard rule.
+- 2026-11-14 (owner: "rate and review all the videos" -> "do all of these, one by one"): video descriptions in index.html match the videos again (KH full 65 s / 11 chapters, KH promo 46 s, idevo 49 s). RielTrack + idevo 16:9 show the whole phone (`sh` 1024). New opt-in engine keys: `hook.xfade` (hook fades over the device entry, all 4 promos) and `dim` (KH desktop 0.3). KH desktop promo 46.3 s (wishlist + product table cut), idevo 49.4 s (waits sped up), KH phone chapter-1 label removed, RielTrack eased outro exit (`leadIn`). KH full demo also `dim` 0.3 + `xfade` (re-rendered, 64.5 s). KH phone promo 47.3 s (wishlist + product list cut). QA: decode, brightness scan, stills, Edge 22/22, check.mjs PASS. Details in PROGRESS-LOG.md.
+
+### Update 2026-11-14 (evening): video review fixes (owner: "do all of these")
+- `kh-halal-marketplace-mobile.json` device `"labelsTop": true`: the 3 labels that covered "Order summary", the Khmer section heading and "What happens next" now sit in the gap above the phone.
+- `rieltrack.json` outro: `ctaColor` removed, so all four endings use the portfolio orange.
+- `idevo.json` lesson beat: clips `[8.6,12.0][15.9,18.0][20.6,23.0][29.7,32.0][35.6,36.4]` at 5x + `join` [12.0,18.0,23.0,32.0]: the still screens between swipes (taps log 9.9/16.2/20.9/30.0) are skipped without a cut; scroll speed unchanged (7x had been slowed to 5x before). 50.6 -> 47.0 s.
+- `kh-halal-marketplace-full.json` chapter 10: `[151.5,158.9,4][158.9,161.0,1][161.2,163.4,2][165.2,167.7,1]` + `join` [163.4] (review page is still from 161 to the cursor move at 165.46). 64.5 -> 62.3 s.
+- Render: Playwright 1.49.1 from an earlier session scratchpad via `NODE_PATH`. Edge test script: 4 buttons x 6 sizes, durations from ffprobe (session scratchpad `vidtest4.js`).

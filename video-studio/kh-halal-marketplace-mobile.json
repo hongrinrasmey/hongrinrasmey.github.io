@@ -3,7 +3,7 @@
   "raw": "assets/videos/kh-halal-marketplace-raw/khm-212214.mp4",
   "tapLog": "assets/videos/kh-halal-marketplace-raw/khm-212214.taps.txt",
   "tapOffset": 0,
-  "device": { "type": "phone", "srcW": 1080, "srcH": 2400 },
+  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "labelsTop": true },
   "app": { "accent": "#077B50", "ui": "#0E9A63", "glow": "#077B50" },
   "roles": { "SHOPPER": "#077B50", "SELLER": "#A7E8CC" },
   "hook": {

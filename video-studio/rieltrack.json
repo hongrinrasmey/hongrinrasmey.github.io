@@ -37,6 +37,6 @@
       "spots": [{ "from": 81.55, "hold": 2.0, "x": 54, "y": 384, "w": 972, "h": 650, "r": 28, "label": "Labels in ខ្មែរ" }] }
   ],
   "outro": { "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in dollars and riel.", "platform": "ANDROID",
-    "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "ctaColor": "#0B7751", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
+    "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
   "poster": 5.3
 }
