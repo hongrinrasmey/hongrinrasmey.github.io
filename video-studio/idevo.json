@@ -4,7 +4,7 @@
   "tapLog": "assets/videos/idevo-raw/idevo-153647.taps.txt",
   "tapOffset": -0.48,
   "takes": { "ai": { "raw": "assets/videos/idevo-raw/idevo-ai-193200.mp4", "tapLog": "assets/videos/idevo-raw/idevo-ai-193200.taps.txt", "tapOffset": -0.1 } },
-  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1000, "shTall": 1760, "topTall": 420, "labelsTop": true },
+  "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1120, "shTall": 1760, "topTall": 420, "labelsTop": true, "focus": 1.12, "focusTall": 1.06, "chapterMove": true, "labelPx": 26 },
   "app": { "accent": "#3BC0A9", "ui": "#3BC0A9", "glow": "#3BC0A9", "rim": "rgba(59,192,169,.40)", "bezel": "#26292A", "glowA": ["33", "14"] },
   "hook": {
     "dur": 3.0,
@@ -18,15 +18,15 @@
       "clips": [[22.2, 23.4, 1], [23.4, 25.4, 3], [25.4, 28.6, 1]],
       "spots": [{ "from": 25.7, "to": 28.5, "x": 36, "y": 1120, "w": 1008, "h": 540, "r": 24, "label": "Filled in by AI" }] },
     { "take": "ai", "caption": "AI plans the modules",
-      "clips": [[40.6, 41.6, 1], [41.6, 44.2, 3], [44.2, 44.8, 1], [44.8, 48.0, 6], [48.0, 51.3, 1]],
-      "spots": [{ "from": 48.3, "x": 40, "y": 430, "w": 1000, "h": 1340, "r": 28, "label": "AI draft · you check it" }] },
+      "clips": [[40.8, 41.6, 1], [41.6, 44.2, 4], [44.2, 44.8, 1], [44.8, 48.0, 6], [48.0, 51.3, 1]],
+      "spots": [{ "from": 48.3, "x": 40, "y": 430, "w": 1000, "h": 1340, "r": 28, "label": "AI draft to check" }] },
     { "take": "ai", "caption": "AI writes the lessons",
       "clips": [[79.0, 89.0, 10], [89.0, 110.5, 30], [110.5, 112.8, 2], [135.334, 139.0, 1]], "cam": [[79.0, 1.08, 540, 1111, 0.01]],
-      "spots": [{ "from": 135.8, "x": 60, "y": 1810, "w": 960, "h": 225, "r": 28, "label": "Marked as an AI draft" }] },
+      "spots": [{ "from": 135.8, "x": 60, "y": 1810, "w": 960, "h": 225, "r": 28, "label": "Labelled AI draft" }] },
     { "type": "text", "dur": 2.4, "lines": ["Then study it.", "Offline. No account."] },
     { "caption": "Short lessons with a check",
       "clips": [[7.2, 7.8, 1], [7.834, 9.2, 1], [9.2, 17.2, 5], [17.2, 20.8, 1]],
-      "spots": [{ "from": 18.0, "x": 52, "y": 604, "w": 974, "h": 734, "r": 32, "label": "Instant answer, with the reason" }] },
+      "spots": [{ "from": 18.0, "x": 52, "y": 604, "w": 974, "h": 734, "r": 32, "label": "Answer + reason" }] },
     { "caption": "Flashcards that come back",
       "clips": [[46.6, 50.8, 1], [50.8, 52.9, 1.4]],
       "spots": [{ "from": 48.0, "to": 52.8, "x": 54, "y": 2012, "w": 972, "h": 282, "r": 28, "label": "Spaced repetition" }],
@@ -36,7 +36,7 @@
       "clips": [[86.0, 88.4, 1], [88.4, 91.0, 3], [91.0, 93.8, 1]],
       "spots": [{ "from": 86.1, "to": 87.6, "x": 40, "y": 1880, "w": 1000, "h": 400, "r": 28, "label": "English and ខ្មែរ" }] }
   ],
-  "outro": { "dur": 3.8, "name": "idevo", "value": "Lessons, flashcards and spaced repetition.", "platform": "ANDROID",
+  "outro": { "dur": 3.8, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
     "meta": "Early build · v0.6.4 · AI runs on my server", "cta": "Download APK", "link": "github.com/hongrinrasmey/Idevo-Downloads" },
   "poster": 21.8
 }
