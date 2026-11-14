@@ -27,7 +27,7 @@
       "clips": [[5.25, 8.6, 1]], "cam": [[5.25, 1.08, 540, 1111, 0.01]],
       "spots": [{ "from": 5.6,"x": 52, "y": 1530, "w": 976, "h": 220, "r": 28, "label": "Labelled AI draft" }] },
     { "take": "lesson", "caption": "Short lessons with a check",
-      "clips": [[8.6, 30.6, 5], [30.6, 36.4, 4], [36.4, 37.2, 1]], "hold": 2.6, "cam": [[8.6, 1.08, 540, 1111, 0.01]],
+      "clips": [[8.6, 12.0, 5], [15.9, 18.0, 5], [20.6, 23.0, 5], [29.7, 32.0, 5], [35.6, 36.4, 5], [36.4, 37.2, 1]], "join": [12.0, 18.0, 23.0, 32.0], "hold": 2.6, "cam": [[8.6, 1.08, 540, 1111, 0.01]],
       "spots": [{ "from": 37.12, "x": 52, "y": 390, "w": 976, "h": 1130, "r": 32, "label": "Answer + reason" }] },
     { "type": "text", "dur": 2.4, "lines": ["Remember it longer.", "Offline. No account."] },
     { "caption": "Flashcards that come back",
