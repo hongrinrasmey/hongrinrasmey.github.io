@@ -34,7 +34,7 @@
   function currentTheme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
   function setTheme(theme) {
     root.setAttribute('data-theme', theme);
-    // Phone browser bar follows the chosen theme, not only the system one
+    // Phone browser bar follows the chosen theme
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = theme === 'light' ? '#FAFAF9' : '#0C0A09'; });
     if (themeBtn) themeBtn.setAttribute('aria-label', 'Switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme');
   }
@@ -101,7 +101,7 @@
     nav.addEventListener('click', function (e) {
       if (isOpen() && (e.target === nav || e.target.closest('a'))) setMenu(false);
     });
-    // Esc closes, focus back on the button; Tab loops button <-> links (button is after them)
+    // Esc closes, focus to the button; Tab loops button <-> links (button is after them)
     document.addEventListener('keydown', function (e) {
       if (!isOpen()) return;
       var first = nav.querySelector('a');
@@ -163,7 +163,7 @@
   }
 
   // Project cards (mouse only): hover class + cursor spotlight.
-  // Resting box (offset* ignores transforms): the 4px lift never drops the hover at the edge
+  // offset* ignores transforms: the 4px lift never drops the hover at the edge
   function initSpotlight() {
     if (!finePointer.matches || reduceMotion.matches) return;
     var cards = document.querySelectorAll('.project-card'), frameId, cx, cy, inMain;
@@ -186,7 +186,7 @@
     root.addEventListener('mouseleave', function () { inMain = false; queue(); });
   }
 
-  // Screen deck: next screen every 5s while on screen; paused on hover/focus, waits for loading. A screen button
+  // Screen deck: next screen every 5s on screen; hover/focus pauses, waits for loading. A screen button
   // stops it (WCAG 2.2.2). Reduced motion or phone width: no auto change.
   function initDeck() {
     document.querySelectorAll('.deck').forEach(function (mon) {
@@ -217,8 +217,8 @@
     });
   }
 
-  // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
-  // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
+  // Phone cards: each phone fades to its data-next screen and back once, while on screen (under 5s: WCAG 2.2.2).
+  // Hover/focus pauses it
   function initPhoneScreens() {
     if (reduceMotion.matches || !hasIO) return;
     document.querySelectorAll('.project-card__media--phones').forEach(function (media) {
@@ -226,6 +226,7 @@
       var pairs = [].slice.call(media.querySelectorAll('.phone > img[data-next]')).map(function (img) {
         var next = img.cloneNode();
         next.src = img.dataset.next; next.alt = img.dataset.nextAlt || ''; next.className = 'phone__alt';
+        next.setAttribute('aria-hidden', 'true'); // read only when showing
         img.parentNode.appendChild(next);
         img.classList.add('is-on');
         img.parentNode.classList.add('is-cycling');
@@ -239,7 +240,10 @@
           if (card.matches(':hover, :focus-within') || pairs.some(function (p) { return !p[1 - step].naturalWidth; })) return;
           step = 1 - step;
           pairs.forEach(function (p, j) { // phones change 150ms apart
-            setTimeout(function () { p[step].classList.add('is-on'); p[1 - step].classList.remove('is-on'); }, j * 150);
+            setTimeout(function () {
+              p[step].classList.add('is-on'); p[step].removeAttribute('aria-hidden');
+              p[1 - step].classList.remove('is-on'); p[1 - step].setAttribute('aria-hidden', 'true');
+            }, j * 150);
           });
           if (++done === 2) { clearInterval(timer); io.disconnect(); }
         }, 2000);
@@ -331,7 +335,7 @@
     var modalTitle = document.getElementById('video-modal-title');
     var lastTrigger = null;
     if (!frame || !modal.showModal) return;
-    // Sound button: videos play with sound (owner); Sound off lasts until the page is left
+    // Sound button: videos play with sound (owner); Sound off lasts for the visit
     var snd = modal.querySelector('.video-modal__sound'), soundOn = true;
     function showSound(on) {
       if (!snd) return;
@@ -367,7 +371,7 @@
       }
       if (modalTitle) modalTitle.textContent = title;
       showSound(!yt && sound);
-      // Phone apps + short cuts (portrait): tall pop-up; web apps + data-wide (16:9): wide
+      // Phone apps + short cuts: tall pop-up; web apps + data-wide (16:9): wide
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
       modal.classList.toggle('video-modal--phone', !!short || (!btn.hasAttribute('data-wide') && !!tag && /android|ios/i.test(tag.textContent)));
@@ -378,7 +382,7 @@
       modal.showModal(); // browser keeps focus inside; Esc closes it
     }
 
-    // Screenshot links: full size in the same pop-up (Ctrl/middle click still opens the file)
+    // Screenshot links: full size in the pop-up (Ctrl/middle click opens the file)
     function openShot(link, trigger) {
       var img = new Image();
       img.src = link.href; // initDeck points it at the screen showing
@@ -419,7 +423,7 @@
     });
   }
 
-  // Terminal: >_ button or ` key. Every answer is read from the page, so it never goes stale
+  // Terminal: >_ button or ` key. Answers are read from the page, never stale
   var openTerm;
   function initTerminal() {
     var dlg = document.getElementById('term'), btn = document.querySelector('.term-btn');
@@ -439,7 +443,7 @@
       a.href = href; a.textContent = label || href; a.target = '_blank'; a.rel = 'noopener noreferrer';
       return a;
     }
-    // Close, scroll to a section/card and focus it. offsetTop ignores the 24px reveal slide (lands under the header)
+    // Close, scroll to a section/card, focus it. offsetTop ignores the 24px reveal slide
     function go(el) {
       dlg.close();
       requestAnimationFrame(function () { // after the close: same-frame scroll was sometimes cancelled

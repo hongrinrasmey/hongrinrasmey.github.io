@@ -7,6 +7,7 @@
 set -u
 cd "$(dirname "$0")/.."
 . scripts/lib-adb.sh
+case "${DEVICE:-emulator-5554}" in emulator-*) ;; *) echo "Refusing: emulator only, never a real phone (it writes money entries)"; exit 1;; esac
 logev() { :; }
 
 TODAY_LABEL="$(date '+%A, %-d %B %Y')"      # the form shows today's date like "Thursday, 12 November 2026"

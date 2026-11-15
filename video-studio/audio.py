@@ -5,7 +5,7 @@
 # assets/videos/<name>.mp4 (H.264 copied untouched + AAC 48 kHz stereo 192 kbps). Audio files live in
 # video-studio/audio/ (git-ignored: the Pixabay license forbids passing the tracks on by themselves).
 # Needs ffmpeg + numpy, and the same NODE_PATH as render.js. See video-studio/README.md, "Sound".
-import json, os, re, shutil, subprocess, sys, tempfile
+import atexit, json, os, re, shutil, subprocess, sys, tempfile
 import numpy as np
 
 SR = 48000
@@ -190,6 +190,7 @@ def main():
     elif not os.path.exists(silent): sys.exit(f'{video} already has sound and there is no silent copy: re-render it first')
     total = duration(silent)
     tmp = tempfile.mkdtemp(prefix='promo-audio-')
+    atexit.register(shutil.rmtree, tmp, True)   # removed however the mix ends (a failed check exits early; the wav files are 20+ MB)
     evp = os.path.join(tmp, 'events.json')
     run(['node', os.path.join(HERE, 'render.js'), cfg_path, '--events', evp] + (['--portrait'] if tall else []), cwd=ROOT)
     ev = json.load(open(evp))
@@ -226,7 +227,6 @@ def main():
     for t, k in placed: print(f'  {t:6.2f}  {k}')
     if not (abs(lufs - target) <= 1 and tp <= -1.0): sys.exit(f'LOUDNESS OUT OF RANGE (target {target} LUFS): {out} not changed, the mix is in {part}')
     os.replace(part, out)
-    shutil.rmtree(tmp, ignore_errors=True)
 
 
 if __name__ == '__main__':
