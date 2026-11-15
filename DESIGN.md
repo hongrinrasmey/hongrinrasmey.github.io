@@ -201,7 +201,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Buttons:** primary "View my work" (scrolls to Work); secondary "Contact me".
 - **Small line:** location · open to remote.
 - **Quick stats** (if provided): up to 3, below the buttons, divided by thin vertical borders; number in Geist 600, label in muted mono; count up once when visible. Never invent or round up.
-- **Background:** very faint grid (Section 9.7). No background photos.
+- **Background:** plain (the faint grid was removed 2026-11-15, owner: "do all" of the UI review). No background photos.
 - Height: a bit under the viewport (`100svh − header − 64px`, max 836px; bottom padding 64px, and Work's top padding 64px after it) so Work starts sooner, but content must never be cut off on short screens (test 1366×768 and landscape phones). Content is centred top to bottom; on wide screens (≥1024px) the photo is centred in the space right of the text, as big as fits the hero's height (`0.8 × (100svh − 328px)`, max 540px, max 32vw), so it never makes the hero taller than the screen.
 
 ### 8.3 Work (most important section)
@@ -339,7 +339,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
-- **Hero texture:** very faint grid (1px lines, ~6% opacity) fading out toward the bottom with a mask. The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it.
+- **Hero texture:** none (the faint grid was removed 2026-11-15, owner approved the UI review list). The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it.
 - **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
 - **Selection:** `--accent` bg, `--accent-fg` text.
 - **Scrollbar:** thin, matches the theme.

@@ -145,7 +145,7 @@
           </a>
           <a class="btn btn--secondary" href="#contact">Contact me</a>
         </div>
-        <p class="hero__meta hero__item">Phnom Penh, Cambodia · Open to remote work</p>
+        <p class="hero__meta hero__item">Phnom Penh, Cambodia · Open to full-time roles, remote too</p>
         <!-- QUICK STATS (optional, real numbers only, max 3). Remove the comment marks to show them.
              data-count is the number that counts up; the text inside is what shows without JavaScript.
         <dl class="stats hero__item">
@@ -275,7 +275,7 @@
               <p class="project-card__lead">Build a mind that keeps growing.</p>
               <p class="project-card__kw">Knowledge · Learning · Growth</p>
               <!-- Honesty (CLAUDE.md §3): the promo shows the AI, so the card says who can use it -->
-              <p class="project-card__text">The built-in AI runs on my own server for now, not for everyone yet.</p>
+              <p class="project-card__text">A notes library and learning companion. The built-in AI runs on my own server for now, not for everyone yet.</p>
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
@@ -330,6 +330,14 @@
               <!-- Old lead: A private, offline money tracker for US dollars and riel. -->
               <p class="project-card__lead">Every Riel Counts.</p>
               <p class="project-card__kw">Track · Manage · Grow</p>
+              <p class="project-card__text">A private, offline money tracker for US dollars and riel.</p>
+              <!-- TRY IT: the app's "≈ $" line under a riel amount. 4100 = the rate in the app's sample data
+                   (12,000 riel ≈ $2.93); visitors can change it, like in the app. Delete the <form> to remove it. -->
+              <form class="try" aria-label="Riel to dollar, like in RielTrack" oninput="o.value=r.value>0?'≈ $'+(a.value/r.value).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'≈ $–'" onsubmit="return false">
+                <label>Riel <input name="a" type="number" inputmode="numeric" min="0" value="12000"></label>
+                <label>1 $ = <input name="r" type="number" inputmode="numeric" min="1" value="4100"> riel</label>
+                <output name="o" aria-live="polite">≈ $2.93</output>
+              </form>
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
