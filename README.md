@@ -60,9 +60,9 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
    theirs in a comment, in case you swap which project is featured.)
 
 ### Change images
-- **Web app screenshot** (16:10, about 1600 × 1000): see the KH Halal Marketplace card.
+- **Web app screenshot** (16:10, 1920 × 1200): see the KH Halal Marketplace card. After adding or replacing one, run
+  `python -I tools/small-copies.py`: it makes the smaller copies (`-960`, `-1280`) that phones download (the `srcset` lines).
 - **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
-- **RielTrack** has no screenshot yet. The comment above its "Screenshot coming soon" box shows what to paste.
 - Your photo: `assets/images/me.webp` (800 × 1000, in the hero: above your name on phones, right of it on wide screens). To change it, replace that file (same name, 4:5 shape).
 - Always write a short `alt="..."` that says what the picture shows.
 
@@ -87,7 +87,7 @@ Press `T` to switch light / dark theme. Press `` ` `` (or click the orange `>_` 
 A small pop-up where visitors type commands (`help`, `whoami`, `projects`, `open idevo`, `email`, `theme`…).
 Its answers are read from your page, so when you change your text or add a project card, the terminal
 updates by itself. To add or change a command, edit `initTerminal()` in `js/main.js` (the list is
-called `cmds`, and the `help` lines are just above it). To remove the terminal, delete `initTerminal();`
+called `cmds`; the `help` lines are inside it). To remove the terminal, delete `initTerminal();`
 at the bottom of `js/main.js`.
 
 ### Scroll and mouse effects
@@ -100,10 +100,10 @@ at the bottom of `js/main.js`.
   the PNG icons with the two commands at the top of `tools/icon.html`.
 
 ## 3. Image tips
-- Use **WebP**. Web screenshots about **1600 px wide**, under **300 KB**; phone screenshots about 390–780 px wide.
+- Use **WebP**. Web screenshots **1920 px wide**, under **300 KB**; phone screenshots about 390–780 px wide.
 - Free tool: https://squoosh.app (drop the image in, choose WebP, quality ~75).
 - Use real screens with realistic data, and hide personal information.
-- Demo videos: MP4 (H.264), muted, HD: 1920×1080 for web, 1080×2340 for phone apps; about 1–2 minutes, under 10 MB.
+- Demo videos: MP4 (H.264), HD: 1920×1080 for web, 1080×2340 for phone apps; about 1–2 minutes, under 10 MB.
 
 ### Demo videos (re-make after an app update)
 The videos are real recordings of the apps with motion graphics added (frame, captions, highlights, slow zoom, taps).

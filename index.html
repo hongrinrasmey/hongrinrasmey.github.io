@@ -177,19 +177,26 @@
 
         <!-- PROJECT 1 (FEATURED, full width): KH Halal Marketplace — web app -->
         <article class="project-card project-card--featured reveal" id="kh-halal" aria-labelledby="p1-title">
-          <!-- 3 whole desktop screens (1920×1200), one at a time. initDeck (js/main.js) changes the screen every 3s while it is on
+          <!-- 3 whole desktop screens (1920×1200), one at a time. initDeck (js/main.js) changes the screen every 5s while it is on
                screen (pauses on hover/focus); a screen button stops it. "Full size" opens the one showing. Without JS: the first
-               screen, and the link opens it. Add a screen: one more <img> (aria-hidden="true") + one more button (next data-screen). -->
+               screen, and the link opens it. Add a screen: one more <img> (aria-hidden="true") + one more button (next data-screen).
+               srcset = smaller copies for phones and laptops. After adding or replacing a screen: python -I tools/small-copies.py -->
           <div class="project-card__shots">
             <figure class="deck">
               <a class="project-card__media project-card__media--web shot-link" href="assets/images/kh-halal-marketplace.webp">
                 <img class="is-on" src="assets/images/kh-halal-marketplace.webp"
+                     srcset="assets/images/kh-halal-marketplace-960.webp 960w, assets/images/kh-halal-marketplace-1280.webp 1280w, assets/images/kh-halal-marketplace.webp 1920w"
+                     sizes="(min-width: 1024px) min(58vw, 1005px), calc(100vw - 32px)"
                      alt="KH Halal Marketplace home page: search with photo search, Halal Clothing and Dry Food banner, and featured products with prices in riel and US dollars"
                      width="1920" height="1200" loading="lazy" decoding="async">
                 <img aria-hidden="true" src="assets/images/kh-halal-product.webp"
+                     srcset="assets/images/kh-halal-product-960.webp 960w, assets/images/kh-halal-product-1280.webp 1280w, assets/images/kh-halal-product.webp 1920w"
+                     sizes="(min-width: 1024px) min(58vw, 1005px), calc(100vw - 32px)"
                      alt="KH Halal product page: Black Hijab, price in riel and US dollars, the identity-verified seller, and Add to Cart"
                      width="1920" height="1200" loading="lazy" decoding="async">
                 <img aria-hidden="true" src="assets/images/kh-halal-products.webp"
+                     srcset="assets/images/kh-halal-products-960.webp 960w, assets/images/kh-halal-products-1280.webp 1280w, assets/images/kh-halal-products.webp 1920w"
+                     sizes="(min-width: 1024px) min(58vw, 1005px), calc(100vw - 32px)"
                      alt="KH Halal All Products page: filters by price and halal claim, and product cards with prices in riel and US dollars"
                      width="1920" height="1200" loading="lazy" decoding="async">
               </a>
