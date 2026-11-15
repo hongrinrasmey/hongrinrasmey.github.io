@@ -190,7 +190,7 @@ a { color: inherit; }
 
 /* Mono labels, tags, dates */
 .section-label, .tags li, .platform-tag, .hero__status, .hero__now, .stats__label, /* taste-skill-ignore */
-.project-card__note, .skill-group__title, .timeline__dates, .contact__key {
+.project-card__note, .project-card__kw, .skill-group__title, .timeline__dates, .contact__key {
   font-family: var(--font-mono); font-size: var(--fs-label); /* taste-skill-ignore */
 }
 .section-label, .platform-tag, .hero__status, .stats__label, .skill-group__title, /* taste-skill-ignore */
@@ -573,6 +573,7 @@ a.project-card__media { display: block; cursor: zoom-in; }
 .project-card__extra { display: flex; flex-direction: column; flex: 1; }
 .project-card__title { font-size: var(--fs-h3); }
 .project-card__lead { margin-top: var(--s-2); color: var(--muted); }
+.project-card__kw { margin-top: var(--s-1); color: var(--muted); }
 .project-card__text { margin-top: var(--s-3); color: var(--muted); }
 .project-card__features { margin-top: var(--s-3); display: grid; gap: var(--s-2); color: var(--muted); }
 .project-card__features li { position: relative; padding-left: 20px; }
