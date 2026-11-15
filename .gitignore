@@ -5,6 +5,8 @@ tools/source/
 
 # Raw screen recordings for the demo videos (VIDEOS.md): large, not used by the site
 assets/videos/*-raw/
+# Half-written renders/mixes (render.js, audio.py rename them when finished)
+*.part.mp4
 
 # Sound (video-studio/README.md "Sound"): tracks stay out of git (Pixabay license: no passing them on by themselves); silent backups of the promos
 video-studio/audio/

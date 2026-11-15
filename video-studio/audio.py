@@ -213,17 +213,19 @@ def main():
     ln = (f"loudnorm=I={target}:TP=-1.5:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}"
           f":measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true")
     out = os.path.abspath(args[args.index('--out') + 1]) if '--out' in args else video
+    part = re.sub(r'\.mp4$', '', out, flags=re.I) + '.part.mp4'   # out is replaced only by a finished mix that passed the loudness check
     def encode(trim_db=0.0):
         run(['ffmpeg', '-v', 'error', '-y', '-i', silent, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
              '-af', ln + f',volume={trim_db}dB,alimiter=limit=0.708:attack=1:release=60:level=false,aresample=48000', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', f'{total:.3f}',
-             '-movflags', '+faststart', out])
-        return loudness(out)
+             '-movflags', '+faststart', part])
+        return loudness(part)
     lufs, tp = encode()
     if tp > -1.0: lufs, tp = encode(-(tp + 1.3))   # AAC overshoot on bass-heavy songs: once more, quieter by exactly the excess
     print(f'{name}: {total:.2f} s, {len(placed)} effects, {lufs:.1f} LUFS, true peak {tp:.1f} dBTP -> {out} '
-          f'({os.path.getsize(out) / 1e6:.2f} MB)')
+          f'({os.path.getsize(part) / 1e6:.2f} MB)')
     for t, k in placed: print(f'  {t:6.2f}  {k}')
-    if not (abs(lufs - target) <= 1 and tp <= -1.0): sys.exit(f'LOUDNESS OUT OF RANGE (target {target} LUFS)')
+    if not (abs(lufs - target) <= 1 and tp <= -1.0): sys.exit(f'LOUDNESS OUT OF RANGE (target {target} LUFS): {out} not changed, the mix is in {part}')
+    os.replace(part, out)
     shutil.rmtree(tmp, ignore_errors=True)
 
 

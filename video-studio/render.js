@@ -14,8 +14,15 @@ const { chromium } = require('playwright');
 const FPS = 30;
 const root = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), cfgPath = path.resolve(args[0]);
-const opt = k => { const i = args.indexOf('--' + k); return i > -1 ? args[i + 1] : null; };
+// A flag without its value used to fall through to a full render over the live video (2026-11-15): stop instead
+const opt = k => {
+  const i = args.indexOf('--' + k); if (i < 0) return null;
+  const v = args[i + 1]; if (v == null || v.startsWith('--')) throw new Error(`--${k} needs a value`);
+  return v;
+};
 const has = k => args.includes('--' + k);
+['events', 'out', 'from', 'to', 'crf', 'dir', 'stills', 'sheet'].forEach(opt);   // check every value at once, before any work
+if ((has('from') || has('to')) && !has('out')) throw new Error('--from / --to need --out <test file>: they would cut the live video');
 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
 if (args.includes('--portrait')) cfg.portrait = true;   // phones: 1080x2340, writes <name>-mobile.mp4
 // outro "qr": the address as a QR code (OpenCV, error correction M, 4-module white border), checked by decoding it back
@@ -94,12 +101,13 @@ cfg.nFrames = cfg.tk.main.nFrames;
   const test = !!opt('out');
   const name = (cfg.out || cfg.slug + '-promo') + (cfg.portrait ? '-mobile' : '');                 // "out": file name in assets/videos (full demo: <slug>)
   const out = path.resolve(opt('out') || path.join(root, 'assets/videos', name + '.mp4'));
+  const part = out.replace(/\.mp4$/i, '') + '.part.mp4';   // written here, renamed to out only when ffmpeg finished: a stopped render never leaves a broken video
   if (!has('poster-only')) {
     const from = +(opt('from') || 0), to = Math.min(+(opt('to') || total), total);
     const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
       '-c:v', 'libx264', '-preset', 'slow', '-crf', String(opt('crf') || cfg.crf || 20), '-profile:v', 'high', '-pix_fmt', 'yuv420p',
       '-g', String(2 * FPS),   // a keyframe at least every 2 s (seeking lands where you click); scene-cut keyframes stay on
-      '-r', String(FPS), '-an', '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
+      '-r', String(FPS), '-an', '-movflags', '+faststart', part], { stdio: ['pipe', 'inherit', 'inherit'] });
     const done = new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg exit ' + c))));
     const n = Math.round((to - from) * FPS), t0 = Date.now();
     for (let i = 0; i < n; i++) {
@@ -107,7 +115,7 @@ cfg.nFrames = cfg.tk.main.nFrames;
       if (!ff.stdin.write(png)) await new Promise(r => ff.stdin.once('drain', r));
       if (i % 90 === 0) process.stdout.write(`\r  frame ${i}/${n}`);
     }
-    ff.stdin.end(); await done;
+    ff.stdin.end(); await done; fs.renameSync(part, out);
     console.log(`\r  ${n} frames in ${((Date.now() - t0) / 1000).toFixed(0)} s -> ${out} ${(fs.statSync(out).size / 1e6).toFixed(2)} MB`);
   }
   // poster: the key moment, without spotlight, callouts, taps or cursor

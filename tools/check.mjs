@@ -96,6 +96,25 @@ try {
       report(m.heroGap <= 2, `${w}px hero text centred (above/below differ by ${m.heroGap}px)`);
     }
   }
+
+  // 3. Phone (390px, the page from the last loop round reloaded): bugs fixed 2026-11-15, so they can't come back unseen.
+  //    Terminal "work" over the open menu must close the menu and focus #work; "email" must copy from inside the dialog
+  //    (file:// uses the textarea fallback; execCommand is stubbed to record what is selected)
+  await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  const reload = new Promise(r => { loaded = r; });
+  await send('Page.navigate', { url: pathToFileURL(page).href });
+  await reload;
+  const t = (await send('Runtime.evaluate', { awaitPromise: true, returnByValue: true, expression: `(async () => {
+    const wait = ms => new Promise(r => setTimeout(r, ms)), input = document.getElementById('term-input'), out = {};
+    document.querySelector('.menu-toggle').click(); await wait(300);
+    document.querySelector('.term-btn').click(); input.value = 'work'; input.form.requestSubmit(); await wait(500);
+    out.menuOpen = document.documentElement.classList.contains('menu-open'); out.focus = document.activeElement.id;
+    document.execCommand = () => { const a = document.activeElement; out.copied = a.value ? a.value.slice(a.selectionStart, a.selectionEnd) : String(getSelection()); return true; };
+    document.querySelector('.term-btn').click(); input.focus(); input.value = 'email'; input.form.requestSubmit(); await wait(300);
+    out.email = document.getElementById('email-link').getAttribute('href').replace(/^mailto:/, '');
+    return out; })()` })).result.result.value;
+  report(!t.menuOpen && t.focus === 'work', `390px terminal "work" over the open menu: menu closed, focus on #work (menu open: ${t.menuOpen}, focus: ${t.focus || 'none'})`);
+  report(t.copied === t.email, `390px terminal "email" copies inside the dialog (selected: "${t.copied ?? ''}")`);
 } finally {
   ws?.close();
   proc.kill();
