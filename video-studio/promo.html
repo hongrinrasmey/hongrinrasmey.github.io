@@ -289,7 +289,7 @@ const rise = (w, u) => { w.style.transform = `translateY(${(1 - u) * 112}%)`; };
 
 function buildHook() {
   const H = C.hook, box = $('hlines'); box.textContent = ''; $('hook').style.fontSize = (C.portrait ? 84 : H.size || 104) + 'px';
-  H.lines.forEach(l => { const d = el('div'); box.appendChild(d); words(d, l.text, l.key); });
+  H.lines.forEach(l => { const d = el('div'); box.appendChild(d); words(d, l.text, l.key); if (l.gap) d.style.marginTop = l.gap + 'px'; });   // "gap": Khmer marks above the line clear the underline
   const gl = $('glyph'); gl.textContent = ''; gl.style.display = H.glyphs ? '' : 'none';
   // the riel sign draws much smaller than "$" in Noto Sans Khmer: scale it up to match
   (H.glyphs || []).forEach(g => { const s = el('span'); for (const ch of g) s.appendChild(ch === '៛' ? el('span', 'kr', ch) : document.createTextNode(ch)); gl.appendChild(s); });

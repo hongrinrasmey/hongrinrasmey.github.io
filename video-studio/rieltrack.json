@@ -10,11 +10,10 @@
   "hook": {
     "dur": 2.4, "xfade": true,
     "lines": [
-      { "text": "Spend in dollars.", "key": "dollars", "at": 0.1 },
-      { "text": "Pay in riel.", "key": "riel", "at": 0.5 },
-      { "text": "Track both.", "key": "both", "at": 0.9 }
+      { "text": "Track your money.", "key": "money", "at": 0.1 },
+      { "text": "តាមដានលុយរបស់អ្នក។", "at": 0.7, "gap": 28 }
     ],
-    "glyphs": ["$", "៛", "$ ៛"]
+    "glyphs": ["$", "៛"]
   },
   "audio": { "musicDown": 3, "track": "../music/modern-commercial.mp3", "parts": [[1.53, 22.92], [135.63, 152.11]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
     "typing": [{ "from": 13.3, "to": 15.6, "x": 300, "y": 620, "w": 480, "h": 150 }, { "take": "income", "from": 8.45, "to": 9.95, "x": 300, "y": 620, "w": 480, "h": 150 }],

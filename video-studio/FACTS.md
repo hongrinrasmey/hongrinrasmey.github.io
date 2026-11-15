@@ -10,7 +10,7 @@ Numbers that appear on screen (money, counts, streaks) are never captioned.
 
 | Text in the video | Source |
 |---|---|
-| Spend in dollars. / Pay in riel. / Track both. | Headline approved by the owner (2026-11-13). Fact: `RielTrack-Downloads` README, "A private, offline money tracker for US dollars and Cambodian riel" and "Record every amount in USD or riel". |
+| Track your money. / តាមដានលុយរបស់អ្នក។ | Headline chosen by the owner (2026-11-15; was "Spend in dollars. / Pay in riel. / Track both."). The Khmer line says the same in Khmer. Fact: `RielTrack-Downloads` README, "A private, offline money tracker" and "English and ភាសាខ្មែរ". |
 | Your month at a glance · DOLLARS AND RIEL | README "Home dashboard: this month's income, spending, and net cash flow". Recording 1.0–3.9 s + 7.2–7.5 s (net cash flow in $ with the ≈ riel amount under it). |
 | Add an expense in riel · 12,000 ៛ ≈ $2.93 | README "Record every amount in USD or riel". Recording 7.5–32.6 s, jump cuts (Add expense, KHR chosen, 12000 typed and held, Save, Home list row "Food and drinks −12,000 ៛" with "≈ $2.93" under it). |
 | Every transaction in one list · SEARCH AND FILTER BY CURRENCY | README "Transactions". Recording 37.0–39.4 s + 43.25–43.6 s (History: "Search transactions" box, Type / Date / Currency / Category filters, ៛ and $ rows). |
