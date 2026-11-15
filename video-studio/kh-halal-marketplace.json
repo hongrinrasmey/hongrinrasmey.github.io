@@ -32,7 +32,7 @@
     "labelSfx": { "In the cart as a guest": "pop" }, "sfxOff": ["duoIn", "duoOut"],
     "extra": [[34.217, "fxwhoosh", 0], [36.667, "glitch", 2], [46.55, "notify", -3], [48.47, "fxwhoosh", 0]] },
   "beats": [
-    { "role": "SHOPPER", "px": 450, "caption": "Halal clothing and dry food", "clips": [[0.6, 3.4, 1], [3.4, 6.0, 3], [6.0, 8.7, 2], [13.15, 15.0, 2], [15.0, 16.0, 1], [24.4, 25.3, 1]], "join": [8.7, 16.0], "dissolve": [[13.23, 0.3]] },
+    { "role": "SHOPPER", "px": 450, "caption": "Halal clothing and dry food", "clips": [[2.316, 4.38, 1], [6.0, 8.6, 1], [13.3, 15.0, 1], [15.0, 16.0, 1], [24.4, 25.3, 1]], "join": [4.38, 8.6, 16.0], "dissolve": [[6.0, 0.45], [13.3, 0.5]] },
     { "role": "SHOPPER", "caption": "Add to cart, no account needed", "xfadeCut": 0.3, "clips": [[31.4, 33.2, 1], [36.75, 38.0, 1.5], [38.0, 40.6, 1]], "join": [33.2],
       "spots": [{ "from": 38.4, "x": 244, "y": 326, "w": 1104, "h": 262, "cx": 600, "r": 14, "label": "In the cart as a guest" }] },
     { "role": "SHOPPER", "caption": "Checkout", "take": "guest", "xfadeCut": 0.3, "clips": [[4.154, 5.754, 1]] },
