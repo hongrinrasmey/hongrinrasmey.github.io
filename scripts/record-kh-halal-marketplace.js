@@ -31,9 +31,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const frames = [], log = [];
 let base = 0;                                      // time offset of the current part in the joined video
 
-async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
+async function part(browser, name, role, setupUrl, act, { prep, ready, after, privMap } = {}) {
   if (!PARTS.includes(name)) return;
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, locale: 'en-US', colorScheme: 'light' });
+  // map take: the seller pin marks a private place (owner, 2026-11-15): hidden in this browser only (like a blur)
+  if (privMap) await ctx.addInitScript(() => document.addEventListener('DOMContentLoaded', () => document.head.appendChild(Object.assign(
+    document.createElement('style'), { textContent: '.leaflet-marker-icon[class*="seller"], .leaflet-marker-shadow { visibility: hidden !important; }'
+      // the take scrolls past the contact fields: blurred on the page itself, so the blur moves with them
+      + ' #checkout-email, #checkout-phone, #checkout-address, #checkout-address-suggestions, #checkout-district, #checkout-province { filter: blur(7px) !important; }' }))));
   const page = await ctx.newPage();
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   // every request that could change data on the server is listed at the end of the part
@@ -42,6 +47,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
   await page.route('**/api/v1/**', r => {
     const m = r.request().method(), u = r.request().url();
     if (m !== 'GET' && /\/orders|\/payments?\b|\/khqr|\/bakong/i.test(u)) { console.error('BLOCKED ' + m + ' ' + u); return r.abort(); }
+    if (privMap && m !== 'GET' && /\/profile|\/users?\b|\/me\b|\/address|\/location/i.test(u)) { console.error('BLOCKED ' + m + ' ' + u); return r.abort(); }   // a pin is never saved to the account
     return r.continue();
   });
   if (role) {                                      // sign in before the recording starts
@@ -54,6 +60,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
   if (prep) await prep(page);
   await page.goto(SITE + setupUrl, { waitUntil: 'networkidle', timeout: 120000 });
   await sleep(1500);
+  if (ready) await ready(page);                     // off camera, just before the recording starts
 
   const cdp = await ctx.newCDPSession(page);
   let t0 = null; const start = frames.length;
@@ -85,6 +92,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
       await h.move(x, y, ms); await sleep(200);
       log.push(`${now().toFixed(3)} tap ${Math.round(x)} ${Math.round(y)} click`); await page.mouse.click(x, y);
     },
+    tapAt: async (x, y, ms = 450) => { await h.move(x, y, ms); await sleep(200); log.push(`${now().toFixed(3)} tap ${Math.round(x)} ${Math.round(y)} click`); await page.mouse.click(x, y); },
     scroll: async (dy, steps = 30) => { for (let i = 0; i < steps; i++) { await page.mouse.wheel(0, dy / steps); await sleep(20); } },
     mark: label => log.push(`${now().toFixed(3)} mark 0 0 ${label}`),
   };
@@ -152,6 +160,80 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
     prep: async page => {                                                      // one item in the cart, off camera
       await page.goto(SITE + '/products/1', { waitUntil: 'networkidle', timeout: 120000 });
       await page.getByRole('button', { name: /^add to cart$/i }).first().click(); await sleep(2000);
+    },
+  });
+
+  // checkout map (KH_PARTS=map, owner 2026-11-15): the optional map pin, dropped on a public landmark
+  // (Independence Monument, Phnom Penh), never on a private place. The account's saved pin is cleared off camera
+  // ("Clear location", nothing saved: profile writes blocked) and the seller pin is hidden (privMap).
+  // Starts at the top of checkout (map already open off camera) and scrolls down to it; email, phone, address,
+  // district and province are blurred on the page (privMap). No "Continue", no order.
+  const PIN = [11.5564, 104.9282];
+  // landmark -> screen pixel from a loaded OpenStreetMap tile (src .../z/x/y.png and its box)
+  const pinXY = page => page.evaluate(([lat, lng]) => {
+    const t = [...document.querySelectorAll('#checkout-map img.leaflet-tile-loaded')].find(i => /\/\d+\/\d+\/\d+\.png/.test(i.src));
+    const [z, tx, ty] = t.src.match(/\/(\d+)\/(\d+)\/(\d+)\.png/).slice(1).map(Number), b = t.getBoundingClientRect(), n = 256 * 2 ** z;
+    const wx = (lng + 180) / 360 * n, s = Math.sin(lat * Math.PI / 180), wy = (.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * n;
+    const m = document.querySelector('#checkout-map').getBoundingClientRect(), x = b.x + (wx - tx * 256) * b.width / 256, y = b.y + (wy - ty * 256) * b.height / 256;
+    const top = Math.max(m.y, 80), bot = Math.min(m.bottom, innerHeight);
+    return { x, y, z, cx: m.x + m.width / 2, cy: (top + bot) / 2, inside: x > m.x + 40 && x < m.right - 40 && y > top + 40 && y < bot - 40 };   // on the map AND in the window
+  }, PIN);
+  let mapScroll = 0;                                                           // px from the top of checkout to the map view (ready)
+  await part(browser, 'map', 'customer', '/customer/checkout', async ({ page, sleep, move, tapAt }) => {
+    await sleep(2200);                                                         // top of checkout (contact fields blurred)
+    await move(1650, 620, 600); await sleep(200);                              // right of the form: the wheel scrolls the page, never the map
+    for (let i = 1, n = 70, done = 0; i <= n; i++) {                           // eased scroll down to the map (owner: scroll, no jump)
+      const u = i / n, e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2, to = Math.round(mapScroll * e);
+      await page.mouse.wheel(0, to - done); done = to; await sleep(28);
+    }
+    await sleep(1500);                                                         // Delivery box + the open map (no pins)
+    const xy = await pinXY(page);
+    if (!xy.inside) throw new Error('landmark not inside the map view: ' + JSON.stringify(xy));
+    await tapAt(xy.x, xy.y, 1100); await sleep(5500);                    // pin + fee banner
+  }, {
+    privMap: true,
+    prep: async page => {                                                      // one item in the cart, off camera
+      await page.goto(SITE + '/customer/cart', { waitUntil: 'networkidle', timeout: 120000 }); await sleep(1500);
+      // the rest of the promo shows one Black Hijab: a Black Thobe left in this cart is removed (owner OK, 2026-11-15)
+      const thobe = () => page.evaluate(() => [...document.querySelectorAll('button[aria-label="Remove item"]')]
+        .findIndex(b => /Black Thobe/.test((b.closest('[class*="cart-item"]:not([class*="__"])') || b.parentElement.parentElement).innerText)));
+      for (let k = 0, i; k < 3 && (i = await thobe()) >= 0; k++) { await page.locator('button[aria-label="Remove item"]').nth(i).click(); await sleep(2500); }
+      if (!(await page.getByRole('link', { name: /proceed to checkout/i }).count())) {
+        await page.goto(SITE + '/products/1', { waitUntil: 'networkidle', timeout: 120000 });
+        await page.getByRole('button', { name: /^add to cart$/i }).first().click(); await sleep(2000);
+      }
+      await page.goto(SITE + '/customer/cart', { waitUntil: 'networkidle' }); await sleep(2000);
+      const left = await page.evaluate(() => document.body.innerText);
+      if (/Black Thobe/.test(left)) throw new Error('Black Thobe still in the cart');
+      console.log('cart: Black Hijab ' + /Black Hijab/.test(left) + ', Black Thobe false');
+    },
+    ready: async page => {                                                     // all off camera
+      // the page is too short to scroll while the map is closed: it opens first, then the map is scrolled into view
+      const btn = page.locator('button[aria-controls="checkout-pin-picker"]').first();
+      await btn.click(); await page.locator('#checkout-map .leaflet-tile-loaded').first().waitFor({ timeout: 30000 }); await sleep(2500);
+      await page.locator('#checkout-clear-location').click(); await sleep(1500);   // the saved pin (a private place) off the map
+      for (let k = 0; k < 40; k++) {                                         // wheel = the same scroll a person makes
+        const top = (await btn.boundingBox()).y; if (top >= 180 && top <= 300) break;
+        await page.mouse.move(1650, 620); await page.mouse.wheel(0, Math.max(-400, Math.min(400, top - 240))); await sleep(350);
+      }
+      const top = (await btn.boundingBox()).y;
+      if (top < 150 || top > 420) throw new Error('map button at y ' + Math.round(top) + ', expected 150-420');   // private fields stay above the window
+      // "Clear location" zooms out to all of Cambodia: zoom back in on the landmark (wheel at its spot, like a person)
+      let xy = await pinXY(page);
+      for (let k = 0; k < 14 && xy.z < 15; k++) { await page.mouse.move(xy.x, xy.y); await page.mouse.wheel(0, -120); await sleep(900); xy = await pinXY(page); }
+      await page.waitForLoadState('networkidle').catch(() => {}); await sleep(1500); xy = await pinXY(page);
+      // drag the map so the landmark sits in the middle: the view is no longer centred on the (hidden) seller pin
+      await page.mouse.move(xy.x, xy.y); await page.mouse.down();
+      for (let k = 1; k <= 20; k++) { await page.mouse.move(xy.x + (xy.cx - xy.x) * k / 20, xy.y + (xy.cy - xy.y) * k / 20); await sleep(25); }
+      await page.mouse.up(); await sleep(2500);
+      xy = await pinXY(page); console.log('map zoom', xy.z, 'landmark at', Math.round(xy.x), Math.round(xy.y));
+      if (await page.locator('.leaflet-marker-icon:visible').count()) throw new Error('a pin is still visible before the take');
+      // back to the top of checkout: the take scrolls down to here again
+      const at = (await btn.boundingBox()).y;
+      for (let k = 0; k < 30; k++) { await page.mouse.move(1650, 620); await page.mouse.wheel(0, -600); await sleep(250); }
+      await sleep(1500); mapScroll = Math.round((await btn.boundingBox()).y - at);
+      console.log('scroll to the map:', mapScroll, 'px');
+      if (mapScroll < 300) throw new Error('page did not scroll back to the top');
     },
   });
 
