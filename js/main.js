@@ -346,7 +346,7 @@
     }
 
     function openVideo(btn) {
-      // phones get the short cut (data-video-short) when there is one
+      // phones (640px = css/style.css pop-up): data-video-short if any
       var short = matchMedia('(max-width: 640px)').matches && btn.getAttribute('data-video-short');
       var src = short || btn.getAttribute('data-video');
       if (!src) return;

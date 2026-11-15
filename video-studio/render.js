@@ -123,7 +123,7 @@ cfg.nFrames = cfg.tk.main.nFrames;
     await page.evaluate(t => window.renderAt(t, true), poster);
     const png = path.join(work, 'poster.png'); await stage.screenshot({ path: png });
     const p = path.join(root, 'assets/videos', name + '-poster.webp');
-    spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', png, '-q:v', '82', p], { stdio: 'inherit' });
+    if (spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', png, '-q:v', '82', p], { stdio: 'inherit' }).status !== 0) throw new Error('poster failed: the old poster is still there');
     console.log('  poster', p, (fs.statSync(p).size / 1e3).toFixed(0) + ' KB');
   }
   await browser.close();

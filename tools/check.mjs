@@ -99,7 +99,8 @@ try {
 
   // 3. Phone (390px, the page from the last loop round reloaded): bugs fixed 2026-11-15, so they can't come back unseen.
   //    Terminal "work" over the open menu must close the menu and focus #work; "email" must copy from inside the dialog
-  //    (file:// uses the textarea fallback; execCommand is stubbed to record what is selected)
+  //    (file:// uses the textarea fallback; execCommand is stubbed to record what is selected);
+  //    the KH video pop-up's Sound + close buttons must sit on one row
   await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   const reload = new Promise(r => { loaded = r; });
   await send('Page.navigate', { url: pathToFileURL(page).href });
@@ -112,9 +113,14 @@ try {
     document.execCommand = () => { const a = document.activeElement; out.copied = a.value ? a.value.slice(a.selectionStart, a.selectionEnd) : String(getSelection()); return true; };
     document.querySelector('.term-btn').click(); input.focus(); input.value = 'email'; input.form.requestSubmit(); await wait(300);
     out.email = document.getElementById('email-link').getAttribute('href').replace(/^mailto:/, '');
+    document.querySelector('.term').close();
+    document.querySelector('.video-btn').click(); await wait(300);
+    out.btnTops = [...document.querySelectorAll('.video-modal__head button')].map(b => Math.round(b.getBoundingClientRect().top));
+    document.getElementById('video-modal').close();
     return out; })()` })).result.result.value;
   report(!t.menuOpen && t.focus === 'work', `390px terminal "work" over the open menu: menu closed, focus on #work (menu open: ${t.menuOpen}, focus: ${t.focus || 'none'})`);
   report(t.copied === t.email, `390px terminal "email" copies inside the dialog (selected: "${t.copied ?? ''}")`);
+  report(t.btnTops.length === 2 && t.btnTops[0] === t.btnTops[1], `390px video pop-up: Sound + close on one row (tops: ${t.btnTops})`);
 } finally {
   ws?.close();
   proc.kill();
