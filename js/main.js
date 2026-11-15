@@ -34,7 +34,6 @@
   function currentTheme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
   function setTheme(theme) {
     root.setAttribute('data-theme', theme);
-    // Phone browser bar follows the chosen theme
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = theme === 'light' ? '#FAFAF9' : '#0C0A09'; });
     if (themeBtn) themeBtn.setAttribute('aria-label', 'Switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme');
   }
@@ -191,7 +190,7 @@
   function initDeck() {
     document.querySelectorAll('.deck').forEach(function (mon) {
       var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
-      var btns = mon.querySelectorAll('[data-screen]'), step = 0, timer, io;
+      var btns = mon.querySelectorAll('[data-screen]'), step = 0, timer, io, seen;
       function show(i) {
         imgs.forEach(function (im, k) {
           im.classList.toggle('is-on', k === i);
@@ -200,20 +199,22 @@
         btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i); });
         link.href = imgs[i].getAttribute('src');
       }
-      function stop() { clearInterval(timer); if (io) io.disconnect(); }
+      function stop() { seen = false; clearInterval(timer); if (io) io.disconnect(); }
       btns.forEach(function (b) {
         b.addEventListener('click', function () { stop(); show(+b.dataset.screen); });
       });
       if (reduceMotion.matches || !hasIO) return;
-      io = new IntersectionObserver(function (entries) {
+      function run() {
         clearInterval(timer);
-        if (entries[entries.length - 1].isIntersecting) timer = setInterval(function () {
+        if (seen && !narrow.matches) timer = setInterval(function () {
           var next = (step + 1) % imgs.length;
-          if (narrow.matches || mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
+          if (mon.matches(':hover, :focus-within') || !imgs[next].naturalWidth) return;
           show(step = next);
         }, 5000);
-      }, { threshold: 0.5 });
+      }
+      io = new IntersectionObserver(function (entries) { seen = entries[entries.length - 1].isIntersecting; run(); }, { threshold: 0.5 });
       io.observe(link);
+      narrow.addEventListener('change', run);
     });
   }
 
@@ -443,7 +444,7 @@
       a.href = href; a.textContent = label || href; a.target = '_blank'; a.rel = 'noopener noreferrer';
       return a;
     }
-    // Close, scroll to a section/card, focus it. offsetTop ignores the 24px reveal slide
+    // Close, scroll to it, focus it. offsetTop ignores the 24px reveal slide
     function go(el) {
       dlg.close();
       requestAnimationFrame(function () { // after the close: same-frame scroll was sometimes cancelled
@@ -537,7 +538,7 @@
   function initShortcuts() {
     document.addEventListener('keydown', function (e) {
       var t = e.target;
-      // e.repeat: holding T would flash the theme many times a second
+      // e.repeat: holding T would flash the theme
       if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       if (e.key === 't' || e.key === 'T') toggleTheme();
@@ -545,7 +546,7 @@
     });
   }
 
-  // Start everything (delete a line to switch that part off)
+  // Start everything
   initYear();
   initKhmerFont();
   initTheme();
