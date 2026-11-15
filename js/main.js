@@ -10,6 +10,7 @@
   var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   var narrow = matchMedia('(max-width: 767.98px)');
+  var closeMenu; // set by initMenu
   var hasIO = 'IntersectionObserver' in window;
 
   // Khmer font: load Noto Sans Khmer only if the page has Khmer letters
@@ -94,12 +95,13 @@
       document.querySelectorAll('.skip-link, main, .site-footer').forEach(function (el) { el.inert = open; });
     }
 
+    closeMenu = function () { if (isOpen()) setMenu(false); };
     menuBtn.addEventListener('click', function () { setMenu(!isOpen()); });
     // Close on a link or a click beside the links
     nav.addEventListener('click', function (e) {
       if (isOpen() && (e.target === nav || e.target.closest('a'))) setMenu(false);
     });
-    // Esc closes and puts focus back on the menu button; Tab loops button <-> links (the button comes after them)
+    // Esc closes, focus back on the button; Tab loops button <-> links (button is after them)
     document.addEventListener('keydown', function (e) {
       if (!isOpen()) return;
       var first = nav.querySelector('a');
@@ -184,8 +186,8 @@
     root.addEventListener('mouseleave', function () { inMain = false; queue(); });
   }
 
-  // Screen deck: next screen every 5s while it is on screen. Paused on hover/focus; never fades to a screen still
-  // loading. A screen button stops it for good (WCAG 2.2.2: a way to stop). Reduced motion or phone width: no auto change.
+  // Screen deck: next screen every 5s while on screen; paused on hover/focus, waits for loading. A screen button
+  // stops it (WCAG 2.2.2). Reduced motion or phone width: no auto change.
   function initDeck() {
     document.querySelectorAll('.deck').forEach(function (mon) {
       var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
@@ -233,7 +235,7 @@
       io = new IntersectionObserver(function (entries) {
         clearInterval(timer);
         if (entries[entries.length - 1].isIntersecting) timer = setInterval(function () {
-          // wait while paused or until every screen has loaded (no fade to a blank frame)
+          // paused, or a screen not loaded yet: wait
           if (card.matches(':hover, :focus-within') || pairs.some(function (p) { return !p[1 - step].naturalWidth; })) return;
           step = 1 - step;
           pairs.forEach(function (p, j) { // phones change 150ms apart
@@ -281,7 +283,7 @@
     }
     return Promise.resolve(fallbackCopy(text));
   }
-  // Fallback for pages opened from a file
+  // Fallback for file:// pages. Inside a dialog: the page behind is inert
   function fallbackCopy(text) {
     var active = document.activeElement;
     var area = document.createElement('textarea');
@@ -289,7 +291,7 @@
     area.value = text;
     area.readOnly = true;
     area.style.cssText = 'position:fixed;opacity:0';
-    document.body.appendChild(area);
+    (active && active.closest && active.closest('dialog[open]') || document.body).appendChild(area);
     area.select();
     try { ok = document.execCommand('copy'); } catch (e) { /* not allowed */ }
     area.remove();
@@ -329,7 +331,7 @@
     var modalTitle = document.getElementById('video-modal-title');
     var lastTrigger = null;
     if (!frame || !modal.showModal) return;
-    // Sound button: videos play with sound (owner); turning it off is kept until the page is left
+    // Sound button: videos play with sound (owner); Sound off lasts until the page is left
     var snd = modal.querySelector('.video-modal__sound'), soundOn = true;
     function showSound(on) {
       if (!snd) return;
@@ -365,13 +367,13 @@
       }
       if (modalTitle) modalTitle.textContent = title;
       showSound(!yt && sound);
-      // Phone apps and every short cut (all portrait): tall pop-up; web apps and data-wide (16:9 promos): wide
+      // Phone apps + short cuts (portrait): tall pop-up; web apps + data-wide (16:9): wide
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
       modal.classList.toggle('video-modal--phone', !!short || (!btn.hasAttribute('data-wide') && !!tag && /android|ios/i.test(tag.textContent)));
       modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
-      if (autoplay && !yt) player.play().catch(function () { if (player.muted) return; player.muted = true; player.play().catch(function () {}); }); // muted (Sound off) needs play() too; sound blocked: play muted
+      if (autoplay && !yt) player.play().catch(function () { if (player.muted) return; player.muted = true; player.play().catch(function () {}); }); // Sound off: play() too; sound blocked: retry muted
       lastTrigger = btn;
       modal.showModal(); // browser keeps focus inside; Esc closes it
     }
@@ -393,7 +395,7 @@
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.video-btn');
       if (btn) openVideo(btn);
-      var shot = e.target.closest('.shot-link, [data-shot]'); // [data-shot]: the "Full size" button under a deck
+      var shot = e.target.closest('.shot-link, [data-shot]'); // [data-shot]: "Full size" button
       if (shot && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.button) {
         e.preventDefault();
         openShot(shot.href ? shot : shot.closest('figure').querySelector('.shot-link'), shot);
@@ -437,11 +439,10 @@
       a.href = href; a.textContent = label || href; a.target = '_blank'; a.rel = 'noopener noreferrer';
       return a;
     }
-    // Close, then scroll to a section or card and move focus there (keyboard users land on it too).
-    // offsetTop ignores the 24px reveal slide, so a card not shown yet still lands under the header
+    // Close, scroll to a section/card and focus it. offsetTop ignores the 24px reveal slide (lands under the header)
     function go(el) {
       dlg.close();
-      requestAnimationFrame(function () { // after the close: scrolling in the same frame was sometimes cancelled
+      requestAnimationFrame(function () { // after the close: same-frame scroll was sometimes cancelled
         if (!el.hasAttribute('tabindex')) el.tabIndex = -1;
         el.focus({ preventScroll: true });
         for (var y = 0, n = el; n; n = n.offsetParent) y += n.offsetTop;
@@ -520,6 +521,7 @@
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); }); // click outside
     openTerm = function () {
       if (dlg.open) return;
+      if (closeMenu) closeMenu(); // its inert <main> would block focus
       if (!log.childNodes.length) { say('Hi, I\'m ' + name + '.', 'term__hello'); say('Type a command, or tap one below.', 'term__dim'); }
       dlg.showModal();
       input.focus();
@@ -531,7 +533,7 @@
   function initShortcuts() {
     document.addEventListener('keydown', function (e) {
       var t = e.target;
-      // e.repeat: holding T would flash the whole screen dark/light many times a second
+      // e.repeat: holding T would flash the theme many times a second
       if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       if (e.key === 't' || e.key === 'T') toggleTheme();
