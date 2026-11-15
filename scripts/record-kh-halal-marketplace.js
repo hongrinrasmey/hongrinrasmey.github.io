@@ -3,6 +3,7 @@
 //   2. customer: signed in OFF camera (and one item put in the cart off camera), then the wishlist, the cart,
 //                checkout and the payment page. Picks the KHR QR and STOPS before "Place order": no order is
 //                created, no money moves (owner, 2026-11-13). Order/payment requests are blocked as a safety net.
+//   gcart + map: guest checkout take (cart -> checkout -> map pin -> KHR QR), used by the promo since 2026-11-15
 //   3. seller:   signed in OFF camera, then dashboard, products and all 3 add-product steps; submits ONE demo
 //                product (saved as "draft" = waiting for admin review, never shown to buyers), shows it in the
 //                list, then deletes it OFF camera and checks it is gone (owner, 2026-11-13)
@@ -20,7 +21,8 @@ const SITE = 'https://kh-halal-marketplace.onrender.com';
 const W = 1920, H = 1080, GAP = 0.5;               // GAP: seconds of "nothing" between the parts
 const env = k => { const v = process.env[k]; if (!v) { console.error('Missing env var ' + k); process.exit(1); } return v; };
 const PARTS = (process.env.KH_PARTS || 'guest,customer,seller').split(',');   // KH_PARTS=guest: test run, no logins
-const LOGIN = PARTS.length === 1 && PARTS[0] === 'guest' ? {} : { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
+const LOGIN = !PARTS.some(p => p === 'customer' || p === 'seller') ? {} :   // guest-only takes (guest, gcart, map): no logins
+   { customer: [env('KH_CUSTOMER_EMAIL'), env('KH_CUSTOMER_PASSWORD')], seller: [env('KH_SELLER_EMAIL'), env('KH_SELLER_PASSWORD')] };
 const root = path.resolve(__dirname, '..');
 const outDir = path.join(root, 'assets/videos/kh-halal-marketplace-raw');
 const stamp = new Date().toTimeString().slice(0, 8).replace(/:/g, '');
@@ -38,7 +40,7 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
   if (privMap) await ctx.addInitScript(() => document.addEventListener('DOMContentLoaded', () => document.head.appendChild(Object.assign(
     document.createElement('style'), { textContent: '.leaflet-marker-icon[class*="seller"], .leaflet-marker-shadow { visibility: hidden !important; }'
       // the take scrolls past the contact fields: blurred on the page itself, so the blur moves with them
-      + ' #checkout-email, #checkout-phone, #checkout-address, #checkout-address-suggestions, #checkout-district, #checkout-province { filter: blur(7px) !important; }' }))));
+      + ' #checkout-full-name, #checkout-email, #checkout-phone, #checkout-address, #checkout-address-suggestions, #checkout-district, #checkout-province, .payment-delivery-card__item strong { filter: blur(7px) !important; }' }))));
   const page = await ctx.newPage();
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   // every request that could change data on the server is listed at the end of the part
@@ -163,11 +165,24 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
     },
   });
 
+  // guest checkout take (KH_PARTS=gcart,map, owner 2026-11-15): the cart chapter says "no account needed", so the
+  // checkout, map pin and KHQR are shown as a guest too (no Login -> account jump). Guest checkout asks for contact
+  // details: placeholder values typed OFF camera, blurred on the page (privMap), never a real person's details.
+  const guestCart = async page => {                                          // one Black Hijab in the guest cart, off camera
+    await page.goto(SITE + '/products/1', { waitUntil: 'networkidle', timeout: 120000 });
+    await page.getByRole('button', { name: /^add to cart$/i }).first().click(); await sleep(2000);
+  };
+  await part(browser, 'gcart', null, '/customer/cart', async ({ page, sleep, click }) => {
+    await sleep(2500);                                                         // guest cart: Login / Sign Up in the header
+    await click(page.getByRole('link', { name: /proceed to checkout/i }).first(), 900);
+    await page.waitForLoadState('networkidle'); await sleep(2500);             // guest checkout (fields empty, blurred)
+  }, { privMap: true, prep: guestCart });
+
   // checkout map (KH_PARTS=map, owner 2026-11-15): the optional map pin, dropped on a public landmark
-  // (Independence Monument, Phnom Penh), never on a private place. The account's saved pin is cleared off camera
-  // ("Clear location", nothing saved: profile writes blocked) and the seller pin is hidden (privMap).
-  // Starts at the top of checkout (map already open off camera) and scrolls down to it; email, phone, address,
-  // district and province are blurred on the page (privMap). No "Continue", no order.
+  // (Independence Monument, Phnom Penh), never on a private place. Guest (2026-11-15, was the customer account):
+  // any default pin cleared off camera, the seller pin hidden (privMap). Starts at the top of checkout (map already
+  // open off camera), scrolls down to it, drops the pin, scrolls back up, Continue to payment, picks the KHR QR and
+  // STOPS on "Place order" (never clicked; order/payment requests blocked). All contact fields blurred (privMap).
   const PIN = [11.5564, 104.9282];
   // landmark -> screen pixel from a loaded OpenStreetMap tile (src .../z/x/y.png and its box)
   const pinXY = page => page.evaluate(([lat, lng]) => {
@@ -179,7 +194,7 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
     return { x, y, z, cx: m.x + m.width / 2, cy: (top + bot) / 2, inside: x > m.x + 40 && x < m.right - 40 && y > top + 40 && y < bot - 40 };   // on the map AND in the window
   }, PIN);
   let mapScroll = 0;                                                           // px from the top of checkout to the map view (ready)
-  await part(browser, 'map', 'customer', '/customer/checkout', async ({ page, sleep, move, tapAt }) => {
+  await part(browser, 'map', null, '/customer/checkout', async ({ page, sleep, move, click, tapAt }) => {
     await sleep(2200);                                                         // top of checkout (contact fields blurred)
     await move(1650, 620, 600); await sleep(200);                              // right of the form: the wheel scrolls the page, never the map
     for (let i = 1, n = 70, done = 0; i <= n; i++) {                           // eased scroll down to the map (owner: scroll, no jump)
@@ -190,28 +205,31 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
     const xy = await pinXY(page);
     if (!xy.inside) throw new Error('landmark not inside the map view: ' + JSON.stringify(xy));
     await tapAt(xy.x, xy.y, 1100); await sleep(5500);                    // pin + fee banner
+    await move(1650, 620, 500);                                                // eased scroll back up to Continue to payment
+    for (let i = 1, n = 60, done = 0; i <= n; i++) {
+      const u = i / n, e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2, to = Math.round(mapScroll * e);
+      await page.mouse.wheel(0, done - to); done = to; await sleep(28);
+    }
+    await sleep(1200);
+    await click(page.locator('#checkout-continue-payment'), 900);
+    await page.waitForURL(/\/customer\/payment/, { timeout: 30000 }); await page.waitForLoadState('networkidle'); await sleep(4000);  // payment page
+    await click(page.locator('#payment-methods button').filter({ hasText: 'Pay in KHR' }).first(), 900); await sleep(3500);   // KHR QR chosen
+    const po = await page.getByRole('button', { name: 'Place order', exact: true }).first().boundingBox();
+    await move(po.x + po.width / 2, po.y + po.height / 2, 900); await sleep(3500);   // rests on Place order: NOT clicked
   }, {
     privMap: true,
-    prep: async page => {                                                      // one item in the cart, off camera
-      await page.goto(SITE + '/customer/cart', { waitUntil: 'networkidle', timeout: 120000 }); await sleep(1500);
-      // the rest of the promo shows one Black Hijab: a Black Thobe left in this cart is removed (owner OK, 2026-11-15)
-      const thobe = () => page.evaluate(() => [...document.querySelectorAll('button[aria-label="Remove item"]')]
-        .findIndex(b => /Black Thobe/.test((b.closest('[class*="cart-item"]:not([class*="__"])') || b.parentElement.parentElement).innerText)));
-      for (let k = 0, i; k < 3 && (i = await thobe()) >= 0; k++) { await page.locator('button[aria-label="Remove item"]').nth(i).click(); await sleep(2500); }
-      if (!(await page.getByRole('link', { name: /proceed to checkout/i }).count())) {
-        await page.goto(SITE + '/products/1', { waitUntil: 'networkidle', timeout: 120000 });
-        await page.getByRole('button', { name: /^add to cart$/i }).first().click(); await sleep(2000);
-      }
-      await page.goto(SITE + '/customer/cart', { waitUntil: 'networkidle' }); await sleep(2000);
-      const left = await page.evaluate(() => document.body.innerText);
-      if (/Black Thobe/.test(left)) throw new Error('Black Thobe still in the cart');
-      console.log('cart: Black Hijab ' + /Black Hijab/.test(left) + ', Black Thobe false');
-    },
+    prep: guestCart,
     ready: async page => {                                                     // all off camera
+      // guest contact details: placeholders (blurred), province first so the delivery fee shows
+      await page.fill('#checkout-full-name', 'Guest Shopper'); await page.fill('#checkout-email', 'guest@example.com');
+      await page.fill('#checkout-phone', '012000000'); await page.fill('#checkout-address', 'Street 1'); await sleep(2500);
+      await page.keyboard.press('Escape'); await page.locator('h1').first().click(); await sleep(800);   // address suggestions list closed
+      if ((await page.locator('#checkout-address-suggestions').boundingBox())?.height > 0) throw new Error('address suggestions still open');
+      await page.fill('#checkout-district', 'Chamkar Mon'); await page.selectOption('#checkout-province', 'Phnom Penh'); await sleep(2500);
       // the page is too short to scroll while the map is closed: it opens first, then the map is scrolled into view
       const btn = page.locator('button[aria-controls="checkout-pin-picker"]').first();
       await btn.click(); await page.locator('#checkout-map .leaflet-tile-loaded').first().waitFor({ timeout: 30000 }); await sleep(2500);
-      await page.locator('#checkout-clear-location').click(); await sleep(1500);   // the saved pin (a private place) off the map
+      if (await page.locator('#checkout-clear-location').isVisible()) { await page.locator('#checkout-clear-location').click(); await sleep(1500); }   // any default pin off the map
       for (let k = 0; k < 40; k++) {                                         // wheel = the same scroll a person makes
         const top = (await btn.boundingBox()).y; if (top >= 180 && top <= 300) break;
         await page.mouse.move(1650, 620); await page.mouse.wheel(0, Math.max(-400, Math.min(400, top - 240))); await sleep(350);
