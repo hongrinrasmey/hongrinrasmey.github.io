@@ -36,7 +36,7 @@
     { "caption": "Flashcards that come back",
       "clips": [[46.6, 50.8, 1], [50.8, 52.9, 1.4]],
       "spots": [{ "from": 48.0, "to": 52.8, "x": 54, "y": 2012, "w": 972, "h": 282, "r": 28, "label": "Spaced repetition" }],
-      "timeline": { "from": 48.3, "y": 44, "pos": [0, 0.36, 0.72, 1],
+      "timeline": { "from": 48.3, "y": 72, "title": "Comes back in:", "pos": [0, 0.36, 0.72, 1],
         "stops": [["Again", "10 min"], ["Hard", "1 day"], ["Good", "3 days"], ["Easy", "4 days"]] } },
     { "caption": "Use it in Khmer", "xfadeCut": 0.3,
       "clips": [[86.0, 87.7, 1], [87.7, 91.0, 4], [91.0, 93.5, 1]],

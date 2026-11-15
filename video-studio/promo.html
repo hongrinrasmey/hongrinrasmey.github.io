@@ -78,6 +78,7 @@
   .cdot { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--ui); box-shadow: 0 0 0 3px rgba(12,10,9,.6); }
   #tl { position: absolute; left: 210px; width: 520px; height: 120px; }
   #tl .base { position: absolute; left: 0; right: 0; top: 29px; height: 2px; background: rgba(255,255,255,.18); transform-origin: 0 50%; }
+  #tl .hd { position: absolute; left: -50px; top: -22px; font: 500 21px/1 var(--mono); color: var(--muted); white-space: nowrap; }
   #tl .st { position: absolute; top: 52px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
   #tl .st b { display: block; font: 600 26px/1.2 var(--sans); }
   #tl .st small { display: block; font: 500 21px/1.4 var(--mono); color: var(--muted); }
@@ -470,12 +471,13 @@ function renderTimeline(t, g) {
   const tl = $('tl'); const T = g && g.timeline && !(C.portrait && D.top + D.oh + 160 > C.H) ? g.timeline : null;   // tall phone with no room under it: skip (the buttons show the same)
   tl.style.display = T ? '' : 'none'; if (!T) return;
   const a = outOf(g, T.from), ge = g.end / FPS; if (a == null) return;
-  if (tl.dataset.b !== String(g.i)) { tl.dataset.b = g.i; tl.textContent = ''; tl.appendChild(el('div', 'base'));
+  if (tl.dataset.b !== String(g.i)) { tl.dataset.b = g.i; tl.textContent = ''; tl.appendChild(el('div', 'base')); if (T.title) tl.appendChild(el('div', 'hd', T.title));   // "title": heading above the dots
     T.stops.forEach(s => { const d = el('div', 'dot'); const st = el('div', 'st'); st.append(el('b', null, s[0]), el('small', null, s[1])); tl.append(d, st); }); }
   tl.style.top = (C.portrait ? D.top + D.oh + 40 : $('caption').getBoundingClientRect().bottom + (T.y || 44)) + 'px';   // under the caption (portrait: under the phone)
   if (C.portrait) tl.style.left = (C.W - 520) / 2 + 'px';
   const out = 1 - inEase(prog(t, ge - .28, .28)); tl.style.opacity = out;
   tl.querySelector('.base').style.transform = `scaleX(${outExpo(prog(t, a, .6))})`;
+  const hd = tl.querySelector('.hd'); if (hd) hd.style.opacity = outExpo(prog(t, a, .5));
   const dots = tl.querySelectorAll('.dot'), sts = tl.querySelectorAll('.st');
   T.stops.forEach((s, i) => { const u = outExpo(prog(t, a + .25 + i * .22, .5)), x = 520 * T.pos[i];
     Object.assign(dots[i].style, { left: x + 'px', opacity: u, transform: `scale(${.4 + .6 * u})` });
