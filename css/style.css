@@ -129,7 +129,7 @@ h1, h2, h3, h4 {
 }
 p { max-width: 65ch; text-wrap: pretty; }
 
-/* Text links: underline grows on hover */
+/* Text links */
 a { color: inherit; }
 .timeline__text a {
   position: relative;
@@ -165,7 +165,7 @@ a { color: inherit; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* Thin scrollbar (Chrome, Edge, Safari) */
+/* Thin scrollbar */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; border: 3px solid var(--bg); }
@@ -280,7 +280,7 @@ main { counter-reset: section; }
 .platform-tag { font-weight: 500; color: var(--accent-text); }
 .platform-tag + .platform-tag::before { content: "·"; margin-right: var(--s-2); color: var(--muted); }
 
-/* Copy buttons: tick icon + "Copied!" */
+/* Copy buttons */
 .copy-btn__done { display: none; }
 .copy-btn.is-copied .copy-btn__icon { display: none; }
 .copy-btn.is-copied .copy-btn__done { display: block; }
@@ -678,10 +678,17 @@ a.contact__row:hover :is(.contact__value, .btn__arrow, svg) { color: var(--accen
 /* Phone app videos: 420px */
 .video-modal--phone { width: min(420px, calc(100vw - 32px), calc((100svh - 120px) * 720 / 1560)); } /* never wider than the video */
 .video-modal--phone .video-modal__frame { aspect-ratio: 720 / 1560; max-height: calc(100svh - 120px); }
-/* Phones play the short portrait cut from "Watch video": no "Full demo" */
-@media (max-width: 640px) { .video-btn--full { display: none; } }
+@media (max-width: 640px) {
+  /* Phones: no "Full demo"; tall pop-up fills the screen, close button on the video */
+  .video-btn--full { display: none; }
+  .video-modal--phone { inset: 0; width: auto; height: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 0; }
+  .video-modal--phone :is(.video-modal__inner, .video-modal__frame) { height: 100%; aspect-ratio: auto; max-height: none; }
+  .video-modal--phone .video-modal__head { position: absolute; top: 0; right: 0; z-index: 1; padding: 8px; }
+  .video-modal--phone .video-modal__title { position: absolute; clip-path: inset(50%); } /* still read out */
+  .video-modal--phone .video-modal__head button { color: #fff; background: rgb(12 10 9 / .6); }
+}
 
-/* --- Terminal: at the top (keyboard); 16px: no iOS zoom --- */
+/* --- Terminal (16px: no iOS zoom) --- */
 .term {
   width: min(640px, calc(100vw - 32px)); margin: max(16px, 12svh) auto auto;
   padding: 0; border: 1px solid var(--border); border-radius: var(--radius); /* taste-skill-ignore */
@@ -726,7 +733,7 @@ a.contact__row:hover :is(.contact__value, .btn__arrow, svg) { color: var(--accen
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 @keyframes word-up { from { transform: translateY(105%); } }
 
-/* Fade + slide up once (translate: no clash with hover) */
+/* Fade + slide up once (translate: not hover's transform) */
 .js-ready .reveal {
   opacity: 0;
   translate: 0 24px;

@@ -34,8 +34,8 @@
   #hole { display: none; position: absolute; left: 50%; top: 13px; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%;
     background: #0C0A09; z-index: 5; }
   .phone #hole { display: block; }
-  #cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-  #screen { display: block; position: absolute; left: 0; top: 0; }
+  #cam, #cam2 { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  #screen, #screen2 { display: block; position: absolute; left: 0; top: 0; }
   .blur { position: absolute; border-radius: 10px; backdrop-filter: blur(10px); background: rgba(232,240,236,.35); }
   .hole { position: absolute; }
   .spotline { position: absolute; overflow: visible; }
@@ -50,6 +50,7 @@
   .key { position: relative; }
   .key i { position: absolute; left: .02em; right: .02em; bottom: .03em; height: .075em; border-radius: 99px; background: var(--ui); transform-origin: 0 50%; }
   #hook { position: absolute; left: 0; right: 0; top: 50%; text-align: center; font-weight: 650; letter-spacing: -0.03em; line-height: 1.08; font-size: 104px; }
+  #hlines > div { text-wrap: balance; }   /* a hook line that wraps (phones) splits evenly, never one word alone */
   #glyph { position: relative; height: 170px; margin-bottom: 26px; font-size: 150px; font-weight: 600; letter-spacing: 0; }
   #glyph > span { position: absolute; left: 0; right: 0; top: 0; white-space: pre; }
   #glyph .kr { font-size: 1.55em; line-height: 0; vertical-align: -.04em; }
@@ -109,7 +110,12 @@
   #ovalue { margin-top: 22px; font-size: 38px; color: var(--muted); letter-spacing: -0.01em; }
   #orow { margin-top: 34px; display: flex; gap: 18px; align-items: center; font: 500 24px/1 var(--mono); color: var(--muted); letter-spacing: .03em; }
   #orow .tag { color: var(--text); padding: 10px 16px; border: 1.5px solid rgba(255,255,255,.28); border-radius: 10px; letter-spacing: .06em; }
-  #octa { margin-top: 44px; font: 600 34px/1 var(--sans); color: #0C0A09; background: var(--brand); padding: 22px 40px; border-radius: 999px; letter-spacing: -0.01em; }
+  #obot { margin-top: 44px; display: flex; align-items: center; gap: 64px; }   /* CTA + link, and the QR code beside them ("qr") */
+  .portrait #obot { flex-direction: column; gap: 56px; }
+  #ocol { display: flex; flex-direction: column; align-items: center; }
+  #oqr { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; font: 400 22px/1 var(--mono); color: var(--muted); }
+  #oqr img { display: block; border-radius: 12px; image-rendering: pixelated; }
+  #octa { font: 600 34px/1 var(--sans); color: #0C0A09; background: var(--brand); padding: 22px 40px; border-radius: 999px; letter-spacing: -0.01em; }
   #olink { margin-top: 20px; font: 400 24px/1.3 var(--mono); color: var(--muted); }
   #ofoot { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font: 600 28px/1.4 var(--sans); }
   #ofoot small { font: 400 24px var(--mono); color: var(--muted); margin-left: 14px; }
@@ -122,7 +128,7 @@
   <div id="shadow"></div>
   <div id="dwrap"><div id="device"><div id="bar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url" style="font-weight:400"></b></span></div>
     <div id="viewport"><div id="hole"></div><div id="cam"><img id="screen" alt=""><div id="blurs"></div><div id="spots"></div><div id="rings"></div>
-      <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div></div></div>
+      <svg id="cursor" width="26" height="26" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0C0A09" stroke-width="1.6" stroke-linejoin="round"/></svg></div><div id="cam2" style="display:none"><img id="screen2" alt=""><div id="blurs2"></div></div></div></div></div>
   <div id="callouts"></div>
   <div id="caption"><div id="crow"><span id="cnum"></span><span id="role"><span id="rtext"></span></span><span id="ctext"></span></div><p id="csub"></p></div>
   <div id="tl"></div>
@@ -132,7 +138,7 @@
     <div class="panel" id="pb"><span class="pill"></span><div class="scr"><img alt=""><div class="pb"></div></div></div>
     <div id="link"></div><div id="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
   <div id="outro"><div id="oname"></div><p id="ovalue"></p><div id="orow"><span class="tag" id="otag"></span><span id="ometa"></span></div>
-    <div id="octa"></div><p id="olink"></p></div>
+    <div id="obot"><div id="ocol"><div id="octa"></div><p id="olink"></p></div><figure id="oqr" style="display:none"><img alt=""><figcaption></figcaption></figure></div></div>
   <p id="ofoot"></p>
 </div>
 <script>
@@ -204,7 +210,7 @@ window.init = cfg => {
   Object.assign(dev.style, { left: D.left + 'px', top: D.top + 'px' });
   Object.assign($('viewport').style, { width: D.sw + 'px', height: D.sh + 'px' });
   Object.assign($('cam').style, { width: D.srcW + 'px', height: D.srcH + 'px' });
-  Object.assign($('screen').style, { width: D.srcW + 'px', height: D.srcH + 'px' });
+  for (const id of ['cam2', 'screen', 'screen2']) Object.assign($(id).style, { width: D.srcW + 'px', height: D.srcH + 'px' });
   $('url').textContent = D.url || '';
   const cx = D.left + D.ow / 2, cy = D.top + D.oh / 2;
   Object.assign($('glow').style, { left: cx - 750 + 'px', top: cy - 750 + 'px',
@@ -216,8 +222,9 @@ window.init = cfg => {
   // tapShift [[loggedTime, offset]]: one tap whose screen change is further from its log time than the rest
   for (const T of Object.values(C.tk)) {
     const shift = s => (T.tapShift.find(q => Math.abs(q[0] - s) < .01) || [0, T.tapOffset])[1];
-    T.taps = T.tapLines.filter(l => l.kind === 'tap').map(l => ({ s: l.s + shift(l.s), x: l.x, y: l.y }));
+    T.taps = T.tapLines.filter(l => l.kind === 'tap').map(l => ({ s: l.s + shift(l.s), x: l.x, y: l.y, label: l.label }));
     T.path = T.tapLines.filter(l => l.kind === 'move').map(l => ({ s: l.s, x: l.x, y: l.y }));
+    T.swipes = T.tapLines.filter(l => l.kind === 'swipe').map(l => l.s + shift(l.s));   // sound only
   }
 
   // beats -> per-frame table { b: beat index, s: source time }
@@ -290,6 +297,9 @@ function buildOutro() {
     for (const ch of w) wd.appendChild(el('span', 'ch', ch)); n.appendChild(wd); });
   $('ovalue').textContent = O.value; $('otag').textContent = O.platform; $('ometa').textContent = O.meta || '';
   $('octa').textContent = O.cta; $('olink').textContent = O.link || '';
+  // "qr": the address as a QR code next to the button (render.js draws it); whole modules: 6 px (16:9), 8 px (phones)
+  if (O.qrSrc) { const q = $('oqr'), im = q.querySelector('img'); q.style.display = ''; im.src = O.qrSrc; im.style.width = im.style.height = O.qrN * (C.portrait ? 8 : 6) + 'px';
+    q.querySelector('figcaption').textContent = O.qrLabel || 'Scan to open'; }
   if (O.ctaColor) Object.assign($('octa').style, { background: O.ctaColor, color: fgFor(O.ctaColor) });   // the app's own colour: the button downloads the app
   $('ofoot').innerHTML = ''; $('ofoot').append('Hong Rinrasmey', el('small', null, 'hongrinrasmey.github.io'));
 }
@@ -330,6 +340,9 @@ function cameraAt(g, t) {
     const u = inOut(prog(t, o, kf[4] || .9)), to = { z: kf[1], x: kf[2], y: kf[3] };
     st = { z: st.z + (to.z - st.z) * u, x: st.x + (to.x - st.x) * u, y: st.y + (to.y - st.y) * u };
   }
+  // "camOut": s (top level, opt-in) = every clip beat eases back to 1x over its last s seconds: each cut happens at the same size
+  if (C.camOut && g.ss) { const u = inOut(prog(t, g.end / FPS - C.camOut, C.camOut));
+    if (u > 0) st = { z: st.z + (1 - st.z) * u, x: st.x + (D.srcW / 2 - st.x) * u, y: st.y + (D.srcH / 2 - st.y) * u }; }
   const s = D.k * st.z;
   const tx = clamp(D.sw / 2 - st.x * s, D.sw - D.srcW * s, 0), ty = clamp(D.sh / 2 - st.y * s, D.sh - D.srcH * s, 0);
   return { s, tx, ty, z: st.z };
@@ -356,7 +369,10 @@ function renderSpots(g, t, cam, clean) {
   for (const sp of g.spots) {
     const ab = spotSpan(g, sp); if (!ab) continue; const [a, b] = ab;
     if (t < a || t > b) continue;
-    const din = inOut(prog(t, a, .45)), dout = 1 - inOut(prog(t, b - .5, .5)), k = din * dout;   // in and out eased at both ends: no one-frame brightness jump
+    // "spotOut": s (top level) = for a highlight that ends with its chapter, the dim lifts slowly (up to s) and the whole highlight is gone .2 s early,
+    // so the chapter changes on a calm page (no brighten-then-cut "pop"); label + outline keep their .5 s fade (gap only if the label still shows >= .5 s)
+    const atEnd = C.spotOut && g.end / FPS - b < .25, gap = atEnd && b - a - 1.35 - .2 >= .5 ? .2 : 0, dimOut = atEnd ? clamp(b - a - .45 - gap, .5, C.spotOut) : .5;
+    const din = inOut(prog(t, a, .45)), dout = 1 - inOut(prog(t, b - gap - .5, .5)), k = din * (1 - inOut(prog(t, b - gap - dimOut, dimOut)));   // in and out eased at both ends: no one-frame brightness jump
     const pad = 10, r = (sp.r ?? 16);
     const hole = el('div', 'hole'), x = sp.x - pad, y = sp.y - pad, w = sp.w + 2 * pad, h = sp.h + 2 * pad;
     Object.assign(hole.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', borderRadius: r + 'px',
@@ -470,14 +486,17 @@ function renderTextBeat(t, g) {
 function renderPanels(t, g) {
   // "finale": two browser panels (shopper / seller). "duo" (desktop only): the same site on a desktop and on a phone
   // (panel "phone": true = a phone-shaped screen from a phone-sized take, e.g. "take": "mobile")
+  const pv = g && beats[g.i - 1]; if (pv && pv.type === 'duo' && pv.tail && g.type !== 'finale' && t < pv.end / FPS + pv.tail) g = pv;   // duo "tail": panels stay on and fade out while the device comes back (no dark dip)
+  const nf = g && beats[g.i + 1]; if (nf && nf.type === 'finale' && nf.lead && t >= nf.start / FPS - nf.lead) g = nf;   // finale "lead": s = panels start while the device is still leaving (no dark dip)
   const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
   const a = g.start / FPS, e = g.end / FPS;
-  const out = inEase(prog(t, e - (g.type === 'duo' ? g.outAt ?? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
+  const out = g.tail ? inOut(prog(t, e - .2, .2 + g.tail)) : g.softOut ? inOut(prog(t, e - g.softOut, g.softOut))   // "tail": mirror of the device's return; finale "softOut": eased to 0 (no one-frame pop)
+    : inEase(prog(t, e - (g.type === 'duo' ? g.outAt ?? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
   const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
   const PW = 260, PH = Math.round(PW * 2400 / 1080);   // phone panel screen (1080x2400 takes)
   const duo = g.type === 'duo', xs = duo ? [310, 1350] : [140, 1040];
   [['pa', g.a, xs[0]], ['pb', g.b, xs[1]]].forEach(([id, p, x], i) => {
-    const n = $(id), u = outExpo(prog(t, a + (duo ? g.inAt ?? .65 : 0) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early); duo "inAt": earlier, no dark gap
+    const n = $(id), u = outExpo(prog(t, a + (duo ? g.inAt ?? .65 : -(g.lead || 0)) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early); duo "inAt": earlier, no dark gap
     const sw = p.phone ? PW : 740, sh = p.phone ? PH : 416, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
     if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
     else { n.style.top = (p.phone ? 566 - 58 - sh / 2 : 300) + 'px'; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
@@ -504,8 +523,29 @@ function renderOutro(t) {
   const r = t - a + (beats.some(b => b.type === 'finale') || C.outro.leadIn ? .3 : 0);   // after a finale (panels already gone) start at once: no empty frame
   [...$('oname').querySelectorAll('.ch')].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
   const fade = (id, at) => { const u = outExpo(prog(r, at, .6)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
-  fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('ofoot', 1.4);
+  fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('oqr', 1.25); fade('ofoot', 1.4);
 }
+
+// sound (video-studio/audio.py): the real times, in output seconds, of the moments that get an effect
+window.events = () => {
+  const r = x => Math.round(x * 1000) / 1000, finLead = beats.some(b => b.type === 'finale') || C.outro.leadIn ? .3 : 0;
+  const ev = { total: r(total), devIn: r(devIn), chapters: [], taps: [], swipes: [], labels: [], flips: [], texts: [], duo: [], outro: r(outroStart / FPS), cta: r(outroStart / FPS + 1.15 - finLead),
+    hook: (C.hook.lines || []).map(l => r(l.at)), fm: frames.map(f => f.b >= 0 && beats[f.b].ss ? [f.k, r(f.s)] : null) };   // fm: which recording frame each output frame shows (typing sounds)
+  let cap = null;
+  for (const g of beats) {
+    const a = g.start / FPS;
+    if (g.caption && g.caption !== cap && cap !== null && g.ss) ev.chapters.push(r(a));   // every new caption after the first
+    cap = g.caption || cap;
+    if (g.type === 'flip') ev.flips.push(r(a));
+    if (g.type === 'text') g.lines.forEach((l, i) => ev.texts.push(r(a + .2 + i * .42)));
+    if (g.type === 'duo') ev.duo.push([r(a + (g.inAt ?? .65)), r(g.end / FPS)]);
+    if (!g.ss) continue;
+    for (const tp of C.tk[g.take].taps) { const o = outOf(g, tp.s); if (o != null) ev.taps.push([r(o), tp.label || '']); }   // [time, what was tapped]
+    for (const s of C.tk[g.take].swipes) { const o = outOf(g, s); if (o != null) ev.swipes.push(r(o)); }
+    for (const sp of g.spots || []) { const ab = sp.label && spotSpan(g, sp); if (ab) ev.labels.push([r(ab[0] + .35), sp.label]); }
+  }
+  return ev;
+};
 
 // ---------- one frame ----------
 window.renderAt = async (t, clean) => {
@@ -549,6 +589,18 @@ window.renderAt = async (t, clean) => {
   const cam = cg ? cameraAt(cg, t) : pb ? cameraAt(pb, (pb.end - 1) / FPS) : { s: D.k, tx: 0, ty: 0, z: 1 };
   const st = f.cut >= 0 ? .012 * (1 - outExpo(prog(t, f.cut / FPS, .4))) : 0, vx = D.sw / 2, vy = D.sh / 2;
   $('cam').style.transform = `translate(${vx}px, ${vy}px) scale(${1 + st}) translate(${-vx}px, ${-vy}px) translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
+  // "xfadeCut": s on a beat = the hard cut into it dissolves: the beat before's last frame, in its last framing and blurs, fades out over s
+  const xb = cg && cg.xfadeCut && beats[cg.i - 1] && beats[cg.i - 1].ss ? beats[cg.i - 1] : null, c2 = $('cam2');
+  let xu = xb ? 1 - inOut(prog(t, cg.start / FPS, cg.xfadeCut)) : 0, pf = xb && frames[xb.end - 1], pc = xb && cameraAt(xb, (xb.end - 1) / FPS);
+  // "dissolve": [[srcTime, s]] on a beat = a sudden change at srcTime (page load, or a jump to a later clip) fades: the frame shown before it fades out over s
+  if (!(xu > 0) && cg) for (const [ds, dd] of cg.dissolve || []) { const o = outOf(cg, ds); if (o == null || t < o || t >= o + dd) continue;
+    xu = 1 - inOut(prog(t, o, dd)); pf = frames[Math.max(Math.round(o * FPS) - 1, 0)]; pc = cam; }   // the frame shown just before: a page change inside a clip, or a jump between two clips of one beat
+  c2.style.display = xu > 0 ? '' : 'none';
+  if (xu > 0) {
+    const im = $('screen2'), u2 = C.frameUrl(pf.s, pf.k);
+    if (im.dataset.u !== u2) { im.src = u2; im.dataset.u = u2; await im.decode(); }
+    c2.style.transform = `translate(${pc.tx}px, ${pc.ty}px) scale(${pc.s})`; c2.style.opacity = xu; blursInto($('blurs2'), pf.s, pf.k);
+  }
   // 16:9 phone, opt-in: "focus" = phone + labels push in toward each highlight and settle back before it ends;
   // "chapterMove" = a soft rise when a chapter starts on a real cut (never on a continuous shot)
   let gz = 1, gy = 0, ox = 0, oy = 0;

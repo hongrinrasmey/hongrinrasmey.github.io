@@ -34,7 +34,7 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 | `*-poster.webp` | same shape as its video | before play; drawn clean (no highlight) |
 
 H.264 High (x264 slow, CRF 20-25: the KH files use 25 and RielTrack 23 (`"crf"` in the config) because push-ins change every frame), yuv420p,
-30 fps, no audio, `+faststart`. KH Halal on phones uses the real mobile site (`khm-*` take), not a crop of the desktop.
+30 fps, `+faststart`. Sound (owner, 2026-11-14): the 5 promos and the KH full demo (owner, 2026-11-15) have music + soft effects (AAC 48 kHz stereo 192 kbps, -16 LUFS, true peak <= -1 dBTP), added by `video-studio/audio.py`; silent copies in `assets/videos/silent/` (not in git). The site plays the promos and the full demo with sound when the pop-up opens (owner, 2026-11-14); the Sound button turns it off; if the browser blocks sound they play muted. KH Halal has no phone version any more (dropped 2026-11-14).
 
 ## 4. Motion style (`video-studio/promo.html`)
 Dark `#0C0A09` stage, orange `#FF6B35` accent, Geist + Geist Mono. Hook text first, the device rises in, one highlight

@@ -1,5 +1,5 @@
 {
-  "slug": "rieltrack", "crf": 23,
+  "slug": "rieltrack", "smooth": true, "spotOut": 0.9, "crf": 23,
   "raw": "assets/videos/rieltrack-raw/rieltrack-104550.mp4",
   "tapLog": "assets/videos/rieltrack-raw/rieltrack-104550.taps.txt",
   "tapOffset": -0.45,
@@ -16,6 +16,9 @@
     ],
     "glyphs": ["$", "៛", "$ ៛"]
   },
+  "audio": { "musicDown": 3, "track": "../music/modern-commercial.mp3", "parts": [[1.53, 22.92], [135.63, 152.11]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+    "typing": [{ "from": 13.3, "to": 15.6, "x": 300, "y": 620, "w": 480, "h": 150 }, { "take": "income", "from": 8.45, "to": 9.95, "x": 300, "y": 620, "w": 480, "h": 150 }],
+    "labelSfx": { "Monthly limit · on track": "pop" }, "extra": [[11.083, "notify", -3]] },
   "beats": [
     { "caption": "Your month at a glance", "clips": [[1.0, 3.9, 1], [7.2, 7.5, 1]], "join": [3.9],
       "spots": [{ "from": 1.6, "hold": 2.0, "x": 54, "y": 376, "w": 972, "h": 618, "r": 28, "label": "Dollars and riel" }] },
@@ -36,7 +39,7 @@
     { "caption": "Use it in Khmer", "clips": [[77.2, 78.3, 1], [81.25, 83.6, 1]], "hold": 0.5,
       "spots": [{ "from": 81.55, "hold": 2.0, "x": 54, "y": 384, "w": 972, "h": 650, "r": 28, "label": "Labels in ខ្មែរ" }] }
   ],
-  "outro": { "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in dollars and riel.", "platform": "ANDROID",
+  "outro": { "qr": "https://github.com/hongrinrasmey/RielTrack-Downloads/releases/latest", "qrLabel": "Scan to download", "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in US dollars and Cambodian riel.", "platform": "ANDROID",
     "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
   "poster": 5.3
 }

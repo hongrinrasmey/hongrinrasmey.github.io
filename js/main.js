@@ -330,6 +330,14 @@
     var modalTitle = document.getElementById('video-modal-title');
     var lastTrigger = null;
     if (!frame || !modal.showModal) return;
+    // Sound button: videos play with sound (owner); turning it off is kept until the page is left
+    var snd = modal.querySelector('.video-modal__sound'), soundOn = true;
+    function showSound(on) {
+      if (!snd) return;
+      snd.style.display = on ? '' : 'none';
+      snd.setAttribute('aria-pressed', soundOn);
+      snd.querySelector('path + path').setAttribute('d', soundOn ? 'M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14' : 'M23 9l-6 6M17 9l6 6');
+    }
 
     function openVideo(btn) {
       // phones get the short cut (data-video-short) when there is one
@@ -349,18 +357,22 @@
       } else {
         // The file downloads only now, when the pop-up opens
         player = document.createElement('video');
-        Object.assign(player, { src: src, muted: true, loop: true, playsInline: true, controls: true, preload: 'none', autoplay: autoplay });
+        var sound = btn.hasAttribute('data-sound');
+        Object.assign(player, { src: src, muted: !(sound && soundOn), loop: true, playsInline: true, controls: true, preload: 'none', autoplay: autoplay });
+        if (sound) player.addEventListener('volumechange', function () { soundOn = !player.muted; showSound(true); }); // the player's own mute button too
         var poster = (short && btn.getAttribute('data-poster-short')) || btn.getAttribute('data-poster');
         if (poster) player.poster = poster;
         player.setAttribute('aria-label', title);
       }
       if (modalTitle) modalTitle.textContent = title;
+      showSound(!yt && sound);
       // Phone apps and every short cut (all portrait): tall pop-up; web apps and data-wide (16:9 promos): wide
       var tag = btn.closest('.project-card');
       tag = tag && tag.querySelector('.platform-tag');
       modal.classList.toggle('video-modal--phone', !!short || (!btn.hasAttribute('data-wide') && !!tag && /android|ios/i.test(tag.textContent)));
       modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
+      if (autoplay && !yt && !player.muted) player.play().catch(function () { player.muted = true; player.play().catch(function () {}); }); // sound blocked: play muted
       lastTrigger = btn;
       modal.showModal(); // browser keeps focus inside; Esc closes it
     }
@@ -373,6 +385,7 @@
       if (modalTitle) modalTitle.textContent = img.alt.split(':')[0];
       modal.classList.remove('video-modal--phone');
       modal.classList.add('video-modal--img');
+      showSound(false);
       frame.replaceChildren(img);
       lastTrigger = trigger || link;
       modal.showModal();
@@ -388,6 +401,12 @@
       }
     });
     modal.querySelector('.video-modal__close').addEventListener('click', function () { modal.close(); });
+    if (snd) snd.addEventListener('click', function () {
+      var v = frame.querySelector('video');
+      soundOn = !soundOn;
+      if (v) v.muted = !soundOn;
+      showSound(true);
+    });
     // Click outside the video, or Esc ("cancel" stops it at once)
     modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
     modal.addEventListener('cancel', function () { frame.replaceChildren(); });

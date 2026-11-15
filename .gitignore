@@ -5,3 +5,12 @@ tools/source/
 
 # Raw screen recordings for the demo videos (VIDEOS.md): large, not used by the site
 assets/videos/*-raw/
+
+# Sound (video-studio/README.md "Sound"): tracks stay out of git (Pixabay license: no passing them on by themselves); silent backups of the promos
+video-studio/audio/
+assets/videos/silent/
+video-review/audio-previews/
+video-studio/music/
+
+# Python cache (video-studio scripts)
+__pycache__/
