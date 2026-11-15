@@ -4,7 +4,7 @@
 // Checks at 360-1920px: no console errors, no sideways scroll, one <h1>, every "#..." link has a
 // target, every image file exists, and on wide screens the hero text is in order and centred.
 import { spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -26,6 +26,17 @@ const files = [...html.matchAll(/(?:src|data-next|data-poster)="([^"#:]+)"/g)].m
   .concat([...html.matchAll(/srcset="([^"]+)"/g)].flatMap(m => m[1].split(',').map(s => s.trim().split(/\s+/)[0])));
 const missing = files.filter(f => !existsSync(resolve(f)));
 report(!missing.length, `${files.length} image/script files exist` + (missing.length ? ': missing ' + missing.join(', ') : ''));
+
+// srcset copies carry their src name and are not older than it (a replaced or renamed screenshot)
+const stale = [...html.matchAll(/<img\b[^>]*>/g)].flatMap(([tag]) => {
+  const src = tag.match(/\ssrc="([^"]+)"/)?.[1], set = tag.match(/srcset="([^"]+)"/)?.[1];
+  if (!src || !set || !existsSync(resolve(src))) return [];
+  const base = src.replace(/\.\w+$/, '-'), time = f => statSync(resolve(f)).mtimeMs;
+  return set.split(',').map(s => s.trim().split(/\s+/)[0]).filter(f => f !== src &&
+    (!f.startsWith(base) || (existsSync(resolve(f)) && time(src) - time(f) > 60000)));
+});
+report(!stale.length, 'srcset copies match their src' + (stale.length ? ': ' + stale.join(', ') +
+  ' (srcset names must start like src; then run python -I tools/small-copies.py)' : ''));
 
 // 2. Browser checks
 const profile = mkdtempSync(join(tmpdir(), 'portfolio-check-'));

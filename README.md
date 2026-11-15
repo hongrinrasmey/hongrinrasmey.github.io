@@ -62,6 +62,7 @@ Section numbers on the page (01, 02, 03…) count themselves, so they stay right
 ### Change images
 - **Web app screenshot** (16:10, 1920 × 1200): see the KH Halal Marketplace card. After adding or replacing one, run
   `python -I tools/small-copies.py`: it makes the smaller copies (`-960`, `-1280`) that phones download (the `srcset` lines).
+  New file name? Change it in `src`, `srcset` and the link `href`. `node tools/check.mjs` fails if you forget either step.
 - **Phone screenshots** (about 390 × 844 each, 1–3 per app): see the idevo card. Each one sits in a `<div class="phone">`.
 - Your photo: `assets/images/me.webp` (800 × 1000, in the hero: above your name on phones, right of it on wide screens). To change it, replace that file (same name, 4:5 shape).
 - Always write a short `alt="..."` that says what the picture shows.
