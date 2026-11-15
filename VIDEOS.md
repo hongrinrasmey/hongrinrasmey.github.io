@@ -30,7 +30,7 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 |---|---|---|
 | `<slug>-promo.mp4` | 1920x1080, about 35-55 s | "Watch video", screens wider than 640px |
 | `<slug>-promo-mobile.mp4` | 1080x2340 (`render.js --portrait`) | "Watch video", phones (640px and narrower) |
-| `kh-halal-marketplace.mp4` | 1920x1080, numbered chapters | "Full demo" (KH Halal only, hidden on phones) |
+| ~~`kh-halal-marketplace.mp4`~~ | removed 2026-11-15 | the "Full demo" button is gone (owner: the KH promo is nearly as long); storyboard kept in `video-studio/kh-halal-marketplace-full.json` |
 | `*-poster.webp` | same shape as its video | before play; drawn clean (no highlight) |
 
 H.264 High (x264 slow, CRF 20-25: the KH files use 25 and RielTrack 23 (`"crf"` in the config) because push-ins change every frame), yuv420p,

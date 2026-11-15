@@ -108,7 +108,7 @@ at the bottom of `js/main.js`.
 ### Demo videos (re-make after an app update)
 The videos are real recordings of the apps with motion graphics added (frame, captions, highlights, slow zoom, taps).
 "Watch video" plays a short promo (`<slug>-promo.mp4`; phones get the tall `<slug>-promo-mobile.mp4`);
-KH Halal also has a "Full demo" (`kh-halal-marketplace.mp4`). Rules and the QA checklist: `VIDEOS.md`.
+Rules and the QA checklist: `VIDEOS.md`. (The KH "Full demo" was removed on 2026-11-15.)
 You need: the Android emulator `Pixel_API37`, ffmpeg, Node.js, and Playwright in any folder
 (`npm i playwright@1.49.1`, then set `NODE_PATH` to that folder's `node_modules`).
 1. Record (Git Bash, from this folder; KH Halal from PowerShell so it can read your logins):

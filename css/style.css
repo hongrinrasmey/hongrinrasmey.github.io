@@ -679,8 +679,7 @@ a.contact__row:hover :is(.contact__value, .btn__arrow, svg) { color: var(--accen
 .video-modal--phone { width: min(420px, calc(100vw - 32px), calc((100svh - 120px) * 720 / 1560)); } /* never wider than the video */
 .video-modal--phone .video-modal__frame { aspect-ratio: 720 / 1560; max-height: calc(100svh - 120px); }
 @media (max-width: 640px) {
-  /* Phones: no "Full demo"; tall pop-up fills the screen, close button on the video */
-  .video-btn--full { display: none; }
+  /* Phones: tall pop-up fills the screen, close button on the video */
   .video-modal--phone { inset: 0; width: auto; height: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 0; }
   .video-modal--phone :is(.video-modal__inner, .video-modal__frame) { height: 100%; aspect-ratio: auto; max-height: none; }
   .video-modal--phone .video-modal__head { position: absolute; top: 0; right: 0; z-index: 1; padding: 8px; }

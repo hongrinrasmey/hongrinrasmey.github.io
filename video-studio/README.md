@@ -11,7 +11,7 @@ camera moves, highlights, labels and text around it.
 | File | What it is |
 |---|---|
 | `rieltrack.json`, `idevo.json`, `kh-halal-marketplace.json` | The storyboard for each video: text, which part of the recording plays, highlights. **Edit these.** |
-| `kh-halal-marketplace-full.json` | The longer "Full demo" (KH Halal only: the site has no public demo login; same style, numbered chapters, one explanation line each). Owner, 2026-11-13: idevo and RielTrack have a download, so no full demo. They write `assets/videos/<name>.mp4`. |
+| `kh-halal-marketplace-full.json` | The longer "Full demo" (KH Halal only: the site has no public demo login; same style, numbered chapters, one explanation line each). Owner, 2026-11-13: idevo and RielTrack have a download, so no full demo. They write `assets/videos/<name>.mp4`. Removed 2026-11-15 (owner): the 56 s KH promo shows almost the same, so one video per app. The storyboard stays, in case a longer demo is wanted later. |
 | `kh-halal-marketplace-mobile.json` | The KH Halal phone version: the real mobile site in a phone frame. Render with `--portrait`; it writes `kh-halal-marketplace-promo-mobile.mp4`. **Not used on the site since 2026-11-14** (owner: phones play the 16:9 KH promo; a phone visitor can open the live site). Kept so it can be rendered again. |
 | `promo.html` | The scene: layout, colours, fonts and every animation. |
 | `render.js` | Turns a storyboard into an mp4 (and the poster image). |
