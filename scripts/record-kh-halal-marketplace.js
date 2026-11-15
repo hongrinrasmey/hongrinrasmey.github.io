@@ -102,7 +102,8 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
   await sleep(300); await page.mouse.move(mx + 1, my);
   h.mark(name + '-start');
   log.push(`${now().toFixed(3)} move ${mx} ${my}`);         // where the mouse really starts, so the drawn cursor never carries over from the last part
-  await act(h);
+  // if a step fails, still run the off-camera clean-up (never leave the demo product on the live site)
+  try { await act(h); } catch (e) { if (after) await after(page).catch(x => console.error('clean-up failed: ' + x.message)); throw e; }
   h.mark(name + '-end');
   const end = now();
   await cdp.send('Page.stopScreencast'); await sleep(300);
