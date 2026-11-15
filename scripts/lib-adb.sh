@@ -35,6 +35,7 @@ typeslow() { local i; for ((i=0; i<${#1}; i++)); do $ADB shell input text "${1:i
 swipe() { logev swipe "540 $1" "to$2"; $ADB shell input swipe 540 "$1" 540 "$2" "${3:-700}"; sleep "${4:-1}"; }
 
 demo_on() {
+  ARMED=1                                       # from now on the EXIT trap below has something to undo
   $ADB shell settings put global sysui_demo_allowed 1
   for c in "enter" "clock -e hhmm 0941" "battery -e level 100 -e plugged false" \
            "network -e mobile hide" "network -e wifi show -e level 4 -e fully true" \
@@ -52,7 +53,7 @@ demo_off() {
   $ADB shell settings put global sysui_demo_allowed 0
 }
 # rec_start name / rec_stop name outdir -> screen recording on the device, pulled to outdir, then deleted there
-rec_start() { $ADB shell "screenrecord --bit-rate 12000000 /sdcard/$1.mp4" & REC_PID=$!; REC_T0=$(date +%s.%N); sleep 1.5; }
+rec_start() { ARMED=1; $ADB shell "screenrecord --bit-rate 12000000 /sdcard/$1.mp4" & REC_PID=$!; REC_T0=$(date +%s.%N); sleep 1.5; }
 rec_stop() {
   sleep 1; $ADB shell pkill -INT screenrecord; wait "$REC_PID" 2>/dev/null; sleep 1.5
   mkdir -p "$2"; local f="$2/$1-$(date +%H%M%S)"
@@ -60,3 +61,6 @@ rec_stop() {
   [ -n "${TAPLOG:-}" ] && mv "$TAPLOG" "$f.taps.txt"
   $ADB shell rm -f /sdcard/ui.xml
 }
+# However a script ends (a step not found, Ctrl+C): stop the recording, demo mode off. Only after demo_on/rec_start,
+# so a refused real phone gets no adb call. Scripts with more to undo set their own trap
+trap '[ -n "${ARMED:-}" ] && { $ADB shell pkill -INT screenrecord >/dev/null 2>&1; demo_off; }' EXIT
