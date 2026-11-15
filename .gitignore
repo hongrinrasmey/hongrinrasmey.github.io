@@ -14,3 +14,9 @@ video-studio/music/
 
 # Python cache (video-studio scripts)
 __pycache__/
+
+# Local working files: test renders, check stills, drafts the owner posts (owner 2026-11-15)
+video-review/test/
+video-review/frames/
+video-review/cold-viewer/
+drafts/
