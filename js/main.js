@@ -9,6 +9,7 @@
 
   var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  var narrow = matchMedia('(max-width: 767.98px)');
   var hasIO = 'IntersectionObserver' in window;
 
   // Khmer font: load Noto Sans Khmer only if the page has Khmer letters
@@ -183,12 +184,8 @@
     root.addEventListener('mouseleave', function () { inMain = false; queue(); });
   }
 
-
-  // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
-  // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
   // Screen deck: next screen every 5s while it is on screen. Paused on hover/focus; never fades to a screen still
   // loading. A screen button stops it for good (WCAG 2.2.2: a way to stop). Reduced motion or phone width: no auto change.
-  var narrow = matchMedia('(max-width: 767.98px)');
   function initDeck() {
     document.querySelectorAll('.deck').forEach(function (mon) {
       var link = mon.querySelector('.shot-link'), imgs = link.querySelectorAll('img');
@@ -218,6 +215,8 @@
     });
   }
 
+  // Phone cards: each phone fades to its data-next screen and back, once, only while on screen.
+  // Under 5s in all (WCAG 2.2.2), then stops. Hover or keyboard focus pauses it
   function initPhoneScreens() {
     if (reduceMotion.matches || !hasIO) return;
     document.querySelectorAll('.project-card__media--phones').forEach(function (media) {
