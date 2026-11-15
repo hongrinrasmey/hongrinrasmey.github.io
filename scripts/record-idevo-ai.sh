@@ -11,6 +11,8 @@ cd "$(dirname "$0")/.."
 OUT=assets/videos/idevo-raw
 case "${DEVICE:-emulator-5554}" in emulator-*) ;; *) echo "Refusing: pm clear on a real phone"; exit 1;; esac
 [ -n "${IDEVO_AI_URL:-}" ] && [ -n "${IDEVO_AI_TOKEN:-}" ] || { echo "Set IDEVO_AI_URL and IDEVO_AI_TOKEN"; exit 1; }
+# However the script ends (a step not found, a time-out, Ctrl+C): stop recording, wipe the AI token, demo mode off
+trap '$ADB shell pkill -INT screenrecord >/dev/null 2>&1; $ADB shell pm clear app.idevo.idevo >/dev/null; demo_off' EXIT
 
 say() { local i c; for ((i=0; i<${#1}; i++)); do c="${1:i:1}"; [ "$c" = " " ] && c="%s"; $ADB shell input text "'$c'"; sleep 0.06; done; }
 # waitc "part of a label" [timeout s]: waits for the AI answer; stops the script if it never comes
