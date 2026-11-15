@@ -372,7 +372,7 @@
       modal.classList.toggle('video-modal--phone', !!short || (!btn.hasAttribute('data-wide') && !!tag && /android|ios/i.test(tag.textContent)));
       modal.classList.remove('video-modal--img');
       frame.replaceChildren(player);
-      if (autoplay && !yt && !player.muted) player.play().catch(function () { player.muted = true; player.play().catch(function () {}); }); // sound blocked: play muted
+      if (autoplay && !yt) player.play().catch(function () { if (player.muted) return; player.muted = true; player.play().catch(function () {}); }); // muted (Sound off) needs play() too; sound blocked: play muted
       lastTrigger = btn;
       modal.showModal(); // browser keeps focus inside; Esc closes it
     }
