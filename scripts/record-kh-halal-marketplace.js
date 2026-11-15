@@ -103,7 +103,7 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
   h.mark(name + '-start');
   log.push(`${now().toFixed(3)} move ${mx} ${my}`);         // where the mouse really starts, so the drawn cursor never carries over from the last part
   // if a step fails, still run the off-camera clean-up (never leave the demo product on the live site)
-  try { await act(h); } catch (e) { if (after) await after(page).catch(x => console.error('clean-up failed: ' + x.message)); throw e; }
+  try { await act(h); } catch (e) { if (after) await after(page).catch(x => console.error('clean-up failed (demo product may still be live: delete it by hand): ' + x.message)); throw e; }
   h.mark(name + '-end');
   const end = now();
   await cdp.send('Page.stopScreencast'); await sleep(300);
@@ -297,7 +297,7 @@ async function part(browser, name, role, setupUrl, act, { prep, ready, after, pr
     },
     after: async page => {                                                     // delete the demo product, then check
       if (!(await myDemo(page)).length) return;
-      await page.goto(SITE + '/seller/products', { waitUntil: 'networkidle' }); await sleep(1500);
+      await page.goto(SITE + '/seller/products', { waitUntil: 'networkidle', timeout: 120000 }); await sleep(1500);
       const btn = page.locator(`button[data-action="delete"][data-name="${DEMO}"]`).first();
       await btn.click(); await sleep(400); await btn.click(); await sleep(3000);  // the site asks for a second click
       const left = await myDemo(page);

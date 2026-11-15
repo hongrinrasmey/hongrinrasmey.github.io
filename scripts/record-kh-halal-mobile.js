@@ -82,7 +82,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
   await sleep(300); await page.evaluate(() => window.scrollBy(0, 1)); await page.evaluate(() => window.scrollBy(0, -1));
   h.mark(name + '-start');
   // if a step fails, still run the off-camera clean-up (never leave the demo product behind)
-  try { await act(h); } catch (e) { if (after) await after(page).catch(x => console.error('clean-up failed: ' + x.message)); throw e; }
+  try { await act(h); } catch (e) { if (after) await after(page).catch(x => console.error('clean-up failed (demo product may still be live: delete it by hand): ' + x.message)); throw e; }
   h.mark(name + '-end');
   const end = now();
   await cdp.send('Page.stopScreencast'); await sleep(300);
@@ -187,7 +187,7 @@ async function part(browser, name, role, setupUrl, act, { prep, after } = {}) {
     },
     after: async page => {                                                     // delete the demo product, then check
       if (!(await myDemo(page)).length) return;
-      await page.goto(SITE + '/seller/products', { waitUntil: 'networkidle' }); await sleep(1500);
+      await page.goto(SITE + '/seller/products', { waitUntil: 'networkidle', timeout: 120000 }); await sleep(1500);
       const btn = page.locator(`button[data-action="delete"][data-name="${DEMO}"]`).first();   // same button as the desktop script
       await btn.scrollIntoViewIfNeeded(); await btn.tap(); await sleep(400); await btn.tap(); await sleep(3000);   // the site asks for a second tap
       const left = await myDemo(page);
