@@ -27,8 +27,9 @@
   .phone #viewport { border-radius: 38px; }
   .browser { border-radius: 14px; background: var(--surface); border: 1.5px solid rgba(255,255,255,.12); overflow: hidden; }
   #bar { display: none; height: 44px; align-items: center; justify-content: center; border-bottom: 1px solid rgba(255,255,255,.08); }
-  .browser #bar { display: flex; }
-  #bar span { display: flex; align-items: center; justify-content: center; gap: 8px; width: 520px; height: 28px; border-radius: 14px;
+  .browser #bar, .pbar { display: flex; }
+  .pbar { height: 44px; align-items: center; justify-content: center; border-bottom: 1px solid rgba(255,255,255,.08); }
+  #bar span, .pbar span { display: flex; align-items: center; justify-content: center; gap: 8px; width: 520px; height: 28px; border-radius: 14px;
     background: #292524; font: 400 15px/28px var(--sans); color: var(--muted); }
   #viewport { position: relative; overflow: hidden; background: #fff; }
   #hole { display: none; position: absolute; left: 50%; top: 13px; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%;
@@ -83,10 +84,15 @@
   #textbeat { position: absolute; left: 160px; top: 50%; font-size: 84px; font-weight: 650; letter-spacing: -0.03em; line-height: 1.12; }
   #textbeat .line { white-space: nowrap; }
   #panels { position: absolute; inset: 0; display: none; }
-  .panel { position: absolute; top: 300px; width: 740px; }
-  .panel .scr { position: relative; width: 740px; height: 416px; border-radius: 14px; overflow: hidden; border: 1.5px solid rgba(255,255,255,.14); background: #fff; }
+  /* panels are scaled copies of the device: browser = bar + screen at device size, phone = bezel (renderPanels) */
+  .panel { position: absolute; }
+  .panel .frm { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; border-radius: 14px; background: var(--surface);
+    border: 1.5px solid rgba(255,255,255,.12); box-shadow: 0 40px 90px rgba(0,0,0,.6); }
+  .panel .frm.ph { padding: 10px; border-radius: 42px; background: #0C0A09; border-color: rgba(255,255,255,.18); }
+  .panel .frm.ph .pbar { display: none; }
+  .panel .scr { position: relative; overflow: hidden; background: #fff; }
   .panel .scr img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
-  .panel .pill { margin-bottom: 22px; border: 0; color: #fff; }
+  .panel .pill { position: absolute; left: 0; top: -70px; border: 0; color: #fff; }
   #link { position: absolute; top: 508px; height: 2px; background: var(--ui); transform-origin: 0 50%; }
   #check { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: var(--app);
     display: grid; place-items: center; box-shadow: 0 0 0 8px var(--bg); }
@@ -134,8 +140,8 @@
   <div id="tl"></div>
   <div id="textbeat"></div>
   <div id="hook"><div id="glyph"></div><div id="hlines"></div><div id="hookx"></div></div>
-  <div id="panels"><div class="panel" id="pa"><span class="pill"></span><div class="scr"><img alt=""><div class="pb"></div></div></div>
-    <div class="panel" id="pb"><span class="pill"></span><div class="scr"><img alt=""><div class="pb"></div></div></div>
+  <div id="panels"><div class="panel" id="pa"><div class="frm"><div class="pbar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b class="purl" style="font-weight:400"></b></span></div><div class="scr"><img alt=""><div class="pb"></div></div></div><span class="pill"></span></div>
+    <div class="panel" id="pb"><div class="frm"><div class="pbar"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b class="purl" style="font-weight:400"></b></span></div><div class="scr"><img alt=""><div class="pb"></div></div></div><span class="pill"></span></div>
     <div id="link"></div><div id="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
   <div id="outro"><div id="oname"></div><p id="ovalue"></p><div id="orow"><span class="tag" id="otag"></span><span id="ometa"></span></div>
     <div id="obot"><div id="ocol"><div id="octa"></div><p id="olink"></p></div><figure id="oqr" style="display:none"><img alt=""><figcaption></figcaption></figure></div></div>
@@ -353,6 +359,7 @@ function blursInto(host, src, k = 'main') {
   for (const b of C.blurs || []) if ((b.take || 'main') === k && src >= b.from && src <= b.to) {
     const d = el('div', 'blur'); Object.assign(d.style, { left: b.x + 'px', top: b.y + 'px', width: b.w + 'px', height: b.h + 'px' });
     if (b.strong) Object.assign(d.style, { backdropFilter: 'blur(30px)', background: 'rgba(232,240,236,.7)' });   // phone takes are scaled down more: blur harder
+    if (b.fill) Object.assign(d.style, { backdropFilter: 'none', borderRadius: 0, background: b.fill });   // "fill": CSS background, no blur (e.g. hide the Android gesture bar without a zoom)
     host.appendChild(d); }
 }
 
@@ -489,32 +496,43 @@ function renderPanels(t, g) {
   const pv = g && beats[g.i - 1]; if (pv && pv.type === 'duo' && pv.tail && g.type !== 'finale' && t < pv.end / FPS + pv.tail) g = pv;   // duo "tail": panels stay on and fade out while the device comes back (no dark dip)
   const nf = g && beats[g.i + 1]; if (nf && nf.type === 'finale' && nf.lead && t >= nf.start / FPS - nf.lead) g = nf;   // finale "lead": s = panels start while the device is still leaving (no dark dip)
   const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
-  const a = g.start / FPS, e = g.end / FPS;
-  const out = g.tail ? inOut(prog(t, e - .2, .2 + g.tail)) : g.softOut ? inOut(prog(t, e - g.softOut, g.softOut))   // "tail": mirror of the device's return; finale "softOut": eased to 0 (no one-frame pop)
-    : inEase(prog(t, e - (g.type === 'duo' ? g.outAt ?? .45 : .35), .35));   // duo: gone just before the device is back (no double image)
-  const PT = C.portrait;   // portrait: panels stacked, the link runs down between them
-  const PW = 260, PH = Math.round(PW * 2400 / 1080);   // phone panel screen (1080x2400 takes)
-  const duo = g.type === 'duo', xs = duo ? [310, 1350] : [140, 1040];
-  [['pa', g.a, xs[0]], ['pb', g.b, xs[1]]].forEach(([id, p, x], i) => {
-    const n = $(id), u = outExpo(prog(t, a + (duo ? g.inAt ?? .65 : -(g.lead || 0)) + i * .15, .7));   // after the device has left (duo .45 s; finale: it left early); duo "inAt": earlier, no dark gap
-    const sw = p.phone ? PW : 740, sh = p.phone ? PH : 416, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
-    if (PT) { n.style.left = '170px'; n.style.top = (i ? 1320 : 520) + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
-    else { n.style.top = (p.phone ? 566 - 58 - sh / 2 : 300) + 'px'; n.style.left = x + (i ? 1 : -1) * (1 - u) * 60 + 'px'; }
-    n.style.width = sw + 'px';
-    n.style.opacity = u * (1 - out);
-    n.style.transform = PT ? 'none' : `perspective(2200px) rotateY(${(i ? -1 : 1) * 10 * u}deg)`;
+  const a = g.start / FPS, e = g.end / FPS, duo = g.type === 'duo', R = panelRects(g);
+  const out = duo ? 0 : g.softOut ? inOut(prog(t, e - g.softOut, g.softOut)) : inEase(prog(t, e - .35, .35));   // finale "softOut": eased to 0 (no one-frame pop)
+  // the device morphs into panel 0 (duo: desktop) / panel 1 (finale: seller) (renderAt); that panel fades in on top of it once it fits
+  // exactly (same picture, so only the page changes), the other one slides up beside it. Duo end: the reverse, the device grows back.
+  const vis = duo ? [inOut(prog(t, a + .55, .3)) * (1 - inOut(prog(t, e - .35, .2))), 0] : [0, inOut(prog(t, a + .35, .25)) * (1 - out)];
+  const MI = duo ? 0 : 1;
+  [['pa', g.a], ['pb', g.b]].forEach(([id, p], i) => {
+    const n = $(id), r = R[i], u = i === MI ? 1 : outExpo(prog(t, a + (duo ? .7 : .2), .7));   // after the morph, never over the moving device
+    const o = i === MI ? vis[i] : u * (duo ? 1 - inOut(prog(t, e - .5, .3)) : 1 - out);
+    Object.assign(n.style, { left: r.x + 'px', top: r.y + (1 - u) * 50 + 'px', opacity: o });
     const pill = n.querySelector('.pill'); pill.textContent = p.role; pill.style.background = C.roles[p.role]; pill.style.color = fgFor(C.roles[p.role]);
-    const scr = n.querySelector('.scr'); Object.assign(scr.style, { width: sw + 'px', height: sh + 'px', borderRadius: p.phone ? '30px' : '14px' });
+    const sw = p.phone ? r.sw : D.sw, sh = p.phone ? r.sh : D.sh, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
+    const f = n.querySelector('.frm'); f.className = 'frm' + (p.phone ? ' ph' : ''); f.style.transform = `scale(${r.k})`;
+    n.querySelector('.purl').textContent = D.url || '';
+    const scr = n.querySelector('.scr'); Object.assign(scr.style, { width: sw + 'px', height: sh + 'px', borderRadius: p.phone ? '32px' : '0' });
     const img = n.querySelector('img'), url = C.frameUrl(p.src, p.take); if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; }
     Object.assign(img.style, { width: srcW + 'px', height: srcH + 'px', transform: `scale(${sw / srcW})` });
     const pb = n.querySelector('.pb'); pb.style.cssText = `position:absolute;left:0;top:0;width:${srcW}px;height:${srcH}px;transform-origin:0 0;transform:scale(${sw / srcW})`;
     blursInto(pb, p.src, p.take || 'main'); });
-  const lu = inOut(prog(t, a + 1.0, .6)); const ln = $('link');
-  const l0 = xs[0] + 740, l1 = xs[1];   // from the right edge of panel a to the left edge of panel b
-  if (PT) Object.assign(ln.style, { left: '539px', top: 520 + 70 + 418 + 'px', width: '2px', height: 1320 - 1008 + 'px', transformOrigin: '50% 0', transform: `scaleY(${lu})`, opacity: 1 - out });
-  else Object.assign(ln.style, { left: l0 + 'px', width: l1 - l0 + 'px', height: '2px', transformOrigin: '0 50%', transform: `scaleX(${lu})`, opacity: 1 - out, top: 300 + 58 + 208 + 'px' });
-  const cu = outExpo(prog(t, a + 1.4, .5)); const ck = $('check');
-  Object.assign(ck.style, { left: (PT ? 540 : (l0 + l1) / 2) + 'px', top: (PT ? 1008 + 156 : 300 + 58 + 209) + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
+  const ln = $('link'), ck = $('check'); ln.style.display = ck.style.display = duo ? 'none' : '';   // duo: the overlap says "same site", no link
+  if (duo) return;
+  const lu = inOut(prog(t, a + 1.0, .6)), PT = C.portrait, [A, B] = R;
+  const l0 = PT ? A.y + A.h : A.x + A.w, l1 = PT ? B.y : B.x, mid = PT ? A.x + A.w / 2 : A.y + A.h / 2;   // from panel a's edge to panel b's
+  if (PT) Object.assign(ln.style, { left: mid - 1 + 'px', top: l0 + 'px', width: '2px', height: l1 - l0 + 'px', transformOrigin: '50% 0', transform: `scaleY(${lu})`, opacity: 1 - out });
+  else Object.assign(ln.style, { left: l0 + 'px', width: l1 - l0 + 'px', height: '2px', transformOrigin: '0 50%', transform: `scaleX(${lu})`, opacity: 1 - out, top: mid - 1 + 'px' });
+  const cu = outExpo(prog(t, a + 1.4, .5));
+  Object.assign(ck.style, { left: (PT ? mid : (l0 + l1) / 2) + 'px', top: (PT ? (l0 + l1) / 2 : mid) + 'px', opacity: cu * (1 - out), transform: `scale(${.6 + .4 * cu})` });
+}
+
+// where the two panels of a duo / finale sit on the stage: outer frame x, y, w, h and k = scale of the device-sized frame
+// duo: a big desktop with the phone overlapping its lower-right corner; finale: two upright browsers side by side
+function panelRects(g) {
+  const PT = C.portrait, pw = 300, ph = Math.round(pw * 2400 / 1080);
+  const box = (p, x, y, w) => p.phone ? { x, y, w: pw + 23, h: ph + 23, k: 1, sw: pw, sh: ph } : { x, y, w, h: D.oh * w / D.ow, k: w / D.ow };
+  if (PT) return [box(g.a, 140, 480, 800), box(g.b, 140, 1260, 800)];
+  if (g.type === 'duo') { const A = box(g.a, 350, 200, 1100); return [A, box(g.b, A.x + A.w - 200, A.y + A.h + 70 - (ph + 23), 0)]; }
+  const w = 820, y = Math.round((1080 - D.oh * w / D.ow) / 2) + 20; return [box(g.a, 80, y, w), box(g.b, 1920 - 80 - w, y, w)];
 }
 
 function renderOutro(t) {
@@ -572,14 +590,19 @@ window.renderAt = async (t, clean) => {
     tr += ` scale(${1 - .08 * shade}) rotateY(${ang}deg)`;
   }
   const fin = beats.find(b => b.type === 'finale'), leaveAt = fin ? fin.start / FPS - .45 : outroStart / FPS - (C.outro.leadIn || 0);   // "leadIn": leave before the outro text rises (no overlap)   // finale: leaves with the last caption
-  let lv = (fin || C.outro.leadIn ? inOut : inEase)(prog(t, leaveAt, .45));   // finale / leadIn: eased both ends, no steep brightness drop
-  for (const b of beats) if (b.type === 'duo') {   // steps aside for a duo beat, then comes back
+  const lv = fin ? 0 : (C.outro.leadIn ? inOut : inEase)(prog(t, leaveAt, .45));   // leadIn: eased both ends, no steep brightness drop
+  // duo / finale: the device shrinks into its panel (renderPanels), which then takes over; a duo hands back and the device grows again
+  let m = 0, mr = null;
+  if (fin && t >= leaveAt) { m = inOut(prog(t, leaveAt, .8)); mr = panelRects(fin)[1]; if (t >= fin.start / FPS + .6) op = 0; }
+  for (const b of beats) if (b.type === 'duo') {
     const da = b.start / FPS, de = b.end / FPS;
-    if (t >= da && t < de + .8) lv = Math.max(lv, inOut(prog(t, da, .75)) * (1 - inOut(prog(t, de - .2, .75))));   // eased out and back (no steep brightness step), back as the panels finish
+    if (t >= da && t < de + .6) { m = inOut(prog(t, da, .6)) * (1 - inOut(prog(t, de - .15, .65))); mr = panelRects(b)[0]; if (t > da + .85 && t < de - .35) op = 0; }
   }
+  if (m > 0) { const s = 1 + (mr.k - 1) * m;
+    tr = `translate(${(mr.x + mr.w / 2 - D.left - D.ow / 2) * m}px, ${(mr.y + mr.h / 2 - D.top - D.oh / 2) * m}px) scale(${s}) ` + tr; }
   op *= 1 - lv; tr += ` translateY(${lv * 40}px)`;
   dev.style.opacity = op; dev.style.transform = tr;
-  $('shadow').style.opacity = op * spring(t - devIn) * .9;
+  $('shadow').style.opacity = op * spring(t - devIn) * .9 * (1 - m);
   const blurOn = g && g.type === 'text' ? inOut(prog(t, g.start / FPS, .45)) * (1 - inOut(prog(t, g.end / FPS - .45, .45))) : 0;
   $('viewport').style.filter = blurOn > .001 ? `blur(${14 * blurOn}px) brightness(${1 - .45 * blurOn})` : shade > .001 ? `brightness(${1 - .75 * shade})` : '';
 

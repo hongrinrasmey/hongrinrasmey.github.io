@@ -30,7 +30,7 @@ KIND = {'enter': 'swoosh', 'chapter': 'swoosh', 'tap': 'tap', 'key': 'key', 'lab
 # "kit": true in the audio block = the shared AUDIO.md 5b kit: no chapter or CTA sound, labels silent unless named in labelSfx,
 # text hit on hook + text lines (last hook line +3 dB), riser into the outro + bloom on it, no swipe sounds,
 # music dips only under hero sounds ("extra" with dB > 0, and the outro)
-KIT = {'enter': 'fxwhoosh', 'chapter': None, 'label': None, 'swipe': None, 'text': 'fxhit', 'hook': 'fxhit', 'outro': 'boom', 'cta': None}   # no chapter/CTA tick: owner 2026-11-14 ("the beep sound always come up")
+KIT = {'enter': 'fxwhoosh', 'chapter': None, 'label': None, 'swipe': None, 'text': None, 'hook': None, 'outro': 'boom', 'cta': None}   # no chapter/CTA tick: owner 2026-11-14 ("the beep sound always come up"); no text/hook hit: owner 2026-11-15 ("bom bom" when the words pop up)
 LOWER = {'chapter': -3, 'swipe': -5, 'label': -2}   # extra dB for the busier kinds
 PRIORITY = ['extra', 'enter', 'duoIn', 'duoOut', 'outro', 'text', 'hook', 'tap', 'key', 'cta', 'label', 'chapter', 'swipe']   # earlier wins a clash
 
