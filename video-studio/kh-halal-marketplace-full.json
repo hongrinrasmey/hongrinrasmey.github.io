@@ -28,7 +28,7 @@
     { "from": 108.1, "to": 176.5, "x": 1784, "y": 6, "w": 122, "h": 50 },
     { "from": 147.3, "to": 149.2, "x": 290, "y": 120, "w": 1400, "h": 80 }
   ],
-  "audio": { "musicDown": 3, "track": "rt-b.mp3", "parts": [[2.93, 50.94], [56.82, 72.04]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+  "audio": { "musicDown": 5, "sfxUp": 2, "track": "rt-b.mp3", "parts": [[2.93, 50.94], [56.82, 72.04]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
     "labelSfx": { "In the cart": "pop" }, "sfxOff": ["duoIn","duoOut"],
     "extra": [[37.783, "fxwhoosh", 0], [40.033, "glitch", 2], [54.517, "notify", -3], [56.936, "fxwhoosh", 0]] },
   "beats": [

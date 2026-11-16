@@ -16,7 +16,7 @@
       { "text": "AI drafts the course.", "key": "course", "at": 1.15 }
     ]
   },
-  "audio": { "musicDown": 3, "track": "../music/launch-review.mp3", "parts": [[0.0, 31.69], [103.35, 126.05]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+  "audio": { "musicDown": 5, "sfxUp": 2, "track": "../music/launch-review.mp3", "parts": [[0.0, 31.69], [103.35, 126.05]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
     "extra": [[26.117, "notify", -3], [40.3, "flip", 0]], "beds": [[10.45, 11.2, "shimmer"], [15.4, 18.5, "shimmer"], [30.4, 31.6, "shimmer"]] },
   "beats": [
     { "take": "ai", "caption": "Describe it in one sentence",

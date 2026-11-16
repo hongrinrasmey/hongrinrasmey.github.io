@@ -207,6 +207,7 @@ def main():
     if a.get('musicDown'):   # "musicDown": dB (owner 2026-11-15: song a little lower) = song quieter by dB, effects exactly as loud as without it
         _, j0 = measure(duck(m, hero, a.get('duck', 5)) + sfx, 'ref.wav')
         m = m * 10 ** (-a['musicDown'] / 20)
+        sfx = sfx * 10 ** (a.get('sfxUp', 0) / 20)   # "sfxUp": dB (owner 2026-11-16: effects a little louder), needs musicDown
     mix = duck(m, hero, a.get('duck', 5)) + sfx
     wav, j = measure(mix, 'mix.wav')
     if a.get('musicDown'): target = round(-16 + float(j['input_i']) - float(j0['input_i']), 2)   # same gain as the reference mix
