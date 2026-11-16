@@ -36,7 +36,7 @@
     background: #0C0A09; z-index: 5; }
   .phone #hole { display: block; }
   #cam, #cam2 { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-  #screen, #screen2 { display: block; position: absolute; left: 0; top: 0; }
+  #screen, #screen2 { display: block; position: absolute; left: 0; top: 0; filter: brightness(var(--scrB, 1)); }
   .blur { position: absolute; border-radius: 10px; backdrop-filter: blur(10px); background: rgba(232,240,236,.35); }
   .hole { position: absolute; }
   .spotline { position: absolute; overflow: visible; }
@@ -92,7 +92,7 @@
   .panel .frm.ph { padding: 10px; border-radius: 42px; background: #0C0A09; border-color: rgba(255,255,255,.18); }
   .panel .frm.ph .pbar { display: none; }
   .panel .scr { position: relative; overflow: hidden; background: #fff; }
-  .panel .scr img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+  .panel .scr img { filter: brightness(var(--scrB, 1)); position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
   .panel .pill { position: absolute; left: 0; top: -70px; border: 0; color: #fff; }
   #link { position: absolute; top: 508px; height: 2px; background: var(--ui); transform-origin: 0 50%; }
   #check { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: var(--app);
@@ -113,6 +113,7 @@
   .portrait #textbeat { left: 0; right: 0; text-align: center; }
   .portrait #oname { font-size: 104px; padding: 0 60px; }
   .portrait #ovalue { font-size: 36px; max-width: 900px; }
+  #tl.tall .st b { display: none; } #tl.tall .hd { left: -50px; font-size: 20px; } .portrait #tl.tall .st small { font-size: 22px; }
   .portrait #tl .st b { font-size: 32px; } .portrait #tl .st small { font-size: 26px; }
   #ovalue { margin-top: 22px; font-size: 38px; color: var(--muted); letter-spacing: -0.01em; }
   #orow { margin-top: 34px; display: flex; gap: 18px; align-items: center; font: 500 24px/1 var(--mono); color: var(--muted); letter-spacing: .03em; }
@@ -158,16 +159,26 @@ const bez = (x1, y1, x2, y2) => x => {               // cubic-bezier(x1,y1,x2,y2
     const d = 3 * x1 * (1 - t) ** 2 + 6 * (x2 - x1) * t * (1 - t) + 3 * (1 - x2) * t * t; if (Math.abs(d) < 1e-6) break; t = clamp(t - c / d); }
   return 3 * y1 * t * (1 - t) ** 2 + 3 * y2 * t * t * (1 - t) + t ** 3; };
 const outExpo = bez(.16, 1, .3, 1), inEase = bez(.7, 0, .84, 0), inOut = bez(.65, 0, .35, 1);
+// motion system (2026-11-16, plan #24): new motion uses outExpo (in) / inEase (out) / inOut (moves) and only these 3 durations
+const DUR = { fast: .3, base: .5, slow: 1.2 };
+// label pop: .9 -> 1.03 -> 1, no wobble after
+const pop = u => u <= 0 ? .9 : u < .6 ? .9 + .13 * ss(u / .6) : 1.03 - .03 * ss(clamp((u - .6) / .4));
 const spring = x => x <= 0 ? 0 : 1 - (1 + 8 * x) * Math.exp(-8 * x);   // critically damped (no bounce), ~1s to settle
 const prog = (t, a, d) => clamp((t - a) / d);
 const ss = u => u * u * (3 - 2 * u);
 const $ = id => document.getElementById(id);
+const isDuo = b => !!b && (b.type === 'duo' || b.type === 'split');   // "split" = a duo of two phone screens side by side (plan #39)
 // text colour for a role pill: dark on light backgrounds, white on dark ones (contrast >= 4.5:1)
 const fgFor = hex => { const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
   return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] > .18 ? '#0C0A09' : '#FFFFFF'; };
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 
 let C, D, beats, frames, total, hookEnd, outroStart, devIn;
+let SIDE = { dx: 0, left: false };   // where the 16:9 phone stands this frame ("side" on a beat, plan #36)
+const sideAt = i => { for (let j = i; j >= 0; j--) if (beats[j].ss) return beats[j].side === 'left' ? 1920 - 2 * (D.left + D.ow / 2) : 0; return 0; };   // phone x shift of the clip beat at or before i
+// "12,000 ៛ ≈ $2.93" at u = .5 -> "6,000 ៛ ≈ $1.47": every number scaled by u, same decimals and thousands commas
+const countUp = (s, u) => s.replace(/\d[\d,]*(\.\d+)?/g, m => { const dec = (m.split('.')[1] || '').length, v = parseFloat(m.replace(/,/g, '')) * u;
+  return v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }); });
 
 // ---------- timeline ----------
 // A clip beat plays one or more [srcStart, srcEnd, speed] pieces. Touching pieces form one run: the speed
@@ -199,6 +210,10 @@ window.init = cfg => {
   C.frameUrl = (s, k = 'main') => `${C.tk[k].frames}/f_${String(clamp(Math.floor(s * FPS + 1e-6) + 1, 1, C.tk[k].nFrames)).padStart(5, '0')}.jpg`;
   const r = document.documentElement.style;
   r.setProperty('--app', C.app.accent); r.setProperty('--ui', C.app.ui);
+  // "screenBright": .95 (top level) = the recorded screens a little darker (KH white pages on the dark stage, plan #41); overlays keep their colour
+  r.setProperty('--scrB', C.screenBright || 1);
+  // "captionPx": 54 (top level, 16:9 browser) = bigger chapter captions under the browser (default 42, plan #37)
+  if (C.captionPx) $('caption').style.fontSize = C.captionPx + 'px';
   // layout: phone right of a text column, callouts right of the phone; browser wide with a caption row under it
   const stage = $('stage'), P = !!C.portrait; stage.className = (ph ? 'phonecap' : 'browsercap') + (P ? ' portrait' : '');
   C.W = P ? 1080 : 1920; C.H = P ? 2340 : 1080; stage.style.width = C.W + 'px'; stage.style.height = C.H + 'px';
@@ -246,7 +261,7 @@ window.init = cfg => {
     if (b.clips) { const ss = clipFrames(b.clips); g.ss = ss; ss.forEach(s => push(bi, s, g.take));
       for (let k = 0; k < Math.round((b.hold || 0) * FPS); k++) push(bi, ss[ss.length - 1], g.take); lastSrc = ss[ss.length - 1]; lastK = g.take; }
     else { const n = Math.round(b.dur * FPS), next = C.beats.slice(bi + 1).find(x => x.clips);
-      for (let k = 0; k < n; k++) { const nx = next && (b.type === 'flip' || b.type === 'text' ? k >= n / 2 : b.type === 'duo' && k >= n - Math.round(.4 * FPS));   // duo: the browser comes back already on the next beat; text: swaps under full blur, so it unblurs onto the next screen
+      for (let k = 0; k < n; k++) { const nx = next && (b.type === 'flip' || b.type === 'text' ? k >= n / 2 : isDuo(b) && k >= n - Math.round(.4 * FPS));   // duo: the browser comes back already on the next beat; text: swaps under full blur, so it unblurs onto the next screen
         push(bi, nx ? next.clips[0][0] : lastSrc, nx ? next.take || 'main' : lastK); } }
     g.end = frames.length;
   });
@@ -317,11 +332,12 @@ function renderHook(t) {
   const exit = H.xfade ? inOut(prog(t, H.dur - .25, .45)) : inEase(prog(t, H.dur - .4, .4));   // "xfade": the text fades over the device's entry (no empty frame between)
   hk.style.transform = `translateY(calc(-50% - ${exit * 40}px))`; hk.style.opacity = 1 - exit;
   [...$('hlines').children].forEach((d, i) => {
-    const a = H.lines[i].at; [...d.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .08, .5))));
+    // "open": true (hook, plan #52) = the first word (and the first glyph) is already in on frame 0, so the video never starts on an empty black frame; the rest rises as before
+    const a = H.lines[i].at; [...d.querySelectorAll('.w')].forEach((w, j) => rise(w, H.open && !i && !j ? 1 : outExpo(prog(t, a + j * .08, .5))));
     const key = d.querySelector('.key i'); if (key) key.style.transform = `scaleX(${outExpo(prog(t, a + .55, .5))})`; });
   if (H.glyphs) [...$('glyph').children].forEach((g, i) => {        // $ -> ៛ -> $ ៛ : blur + scale cross-morph
     const a = H.lines[i].at, nx = H.lines[i + 1] ? H.lines[i + 1].at : 99;
-    const u = outExpo(prog(t, a - .05, .45)), o = inEase(prog(t, nx - .2, .25));
+    const u = H.open && !i ? 1 : outExpo(prog(t, a - .05, .45)), o = inEase(prog(t, nx - .2, .25));
     g.style.opacity = u * (1 - o); g.style.filter = `blur(${(1 - u) * 14 + o * 14}px)`;
     g.style.transform = `scale(${.82 + .18 * u + .12 * o})`; });
   const x = $('hookx');
@@ -347,8 +363,15 @@ function cameraAt(g, t) {
     const u = inOut(prog(t, o, kf[4] || .9)), to = { z: kf[1], x: kf[2], y: kf[3] };
     st = { z: st.z + (to.z - st.z) * u, x: st.x + (to.x - st.x) * u, y: st.y + (to.y - st.y) * u };
   }
+  // "hero": 1.1 (or true) on ONE spot per video = a slow push-in toward that highlight (plan #27): starts with the highlight,
+  // eases in over DUR.slow (1.2 s), then holds to the end of the beat (no zoom back out before the cut); with "to", it settles back after that
+  for (const sp of g.spots || []) if (sp.hero) { const o = outOf(g, sp.from); if (o == null) continue;
+    const e = sp.to != null ? outOf(g, sp.to) : null;   // a highlight with "to" in a longer beat: settle back slowly after it (the next highlight is not cut)
+    const u = inOut(prog(t, o, DUR.slow)) * (e != null ? 1 - inOut(prog(t, e, DUR.slow)) : 1), Z = sp.hero === true ? 1.1 : sp.hero, z = st.z * (1 + (Z - 1) * u);
+    st = { z, x: st.x + (sp.x + sp.w / 2 - st.x) * u, y: st.y + (sp.y + sp.h / 2 - st.y) * u }; }
   // "camOut": s (top level, opt-in) = every clip beat eases back to 1x over its last s seconds: each cut happens at the same size
-  if (C.camOut && g.ss) { const u = inOut(prog(t, g.end / FPS - C.camOut, C.camOut));
+  if (C.camOut && g.ss && !(g.spots || []).some(sp => sp.hero && sp.to == null)) {   // a hero beat keeps its push-in to the cut (no zoom back out: one move)
+    const u = inOut(prog(t, g.end / FPS - C.camOut, C.camOut));
     if (u > 0) st = { z: st.z + (1 - st.z) * u, x: st.x + (D.srcW / 2 - st.x) * u, y: st.y + (D.srcH / 2 - st.y) * u }; }
   const s = D.k * st.z;
   const tx = clamp(D.sw / 2 - st.x * s, D.sw - D.srcW * s, 0), ty = clamp(D.sh / 2 - st.y * s, D.sh - D.srcH * s, 0);
@@ -388,38 +411,64 @@ function renderSpots(g, t, cam, clean) {
     host.appendChild(hole);
     const sw = 3 / cam.s, svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'spotline');
     Object.assign(svg.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
-    svg.innerHTML = `<rect x="0" y="0" width="${w}" height="${h}" rx="${r}" pathLength="1" stroke-width="${sw}" stroke-dasharray="1 1" stroke-dashoffset="${1 - outExpo(prog(t, a + .05, .55))}" opacity="${dout}"/>`;
+    // plan #23: outline draws first, then the connector, then the label pops (.9 -> 1.03 -> 1); the label time (a + .35) is unchanged, so sounds stay in sync
+    svg.innerHTML = `<rect x="0" y="0" width="${w}" height="${h}" rx="${r}" pathLength="1" stroke-width="${sw}" stroke-dasharray="1 1" stroke-dashoffset="${1 - outExpo(prog(t, a, DUR.fast + .1))}" opacity="${dout}"/>`;
     host.appendChild(svg);
     if (!sp.label || !settled) continue;
-    // callout: phone -> pill right of the phone + connector; browser -> pill under (or over) the spot
+    // callout: phone -> pill right of the phone + connector (left of it when the phone stands on the left, "side"); browser -> pill under (or over) the spot
     const L = { x: D.sx + cam.tx + x * cam.s, y: D.sy + cam.ty + y * cam.s, w: w * cam.s, h: h * cam.s };
     const scr = { x: D.sx, y: D.sy, r: D.sx + D.sw, b: D.sy + D.sh };
-    const u = outExpo(prog(t, a + .35, .5)), pill = el('span', 'pill callout', sp.label);
+    const pu = prog(t, a + .35, .45), u = outExpo(prog(t, a + .35, .2));
+    // "count": true on a spot = the numbers in its label count up from 0 while it pops in (plan #29; the label text, never the screen)
+    const pill = el('span', 'pill callout', sp.count ? countUp(sp.label, outExpo(prog(t, a + .35, .7))) : sp.label);
     pill.style.opacity = u * dout; co.appendChild(pill);
-    if (D.labelPx && !C.portrait) { const F = D.focus || 1, ox = D.left + D.ow / 2;   // "labelPx": bigger 16:9 labels, never past the right edge at full focus
-      Object.assign(pill.style, { fontSize: D.labelPx + 'px', maxWidth: Math.round(Math.min(410 * D.labelPx / 24, (1880 - ox) / F + ox - (D.left + D.ow + 56))) + 'px' }); }
+    const left = D.type === 'phone' && !C.portrait && SIDE.left;
+    if (D.labelPx && !C.portrait) { const F = D.focus || 1, ox = D.left + D.ow / 2;   // "labelPx": bigger 16:9 labels, inside the 5% title-safe area (x <= 1824) even at full focus
+      Object.assign(pill.style, { fontSize: D.labelPx + 'px', maxWidth: Math.round(left ? D.left + SIDE.dx - 56 - 96 : Math.min(410 * D.labelPx / 24, (1824 - ox) / F + ox - (D.left + D.ow + 56))) + 'px' }); }
+    if (sp.count) pill.style.fontVariantNumeric = 'tabular-nums';   // digits keep their width while counting: the pill does not jitter
     const ph = pill.offsetHeight, pw = pill.offsetWidth;
     if (D.type === 'phone' && !C.portrait) {
-      const edge = Math.min(L.x + L.w, scr.r - 6), cy = clamp(L.y + L.h / 2, Math.max(scr.y + 30, L.y + 10), Math.min(scr.b - 30, L.y + L.h - 10));
-      const px = D.left + D.ow + 56, py = clamp(cy - ph / 2, 120, 1080 - 120 - ph);
-      pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transform = `translateX(${(1 - u) * 24}px)`;
-      const len = px - edge, c = el('div', 'conn'); const ly = clamp(cy, py + 14, py + ph - 14);
-      Object.assign(c.style, { left: edge + 'px', top: ly - 1 + 'px', width: len + 'px', transform: `scaleX(${outExpo(prog(t, a + .3, .45))})`, opacity: dout });
-      const dt = el('div', 'cdot'); Object.assign(dt.style, { left: edge + 'px', top: ly + 'px', opacity: din * dout });
+      const cy = clamp(L.y + L.h / 2, Math.max(scr.y + 30, L.y + 10), Math.min(scr.b - 30, L.y + L.h - 10));
+      const edge = left ? Math.max(L.x, scr.x + 6) : Math.min(L.x + L.w, scr.r - 6);
+      const px = left ? D.left - 56 - pw : D.left + D.ow + 56, py = clamp(cy - ph / 2, 120, 1080 - 120 - ph);
+      pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transformOrigin = left ? '100% 50%' : '0 50%'; pill.style.transform = `scale(${pop(pu)})`;
+      const len = left ? edge - (px + pw) : px - edge, c = el('div', 'conn'); const ly = clamp(cy, py + 14, py + ph - 14);
+      Object.assign(c.style, { left: (left ? px + pw : edge) + 'px', top: ly - 1 + 'px', width: len + 'px', transformOrigin: left ? '100% 50%' : '0 50%',
+        transform: `scaleX(${outExpo(prog(t, a + .15, .25))})`, opacity: dout });
+      const dt = el('div', 'cdot'); Object.assign(dt.style, { left: edge + 'px', top: ly + 'px', opacity: outExpo(prog(t, a + .1, .2)) * dout });
       co.append(c, dt);
     } else if (C.portrait && D.labelsTop) {                       // tall phone: pill in the gap above the phone, never over the app
-      pill.style.left = D.left + 'px'; pill.style.top = D.top - ph - 36 + 'px'; pill.style.transform = `translateY(${(1 - u) * 14}px)`;
+      pill.style.left = D.left + 'px'; pill.style.top = D.top - ph - 36 + 'px'; pill.style.transformOrigin = '0 100%'; pill.style.transform = `scale(${pop(pu)})`;
     } else {
       if (sp.side === 'right') {                                   // tall spot: pill beside it, centred
         const px = Math.min(L.x + L.w + 16, scr.r - 16 - pw), py = clamp(L.y + L.h / 2 - ph / 2, scr.y + 16, scr.b - 16 - ph);
-        pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transform = `translateX(${(1 - u) * -14}px)`;
+        pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transformOrigin = '0 50%'; pill.style.transform = `scale(${pop(pu)})`;
       } else {
         const below = sp.side !== 'above', px = clamp(L.x + (sp.dx || 0), scr.x + 16, scr.r - 16 - pw);
-        const py = below ? Math.min(L.y + L.h + 14, scr.b - 16 - ph) : Math.max(L.y - 14 - ph, scr.y + 16);
-        pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transform = `translateY(${(1 - u) * (below ? -14 : 14)}px)`;
+        // "labelsNear": true (device, tall version, plan #38) = the pill sits 44 px from its highlight with a short line to it (not fixed above the phone)
+        const near = C.portrait && D.labelsNear, gp = near ? 44 : 14;
+        const py = below ? Math.min(L.y + L.h + gp, scr.b - 16 - ph) : Math.max(L.y - gp - ph, scr.y + 16);
+        pill.style.left = px + 'px'; pill.style.top = py + 'px'; pill.style.transformOrigin = below ? '0 0' : '0 100%'; pill.style.transform = `scale(${pop(pu)})`;
+        if (near) { const y0 = below ? L.y + L.h : py + ph, y1 = below ? py : L.y, c = el('div', 'conn');
+          Object.assign(c.style, { left: px + 34 + 'px', top: y0 + 'px', width: '2px', height: Math.max(0, y1 - y0) + 'px', transformOrigin: below ? '50% 0' : '50% 100%',
+            transform: `scaleY(${outExpo(prog(t, a + .15, .25))})`, opacity: dout }); co.append(c); }
       }
     }
   }
+}
+
+// plan #33 "carry": { "at": srcTime, "from": [srcTime, x, y, w, h], "to": [srcTime, x, y, w, h] } on a beat (same take) = from "at" to "to",
+// the real pixels of the from-rect (taken from the from-frame) fly to the to-rect, then fade into the real one. Same take only.
+async function renderCarry(g, t) {
+  const K = g.carry, a = outOf(g, K.at), b = outOf(g, K.to[0]); if (a == null || b == null || t < a || t > b) return;
+  const e = inOut(prog(t, a, b - a)), [, fx, fy, fw, fh] = K.from, [, tx, ty, tw2, th] = K.to, k = 1 + (tw2 / fw - 1) * e;
+  const cx = fx + fw / 2 + (tx + tw2 / 2 - fx - fw / 2) * e, cy = fy + fh / 2 + (ty + th / 2 - fy - fh / 2) * e;
+  const box = el('div'), im = el('img'); box.appendChild(im);
+  Object.assign(box.style, { position: 'absolute', overflow: 'hidden', left: cx - fw / 2 + 'px', top: cy - fh / 2 + 'px', width: fw + 'px', height: fh + 'px',
+    transform: `scale(${k})`, borderRadius: '12px', opacity: 1 - inOut(prog(t, a + (b - a) * .7, (b - a) * .3)) });
+  Object.assign(im.style, { position: 'absolute', left: -fx + 'px', top: -fy + 'px', width: D.srcW + 'px', height: D.srcH + 'px' });
+  im.src = C.frameUrl(K.from[0], g.take); await im.decode();
+  $('spots').appendChild(box);
 }
 
 function renderTaps(g, t, src, cam, clean) {
@@ -445,41 +494,54 @@ function renderTaps(g, t, src, cam, clean) {
 }
 
 function renderCaption(t, fi) {
-  const f = frames[fi], g = f.b >= 0 ? beats[f.b] : null, cap = $('caption'), ct = $('ctext');
+  const f = frames[fi], cap = $('caption'), ct = $('ctext');
+  let g = f.b >= 0 ? beats[f.b] : null;
+  // a duo / split shows the next beat's screen in its last .4 s (init; the device is back ~.3 s before the end): the next caption comes in with it (plan #26)
+  if (isDuo(g) && t >= g.end / FPS - .3 && beats[g.i + 1] && beats[g.i + 1].caption) g = beats[g.i + 1];
   const text = g && g.caption, role = g && g.role;
   if (!text) { cap.style.opacity = 0; return; }
-  const gs = g.start / FPS, ge = g.end / FPS;
+  const gs = g.start / FPS - (isDuo(beats[g.i - 1]) ? .3 : 0), ge = g.end / FPS;
   const prev = beats[g.i - 1], next = beats[g.i + 1];
   const same = b => b && b.caption === text;
-  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : g.type === 'duo' ? g.inAt ?? .65 : 0);   // caption rises on the cut frame, never a bare screen (duo: with its panels)
+  const moved = D.type === 'phone' && !C.portrait && g.ss && sideAt(g.i) !== sideAt(g.i - 1);   // the phone changes side: the caption waits until it has landed (never under the moving phone)
+  const a = same(prev) ? -9 : gs + (g.i === beats.findIndex(b => b.clips) ? .55 : isDuo(g) ? g.inAt ?? .65 : moved ? DUR.base : 0);   // caption rises on the cut frame, never a bare screen (duo: with its panels)
   const lead = next && next.type === 'finale' ? .45 : !next && C.outro.leadIn;   // before a finale / a "leadIn" outro: fades with the device
-  const out = same(next) ? 0 : lead ? inEase(prog(t, ge - lead, lead)) : inEase(prog(t, ge - .28, .28));
-  if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text);
+  // a duo / split shows the next beat's screen in its last .4 s (init): its caption is gone by then, never over the next screen (plan #26)
+  const end = isDuo(g) ? ge - .3 : ge;
+  const out = same(next) ? 0 : lead ? inEase(prog(t, ge - lead, lead)) : inEase(prog(t, end - DUR.fast, DUR.fast));
+  if (ct.dataset.t !== text) { ct.dataset.t = text; words(ct, text, g.key);   // "key" on a beat = the caption word that gets the underline
+    [...ct.querySelectorAll('.w')].forEach(w => rise(w, 1));
     $('cnum').innerHTML = C.chapters ? `<b>${String(g.chap).padStart(2, '0')}</b> / ${String(C.nChap).padStart(2, '0')}` : '';
     $('cnum').style.display = C.chapters ? '' : 'none'; $('csub').textContent = g.sub || ''; $('csub').style.display = g.sub ? '' : 'none'; }
-  [...ct.querySelectorAll('.w')].forEach((w, j) => rise(w, outExpo(prog(t, a + j * .03, .36))));   // fast: readable within ~.3 s of the cut
-  const su = outExpo(prog(t, a + .3, .6)); $('csub').style.opacity = su; $('csub').style.transform = `translateY(${(1 - su) * 12}px)`;
-  const cu = outExpo(prog(t, a, .5)); $('cnum').style.opacity = cu;
+  // plan #22: the whole line slides up 12 px + fades in on the cut frame (was a word-by-word mask rise), then the key word's underline draws
+  const cin = outExpo(prog(t, a, DUR.fast)); ct.style.opacity = cin; ct.style.transform = `translateY(${(1 - cin) * 12}px)`;
+  const kl = ct.querySelector('.key i'); if (kl) kl.style.transform = `scaleX(${outExpo(prog(t, a + DUR.fast, DUR.base))})`;
+  const su = outExpo(prog(t, a + DUR.fast, DUR.base)); $('csub').style.opacity = su; $('csub').style.transform = `translateY(${(1 - su) * 12}px)`;
+  const cu = outExpo(prog(t, a, DUR.fast)); $('cnum').style.opacity = cu;
   cap.style.opacity = 1 - out;
   const rl = $('role'); rl.style.display = role ? '' : 'none';
   if (role) { $('rtext').textContent = role; rl.style.setProperty('--rc', C.roles[role]); rl.style.color = fgFor(C.roles[role]);
     rl.style.opacity = outExpo(prog(t, devIn, .5)); }
-  if (D.type === 'phone' && !C.portrait) { cap.style.transform = `translateY(-50%)`; cap.style.top = (g.timeline ? 450 : 540) + 'px'; }
+  if (D.type === 'phone' && !C.portrait) { cap.style.transform = `translateY(-50%)`; cap.style.top = (g.timeline ? 450 : 540) + 'px'; cap.style.left = (SIDE.left ? 1080 : 160) + 'px'; }   // phone on the left: text column on the right
 }
 
 function renderTimeline(t, g) {
-  const tl = $('tl'); const T = g && g.timeline && !(C.portrait && D.top + D.oh + 160 > C.H) ? g.timeline : null;   // tall phone with no room under it: skip (the buttons show the same)
+  // tall phone with no room under it: skipped, unless "tall": true (plan #53) = a compact copy above the phone, right of the label (stop names hidden: the buttons on screen show them)
+  const tall = C.portrait && g && g.timeline && g.timeline.tall && D.top + D.oh + 160 > C.H;
+  const tl = $('tl'); const T = g && g.timeline && (tall || !(C.portrait && D.top + D.oh + 160 > C.H)) ? g.timeline : null;
+  const TW = tall ? 340 : 520;
   tl.style.display = T ? '' : 'none'; if (!T) return;
   const a = outOf(g, T.from), ge = g.end / FPS; if (a == null) return;
   if (tl.dataset.b !== String(g.i)) { tl.dataset.b = g.i; tl.textContent = ''; tl.appendChild(el('div', 'base')); if (T.title) tl.appendChild(el('div', 'hd', T.title));   // "title": heading above the dots
     T.stops.forEach(s => { const d = el('div', 'dot'); const st = el('div', 'st'); st.append(el('b', null, s[0]), el('small', null, s[1])); tl.append(d, st); }); }
-  tl.style.top = (C.portrait ? D.top + D.oh + 40 : $('caption').getBoundingClientRect().bottom + (T.y || 44)) + 'px';   // under the caption (portrait: under the phone)
-  if (C.portrait) tl.style.left = (C.W - 520) / 2 + 'px';
+  tl.style.width = TW + 'px'; tl.classList.toggle('tall', !!tall);
+  tl.style.top = (tall ? D.top - 156 : C.portrait ? D.top + D.oh + 40 : $('caption').getBoundingClientRect().bottom + (T.y || 44)) + 'px';   // under the caption (portrait: under the phone)
+  tl.style.left = (tall ? D.left + D.ow + 11 - TW : C.portrait ? (C.W - 520) / 2 : SIDE.left ? 1130 : 210) + 'px';
   const out = 1 - inEase(prog(t, ge - .28, .28)); tl.style.opacity = out;
   tl.querySelector('.base').style.transform = `scaleX(${outExpo(prog(t, a, .6))})`;
   const hd = tl.querySelector('.hd'); if (hd) hd.style.opacity = outExpo(prog(t, a, .5));
   const dots = tl.querySelectorAll('.dot'), sts = tl.querySelectorAll('.st');
-  T.stops.forEach((s, i) => { const u = outExpo(prog(t, a + .25 + i * .22, .5)), x = 520 * T.pos[i];
+  T.stops.forEach((s, i) => { const u = outExpo(prog(t, a + .25 + i * .22, .5)), x = TW * T.pos[i];
     Object.assign(dots[i].style, { left: x + 'px', opacity: u, transform: `scale(${.4 + .6 * u})` });
     Object.assign(sts[i].style, { left: x + 'px', opacity: u, transform: `translate(-50%, ${(1 - u) * 10}px)` }); });
 }
@@ -495,10 +557,10 @@ function renderTextBeat(t, g) {
 function renderPanels(t, g) {
   // "finale": two browser panels (shopper / seller). "duo" (desktop only): the same site on a desktop and on a phone
   // (panel "phone": true = a phone-shaped screen from a phone-sized take, e.g. "take": "mobile")
-  const pv = g && beats[g.i - 1]; if (pv && pv.type === 'duo' && pv.tail && g.type !== 'finale' && t < pv.end / FPS + pv.tail) g = pv;   // duo "tail": panels stay on and fade out while the device comes back (no dark dip)
+  const pv = g && beats[g.i - 1]; if (pv && isDuo(pv) && pv.tail && g.type !== 'finale' && t < pv.end / FPS + pv.tail) g = pv;   // duo "tail": panels stay on and fade out while the device comes back (no dark dip)
   const nf = g && beats[g.i + 1]; if (nf && nf.type === 'finale' && nf.lead && t >= nf.start / FPS - nf.lead) g = nf;   // finale "lead": s = panels start while the device is still leaving (no dark dip)
-  const P = $('panels'), on = g && (g.type === 'finale' || g.type === 'duo'); P.style.display = on ? 'block' : 'none'; if (!on) return;
-  const a = g.start / FPS, e = g.end / FPS, duo = g.type === 'duo', R = panelRects(g);
+  const P = $('panels'), on = g && (g.type === 'finale' || isDuo(g)); P.style.display = on ? 'block' : 'none'; if (!on) return;
+  const a = g.start / FPS, e = g.end / FPS, duo = isDuo(g), R = panelRects(g);
   const out = duo ? 0 : g.softOut ? inOut(prog(t, e - g.softOut, g.softOut)) : inEase(prog(t, e - .35, .35));   // finale "softOut": eased to 0 (no one-frame pop)
   // the device morphs into panel 0 (duo: desktop) / panel 1 (finale: seller) (renderAt); that panel fades in on top of it once it fits
   // exactly (same picture, so only the page changes), the other one slides up beside it. Duo end: the reverse, the device grows back.
@@ -508,11 +570,14 @@ function renderPanels(t, g) {
     const n = $(id), r = R[i], u = i === MI ? 1 : outExpo(prog(t, a + (duo ? .7 : .2), .7));   // after the morph, never over the moving device
     const o = i === MI ? vis[i] : u * (duo ? 1 - inOut(prog(t, e - .5, .3)) : 1 - out);
     Object.assign(n.style, { left: r.x + 'px', top: r.y + (1 - u) * 50 + 'px', opacity: o });
-    const pill = n.querySelector('.pill'); pill.textContent = p.role; pill.style.background = C.roles[p.role]; pill.style.color = fgFor(C.roles[p.role]);
+    const pill = n.querySelector('.pill'), pc = (C.roles || {})[p.role] || C.app.accent;   // split: no roles map, the app colour
+    pill.textContent = p.role || ''; pill.style.display = p.role ? '' : 'none'; pill.style.background = pc; pill.style.color = fgFor(pc);
     const sw = p.phone ? r.sw : D.sw, sh = p.phone ? r.sh : D.sh, srcW = p.phone ? 1080 : D.srcW, srcH = p.phone ? 2400 : D.srcH;
-    const f = n.querySelector('.frm'); f.className = 'frm' + (p.phone ? ' ph' : ''); f.style.transform = `scale(${r.k})`;
+    const dp = D.type === 'phone';   // split on a phone app: the panel is the device's own bezel (same padding + corners), so the morph lands exactly
+    const f = n.querySelector('.frm'); f.className = 'frm' + (p.phone || dp ? ' ph' : ''); f.style.transform = `scale(${r.k})`;
+    Object.assign(f.style, dp ? { padding: D.pad + 'px', borderRadius: '50px', borderColor: C.app.rim || '', background: C.app.bezel || '' } : { padding: '', borderRadius: '', borderColor: '', background: '' });
     n.querySelector('.purl').textContent = D.url || '';
-    const scr = n.querySelector('.scr'); Object.assign(scr.style, { width: sw + 'px', height: sh + 'px', borderRadius: p.phone ? '32px' : '0' });
+    const scr = n.querySelector('.scr'); Object.assign(scr.style, { width: sw + 'px', height: sh + 'px', borderRadius: p.phone ? '32px' : dp ? '38px' : '0' });
     const img = n.querySelector('img'), url = C.frameUrl(p.src, p.take); if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; }
     Object.assign(img.style, { width: srcW + 'px', height: srcH + 'px', transform: `scale(${sw / srcW})` });
     const pb = n.querySelector('.pb'); pb.style.cssText = `position:absolute;left:0;top:0;width:${srcW}px;height:${srcH}px;transform-origin:0 0;transform:scale(${sw / srcW})`;
@@ -532,6 +597,8 @@ function renderPanels(t, g) {
 function panelRects(g) {
   const PT = C.portrait, pw = 300, ph = Math.round(pw * 2400 / 1080);
   const box = (p, x, y, w) => p.phone ? { x, y, w: pw + 23, h: ph + 23, k: 1, sw: pw, sh: ph } : { x, y, w, h: D.oh * w / D.ow, k: w / D.ow };
+  if (g.type === 'split') { const w = PT ? 480 : Math.round(880 * D.ow / D.oh), y = PT ? Math.round(D.top + (D.oh - D.oh * w / D.ow) / 2) : 130, x = PT ? [40, 560] : [1340 - w - 40, 1340 + 40];   // two phones, right of the caption
+    return [box(g.a, x[0], y, w), box(g.b, x[1], y, w)]; }
   if (PT) return [box(g.a, 140, 480, 800), box(g.b, 140, 1260, 800)];
   if (g.type === 'duo') { const A = box(g.a, 350, 200, 1100); return [A, box(g.b, A.x + A.w - 200, A.y + A.h + 70 - (ph + 23), 0)]; }
   const w = 820, y = Math.round((1080 - D.oh * w / D.ow) / 2) + 20; return [box(g.a, 80, y, w), box(g.b, 1920 - 80 - w, y, w)];
@@ -542,14 +609,15 @@ function renderOutro(t) {
   if (!on) return;
   const r = t - a + (beats.some(b => b.type === 'finale') || C.outro.leadIn ? .3 : 0);   // after a finale (panels already gone) start at once: no empty frame
   [...$('oname').querySelectorAll('.ch')].forEach((s, i) => { const u = outExpo(prog(r, .35 + i * .03, .6)); s.style.opacity = u; s.style.transform = `translateY(${(1 - u) * 40}px)`; });
-  const fade = (id, at) => { const u = outExpo(prog(r, at, .6)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
-  fade('ovalue', .75); fade('orow', .95); fade('octa', 1.15); fade('olink', 1.25); fade('oqr', 1.25); fade('ofoot', 1.4);
+  const fade = (id, at) => { const u = outExpo(prog(r, at, DUR.base)); $(id).style.opacity = u; $(id).style.transform = `translateY(${(1 - u) * 18}px)`; };
+  // plan #25: one step at a time, each starts when the one before has mostly landed: name -> line -> pills -> button / QR -> footer
+  fade('ovalue', .8); fade('orow', 1.05); fade('octa', 1.3); fade('olink', 1.3); fade('oqr', 1.3); fade('ofoot', 1.6);
 }
 
 // sound (video-studio/audio.py): the real times, in output seconds, of the moments that get an effect
 window.events = () => {
   const r = x => Math.round(x * 1000) / 1000, finLead = beats.some(b => b.type === 'finale') || C.outro.leadIn ? .3 : 0;
-  const ev = { total: r(total), devIn: r(devIn), chapters: [], taps: [], swipes: [], labels: [], flips: [], texts: [], duo: [], outro: r(outroStart / FPS), cta: r(outroStart / FPS + 1.15 - finLead),
+  const ev = { total: r(total), devIn: r(devIn), chapters: [], taps: [], swipes: [], labels: [], flips: [], texts: [], duo: [], outro: r(outroStart / FPS), cta: r(outroStart / FPS + 1.3 - finLead),
     hook: (C.hook.lines || []).map(l => r(l.at)), fm: frames.map(f => f.b >= 0 && beats[f.b].ss ? [f.k, r(f.s)] : null) };   // fm: which recording frame each output frame shows (typing sounds)
   let cap = null;
   for (const g of beats) {
@@ -558,7 +626,7 @@ window.events = () => {
     cap = g.caption || cap;
     if (g.type === 'flip') ev.flips.push(r(a));
     if (g.type === 'text') g.lines.forEach((l, i) => ev.texts.push(r(a + .2 + i * .42)));
-    if (g.type === 'duo') ev.duo.push([r(a + (g.inAt ?? .65)), r(g.end / FPS)]);
+    if (isDuo(g)) ev.duo.push([r(a + (g.inAt ?? .65)), r(g.end / FPS)]);
     if (!g.ss) continue;
     for (const tp of C.tk[g.take].taps) { const o = outOf(g, tp.s); if (o != null) ev.taps.push([r(o), tp.label || '']); }   // [time, what was tapped]
     for (const s of C.tk[g.take].swipes) { const o = outOf(g, s); if (o != null) ev.swipes.push(r(o)); }
@@ -573,6 +641,13 @@ window.renderAt = async (t, clean) => {
   const img = $('screen'), url = C.frameUrl(src, f.k);
   if (img.dataset.u !== url) { img.src = url; img.dataset.u = url; await img.decode(); }
   $('grid').style.transform = `translate(${(t * 3) % 64}px, ${(t * 1.6) % 64}px)`;
+  // "side": "left" on a clip beat (16:9 phone, plan #36) = the phone stands mirrored on the left, text on the right; it glides there
+  // over DUR.base at the beat's start. Beats without clips (text, split) keep the side of the clip beat before them.
+  SIDE = { dx: 0, left: false };
+  if (D.type === 'phone' && !C.portrait && g) {
+    const cur = sideAt(g.i), was = sideAt(g.i - 1), u = g.ss ? inOut(prog(t, g.start / FPS, DUR.base)) : 1;
+    SIDE = { dx: was + (cur - was) * u, left: cur < 0 };
+  }
   renderHook(t);
 
   // device: rises with a small 3D tilt that settles flat (spring, no bounce); flips for a role change; leaves for the finale/outro
@@ -596,7 +671,7 @@ window.renderAt = async (t, clean) => {
   // duo / finale: the device shrinks into its panel (renderPanels), which then takes over; a duo hands back and the device grows again
   let m = 0, mr = null;
   if (fin && t >= leaveAt) { m = inOut(prog(t, leaveAt, .8)); mr = panelRects(fin)[1]; if (t >= fin.start / FPS + .6) op = 0; }
-  for (const b of beats) if (b.type === 'duo') {
+  for (const b of beats) if (isDuo(b)) {
     const da = b.start / FPS, de = b.end / FPS;
     if (t >= da && t < de + .6) { m = inOut(prog(t, da, .6)) * (1 - inOut(prog(t, de - .15, .65))); mr = panelRects(b)[0]; if (t > da + .85 && t < de - .35) op = 0; }
   }
@@ -610,9 +685,10 @@ window.renderAt = async (t, clean) => {
 
   const cg = g && g.ss ? g : null;
   // duo / finale: the leaving device keeps the last framing of the beat before (no zoom pop); a duo's last .4 s already shows the next beat at 1x
-  const pb = !cg && g && (g.type === 'duo' || g.type === 'finale') && !(g.type === 'duo' && t >= g.end / FPS - .4) ? beats.slice(0, g.i).reverse().find(b => b.ss) : null;
+  const pb = !cg && g && (isDuo(g) || g.type === 'finale') && !(isDuo(g) && t >= g.end / FPS - .4) ? beats.slice(0, g.i).reverse().find(b => b.ss) : null;
   const cam = cg ? cameraAt(cg, t) : pb ? cameraAt(pb, (pb.end - 1) / FPS) : { s: D.k, tx: 0, ty: 0, z: 1 };
-  const st = f.cut >= 0 ? .012 * (1 - outExpo(prog(t, f.cut / FPS, .4))) : 0, vx = D.sw / 2, vy = D.sh / 2;
+  const tw = cg && (cg.matchCut || cg.slide) && f.cut === cg.start;   // a designed transition replaces the small cut bump
+  const st = f.cut >= 0 && !tw ? .012 * (1 - outExpo(prog(t, f.cut / FPS, .4))) : 0, vx = D.sw / 2, vy = D.sh / 2;
   $('cam').style.transform = `translate(${vx}px, ${vy}px) scale(${1 + st}) translate(${-vx}px, ${-vy}px) translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
   // "xfadeCut": s on a beat = the hard cut into it dissolves: the beat before's last frame, in its last framing and blurs, fades out over s
   const xb = cg && cg.xfadeCut && beats[cg.i - 1] && beats[cg.i - 1].ss ? beats[cg.i - 1] : null, c2 = $('cam2');
@@ -622,12 +698,27 @@ window.renderAt = async (t, clean) => {
   let dy = 0;
   if (!(xu > 0) && cg) for (const [ds, dd, sh] of cg.dissolve || []) { const o = outOf(cg, ds); if (o == null || t < o || t >= o + dd) continue;
     xu = 1 - inOut(prog(t, o, dd)); pf = frames[Math.max(Math.round(o * FPS) - 1, 0)]; pc = cam; dy = sh || 0; }   // the frame shown just before: a page change inside a clip, or a jump between two clips of one beat
+  // plan #32 "matchCut": s on a beat = the cut into it opens from the last tap of the beat before: the new screen grows out of the tapped spot (a circle)
+  // plan #34 "slide": "up" | "down" | "left" | "right" on a beat = the cut into it is a push: the old screen leaves that way, the new one follows (after a scroll / swipe)
+  const pv = cg && beats[cg.i - 1] && beats[cg.i - 1].ss ? beats[cg.i - 1] : null;
+  let mask = '', sl = null;
+  if (pv && (cg.matchCut || cg.slide) && t < cg.start / FPS + (cg.matchCut || DUR.base)) {
+    pf = frames[pv.end - 1]; pc = cameraAt(pv, (pv.end - 1) / FPS); dy = 0;
+    if (cg.matchCut) { const T = C.tk[pv.take], tp = T.taps.filter(q => outOf(pv, q.s) != null).pop();
+      const e = inOut(prog(t, cg.start / FPS, cg.matchCut)), R = Math.hypot(D.srcW, D.srcH) * e, X = tp ? tp.x : D.srcW / 2, Y = tp ? tp.y : D.srcH / 2;
+      xu = e < 1 ? 1 : 0; mask = `radial-gradient(circle at ${X}px ${Y}px, transparent ${R}px, #000 ${R + 80}px)`; }
+    else { const e = inOut(prog(t, cg.start / FPS, DUR.base)), v = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[cg.slide];
+      xu = e < 1 ? 1 : 0; sl = [v[0] * D.sw, v[1] * D.sh, e]; }
+  }
   c2.style.display = xu > 0 ? '' : 'none';
+  c2.style.webkitMaskImage = mask;
   if (dy && xu > 0) $('cam').style.transform += ` translateY(${-dy * xu}px)`;
+  if (sl && xu > 0) $('cam').style.transform = `translate(${-sl[0] * (1 - sl[2])}px, ${-sl[1] * (1 - sl[2])}px) ` + $('cam').style.transform;
   if (xu > 0) {
     const im = $('screen2'), u2 = C.frameUrl(pf.s, pf.k);
     if (im.dataset.u !== u2) { im.src = u2; im.dataset.u = u2; await im.decode(); }
-    c2.style.transform = `translate(${pc.tx}px, ${pc.ty}px) scale(${pc.s}) translateY(${dy * (1 - xu)}px)`; c2.style.opacity = xu; blursInto($('blurs2'), pf.s, pf.k);
+    c2.style.transform = (sl ? `translate(${sl[0] * sl[2]}px, ${sl[1] * sl[2]}px) ` : '') + `translate(${pc.tx}px, ${pc.ty}px) scale(${pc.s}) translateY(${dy * (1 - xu)}px)`;
+    c2.style.opacity = xu; blursInto($('blurs2'), pf.s, pf.k);
   }
   // 16:9 phone, opt-in: "focus" = phone + labels push in toward each highlight and settle back before it ends;
   // "chapterMove" = a soft rise when a chapter starts on a real cut (never on a continuous shot)
@@ -641,10 +732,12 @@ window.renderAt = async (t, clean) => {
       gz = 1 + (FZ - 1) * w; gy = C.portrait ? 0 : clamp((540 - oy) * .3, -90, 90) * w; }
     if (D.chapterMove && frames[cg.start].cut === cg.start) gy += 26 * (1 - outExpo(prog(t, cg.start / FPS, .55)));
   }
-  const G = gz !== 1 || gy ? `translate(0px, ${gy}px) translate(${ox}px, ${oy}px) scale(${gz}) translate(${-ox}px, ${-oy}px)` : '';
+  const G = gz !== 1 || gy || SIDE.dx ? `translate(${SIDE.dx}px, ${gy}px) translate(${ox}px, ${oy}px) scale(${gz}) translate(${-ox}px, ${-oy}px)` : '';
+  $('glow').style.transform = `translateX(${SIDE.dx * .6}px)`;   // the glow follows at 60%: a light parallax while the phone moves (plan #30)
   for (const id of ['dwrap', 'callouts', 'shadow']) { const e = $(id).style; e.transformOrigin = '0 0'; e.transform = G; }
   blursInto($('blurs'), src, f.k);
   renderSpots(cg, t, cam, clean);
+  if (cg && cg.carry && !clean) await renderCarry(cg, t);
   renderTaps(cg, t, src, cam, clean);
   renderCaption(t, fi);
   renderTimeline(t, cg);
