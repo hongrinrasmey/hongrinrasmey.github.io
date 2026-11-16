@@ -16,14 +16,14 @@
       { "text": "A whole course.", "key": "course", "at": 0.95 }
     ]
   },
-  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/launch-review.mp3", "parts": [[0.0, 19.691], [104.954, 126.663]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
-    "extra": [[24.417, "riser", 0], [24.417, "hit", 1], [19.317, "notify", -9], [30.0, "flip", 0]], "beds": [[7.75, 8.5, "shimmer"], [11.233, 14.433, "shimmer"], [22.33, 22.94, "shimmer"]] },
+  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/launch-review.mp3", "parts": [[0.0, 18.891], [104.954, 126.663]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+    "extra": [[23.617, "riser", 0], [23.617, "hit", 1], [18.517, "notify", -9], [29.2, "flip", 0]], "beds": [[7.75, 8.5, "shimmer"], [10.433, 13.633, "shimmer"], [21.53, 22.14, "shimmer"]] },
   "beats": [
     { "take": "ai", "caption": "Describe it in one sentence", "key": "sentence",
       "clips": [[21.2, 22.7, 1], [27.7, 29.6, 1]], "join": [22.7],
       "spots": [{ "from": 28.1, "to": 29.5, "x": 36, "y": 1120, "w": 1008, "h": 540, "r": 24, "label": "Filled in by AI" }] },
     { "take": "ai", "caption": "AI plans the modules", "key": "modules", "xfadeCut": 0.3,
-      "clips": [[42.0, 43.0, 1], [44.9, 45.7, 1], [45.7, 52.4, 12], [52.4, 54.2, 1]], "join": [43.0],
+      "clips": [[42.0, 43.0, 1], [44.9, 45.7, 1], [45.7, 47.3, 12], [52.3, 54.2, 1]], "join": [43.0, 47.3],
       "spots": [{ "from": 52.7, "x": 40, "y": 430, "w": 1000, "h": 1460, "r": 28, "label": "AI draft to check" }] },
     { "take": "ai", "caption": "AI writes the lessons", "key": "lessons", "xfadeCut": 0.3,
       "clips": [[122.9, 151.0, 24], [151.0, 161.5, 30], [161.5, 163.0, 2]] },
@@ -41,7 +41,7 @@
     { "caption": "Flashcards that come back", "key": "back",
       "clips": [[47.3, 50.3, 1], [50.3, 52.4, 2]],
       "spots": [{ "from": 48.0, "to": 52.3, "x": 54, "y": 2012, "w": 972, "h": 282, "r": 28, "label": "Spaced repetition" }],
-      "timeline": { "from": 48.3, "y": 72, "title": "Comes back in:", "tall": true, "pos": [0, 0.36, 0.72, 1],
+      "timeline": { "from": 48.3, "y": 72, "title": "Comes back in:", "pos": [0, 0.36, 0.72, 1],
         "stops": [["Again", "10 min"], ["Hard", "1 day"], ["Good", "3 days"], ["Easy", "4 days"]] } },
     { "caption": "Use it in Khmer", "key": "Khmer", "xfadeCut": 0.3,
       "clips": [[86.3, 87.7, 1], [87.7, 91.0, 4], [91.0, 92.7, 1]],
@@ -49,5 +49,5 @@
   ],
   "outro": { "qr": "https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest", "qrLabel": "Scan to download · github.com/hongrinrasmey/Idevo-Downloads", "dur": 3.5, "leadIn": 0.45, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
     "meta": "Early build · v0.6.4 · AI runs on my server" },
-  "poster": 24.8
+  "poster": 24.0
 }

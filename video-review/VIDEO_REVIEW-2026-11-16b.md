@@ -59,13 +59,13 @@ Momentary -10.8 LUFS against the outro's -10.1. It is not an effect: the only ef
 **3. KH 0:19.5: no caption for a moment. Checked after the review: no fix needed.**
 Every-frame check: the gap is about 4 frames (0.13 s), the normal caption change at every chapter cut (the old caption fades out in 0.3 s, the new one rises on the cut frame). The 2 fps sheet just happened to sample it.
 
-**4. idevo 0:07.7-0:09.6: the "Planning…" wait (1.9 s still).**
+**4. idevo 0:07.7-0:09.6: the "Planning…" wait (1.9 s still). FIXED (same day): wait now 1.0 s, video 40.6 s.**
 This is the longest still moment in idevo: the AI is thinking and only a grey skeleton shows. It is honest (the AI really takes time), but 0.8 s could go.
 
 **5. idevo 0:27.5-0:29.3 text card: the text runs over the blurred phone.**
 "Study offline. No account." crosses the left edge of the blurred phone behind it. It stays readable (white on dark), and it looks like a design choice. Only change it if you want the text in clear space.
 
-**6. idevo phone version: the "Comes back in:" timeline is small.**
+**6. idevo phone version: the "Comes back in:" timeline is small. FIXED (same day): phone version no longer shows it; the rating buttons carry the values.**
 It sits top right next to the SPACED REPETITION chip. It is readable at full size. On a phone screen the labels are about 8 px. Optional: drop it on the phone version, or make it larger.
 
 **7. RielTrack 0:09.53-0:09.63 (3 frames): the app's own sheet slides down over the home screen.**
