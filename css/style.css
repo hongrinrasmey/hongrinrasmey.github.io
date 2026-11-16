@@ -534,9 +534,9 @@ a.project-card__media { display: block; cursor: zoom-in; }
   height: 100%;
   --r: clamp(10px, 1.6vw, 20px); /* Android corners */
   padding: 3px;
-  border: 1px solid color-mix(in srgb, var(--text) 24%, transparent); /* taste-skill-ignore */
+  border: 1px solid color-mix(in srgb, var(--text) 40%, transparent); /* taste-skill-ignore */
   border-radius: var(--r);
-  background: #0C0A09; /* both themes */
+  background: #3A3532; /* lighter bezel: dark app screens stand out from the dark card */
   overflow: hidden;
 }
 /* Punch-hole camera */
