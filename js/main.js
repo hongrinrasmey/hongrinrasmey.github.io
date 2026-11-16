@@ -188,8 +188,6 @@
     var role = document.querySelector('.hero__role');
     if (reduceMotion.matches) return;
     if (role) decode(role, 300, 900); // after the name starts rising
-    // nav links scramble on hover (mouse only)
-    if (finePointer.matches) document.querySelectorAll('.site-nav__link').forEach(function (a) { a.onmouseenter = function () { decode(a, 0, 350); }; });
   }
 
   // Project cards (mouse only): hover class + cursor spotlight.
@@ -374,7 +372,7 @@
       if (label && !btn.hasAttribute('data-label')) btn.setAttribute('data-label', label.textContent);
 
       copyText(text).then(function (ok) {
-        if (label) label.textContent = ok ? 'Copied!' : 'Copy failed';
+        if (label) label.textContent = ok ? 'Copied' : 'Copy failed';
         btn.classList.toggle('is-copied', ok);
         if (ok && !reduceMotion.matches) for (var i = 0; i < 8; i++) {
           var d = document.createElement('i'), a = i * Math.PI / 4;

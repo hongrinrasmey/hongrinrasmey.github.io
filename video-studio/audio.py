@@ -23,6 +23,7 @@ SOUNDS = {
     # "cooler" set (owner 2026-11-14: "the sound effect is not cool enough")
     'fxwhoosh': ('fx-whoosh.mp3', -10, .6), 'glitch': ('fx-glitch.mp3', -8, None, 1.6), 'fxhit': ('fx-hit.mp3', -9, 1.0),
     'notify': ('fx-notify.mp3', -8, .7), 'boom': ('fx-boom.mp3', -7, 1.7),
+    'airwhoosh': ('sdanezis-soft-luxury-air-whoosh-8-592506.mp3', -14, 1.0),   # owner pick 2026-11-16 (A2): soft chapter whoosh, licence in licenses/pixabay-2026-11-16-shortlist.md
 }
 # moment kind -> default sound (a storyboard's "labelSfx" / "tapSfx" picks another for one label or tap)
 KIND = {'enter': 'swoosh', 'chapter': 'swoosh', 'tap': 'tap', 'key': 'key', 'label': 'pop', 'swipe': 'swoosh',
@@ -30,7 +31,7 @@ KIND = {'enter': 'swoosh', 'chapter': 'swoosh', 'tap': 'tap', 'key': 'key', 'lab
 # "kit": true in the audio block = the shared AUDIO.md 5b kit: no chapter or CTA sound, labels silent unless named in labelSfx,
 # text hit on hook + text lines (last hook line +3 dB), riser into the outro + bloom on it, no swipe sounds,
 # music dips only under hero sounds ("extra" with dB > 0, and the outro)
-KIT = {'enter': 'fxwhoosh', 'chapter': None, 'label': None, 'swipe': None, 'text': None, 'hook': None, 'outro': 'boom', 'cta': None}   # no chapter/CTA tick: owner 2026-11-14 ("the beep sound always come up"); no text/hook hit: owner 2026-11-15 ("bom bom" when the words pop up)
+KIT = {'enter': 'fxwhoosh', 'chapter': 'airwhoosh', 'label': None, 'swipe': None, 'text': None, 'hook': None, 'outro': 'boom', 'cta': None}   # chapter = soft air whoosh (owner pick 2026-11-16, peak on the cut); no CTA tick: owner 2026-11-14 ("the beep sound always come up"); no text/hook hit: owner 2026-11-15 ("bom bom" when the words pop up)
 LOWER = {'chapter': -3, 'swipe': -5, 'label': -2}   # extra dB for the busier kinds
 PRIORITY = ['extra', 'enter', 'duoIn', 'duoOut', 'outro', 'text', 'hook', 'tap', 'key', 'cta', 'label', 'chapter', 'swipe']   # earlier wins a clash
 
@@ -64,9 +65,10 @@ def music(a, total, tall):
     parts = a.get('partsTall') if tall and a.get('partsTall') else a['parts']   # [[from, to], ...] track seconds, cut on beats
     xf = int(a.get('xfade', 0.25) * SR); h = xf // 2   # crossfade centred on each jump: the beat grid runs on unbroken
     out = np.zeros((0, 2), np.float32)
-    for i, (s, e) in enumerate(parts):
+    for i, p in enumerate(parts):   # [from, to] or [from, to, dB]: a quiet section of the track can be raised (RielTrack part 2, 2026-11-16)
+        s, e = p[0], p[1]
         s0 = int(s * SR) - (h if i else 0); e0 = int(e * SR) + (h if i < len(parts) - 1 else 0)
-        seg = tr[max(s0, 0):e0].copy()
+        seg = tr[max(s0, 0):e0].copy() * 10 ** ((p[2] if len(p) > 2 else 0) / 20)
         if i and len(out) >= xf and len(seg) >= xf:   # equal-power crossfade into the next part
             seg[:xf] *= fade(xf, 'in')[:, None]; out[-xf:] *= fade(xf, 'out')[:, None]
             out[-xf:] += seg[:xf]; seg = seg[xf:]
@@ -197,6 +199,9 @@ def main():
     if abs(ev['total'] - total) > 0.1: sys.exit(f'storyboard ({ev["total"]:.2f} s) and silent video ({total:.2f} s) differ: re-render first')
 
     m = music(a, total, tall)
+    if a.get('outroGap'):   # "outroGap": s of no music right before the outro boom (owner 2026-11-16: the boom hits harder)
+        g1 = int(ev['outro'] * SR); g0 = g1 - int(a['outroGap'] * SR); r = int(0.12 * SR)
+        m[g0 - r:g0] *= fade(r, 'out')[:, None]; m[g0:g1] = 0
     sfx, hero, placed = effects(cfg, ev, total, a, keystrokes(cfg, a, ev))
     def measure(x, name):   # loudnorm's first pass on a mix
         w = os.path.join(tmp, name)
@@ -211,6 +216,7 @@ def main():
     mix = duck(m, hero, a.get('duck', 5)) + sfx
     wav, j = measure(mix, 'mix.wav')
     if a.get('musicDown'): target = round(-16 + float(j['input_i']) - float(j0['input_i']), 2)   # same gain as the reference mix
+    target = a.get('lufs', target)   # "lufs": final loudness, keeps the musicDown/sfxUp balance (owner 2026-11-16: -16)
     # two-pass loudnorm to -16 LUFS (or the musicDown target); true peak aimed at -1.5, then a -3 dBFS limiter (peaky hits over quiet songs; -2 let one mix reach -0.7 dBTP) so the AAC encode stays <= -1.0 dBTP
     ln = (f"loudnorm=I={target}:TP=-1.5:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}"
           f":measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true")

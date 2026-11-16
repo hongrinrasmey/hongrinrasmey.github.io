@@ -8,14 +8,14 @@
   "device": { "type": "phone", "srcW": 1080, "srcH": 2400, "sh": 1024, "shTall": 1760, "topTall": 420, "labelsTop": true, "labelPx": 26 },
   "app": { "accent": "#0B7751", "ui": "#238F6B", "glow": "#0B7751" },
   "hook": {
-    "dur": 2.4, "xfade": true,
+    "dur": 2.4,
     "lines": [
       { "text": "Track your money.", "key": "money", "at": 0.1 },
       { "text": "តាមដានលុយរបស់អ្នក។", "at": 0.7, "gap": 28 }
     ],
     "glyphs": ["$", "៛"]
   },
-  "audio": { "musicDown": 5, "sfxUp": 2, "track": "../music/modern-commercial.mp3", "parts": [[1.53, 22.92], [135.63, 152.11]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/modern-commercial.mp3", "parts": [[1.53, 22.92], [135.63, 152.11, 6]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true, "extra": [[11.083, "riser", 0], [11.083, "hit", 1]],
     "typing": [{ "from": 13.3, "to": 15.6, "x": 300, "y": 620, "w": 480, "h": 150 }, { "take": "income", "from": 8.45, "to": 9.95, "x": 300, "y": 620, "w": 480, "h": 150 }],
     "labelSfx": { "Monthly limit · on track": "pop" } },
   "beats": [

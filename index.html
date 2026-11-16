@@ -101,7 +101,7 @@
       </nav>
 
       <!-- RÉSUMÉ: put resume.pdf in assets/, then change href="#" to href="assets/resume.pdf" (here AND in Contact) -->
-      <a class="btn btn--secondary btn--sm header__resume link-opt" href="#" download>Résumé</a>
+      <a class="btn btn--secondary btn--sm header__resume link-opt" href="#" target="_blank" rel="noopener noreferrer">Résumé</a>
 
       <button class="icon-btn theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme (T)">
         <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -128,12 +128,13 @@
              To show it later, remove the comment marks around the <p> below.
         <p class="hero__status hero__item"><span class="status-dot" aria-hidden="true"></span>Available for work</p>
         -->
+        <p class="hero__hello hero__item">&gt; hello, I'm<span class="hero__cursor" aria-hidden="true">_</span></p>
         <h1 class="hero__title hero__item" id="hero-title">Hong Rinrasmey</h1>
         <p class="hero__intro hero__item">
           <span class="hero__role">Full-Stack &amp; Android Developer.</span>
           <!-- Idea from your GitHub, use it only if it is how you'd say it:
                "I build offline-first Android apps and bilingual web apps for Cambodia." -->
-          I design and ship web and mobile apps.
+          I build Android apps with Kotlin&nbsp;&amp;&nbsp;Compose, Flutter apps, and the web behind them.
         </p>
         <!-- CURRENTLY (optional): remove the comment marks and fill it in.
         <p class="hero__now hero__item"><span class="hero__now-label">Currently →</span> [what I am building] · [what I am learning]</p>
@@ -145,7 +146,15 @@
           </a>
           <a class="btn btn--secondary" href="#contact">Contact me</a>
         </div>
-        <p class="hero__meta hero__item"><span>Phnom Penh, Cambodia</span> · <span>Open to full-time roles, remote too</span></p>
+        <!-- LINKS: LinkedIn shows once you put your address in href="#" (same as in Contact). -->
+        <div class="hero__meta hero__item">
+          <p><span class="status-dot" aria-hidden="true"></span><span>Phnom Penh, Cambodia</span> · <span>Open to full-time roles, remote too</span></p>
+          <ul class="hero__social">
+            <li><a href="https://github.com/hongrinrasmey" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg></a></li>
+            <li><a class="link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></li>
+            <li><a href="https://t.me/Rasmey_12" target="_blank" rel="noopener noreferrer" aria-label="Telegram (opens in a new tab)"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 13.1 1.5 11.6c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg></a></li>
+          </ul>
+        </div>
         <!-- QUICK STATS (optional, real numbers only, max 3). Remove the comment marks to show them.
              data-count is the number that counts up; the text inside is what shows without JavaScript.
         <dl class="stats hero__item">
@@ -153,6 +162,7 @@
         </dl>
         -->
       </div>
+      <a class="hero__cue" href="#work" aria-label="Scroll to my work"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
     </section>
 
 
@@ -242,12 +252,12 @@
                 Try live demo
                 <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
               </a>
-              <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/kh-halal-marketplace-promo.mp4?v=1116c" data-preview="12" data-sound data-poster="assets/videos/kh-halal-marketplace-promo-poster.webp?v=1116b" data-wide data-title="KH Halal Marketplace promo video" aria-describedby="kh-halal-promo-desc">
+              <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/kh-halal-marketplace-promo.mp4?v=1116h" data-preview="10.6" data-sound data-poster="assets/videos/kh-halal-marketplace-promo-poster.webp?v=1116h" data-wide data-title="KH Halal Marketplace promo video" aria-describedby="kh-halal-promo-desc">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                 Watch video
               </button>
               <!-- What the video shows, for people who can't see it. Update it when the video changes. -->
-              <p class="visually-hidden" id="kh-halal-promo-desc">Promo video with music, plays with sound (the Sound button turns it off), about 55 seconds, with captions. Shopper side: halal clothing and dry food on the home page, the product list, opening a product and adding it to the cart without an account, the Khmer version, the checkout with its delivery fee, and the KHQR payment page in riel (stopped before an order is placed), then the same home page on a desktop and on a phone. Seller side: the dashboard, the three-step add-product form and a new product waiting for admin review.</p>
+              <p class="visually-hidden" id="kh-halal-promo-desc">Promo video with music, plays with sound (the Sound button turns it off), about 51 seconds, with captions. Shopper side: halal clothing and dry food on the home page, the product list, opening a product and adding it to the cart without an account, the checkout with an optional map pin that fills in the address, and the KHQR payment page in riel (stopped before an order is placed), then the Khmer version, and the same home page on a desktop and on a phone. Seller side: the dashboard, the add-product form (product, then price and stock) and a new product waiting for admin review.</p>
             </div>
             </div>
           </div>
@@ -272,10 +282,10 @@
               </ul>
               <h3 class="project-card__title" id="p2-title">idevo</h3>
               <!-- Old lead: A notes library and learning companion. You study offline; the built-in AI needs the internet and, for now, only runs on my own server. -->
-              <p class="project-card__lead">Build a mind that keeps growing.</p>
-              <p class="project-card__kw">Knowledge · Learning · Growth</p>
               <!-- Honesty (CLAUDE.md §3): the promo shows the AI, so the card says who can use it -->
-              <p class="project-card__text">Notes and study app. Its AI runs only on my own server for now.</p>
+              <p class="project-card__lead">Notes and study app. Its AI runs only on my own server for now.</p>
+              <p class="project-card__text">Build a mind that keeps growing.</p>
+              <!-- Keywords hidden (3rd line saying the same thing): Knowledge · Learning · Growth -->
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
@@ -302,11 +312,11 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/idevo-promo.mp4?v=1116c" data-preview="19" data-sound data-video-short="assets/videos/idevo-promo-mobile.mp4?v=1116c" data-poster-short="assets/videos/idevo-promo-mobile-poster.webp?v=1116" data-poster="assets/videos/idevo-promo-poster.webp?v=1116" data-wide data-title="idevo promo video" aria-describedby="idevo-promo-desc">
+                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/idevo-promo.mp4?v=1116h" data-preview="17.1" data-sound data-video-short="assets/videos/idevo-promo-mobile.mp4?v=1116h" data-poster-short="assets/videos/idevo-promo-mobile-poster.webp?v=1116h" data-poster="assets/videos/idevo-promo-poster.webp?v=1116h" data-wide data-title="idevo promo video" aria-describedby="idevo-promo-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
-                <p class="visually-hidden" id="idevo-promo-desc">Promo video with music, plays with sound (the Sound button turns it off), about 54 seconds, with captions (phones get the same video in a tall layout). The built-in AI fills in a learning path from one sentence, plans its four modules and writes three lessons, each labelled as an AI draft to check; the lesson's own check question with its answer and reason; the AI turns a sample lesson into five flashcards to check before saving; "Remember it longer. Study offline. No account."; a flashcard with its four review choices (Again 10 minutes, Hard 1 day, Good 3 days, Easy 4 days); then the app switches to Khmer.</p>
+                <p class="visually-hidden" id="idevo-promo-desc">Promo video with music, plays with sound (the Sound button turns it off), about 51 seconds, with captions (phones get the same video in a tall layout). The built-in AI fills in a learning path from one sentence, plans its four modules and writes three lessons, each labelled as an AI draft to check; the lesson's own check question with its answer and reason; the AI turns a sample lesson into five flashcards to check before saving; "Remember it longer. Study offline. No account."; a flashcard with its four review choices (Again 10 minutes, Hard 1 day, Good 3 days, Easy 4 days); then the app switches to Khmer.</p>
                 <span class="project-card__note">v0.6.4</span>
               </div>
               </div>
@@ -328,9 +338,9 @@
               </ul>
               <h3 class="project-card__title" id="p3-title">RielTrack</h3>
               <!-- Old lead: A private, offline money tracker for US dollars and riel. -->
-              <p class="project-card__lead">Every Riel Counts.</p>
-              <p class="project-card__kw">Track · Manage · Grow</p>
-              <p class="project-card__text">A private, offline money tracker for US dollars and riel.</p>
+              <p class="project-card__lead">A private, offline money tracker for US dollars and riel.</p>
+              <p class="project-card__text">Every riel counts.</p>
+              <!-- Keywords hidden (3rd line saying the same thing): Track · Manage · Grow -->
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
@@ -354,7 +364,7 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/rieltrack-promo.mp4?v=1116c" data-preview="5.3" data-sound data-video-short="assets/videos/rieltrack-promo-mobile.mp4?v=1116c" data-poster-short="assets/videos/rieltrack-promo-mobile-poster.webp?v=1116" data-poster="assets/videos/rieltrack-promo-poster.webp?v=1116" data-wide data-title="RielTrack promo video" aria-describedby="rieltrack-promo-desc">
+                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/rieltrack-promo.mp4?v=1116h" data-preview="5.3" data-sound data-video-short="assets/videos/rieltrack-promo-mobile.mp4?v=1116h" data-poster-short="assets/videos/rieltrack-promo-mobile-poster.webp?v=1116h" data-poster="assets/videos/rieltrack-promo-poster.webp?v=1116h" data-wide data-title="RielTrack promo video" aria-describedby="rieltrack-promo-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
@@ -370,7 +380,7 @@
     </section>
 
     <!-- ===== 02 · ABOUT =====
-         Top: how I build (+ bio later). Below: education and spoken languages, side by side.
+         Top: how I build (+ bio later). Right: education. Spoken languages sit under the intro (desktop).
          The tools I used are shown as tags on each project card, not here.
     -->
     <section class="section" id="about" aria-labelledby="about-title">
@@ -396,10 +406,12 @@
               </li>
             </ol>
           </div>
-          <div class="about__side reveal" style="--d: 1">
-            <h3 class="skill-group__title">Spoken languages</h3>
-            <p>Khmer (native) · English (basic)</p>
-          </div>
+        </div>
+
+        <!-- Spoken languages: sits under the intro on desktop -->
+        <div class="about__side reveal" style="--d: 1">
+          <h3 class="skill-group__title">Spoken languages</h3>
+          <p>Khmer (native) · English (basic)</p>
         </div>
       </div>
     </section>
@@ -413,20 +425,20 @@
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact__grid">
         <div class="contact__intro reveal">
-          <h2 class="contact__title" id="contact-title">Get in touch.</h2>
-          <p class="contact__text">I'm open to full-time developer roles. Send me an email and I'll reply soon.</p>
-          <!-- REPLY TIME (only if true): remove the comment marks.
-          <p class="contact__reply">I usually reply within [24 hours].</p>
-          -->
+          <h2 class="contact__title" id="contact-title">Say hello.</h2>
+          <p class="contact__text">Looking for a developer for your team? Send me an email and I'll get back to you.</p>
+          <p class="contact__meta"><span>Phnom Penh · UTC+7 ·</span> <span>Remote OK ·</span> <span>Replies in 24h</span></p>
+          <!-- CV: put resume.pdf in assets/, then change href="#" to href="assets/resume.pdf" (hidden until then) -->
+          <a class="contact__cv link-opt" href="#" download>Download CV ↓</a>
         </div>
 
         <!-- CONTACT LIST: one row each. A row with href="#" stays hidden.
              To add a profile: copy a GitHub row, change the label, the name you see and href. -->
         <div class="contact__details reveal">
-          <div class="contact__row contact__row--main">
+          <div class="contact__row">
             <span class="contact__key"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</span>
             <a class="contact__email" id="email-link" href="mailto:hongrinrasmey012@gmail.com">hongrinrasmey012@gmail.com</a>
-            <button class="btn btn--primary btn--sm copy-btn" type="button" data-copy-from="#email-link" aria-label="Copy email address">
+            <button class="btn btn--secondary btn--sm copy-btn" type="button" data-copy-from="#email-link" aria-label="Copy email address">
               <svg class="copy-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
               <svg class="copy-btn__done" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
               <span class="copy-btn__label">Copy</span>
@@ -437,21 +449,15 @@
             <span class="contact__value">hongrinrasmey</span>
             <svg class="btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
           </a>
-          <a class="contact__row social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
-            <span class="contact__key"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</span>
-            <span class="contact__value">[TODO: your LinkedIn name]</span>
-            <svg class="btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-          </a>
           <a class="contact__row social-link link-opt" href="https://t.me/Rasmey_12" target="_blank" rel="noopener noreferrer" aria-label="Telegram: @Rasmey_12 (opens in a new tab)">
             <span class="contact__key"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 13.1 1.5 11.6c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg>Telegram</span>
             <span class="contact__value">@Rasmey_12</span>
             <svg class="btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
           </a>
-          <!-- RÉSUMÉ: put resume.pdf in assets/, then change href="#" to href="assets/resume.pdf" -->
-          <a class="contact__row link-opt" href="#" download>
-            <span class="contact__key"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Résumé</span>
-            <span class="contact__value">Download PDF</span>
-            <svg class="btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          <a class="contact__row social-link link-opt" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
+            <span class="contact__key"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</span>
+            <span class="contact__value">[TODO: your LinkedIn name]</span>
+            <svg class="btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
           </a>
         </div>
       </div>

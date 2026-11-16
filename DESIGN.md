@@ -224,7 +224,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 ### 8.4 About (Tech + Education merged; owner 2026-11-12)
 - Heading "My background", nav "About" (`#about`).
 - **Honesty rule (owner 2026-11-12):** the owner builds with AI coding tools and has not yet learned the foundations of these languages. The site says so openly. Never present the tools as mastered skills: no levels, no percentages, no "expert" wording.
-- Under the heading: "I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools." as an intro line (what the owner made first, AI second; facts only from the Work cards) (`.tech__note`, h3 size); a commented-out slot below it for the owner's own 2–3 sentence bio. Then `.about__grid`: Education and Spoken languages, stacked. From 1024px the section is two equal columns (`.about__layout`): heading + intro line left, Education + languages right, labels on one line (no empty half). Education is a plain list (no timeline line or dot: one item; owner 2026-11-12): BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace. Spoken languages: Khmer (native) · English (basic).
+- Under the heading: "I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools." as an intro line (what the owner made first, AI second; facts only from the Work cards) (`.tech__note`, h3 size); a commented-out slot below it for the owner's own 2–3 sentence bio. Then `.about__grid` (Education), then Spoken languages. From 1024px the section is two equal columns (`.about__layout`): heading + intro line + Spoken languages left, Education right (2026-11-16: languages moved left so neither column leaves a tall empty space). Education is a plain list (no timeline line or dot: one item; owner 2026-11-12): BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace. Spoken languages: Khmer (native) · English (basic).
 - **No separate tool list (owner 2026-11-12):** the tools show only as tags on each project card. A list on its own repeated the cards and read as "I know these"; tags on a real app read as "used here".
 
 ### 8.5 Experience (only if provided)
@@ -232,8 +232,8 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - Clean vertical timeline: role, company, dates (mono), one achievement each. Education below, smaller.
 
 ### 8.6 Contact
-- Heading "Get in touch." (no section label).
-- Large heading: "Get in touch." (owner's choice, 2026-11-12; "work together" read as freelance). Size `clamp(2.5rem, 5vw, 4rem)` (40→64px; bigger than h2, smaller than h1).
+- Heading "Say hello." (no section label; owner 2026-11-16, was "Get in touch.").
+- Large heading: "Say hello." (was "Get in touch."; owner's choice 2026-11-12; "work together" read as freelance). Size `clamp(2.5rem, 5vw, 4rem)` (40→64px; bigger than h2, smaller than h1).
 - One friendly sentence + reply time (if provided).
 - Contact list (owner chose it 2026-11-13): one row each for Email, GitHub, LinkedIn, Telegram, Résumé, split by 1px lines (top of each row + bottom of the list). Email row first and largest (`.contact__row--main`): label on its own line, then the address (20→30px, 600, 2px orange underline, the only `mailto:` link) with the orange primary **Copy** button right after it (16px gap; wraps under the address on phones). Copy says "Copied!" + check icon for 2s, announced via `aria-live`. Every label has an 18px grey logo in front (envelope, GitHub, LinkedIn, Telegram, document for Résumé; `aria-hidden`, turns orange with the row on hover). Profile rows are quiet, one line, 56px tall: logo + mono label (8rem wide), name at body size 500, ↗ right after the name; the whole row is a link (name + arrow turn orange on hover). A row with `href="#"` stays hidden. No separate "Email me" button. List max width 36rem.
 - Panel: same left/right edges and border as the project cards (inner padding `--card-pad`; edge to edge under 640px), plain `--surface` background (no glow: owner removed it 2026-11-12). ≥1024px: 48px padding, columns `minmax(0, 1fr) minmax(0, 36rem)`, 48px gap (heading/sentence left, list right, centred vertically). Below: stacked, left-aligned. About has no bottom padding, so only Contact's top padding sits between them.
@@ -278,7 +278,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 }
 ```
 - `--accent` for fills (buttons, dot, selection); `--accent-text` whenever orange is text or a thin line (links, focus rings).
-- Orange only for: primary buttons, link hover, focus rings, active nav, small highlights the availability dot and the soft light behind the hero photo (no frame around the photo: owner decision 2026-11-12). Never for large areas or body text.
+- Orange only for: primary buttons, link hover, focus rings, active nav, small highlights and the soft light behind the hero photo (the photo sits in a rounded frame since 2026-11-16, owner; the hero availability dot is green #22C55E, owner asked). Never for large areas or body text.
 - Everything passes **WCAG AA** in both themes (muted on bg ≈ 7.9:1 dark; text on orange ≈ 7:1; `#C2410C` on light bg ≈ 5:1).
 - Dark is default; follow the system preference; save the choice in localStorage; set the theme in an inline `<head>` script **before paint** (no flash).
 
@@ -339,7 +339,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Icons:** one style only: inline SVG, 1.5px stroke, rounded caps, 20px default.
 
 ### 9.7 Premium details
-- **Hero texture:** none (the faint grid was removed 2026-11-15, owner approved the UI review list). The only glow is the soft `--accent` light (16%, radial) behind the photo's head; the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it.
+- **Hero texture:** dot grid (1px dots, 24px apart, `--text` at 6%), radial mask strongest behind the text (`.hero::before`; owner asked again 2026-11-16). The only glow is the soft `--accent` light (18%, radial, behind the photo frame; removed and brought back 2026-11-16, owner); the 7% glow behind the name was removed on 2026-11-12 (it read as a muddy brown haze). No noise on top of it.
 - **Focus rings:** 2px `--accent-text`, 2px offset, `:focus-visible` only.
 - **Selection:** `--accent` bg, `--accent-fg` text.
 - **Scrollbar:** thin, matches the theme.
@@ -393,11 +393,9 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Sections and cards | Fade + slide up 24px once when 15% visible; side-by-side blocks stagger 100ms (no stagger when stacked: cards under 768px, About and Contact columns under 1024px) |
 | **Phone screens** (idevo, RielTrack) | When the card is on screen, each phone fades once to its second screen (`data-next`) and back (quick swap `--dur-fast`: a slow crossfade showed two layouts at once, 2s per step, phones 150ms apart), then stops. Under 5s in all (WCAG 2.2.2). Hover or keyboard focus on the card pauses it |
 | **KH Halal screens** (`.deck`) | `initDeck`: while half on screen and 768px or wider, next screen every 5s (crossfade `--dur-base`), looping. Hover or keyboard focus pauses it; a screen button stops it for good (WCAG 2.2.2); reduced motion or phone width: no auto change |
-| **KH showcase zoom** (`.deck`) | Scroll-linked (CSS `view-timeline` on `.project-card__shots`): the KH Halal frame grows from 0.6 to 1 and fades in from 0.3 while it enters, done at `cover 55%` (owner picked it 2026-11-15 for a "wow" first scroll). Transform + opacity only, no layout shift; reduced motion: none; browsers without scroll timelines show it still at full size |
-| **Phones rise** (idevo, RielTrack) | Scroll-linked (`view-timeline: --ph` on the phones area): each phone slides up from 50% lower and fades in, one after another (ranges `entry 0/10/20%` to `cover 40/45/50%`; the media's `overflow: hidden` makes them rise from behind its edge). Owner picked it 2026-11-15. Keyframes named `up` (an older `rise` exists for the hero). Reduced motion: none |
 | **Role decode** (hero) | `initDecode`: on load the role line starts as random signs (`!<>-_/[]{}=+*^?#`) and settles left to right over 0.9s, starting 0.3s after load. Each word: real text transparent in place + `aria-hidden` overlay (no layout shift, screen readers read the real text); ends by putting back the exact original text. Owner picked it 2026-11-16. Reduced motion / no JS: plain text |
 | **Heading reveal** (section `h2` in a `.reveal` block) | `initSplitText` splits each heading into word masks (`aria-label` = full text); words rise 105% -> 0 over `--dur-hero`, 80ms apart, when the block gets `.is-visible`. Plain-text headings only (inner tags would be lost). Print + reduced motion: still |
-| **Contact heading fill** ("Get in touch.") | Scroll-linked (`animation-timeline: view()`, `entry 60%` to `cover 50%`): orange outline (`-webkit-text-stroke` 1.5px) fills left to right (`background-clip: text`, `background-size` 0 -> 100%). Left out of the heading word split (one piece). Owner picked it 2026-11-16. Animates `background-size` (paint, small area): breaks the transform + opacity rule like the photo wipe. Reduced motion / no scroll timelines: solid orange |
+| **Contact heading fill** ("Say hello.") | Scroll-linked (`animation-timeline: view()`, `entry 60%` to `cover 50%`): orange outline (`-webkit-text-stroke` 1.5px) fills left to right (`background-clip: text`, `background-size` 0 -> 100%). Left out of the heading word split (one piece). Owner picked it 2026-11-16. Animates `background-size` (paint, small area): breaks the transform + opacity rule like the photo wipe. Reduced motion / no scroll timelines: solid orange |
 | **Copy burst** (copy-email button) | On a successful copy, 8 orange dots (`.dot`) fly from the button centre to just past its edge, then shrink (700ms, Web Animations, removed when done). Owner picked it 2026-11-16. Reduced motion: none |
 | **Featured screenshot settle** | Each web screenshot zooms from `scale: 1.15` to 1 while that screenshot enters the screen (its own view timeline `--shot`, `entry 0%`–`entry 100%`; 2026-11-13: the card timeline left it zoomed and cut on phones, where the card is taller than the screen). The card uses `overflow: clip` (not `hidden`) so it is not a scroll container. The hover zoom adds on top |
 | **Terminal** | `>_` button or the `` ` `` key opens a `<dialog>` (rises in `--dur-base`). Commands: help, whoami, projects/ls, open &lt;app&gt;, work, about, contact, email (copies), github, theme, clear, exit; ↑/↓ history, Tab completes a sure match. Every answer is read from the page (no copy of the content in JS). Jumps close it, scroll to the target and move focus there |
@@ -408,7 +406,9 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Header | Background/blur/border fade in after scroll, `--dur-base` |
 | Availability dot | Gentle pulse (opacity + scale), 2s loop |
 | Stats | Count up once over ~1s |
-| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, no light behind the head (removed 2026-11-16, owner); no box, no frame, no hover effect. Rises in with the other hero items |
+| Hero photo | Cut-out (`tools/photo-cutout.py`) in a rounded frame (24px, 1px `--border`, flat `--text` 10% over `--bg` behind it), cropped tighter (`scale: 1.15` from 50% 25%) so no cut edge shows, moved down 7% for headroom, full colour (2026-11-16). No light behind it (removed again 2026-11-16, owner). Desktop: `min(380px, 32vw, 0.8 × (100svh − 328px))`, centred on the text; phones: 220px, centred, above the greeting. Rises in last (400ms). No wipe any more |
+| Hero greeting | Mono line "> hello, I'm" in `--accent-text` above the name, cursor `_` blinks 1s (`steps(1)`), static for reduced motion. (FileShift badge removed 2026-11-16, owner) |
+| Hero scroll cue | Chevron at the bottom centre (to #work), bobs 6px every 2s. Off for reduced motion |
 | Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 
