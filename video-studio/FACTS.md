@@ -20,7 +20,7 @@ Numbers that appear on screen (money, counts, streaks) are never captioned.
 | Use it in Khmer · LABELS IN ខ្មែរ | README "English and ភាសាខ្មែរ". Recording 77.2–78.3 s + 81.25–83.6 s (Settings → ខ្មែរ, then Home with Khmer labels). |
 | Add income too · MONTHLY INCOME | Take `rieltrack-income-190346` (`scripts/record-rieltrack-income.sh`): Add income, $150, Freelance, saved (8.45–9.95, 18.0–18.45, 22.7–22.95, 23.3–25.9 s); Home income goes from $850.00 to $1,000.00. Sample entry, deleted again after the take. Categories on screen: Salary, Freelance, Allowance, Gifts, Other income. |
 | Outro: Track spending in US dollars and Cambodian riel. | Since 2026-11-15 (cold-viewer test: "Cambodia" never appeared, the ៛ sign is not known everywhere; was "Track spending in dollars and riel."). Fact: index.html "In Cambodia people pay in both dollars and riel"; README "Record every amount in USD or riel". |
-| v1.6 · Android 8.0+ · Download APK | Latest release `v1.6` on `RielTrack-Downloads`; README "Requires Android 8.0 (API 26) or newer". |
+| v1.6 · Android 8.0+ (button removed 2026-11-16: QR + address only) | Latest release `v1.6` on `RielTrack-Downloads`; README "Requires Android 8.0 (API 26) or newer". |
 | github.com/hongrinrasmey/RielTrack-Downloads | Checked: `releases/latest` returns 200 (2026-11-13). |
 
 On-screen amounts are sample data typed in by `scripts/seed-rieltrack.sh`.
@@ -43,7 +43,7 @@ Order since 2026-11-14 (owner: "the order of the flow is not well", re-cut after
 | Comes back in: Again 10 min · Hard 1 day · Good 3 days · Easy 4 days | Read from the rating buttons on screen at 47.6–53.9 s (first review of this card; the app changes them per card). |
 | Use it in Khmer · ENGLISH AND ខ្មែរ | README "English and ខ្មែរ". Recording 86.0–93.5 s (Settings, Language sheet, ខ្មែរ, Home in Khmer; since 2026-11-14 the English Settings part is 1.7 s, the switch plays 4x). |
 | AI-drafted lessons, flashcards and spaced repetition. | `index.html` idevo card + README ("learning paths, flashcards and quizzes"); "AI-drafted" = every AI lesson carries the app note "AI draft (gpt-oss-120b)". |
-| Early build · v0.6.4 · AI runs on my server · Download APK | README "Version 0.6.4 is an early build"; release `v0.6.4`. No Android version is shown: none is confirmed. "AI runs on my server" = the idevo card lead in `index.html` (the AI runs on the owner's own server for now). |
+| Early build · v0.6.4 · AI runs on my server (button removed 2026-11-16: QR + address only) | README "Version 0.6.4 is an early build"; release `v0.6.4`. No Android version is shown: none is confirmed. "AI runs on my server" = the idevo card lead in `index.html` (the AI runs on the owner's own server for now). |
 
 The AI is shown (owner rule, 2026-11-13); the card and the outro line say it runs on the owner's own server for now.
 
@@ -63,7 +63,7 @@ The AI is shown (owner rule, 2026-11-13); the card and the outro line say it run
 | Every product at a glance · LISTING QUALITY + STATUS | Recording 117.2–120.6 s (product table columns). Cut from both promos on 2026-11-14 (desktop about 46 s, phone about 47 s). Back in the desktop promo on 2026-11-14 (owner), clip 117.2-120.2 s. Removed again 2026-11-15 (owner: "remove this, just go straight to the add new product"): promo 52.0 s. |
 | Add a product in three steps · PRODUCT · PRICE & STOCK · REVIEW | Recording 161.6–167.6 s: the Review step with all three step labels, ending on the "Submit for review" click. |
 | Reviewed before it goes live · PENDING ADMIN REVIEW | Recording 169.4–172.6 s; add-product page says "Submit for admin review before it appears in the catalog". The demo product was deleted after the take (checked read-only on 2026-11-13). |
-| Halal products from verified sellers in Cambodia. · WEB · Khmer + English · Try it live | Approved tagline; `index.html` card tags. |
+| Halal products from verified sellers in Cambodia. · WEB APP · Khmer + English · Scan to open · kh-halal-marketplace.onrender.com (no button since 2026-11-16, owner: "remove the try it live, this is a web app") | Approved tagline; `index.html` card tags. |
 | kh-halal-marketplace.onrender.com | Checked: returns 200 (2026-11-13). |
 
 No admin screens are shown. The signed-in name chip is blurred in every signed-in shot.

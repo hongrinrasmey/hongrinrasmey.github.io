@@ -47,7 +47,7 @@
       "clips": [[86.0, 87.7, 1], [87.7, 91.0, 4], [91.0, 93.5, 1]],
       "spots": [{ "from": 86.1, "to": 87.6, "x": 40, "y": 1880, "w": 1000, "h": 400, "r": 28, "label": "English and ខ្មែរ" }] }
   ],
-  "outro": { "qr": "https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest", "qrLabel": "Scan to download", "dur": 3.5, "leadIn": 0.45, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
-    "meta": "Early build · v0.6.4 · AI runs on my server", "cta": "Download APK", "link": "github.com/hongrinrasmey/Idevo-Downloads" },
+  "outro": { "qr": "https://github.com/hongrinrasmey/Idevo-Downloads/releases/latest", "qrLabel": "Scan to download · github.com/hongrinrasmey/Idevo-Downloads", "dur": 3.5, "leadIn": 0.45, "name": "idevo", "value": "AI-drafted lessons, flashcards and spaced repetition.", "platform": "ANDROID",
+    "meta": "Early build · v0.6.4 · AI runs on my server" },
   "poster": 18.97
 }

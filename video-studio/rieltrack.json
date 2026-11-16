@@ -37,7 +37,7 @@
     { "caption": "Use it in Khmer", "clips": [[77.2, 78.3, 1], [81.25, 83.6, 1]], "hold": 0.5,
       "spots": [{ "from": 81.55, "hold": 2.0, "x": 54, "y": 384, "w": 972, "h": 650, "r": 28, "label": "Labels in ខ្មែរ" }] }
   ],
-  "outro": { "qr": "https://github.com/hongrinrasmey/RielTrack-Downloads/releases/latest", "qrLabel": "Scan to download", "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in US dollars and Cambodian riel.", "platform": "ANDROID",
-    "meta": "v1.6 · Android 8.0+", "cta": "Download APK", "link": "github.com/hongrinrasmey/RielTrack-Downloads" },
+  "outro": { "qr": "https://github.com/hongrinrasmey/RielTrack-Downloads/releases/latest", "qrLabel": "Scan to download · github.com/hongrinrasmey/RielTrack-Downloads", "dur": 3.6, "leadIn": 0.45, "name": "RielTrack", "value": "Track spending in US dollars and Cambodian riel.", "platform": "ANDROID",
+    "meta": "v1.6 · Android 8.0+" },
   "poster": 5.3
 }

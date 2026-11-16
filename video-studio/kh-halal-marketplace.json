@@ -32,13 +32,13 @@
     "labelSfx": { "In the cart as a guest": "pop" }, "sfxOff": ["duoIn", "duoOut"],
     "extra": [[34.217, "fxwhoosh", 0], [36.667, "glitch", 2], [46.55, "notify", -3], [48.47, "fxwhoosh", 0]] },
   "beats": [
-    { "role": "SHOPPER", "px": 450, "caption": "Halal clothing and dry food", "clips": [[2.316, 4.38, 1], [6.0, 8.6, 1], [13.3, 15.0, 1], [15.0, 15.38, 1], [23.667, 25.15, 1]], "join": [4.38, 8.6], "dissolve": [[6.0, 0.45], [13.3, 0.5, 133], [23.667, 0.45]] },
+    { "role": "SHOPPER", "px": 450, "caption": "Halal clothing and dry food", "clips": [[2.316, 4.38, 1], [6.0, 8.6, 1], [8.6, 10.68, 1], [23.667, 25.15, 1]], "join": [4.38, 8.6], "dissolve": [[6.0, 0.45], [23.667, 0.45]] },
     { "role": "SHOPPER", "caption": "Add to cart, no account needed", "xfadeCut": 0.3, "clips": [[31.4, 33.2, 1], [36.75, 38.0, 1.5], [38.0, 40.6, 1]], "join": [33.2],
       "spots": [{ "from": 38.4, "x": 244, "y": 326, "w": 1104, "h": 262, "cx": 600, "r": 14, "label": "In the cart as a guest" }] },
     { "role": "SHOPPER", "caption": "Checkout", "take": "guest", "xfadeCut": 0.3, "clips": [[4.154, 5.754, 1]] },
     { "role": "SHOPPER", "caption": "Checkout", "take": "guest", "xfadeCut": 0.3, "clips": [[12.137, 14.437, 2.2], [17.037, 18.537, 1.5], [18.537, 19.037, 2], [19.037, 20.69, 1]], "join": [14.437],
       "spots": [{ "from": 17.4, "x": 276, "y": 278, "w": 984, "h": 664, "r": 14, "label": "Optional: skip typing, a map pin fills the address", "side": "right" }] },
-    { "role": "SHOPPER", "caption": "Pay with KHQR", "take": "guest", "clips": [[24.95, 27.25, 3.5], [28.6, 31.05, 2.5], [31.25, 32.369, 1.5], [32.369, 37.369, 10], [37.369, 39.878, 1]], "join": [27.25], "dissolve": [[31.25, 0.3]],
+    { "role": "SHOPPER", "caption": "Pay with KHQR", "take": "guest", "xfadeCut": 0.3, "clips": [[27.367, 28.6, 2], [28.6, 31.05, 2.5], [31.25, 32.369, 1.5], [32.369, 37.369, 10], [37.369, 39.878, 1]], "dissolve": [[31.25, 0.3]],
       "spots": [{ "from": 38.269, "x": 286, "y": 594, "w": 966, "h": 86, "cx": 600, "r": 12, "label": "KHQR bank QR · in riel", "side": "above" }] },
     { "role": "SHOPPER", "px": 450, "caption": "Full Khmer version", "xfadeCut": 0.3, "clips": [[44.3, 45.4, 1.5], [45.4, 49.867, 1]],
       "spots": [{ "from": 45.6, "to": 47.25, "x": 1696, "y": 2, "w": 152, "h": 36, "r": 18, "label": "English · ខ្មែរ" }] },
@@ -51,7 +51,7 @@
       "spots": [{ "from": 169.8, "x": 280, "y": 482, "w": 1424, "h": 64, "r": 12, "label": "Pending admin review" }] },
     { "type": "finale", "lead": 0.3, "softOut": 0.5, "dur": 2.4, "a": { "src": 29.8, "role": "SHOPPER" }, "b": { "src": 111.0, "role": "SELLER" } }
   ],
-  "outro": { "qr": "https://kh-halal-marketplace.onrender.com/", "qrLabel": "Scan to open", "dur": 3.5, "name": "KH Halal Marketplace", "value": "Halal products from verified sellers in Cambodia.", "platform": "WEB",
-    "meta": "Khmer + English", "cta": "Try it live", "link": "kh-halal-marketplace.onrender.com" },
+  "outro": { "qr": "https://kh-halal-marketplace.onrender.com/", "qrLabel": "Scan to open · kh-halal-marketplace.onrender.com", "dur": 3.5, "name": "KH Halal Marketplace", "value": "Halal products from verified sellers in Cambodia.", "platform": "WEB APP",
+    "meta": "Khmer + English" },
   "poster": 11.867
 }

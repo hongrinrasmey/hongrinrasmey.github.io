@@ -303,7 +303,7 @@ function buildOutro() {
   O.name.split(' ').forEach((w, i) => { if (i) n.appendChild(document.createTextNode(' ')); const wd = el('span', 'wd');
     for (const ch of w) wd.appendChild(el('span', 'ch', ch)); n.appendChild(wd); });
   $('ovalue').textContent = O.value; $('otag').textContent = O.platform; $('ometa').textContent = O.meta || '';
-  $('octa').textContent = O.cta; $('olink').textContent = O.link || '';
+  $('octa').textContent = O.cta || ''; if (!O.cta) $(O.link ? 'octa' : 'ocol').style.display = 'none'; $('olink').textContent = O.link || '';   // no "cta" = no button (KH: the QR opens the site)
   // "qr": the address as a QR code next to the button (render.js draws it); whole modules: 6 px (16:9), 8 px (phones)
   if (O.qrSrc) { const q = $('oqr'), im = q.querySelector('img'); q.style.display = ''; im.src = O.qrSrc; im.style.width = im.style.height = O.qrN * (C.portrait ? 8 : 6) + 'px';
     q.querySelector('figcaption').textContent = O.qrLabel || 'Scan to open'; }
