@@ -15,7 +15,7 @@
     ],
     "glyphs": ["$", "៛"]
   },
-  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/modern-commercial.mp3", "parts": [[1.53, 23.429], [138.228, 151.2, 6]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true, "extra": [[10.083, "riser", 0], [10.083, "hit", 1]],
+  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/modern-commercial.mp3", "parts": [[3.617, 25.516], [138.228, 151.2, 6]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true, "extra": [[10.083, "riser", 0], [10.083, "hit", 1]],
     "typing": [{ "from": 13.3, "to": 15.6, "x": 300, "y": 620, "w": 480, "h": 150 }, { "take": "income", "from": 8.45, "to": 9.95, "x": 300, "y": 620, "w": 480, "h": 150 }],
     "labelSfx": { "Monthly limit · on track": "pop" } },
   "beats": [

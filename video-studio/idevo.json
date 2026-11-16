@@ -16,7 +16,7 @@
       { "text": "A whole course.", "key": "course", "at": 0.95 }
     ]
   },
-  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/launch-review.mp3", "parts": [[0.0, 18.891], [104.954, 126.663]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
+  "audio": { "musicDown": 5, "sfxUp": 2, "lufs": -16, "outroGap": 0.3, "track": "../music/launch-review.mp3", "parts": [[0.0, 18.483], [104.979, 127.096]], "fadeIn": 0.4, "fadeOut": 1.2, "kit": true,
     "extra": [[23.617, "riser", 0], [23.617, "hit", 1], [18.517, "notify", -9], [29.2, "flip", 0]], "beds": [[7.75, 8.5, "shimmer"], [10.433, 13.633, "shimmer"], [21.53, 22.14, "shimmer"]] },
   "beats": [
     { "take": "ai", "caption": "Describe it in one sentence", "key": "sentence",
