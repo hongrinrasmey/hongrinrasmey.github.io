@@ -33,15 +33,17 @@ How to record: README ("Demo videos"). How to edit and render: `video-studio/REA
 | ~~`kh-halal-marketplace.mp4`~~ | removed 2026-11-15 | the "Full demo" button is gone (owner: the KH promo is nearly as long); storyboard kept in `video-studio/kh-halal-marketplace-full.json` |
 | `*-poster.webp` | same shape as its video | before play; drawn clean (no highlight) |
 
-H.264 High (x264 slow, CRF 20-25: the KH files use 25 and RielTrack 23 (`"crf"` in the config) because push-ins change every frame), yuv420p,
+H.264 High (x264 slow, CRF 20-25: the KH files use 25 and RielTrack 23 (`"crf"` in the config)), yuv420p,
 30 fps, `+faststart`. Sound (owner, 2026-11-14): the 5 promos and the KH full demo (owner, 2026-11-15) have music + soft effects (AAC 48 kHz stereo 192 kbps, -16 LUFS, true peak <= -1 dBTP), added by `video-studio/audio.py`; silent copies in `assets/videos/silent/` (not in git). The site plays the promos and the full demo with sound when the pop-up opens (owner, 2026-11-14); the Sound button turns it off; if the browser blocks sound they play muted. KH Halal has no phone version any more (dropped 2026-11-14).
 
 ## 4. Motion style (`video-studio/promo.html`)
-Dark `#0C0A09` stage, orange `#FF6B35` accent, Geist + Geist Mono. Hook text first, the device rises in, one highlight
-per beat in the app's own colour, speed ramps only inside long waits, slow push-in (1.1-1.4x) on desktop beats so the
-website text is readable, every highlight inside the final view; key results (cart, KHQR, dashboard numbers,
-pending review) get the stronger push (1.25-1.4x) even if the seller sidebar leaves the view (owner, 2026-11-14). No sway, no particles,
-no music. The app is always the biggest, brightest thing on screen; one effect at a time.
+Dark `#0C0A09` stage, orange `#FF6B35` accent, Geist + Geist Mono. Hook text first (already on frame 1, `"open"`), the device rises in, one highlight
+per beat in the app's own colour, speed ramps only inside long waits, every highlight inside the view.
+**No zoom at all** (owner 2026-11-16: "it already on the phone there no need for zoom in or out", KH too): no push-ins, no `cam`, no `"hero"`.
+Motion upgrade (2026-11-16, README "Motion upgrade"): captions slide up on the cut (one key word underlined with `"key"`), labels pop in steps
+(outline, line, pill), one easing set, the outro builds in steps. Not used, on purpose: count-up numbers (they show amounts the app never showed),
+flying elements (`carry`), labels beside the target on phones (they cover app text), split screens with different data.
+No sway, no particles. Music + soft effects (`audio.py`, AUDIO.md). The app is always the biggest, brightest thing on screen; one effect at a time.
 
 ## 5. QA checklist (every new render)
 1. Frame sheet (1 frame per 1-2 s): story order, captions match the screen.

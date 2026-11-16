@@ -426,7 +426,7 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 ## 12. Performance (smooth on real devices)
 
 - **60fps** on a mid-range Android phone and a normal laptop. Test in Chrome DevTools → Performance with 4× CPU slowdown and fix long frames.
-- **Budget:** JS ≤ 31 KB (30 -> 31 KB on 2026-11-16 for the copy burst, owner picked it), CSS ≤ 37.5 KB (37 -> 37.5 KB on 2026-11-16 for the Contact heading fill + copy burst). Older: JS (27 -> 28.5 KB on 2026-11-15 for the hover video preview, owner approved; 28.5 -> 30 KB on 2026-11-16 for the role decode + heading reveal the owner asked for), CSS ≤ 37 KB raw (36 -> 37 KB on 2026-11-16 for the heading reveal + progress line, owner approved; 35 -> 36 KB on 2026-11-13 for the desktop monitor frame, owner approved) (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal and screenshot settle (hero dots and 3D phone turn removed later the same day for simplicity), which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
+- **No byte limit** on CSS or JS (owner removed it on 2026-11-16; the old limits and their raises are in git history and PROGRESS-LOG.md). Keep the code lean anyway; the real check is Lighthouse mobile ≥ 90 below.
 - Mouse-follow effects: one `requestAnimationFrame` per frame updating CSS variables; cache `getBoundingClientRect` on `mouseenter`.
 - Scroll: prefer `IntersectionObserver` and CSS scroll timelines; any scroll listener is `{ passive: true }`. Reveal observers unobserve after running.
 - `will-change` only while animating (add on start, remove after).
@@ -524,7 +524,7 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 
 **Motion and performance**
 - [ ] Only the motion in Section 11.2; all using the tokens
-- [ ] Smooth at 60fps with 4× CPU slowdown; Lighthouse mobile ≥ 90 in all four categories; budgets in Section 12 met
+- [ ] Smooth at 60fps with 4× CPU slowdown; Lighthouse mobile ≥ 90 in all four categories
 - [ ] Reduced motion turns everything off; content visible without JS
 
 **Accessibility and SEO**

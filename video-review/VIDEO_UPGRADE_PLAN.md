@@ -1,105 +1,78 @@
-# Video upgrade plan (2026-11-16)
+# Video upgrade plan (updated 2026-11-16, round 2)
 
-Everything from the frame-by-frame review (`VIDEO_REVIEW-2026-11-16.md`) and the editor / motion / sound talk, in one list.
-Impact H/M/L, effort S/M/L. **⚠ = needs the owner's decision first** (touches an earlier rule or choice).
-Nothing here is done yet unless marked ✅ or 🔄.
+Source: the frame-by-frame review (`VIDEO_REVIEW-2026-11-16.md`), the editor / motion / sound talk, and the rounds since.
+Impact H/M/L, effort S/M/L. **⚠ = needs the owner's decision.** ✅ done · 🔄 rendering / in progress · ✖ dropped.
 
-## Phase 0 — glitch fixes (started 2026-11-16)
-1. ✅ KH 0:12.0 blank page + cart picture pops in → cut past the load, 0.25 s dissolve. Done, frame-checked.
-2. ✅ KH 0:16.4 checkout grey skeleton → cut past the load, 0.25 s dissolve. Done, frame-checked.
-3. ✅ KH 0:18.8 highlight blink + "Delivery: Checking…" → no dissolve, cut from pin click to the loaded fee. Done, frame-checked.
-4. ✅ RielTrack 0:09.9 + 0:21.8-22.3 ghosted scroll → `smooth.py --scroll`. Done, frame-checked (both versions).
-5. ✅ `notify` sound -3 → -7 dB (idevo 0:23.65, KH 0:42.88). Done.
-6. ✅ Frame-checked, decode 0 errors, check.mjs PASS. Commit: waiting for the owner.
+## Where things stand
+- **Live** (commit `9a3be35`, pushed): Phase 0 glitch fixes + Phase 1 sound.
+- **Merged, not pushed**: motion engine (`f980bb0`, branch `claude/promo-motion-ba3dd9`).
+- **Not committed**: Phase 2 + 6 (KH 41.1 s, idevo 41.4 s, new hooks), the picked motion keys, no zoom anywhere, `?v=1116k`.
+- 🔄 Rendering now: idevo x2 + RielTrack x2 (no push-in), then KH (no push-in).
 
-## Phase 1 — sound (quick, remix only, no re-render)
-7. ✅ Master to about -16 LUFS (now -19.5..-20.4). Same song/effect balance, just louder. H/S
-8. ✅ (+6 dB on part 2) RielTrack: louder section of the song for part 2, or +4 dB on part 2 (music drops ~6 LU from 0:22). H/S
-9. ✅ (A2 "Soft luxury air whoosh #8" = kit `chapter` sound `airwhoosh`, file `video-studio/audio/sdanezis-soft-luxury-air-whoosh-8-592506.mp3`; a tap within 0.2 s of a cut wins) Soft low whoosh on each chapter change (not a beep: the owner removed the beeps). M/S
-10. ✅ (owner picked B4 = kit riser + hit; KH 24.583, idevo 30.017, RielTrack 11.083; hit +1 dB dips the music; still under the outro) One riser + hit on each video's hero moment (KH payment page, idevo AI flashcards, RielTrack 12,000 ៛ ≈ $2.93). M/S
-11. ✅ (`"outroGap": 0.3`; the outro riser plays alone in the gap) About 0.3 s of no music right before the outro boom. M/S
-12. Moved to Phase 2 (lengths change there anyway): Chapter cuts on downbeats (shift chapter starts by ±0.2 s, or re-fit `parts`). M/M
-13. Music dips only under the hero moments (contrast). L/S
-14. ⚠ Any new effect file: free + licensed only, the owner picks, licence proof in `video-studio/licenses/` (AUDIO.md). —
+## Done (short)
+| # | What | Result |
+|---|---|---|
+| 1-6 | Phase 0 glitches | ✅ KH blank page / skeleton / map blink gone, RielTrack ghost scroll gone, notify quieter |
+| 7-11 | Phase 1 sound | ✅ -16 LUFS, RielTrack part 2 +6 dB, chapter whoosh (A2), hero riser + hit (B4), 0.3 s gap before the outro boom |
+| 12 | Cuts on beats | ✅ songs re-fit: idevo 5/7, KH 4/8 cuts on a beat |
+| 15-16 | Shorter | ✅ KH 41.1 s, idevo 41.4 s |
+| 22-26 | Motion | ✅ captions slide in, labels pop in steps, one easing set, stepped outro, caption on the cut |
+| 37, 41 | KH layout | ✅ bigger captions (54 px), white pages 5% darker |
+| 40, 42 | Safe area, cursor | ✅ labels inside 5% margin; KH click ripple was already there |
+| 43-44 | Hooks | ✅ KH "Buy halal. / Sell halal. / Pay in riel.", idevo "One sentence. / A whole course." |
+| 52-53 | First frame, idevo phone timeline | ✅ hook text on frame 1; compact "Comes back in" above the phone |
+| 48 | Posters | ✅ tool exists (`render.js --poster-only`); picking the frames is #63 below |
+| 54 | Dashboard numbers | ✅ owner: keep |
 
-## Phase 2 — the edit (pacing)
-15. ⚠ KH to about 40 s: shorten cart → checkout → map → payment (about 15 s of forms) to about 8 s. H/M
-16. ⚠ idevo to about 40 s: trim the AI waits (0:09-0:10, 0:13.5-0:15.5, 0:28.5-0:29) and long lesson scrolls. H/M
-17. A payoff every 5-8 s: check each chapter; nothing new for 3 s = cut or speed up. H/M
-18. Bolder speed ramps on waits and scrolls (4-8x, sharp ease into the result). M/S
-19. Result holds 1.5-2 s with the label (now up to 3 s). M/S
-20. Cut on action: every chapter change lands on a tap or a movement. M/S
-21. No loading frames anywhere: scan all 5 again after each render (idevo skeletons are the app's own AI wait; keep them short). H/S
+## Dropped (owner or test result)
+| # | What | Why |
+|---|---|---|
+| 27 | Hero push-in | ✖ owner: no zoom in any video ("it already on the phone"; KH too) |
+| 28 | Device drift | ✖ owner |
+| 29 | Count-up numbers | ✖ shows in-between amounts the app never showed |
+| 31 | Motion blur | ✖ = ghosting |
+| 33 | Flying element (carry) | ✖ looked like a sticker |
+| 38 | Labels next to target on phones | ✖ covers app text (owner chose labels above, 2026-11-14) |
+| 39 | RielTrack English/Khmer split | ✖ different totals; Khmer already in the hook + last chapter (owner) |
+| 46 | Problem line in hooks | ✖ owner did not choose it |
+| 49 | Subtitles file | ✖ owner |
 
-## Phase 3 — motion design (`promo.html`)
-22. Animated chapter captions: slide up 12 px + fade, ~300 ms, orange underline draws under the key word, old caption leaves first. H/S
-23. Labels: outline draws → connector line → label pops (scale 0.9 → 1.03 → 1), staggered. M/S
-24. One shared easing curve + 2-3 fixed durations for all motion. M/S
-25. Outro builds in steps (name → line → pills → QR → name line) with one sound hit. M/S
-26. Caption changes on the cut frame, never after (KH 0:33.8 "Works on phones too" over the dashboard). M/S
-27. ⚠ One hero push-in per video (1.1x, slow) on the money shot only (owner said "too much zoom" before). H/S
-28. ⚠ Very slow device drift of 2-4 px per chapter (VIDEOS.md says "no sway"). L/S
-29. Number count-up overlay on key figures (KHR 73,800, $797.30, 5 cards). M/M
-30. Light parallax: background glow/grid moves slower than the device during moves. M/M
-31. Subtle motion blur on 4-8x ramps and pushes. L/M
+## Left to do
 
-## Phase 4 — transitions
-32. Match cut on a tap: the tap ripple / tapped button grows into the next screen (1 per video). H/M
-33. Element carry-over: the highlighted thing flies to its place on the next screen (RielTrack riel amount → home list). H/L
-34. Directional push after a scroll/swipe, in the same direction. M/S
-35. Dissolves only for time skips (page loads, waits), not for chapter changes. M/S
+### A. Finish this round (no decision needed)
+55. ✅ Frame-check the 5 new renders (8-frame strips on every caption change, label pop, outro build; first frame). H/S
+56. ✅ (only the cursor repeats 1 frame inside a 4x part: invisible, left) KH 0:32.5: one repeated frame inside motion (seller add-product chapter): look, fix with `smooth.py` or a 1-frame trim. L/S
+57. Listen-through by the owner: whoosh level, riser + hit, song joins (KH ~0:16, idevo ~0:19.7), RielTrack 0:22+, outros. H/S
+58. Commit + push: Phase 2 + 6, keys, no-zoom renders, docs (owner's yes). —
+59. ✅ (junctions to the raw folders removed first; recordings intact) Archive the `promo-motion` session and its worktree (`.claude/worktrees/promo-motion-ba3dd9`); the branch is merged. L/S
+60. Save the whoosh licence certificate in `video-studio/licenses/` (owner, from the Pixabay page). —
 
-## Phase 5 — layout and composition
-36. idevo + RielTrack 16:9: vary the framing between chapters (phone left / right / centred, 2 phones for before/after). H/M
-37. KH: bigger chapter captions (closer in size to the hook). M/S
-38. Phone versions: label next to its target with a short connector line (not fixed at the top). M/M
-39. One split-screen per video: RielTrack English | Khmer, idevo lesson | flashcards. M/M
-40. Every label inside the 5% title-safe area. L/S
-41. KH white pages about 5% darker so the cuts on the dark stage are less harsh. L/S
-42. KH cursor: smooth path + click ripple on every click, same as the phone taps. L/S
+### B. Polish found in this round
+61. ✅ (idevo: lessons chapter `"slide": "left"` (hard cut looked like a jump on phones), flashcards chapter `"slide": "up"`; KH hero dissolve 0.5 -> 0.3 s) Ghosted dissolves that show two screens at once: KH 0:04.5 (hero → scroll), idevo 0:14.0 and 0:20.5 (same page, different scroll). Use the new `"slide": "up"` push or a hard cut instead of `xfadeCut` (#34, #35). M/S
+62. ✅ (0.15 s `dissolve` on the 5 clip jumps; expense clip starts 29.52, 2 half-closed-sheet frames gone; hero sound 11.083 -> 11.017 with its label) RielTrack phone version: one-frame screen swaps at 0:06.1, 0:09.1, 0:14.5, 0:15.3 and 2 half-closed-sheet frames at 0:09.8. Trim the 2 frames; give the swaps a 0.15 s dissolve (review #9, #10). L/S
+63. ✅ (RielTrack 11.8 home with the -12,000 ៛ row, idevo 24.8 AI flashcards list, KH 8.233 product page kept) Posters at a strong frame with no motion (KH product page or payment, idevo AI flashcards list, RielTrack 12,000 ៛ row), via `--poster-only` (no re-render). M/S
+64. ✅ (one `"key"` word on every chapter of all 3) Caption underline (`"key"`) on more chapters, one word each (e.g. idevo "AI plans the **modules**", RielTrack "Add an expense in **riel**"). Only KH "KHQR" has one now. L/S
+65. ✅ (VIDEOS.md §4 rewritten) Docs out of date: `VIDEOS.md` §4 still says "slow push-in 1.1-1.4x on desktop beats" and "no music"; update to: no zoom, music + soft effects, motion upgrade keys. L/S
+66. ✅ (idevo 14.2 -> 24.4 = AI flashcards; KH 8.4 and RielTrack 5.3 kept) Hover preview start times (`data-preview`) and posters after the motion change: check the preview still starts on a calm frame (KH 8.4, idevo 14.2, RielTrack 5.3). L/S
 
-## Phase 6 — content and story
-43. ⚠ KH "Pay with KHQR" has no QR on screen ("Place order" is never pressed). Options: (a) an end card with an example KHQR graphic labelled "example", (b) a hook line that does not promise the QR, (c) keep it. H/M
-44. ⚠ idevo hook leads with the wow: the finished course + flashcards for 1 s, then "One sentence. A whole course." (owner picks the words). H/S
-45. ⚠ RielTrack extra "aha": the home total flips riel ↔ dollar once. M/M
-46. ⚠ A problem line in each hook before the app (owner writes it, e.g. RielTrack "Cash in riel, apps in dollars?"). M/S
-47. Same end wording for all 3 ("Scan to open" / "Scan to download" + address). L/S
+### C. Bigger ideas (⚠ owner decides)
+67. ✖ (owner picked 68 + 71 only) Phone to the side in some 16:9 chapters (`"side": "left"`): works in the test, adds variety to idevo/RielTrack's 40 s of the same layout (#36). M/S
+68. 🔄 (owner: KH + RielTrack; idevo skipped) One match cut per video (`"matchCut"`: the next screen opens as a circle from the tapped button), e.g. idevo "Plan the course", RielTrack "Save transaction" (#32). M/S
+69. ✖ (not picked: +2.8 s, repeats the chapter before) idevo split "From lesson to flashcards" (`"type": "split"`), the only split left as an option (#39). M/M
+70. ⚠ RielTrack riel ↔ dollar flip of the home total (#45; needs a new recording). M/M
+71. 🔄 (owner yes: 37.57 -> 34.87 s) Shorter RielTrack too? It is 37.6 s; the 3 would end up about the same length. L/S
+72. ✖ for now (2-3 h; the test shows the owner's name unblurred on checkout + payment: blur first if ever made) A KH phone version again (dropped 2026-11-14): phones now play the 16:9 KH video letterboxed. M/L
 
-## Phase 7 — new items found while listing
-48. Posters: show each video's hero moment with the hook text, not a random frame (now KH 10.4 s, idevo 17.1 s, RielTrack set in the configs). M/S
-49. ⚠ Captions file (`.vtt` subtitles) for visitors with sound off or using a screen reader: the videos have no spoken words, so it would describe chapters only. Ask first (a new feature). M/M
-50. After any length change, update: `index.html` "about N seconds" text, `data-preview` start times (hover preview), poster times, `?v=` tag, `FACTS.md` clip rows. — 
-51. After any re-render: keep the silent copies (`assets/videos/silent/`), and re-check file size (now 4-8 MB each; keep each under ~10 MB). —
-52. The first frame of each video is almost black (hook text not in yet). If the browser shows it before the poster loads, it looks empty: start the hook text on frame 1. L/S
-53. idevo phone version skips the "Comes back in:" timeline: add a compact version above the phone (the flashcard buttons alone are tiny). M/S
-54. KH seller dashboard shows real store numbers (KHR 73,800, 47 orders): allowed before; confirm the owner is still fine with it. ⚠ —
-
-## QA after every phase (VIDEOS.md §5 + this review)
+## QA after every render
 - Per-frame scan: hard cuts, brightness jumps > 20, flashes, repeated frames in motion, ghost frames.
-- 8-frame strips around every cut and every change made.
-- Events: `render.js --events` before/after (song + extras stay in sync).
-- Loudness per video + every 2 s, true peak <= -1 dBTP, loudest moments listed.
+- 8-frame strips around every cut and every change.
+- `render.js --events` before/after (song + extras in sync).
+- Loudness per video + every 2 s, true peak <= -1 dBTP, outro the loudest moment.
 - Decode 0 errors, `moov` first, keyframe every 2 s.
 - Privacy: blurs in every checkout/payment frame.
-- `node tools/check.mjs` PASS; the Edge pop-up test at the 6 sizes.
-- Owner listens to: the start of each song, RielTrack 0:22+, idevo 0:23, each outro.
+- `node tools/check.mjs` PASS; Edge pop-up test at the 6 sizes.
 
-## Owner's answers (2026-11-16)
-- **A:** yes, master to -16 LUFS (#7).
-- **B:** both KH and idevo to about 40 s (#15, #16).
-- **C:** one hero push-in per video only (#27); no device drift (#28 dropped).
-- **D:** change the KH hook, no fake QR (#43 option b): "Buy halal. / Sell halal. / Pay in riel."
-- **E:** my suggested lines: KH line 3 "Pay in riel.", idevo "One sentence. / A whole course.", RielTrack keeps "Track your money." (#44). Problem lines (#46) not chosen: skip.
-- **F:** I shortlist 3-4 free licensed candidates per new sound (chapter whoosh, riser + hit), the owner listens, picks and downloads (#9, #10, #14).
-- **G:** no subtitles file (#49 dropped).
-- **H:** keep the real seller dashboard numbers (#54 done).
-
-## Decisions the owner needed to make before phases 1-6 (answered above)
-A. Louder master to -16 LUFS? (#7)
-B. Shorten KH and idevo to about 40 s? (#15, #16)
-C. One hero push-in per video? (#27) Device drift? (#28)
-D. KH KHQR payoff: a, b or c? (#43)
-E. New hook words for idevo / problem lines? (#44, #46)
-F. New sound effects: you pick from licensed free ones? (#9, #10, #14)
-G. Subtitles file? (#49)
-H. Seller dashboard numbers still OK? (#54)
+## Owner's answers so far
+- 2026-11-16 A-H: -16 LUFS yes · KH + idevo ~40 s · (push-in yes, later removed) · no drift · KH hook "Pay in riel." · idevo "One sentence. / A whole course." · shortlist sounds → picked A2 + B4 · no subtitles · keep dashboard numbers.
+- 2026-11-16 motion test: no split (Khmer stays last in RielTrack), no count-up, no carry, labels above the phone.
+- 2026-11-16 after watching idevo: no zoom in idevo, RielTrack and KH.

@@ -101,6 +101,7 @@ html {
   scrollbar-width: thin;
   scrollbar-color: var(--border) var(--bg);
   color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
 }
 [data-theme="light"] { color-scheme: light; }
 
