@@ -618,13 +618,16 @@ window.renderAt = async (t, clean) => {
   const xb = cg && cg.xfadeCut && beats[cg.i - 1] && beats[cg.i - 1].ss ? beats[cg.i - 1] : null, c2 = $('cam2');
   let xu = xb ? 1 - inOut(prog(t, cg.start / FPS, cg.xfadeCut)) : 0, pf = xb && frames[xb.end - 1], pc = xb && cameraAt(xb, (xb.end - 1) / FPS);
   // "dissolve": [[srcTime, s]] on a beat = a sudden change at srcTime (page load, or a jump to a later clip) fades: the frame shown before it fades out over s
-  if (!(xu > 0) && cg) for (const [ds, dd] of cg.dissolve || []) { const o = outOf(cg, ds); if (o == null || t < o || t >= o + dd) continue;
-    xu = 1 - inOut(prog(t, o, dd)); pf = frames[Math.max(Math.round(o * FPS) - 1, 0)]; pc = cam; }   // the frame shown just before: a page change inside a clip, or a jump between two clips of one beat
+  // optional 3rd value [srcTime, s, dy] = the page content moved down dy source px at the jump: both frames slide with it, so the content stays lined up (no ghosting)
+  let dy = 0;
+  if (!(xu > 0) && cg) for (const [ds, dd, sh] of cg.dissolve || []) { const o = outOf(cg, ds); if (o == null || t < o || t >= o + dd) continue;
+    xu = 1 - inOut(prog(t, o, dd)); pf = frames[Math.max(Math.round(o * FPS) - 1, 0)]; pc = cam; dy = sh || 0; }   // the frame shown just before: a page change inside a clip, or a jump between two clips of one beat
   c2.style.display = xu > 0 ? '' : 'none';
+  if (dy && xu > 0) $('cam').style.transform += ` translateY(${-dy * xu}px)`;
   if (xu > 0) {
     const im = $('screen2'), u2 = C.frameUrl(pf.s, pf.k);
     if (im.dataset.u !== u2) { im.src = u2; im.dataset.u = u2; await im.decode(); }
-    c2.style.transform = `translate(${pc.tx}px, ${pc.ty}px) scale(${pc.s})`; c2.style.opacity = xu; blursInto($('blurs2'), pf.s, pf.k);
+    c2.style.transform = `translate(${pc.tx}px, ${pc.ty}px) scale(${pc.s}) translateY(${dy * (1 - xu)}px)`; c2.style.opacity = xu; blursInto($('blurs2'), pf.s, pf.k);
   }
   // 16:9 phone, opt-in: "focus" = phone + labels push in toward each highlight and settle back before it ends;
   // "chapterMove" = a soft rise when a chapter starts on a real cut (never on a continuous shot)

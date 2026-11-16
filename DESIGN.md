@@ -205,7 +205,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - Height: a bit under the viewport (`100svh − header − 64px`, max 836px; bottom padding 64px, and Work's top padding 64px after it) so Work starts sooner, but content must never be cut off on short screens (test 1366×768 and landscape phones). Content is centred top to bottom; on wide screens (≥1024px) the photo is centred in the space right of the text, as big as fits the hero's height (`0.8 × (100svh − 328px)`, max 540px, max 32vw), so it never makes the hero taller than the screen.
 
 ### 8.3 Work (most important section)
-- Section label `01 / WORK` + heading (e.g. "Selected work").
+- Heading only (e.g. "Selected work"). The `01 / WORK` section labels were removed 2026-11-15 (owner: "do it all").
 - Work sits on a faint full-width band (`.section--band`: `--text` 3% over `--bg`, 1px border top and bottom), the only section that does, so the page doesn't repeat one rhythm.
 - **Exactly 3 projects**, in order: KH Halal Marketplace (featured), idevo, RielTrack.
 - **Featured card (#1):** full width. On ≥1024px it's split in two: media on one side (~7/12), text on the other (~5/12). On smaller screens media stacks on top.
@@ -222,17 +222,17 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Full demo video: removed 2026-11-15 (owner: the 56 s KH promo shows almost the same).** Was: "Full demo" (wider than 640px) plays `kh-halal-marketplace.mp4`: proof of the whole flow for a site visitors cannot try (no public demo login). idevo and RielTrack have a download, so no full demo (owner, 2026-11-13). Same style as the promo, 16:9, about 100 s, numbered chapters (`03 / 08`) with one explanation line each (`video-studio/<slug>-full.json`). Owner rules for every video: show the KH Halal checkout + KHQR page (stopped before "Place order", personal details blurred), idevo making a path and lessons with its built-in AI, RielTrack adding an income.
 
 ### 8.4 About (Tech + Education merged; owner 2026-11-12)
-- Section label `02 / ABOUT`, heading "My background", nav "About" (`#about`).
+- Heading "My background", nav "About" (`#about`).
 - **Honesty rule (owner 2026-11-12):** the owner builds with AI coding tools and has not yet learned the foundations of these languages. The site says so openly. Never present the tools as mastered skills: no levels, no percentages, no "expert" wording.
 - Under the heading: "I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools." as an intro line (what the owner made first, AI second; facts only from the Work cards) (`.tech__note`, h3 size); a commented-out slot below it for the owner's own 2–3 sentence bio. Then `.about__grid`: Education and Spoken languages, stacked. From 1024px the section is two equal columns (`.about__layout`): heading + intro line left, Education + languages right, labels on one line (no empty half). Education is a plain list (no timeline line or dot: one item; owner 2026-11-12): BIT, National University of Management, 2023 – 2026, final-year thesis project: KH Halal Marketplace. Spoken languages: Khmer (native) · English (basic).
 - **No separate tool list (owner 2026-11-12):** the tools show only as tags on each project card. A list on its own repeated the cards and read as "I know these"; tags on a real app read as "used here".
 
 ### 8.5 Experience (only if provided)
-- Section label `03 / EXPERIENCE`.
+- Heading only (no section label).
 - Clean vertical timeline: role, company, dates (mono), one achievement each. Education below, smaller.
 
 ### 8.6 Contact
-- Section label `04 / CONTACT` (renumber labels if Experience is hidden).
+- Heading "Get in touch." (no section label).
 - Large heading: "Get in touch." (owner's choice, 2026-11-12; "work together" read as freelance). Size `clamp(2.5rem, 5vw, 4rem)` (40→64px; bigger than h2, smaller than h1).
 - One friendly sentence + reply time (if provided).
 - Contact list (owner chose it 2026-11-13): one row each for Email, GitHub, LinkedIn, Telegram, Résumé, split by 1px lines (top of each row + bottom of the list). Email row first and largest (`.contact__row--main`): label on its own line, then the address (20→30px, 600, 2px orange underline, the only `mailto:` link) with the orange primary **Copy** button right after it (16px gap; wraps under the address on phones). Copy says "Copied!" + check icon for 2s, announced via `aria-live`. Every label has an 18px grey logo in front (envelope, GitHub, LinkedIn, Telegram, document for Résumé; `aria-hidden`, turns orange with the row on hover). Profile rows are quiet, one line, 56px tall: logo + mono label (8rem wide), name at body size 500, ↗ right after the name; the whole row is a link (name + arrow turn orange on hover). A row with `href="#"` stays hidden. No separate "Email me" button. List max width 36rem.
@@ -240,7 +240,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - No contact form (it's in Future ideas).
 
 ### 8.7 Footer
-- Small and muted: `© [year] [Name]` (year via JS) · "Last updated [Month Year]" (set manually) · "Back to top".
+- Small and muted (a big full-width name was tried 2026-11-15 and removed, owner): `© [year] [Name]` (year via JS) · "Last updated [Month Year]" (set manually) · "Back to top".
 
 ### 8.8 404 page
 - Same header/footer style, short friendly message, "Back to home" button.
@@ -312,7 +312,7 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 | Hero top padding (below header) | 96px | 128px |
 | Hero bottom padding | 64px | 96px |
 | Section padding (top and bottom) | 64px | 96px |
-| Section label → heading | 16px | 16px |
+| Section label → heading (404 page only) | 16px | 16px |
 | Heading → content | 32px | 48px |
 | Paragraph spacing | 16px | 16px |
 | Gap between project cards | 24px | 32px |
@@ -331,8 +331,8 @@ Order: Header → Hero → Work → About (tools + education) → Experience (if
 - **Buttons:** pill, min-height 44px, padding 12×24, Geist 500. Primary: `--accent` bg + `--accent-fg` text. Secondary: transparent + 1px border. Hover: subtle color shift + arrow icon nudges 4px right. Active: scale 0.98. Visible focus ring.
 - **Tags:** Geist Mono, 14px, pill, `--surface-2` bg, `--muted` text, padding 4×10.
 - **Links:** `--text` with a subtle underline; hover → `--accent-text` with the animated underline.
-- **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, cursor spotlight (Section 11.2). No tilt (owner removed it 2026-11-12).
-- **Section label:** mono `01 / WORK`, muted, with a short 24px line before it.
+- **Project card:** `--surface`, 1px border, 12px radius, media with `overflow: hidden`. Hover (desktop): lift -4px, border → `--accent-text` at ~60%, media scales 1.03, cursor spotlight (Section 11.2), and after 300ms a silent clip of the card's promo fades in over the screens (`data-preview` = start second on the Watch video button; `initSpotlight`; mouse only, off for reduced motion and Save-Data; the file loads only on the first hover). No tilt (owner removed it 2026-11-12).
+- **Section label:** only on the 404 page ("Error 404"), mono, muted, with a short 24px line before it. Removed from the main page 2026-11-15.
 - **Theme toggle:** 40px icon button (sun/moon inline SVG), `aria-label`, smooth icon swap.
 - **Copy button:** icon + "Copied!" feedback; keyboard accessible.
 - **Modal:** centered, web video as big as fits (up to 1400px, 16:9, never taller than the screen) or 420px (mobile video, never taller than the screen), `--surface`, 12px radius, backdrop `rgba(0,0,0,0.7)` + 8px blur; focus-trapped.
@@ -388,11 +388,17 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 
 | Element | Motion |
 |---|---|
-| **Hero name (the wow moment)** | Split-text reveal: each word slides up from behind a mask, 60ms stagger, `--dur-hero`, `--ease-out-expo`. Real text stays readable for screen readers (`aria-label` on h1, word spans `aria-hidden`). |
+| **Hero name (the wow moment)** | Split-text reveal: each letter slides up and turns upright (from 12deg) from behind its word's mask, 35ms stagger, `--dur-hero`, `--ease-out-expo`. Real text stays readable for screen readers (`aria-label` on h1, word spans `aria-hidden`). |
 | Hero label, intro, buttons, stats | Fade + slide up 16px right after the name, 80ms stagger, `--dur-slow` |
 | Sections and cards | Fade + slide up 24px once when 15% visible; side-by-side blocks stagger 100ms (no stagger when stacked: cards under 768px, About and Contact columns under 1024px) |
 | **Phone screens** (idevo, RielTrack) | When the card is on screen, each phone fades once to its second screen (`data-next`) and back (quick swap `--dur-fast`: a slow crossfade showed two layouts at once, 2s per step, phones 150ms apart), then stops. Under 5s in all (WCAG 2.2.2). Hover or keyboard focus on the card pauses it |
 | **KH Halal screens** (`.deck`) | `initDeck`: while half on screen and 768px or wider, next screen every 5s (crossfade `--dur-base`), looping. Hover or keyboard focus pauses it; a screen button stops it for good (WCAG 2.2.2); reduced motion or phone width: no auto change |
+| **KH showcase zoom** (`.deck`) | Scroll-linked (CSS `view-timeline` on `.project-card__shots`): the KH Halal frame grows from 0.6 to 1 and fades in from 0.3 while it enters, done at `cover 55%` (owner picked it 2026-11-15 for a "wow" first scroll). Transform + opacity only, no layout shift; reduced motion: none; browsers without scroll timelines show it still at full size |
+| **Phones rise** (idevo, RielTrack) | Scroll-linked (`view-timeline: --ph` on the phones area): each phone slides up from 50% lower and fades in, one after another (ranges `entry 0/10/20%` to `cover 40/45/50%`; the media's `overflow: hidden` makes them rise from behind its edge). Owner picked it 2026-11-15. Keyframes named `up` (an older `rise` exists for the hero). Reduced motion: none |
+| **Role decode** (hero) | `initDecode`: on load the role line starts as random signs (`!<>-_/[]{}=+*^?#`) and settles left to right over 0.9s, starting 0.3s after load. Each word: real text transparent in place + `aria-hidden` overlay (no layout shift, screen readers read the real text); ends by putting back the exact original text. Owner picked it 2026-11-16. Reduced motion / no JS: plain text |
+| **Heading reveal** (section `h2` in a `.reveal` block) | `initSplitText` splits each heading into word masks (`aria-label` = full text); words rise 105% -> 0 over `--dur-hero`, 80ms apart, when the block gets `.is-visible`. Plain-text headings only (inner tags would be lost). Print + reduced motion: still |
+| **Contact heading fill** ("Get in touch.") | Scroll-linked (`animation-timeline: view()`, `entry 60%` to `cover 50%`): orange outline (`-webkit-text-stroke` 1.5px) fills left to right (`background-clip: text`, `background-size` 0 -> 100%). Left out of the heading word split (one piece). Owner picked it 2026-11-16. Animates `background-size` (paint, small area): breaks the transform + opacity rule like the photo wipe. Reduced motion / no scroll timelines: solid orange |
+| **Copy burst** (copy-email button) | On a successful copy, 8 orange dots (`.dot`) fly from the button centre to just past its edge, then shrink (700ms, Web Animations, removed when done). Owner picked it 2026-11-16. Reduced motion: none |
 | **Featured screenshot settle** | Each web screenshot zooms from `scale: 1.15` to 1 while that screenshot enters the screen (its own view timeline `--shot`, `entry 0%`–`entry 100%`; 2026-11-13: the card timeline left it zoomed and cut on phones, where the card is taller than the screen). The card uses `overflow: clip` (not `hidden`) so it is not a scroll container. The hover zoom adds on top |
 | **Terminal** | `>_` button or the `` ` `` key opens a `<dialog>` (rises in `--dur-base`). Commands: help, whoami, projects/ls, open &lt;app&gt;, work, about, contact, email (copies), github, theme, clear, exit; ↑/↓ history, Tab completes a sure match. Every answer is read from the page (no copy of the content in JS). Jumps close it, scroll to the target and move focus there |
 | **Theme switch** | Circle reveal from the toggle via the View Transitions API (~500ms). Fallback: 200ms color fade. |
@@ -402,7 +408,7 @@ Purple/blue gradient blobs · glassmorphism everywhere · white text on orange �
 | Header | Background/blur/border fade in after scroll, `--dur-base` |
 | Availability dot | Gentle pulse (opacity + scale), 2s loop |
 | Stats | Count up once over ~1s |
-| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, soft orange light behind the head; no box, no frame, no hover effect. Rises in with the other hero items |
+| Hero photo | Cut-out (no backdrop, `tools/photo-cutout.py`), suit fades out at the bottom and sides, no light behind the head (removed 2026-11-16, owner); no box, no frame, no hover effect. Rises in with the other hero items |
 | Mobile menu | Fade + slight slide, 300ms, `--ease-in-out`; links stagger 40ms |
 | Copy button | Icon swap → "Copied!" |
 
@@ -420,7 +426,7 @@ Not built now (Future ideas): text scramble, magnetic buttons, tech marquee, sti
 ## 12. Performance (smooth on real devices)
 
 - **60fps** on a mid-range Android phone and a normal laptop. Test in Chrome DevTools → Performance with 4× CPU slowdown and fix long frames.
-- **Budget:** JS ≤ 27 KB, CSS ≤ 36 KB raw (35 -> 36 KB on 2026-11-13 for the desktop monitor frame, owner approved) (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal and screenshot settle (hero dots and 3D phone turn removed later the same day for simplicity), which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
+- **Budget:** JS ≤ 31 KB (30 -> 31 KB on 2026-11-16 for the copy burst, owner picked it), CSS ≤ 37.5 KB (37 -> 37.5 KB on 2026-11-16 for the Contact heading fill + copy burst). Older: JS (27 -> 28.5 KB on 2026-11-15 for the hover video preview, owner approved; 28.5 -> 30 KB on 2026-11-16 for the role decode + heading reveal the owner asked for), CSS ≤ 37 KB raw (36 -> 37 KB on 2026-11-16 for the heading reveal + progress line, owner approved; 35 -> 36 KB on 2026-11-13 for the desktop monitor frame, owner approved) (~9 KB each gzipped) (raised from 15/30 on 2026-11-12 for the phone, glow and pill effects, then for the terminal and screenshot settle (hero dots and 3D phone turn removed later the same day for simplicity), which the owner asked for: "do all of these"), page ≤ 1 MB without videos. Mobile Lighthouse: Performance, Accessibility, Best Practices, SEO all **≥ 90**; LCP < 2.0s; CLS < 0.05; INP < 200ms.
 - Mouse-follow effects: one `requestAnimationFrame` per frame updating CSS variables; cache `getBoundingClientRect` on `mouseenter`.
 - Scroll: prefer `IntersectionObserver` and CSS scroll timelines; any scroll listener is `{ passive: true }`. Reveal observers unobserve after running.
 - `will-change` only while animating (add on start, remove after).

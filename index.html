@@ -145,7 +145,7 @@
           </a>
           <a class="btn btn--secondary" href="#contact">Contact me</a>
         </div>
-        <p class="hero__meta hero__item">Phnom Penh, Cambodia · Open to full-time roles, remote too</p>
+        <p class="hero__meta hero__item"><span>Phnom Penh, Cambodia</span> · <span>Open to full-time roles, remote too</span></p>
         <!-- QUICK STATS (optional, real numbers only, max 3). Remove the comment marks to show them.
              data-count is the number that counts up; the text inside is what shows without JavaScript.
         <dl class="stats hero__item">
@@ -162,6 +162,7 @@
          - Video: put the file path (assets/videos/name.mp4) or a YouTube link in data-video="...".
            Optional data-video-short="..." = a tall PORTRAIT version that phones (640px and narrower) play instead
            (data-poster-short = its poster, if its shape differs from the main poster).
+         - Hover preview (desktop mouse): data-preview="12" on the Watch video button = the second the silent preview starts. Remove it to turn the preview off for that card.
            data-poster="..." is the still picture shown before the video plays (optional).
            data-wide = a 16:9 video on an Android card (the promo) opens the wide pop-up.
          - Public code: add this inside the card's project-card__actions:
@@ -171,7 +172,6 @@
     <section class="section section--band" id="work" aria-labelledby="work-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="section-label">Work</p> <!-- taste-skill-ignore: DESIGN.md §6.5 numbered section label -->
           <h2 class="section__title" id="work-title">Apps I designed and built</h2>
         </div>
 
@@ -242,7 +242,7 @@
                 Try live demo
                 <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
               </a>
-              <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/kh-halal-marketplace-promo.mp4" data-sound data-poster="assets/videos/kh-halal-marketplace-promo-poster.webp" data-wide data-title="KH Halal Marketplace promo video" aria-describedby="kh-halal-promo-desc">
+              <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/kh-halal-marketplace-promo.mp4" data-preview="12" data-sound data-poster="assets/videos/kh-halal-marketplace-promo-poster.webp" data-wide data-title="KH Halal Marketplace promo video" aria-describedby="kh-halal-promo-desc">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                 Watch video
               </button>
@@ -275,7 +275,7 @@
               <p class="project-card__lead">Build a mind that keeps growing.</p>
               <p class="project-card__kw">Knowledge · Learning · Growth</p>
               <!-- Honesty (CLAUDE.md §3): the promo shows the AI, so the card says who can use it -->
-              <p class="project-card__text">A notes library and learning companion. The built-in AI runs on my own server for now, not for everyone yet.</p>
+              <p class="project-card__text">Notes and study app. Its AI runs only on my own server for now.</p>
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
@@ -302,7 +302,7 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/idevo-promo.mp4" data-sound data-video-short="assets/videos/idevo-promo-mobile.mp4" data-poster-short="assets/videos/idevo-promo-mobile-poster.webp" data-poster="assets/videos/idevo-promo-poster.webp" data-wide data-title="idevo promo video" aria-describedby="idevo-promo-desc">
+                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/idevo-promo.mp4" data-preview="19" data-sound data-video-short="assets/videos/idevo-promo-mobile.mp4" data-poster-short="assets/videos/idevo-promo-mobile-poster.webp" data-poster="assets/videos/idevo-promo-poster.webp" data-wide data-title="idevo promo video" aria-describedby="idevo-promo-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
@@ -331,13 +331,6 @@
               <p class="project-card__lead">Every Riel Counts.</p>
               <p class="project-card__kw">Track · Manage · Grow</p>
               <p class="project-card__text">A private, offline money tracker for US dollars and riel.</p>
-              <!-- TRY IT: the app's "≈ $" line under a riel amount. 4100 = the rate in the app's sample data
-                   (12,000 riel ≈ $2.93); visitors can change it, like in the app. Delete the <form> to remove it. -->
-              <form class="try" aria-label="Riel to dollar, like in RielTrack" oninput="o.value=r.value>0?'≈ $'+(a.value/r.value).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'≈ $–'" onsubmit="return false">
-                <label>Riel <input name="a" type="number" inputmode="numeric" min="0" value="12000"></label>
-                <label>1 $ = <input name="r" type="number" inputmode="numeric" min="1" value="4100"> riel</label>
-                <output name="o" aria-live="polite">≈ $2.93</output>
-              </form>
               <!-- WHAT I DID / LEARNED (your own words): remove the comment marks and write 1-2 short sentences.
               <p class="project-card__text">[TODO: the hardest problem you solved here, and what you learned from it]</p>
               -->
@@ -361,7 +354,7 @@
                   Download APK
                   <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
                 </a>
-                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/rieltrack-promo.mp4" data-sound data-video-short="assets/videos/rieltrack-promo-mobile.mp4" data-poster-short="assets/videos/rieltrack-promo-mobile-poster.webp" data-poster="assets/videos/rieltrack-promo-poster.webp" data-wide data-title="RielTrack promo video" aria-describedby="rieltrack-promo-desc">
+                <button class="btn btn--secondary btn--sm video-btn" type="button" data-video="assets/videos/rieltrack-promo.mp4" data-preview="5.3" data-sound data-video-short="assets/videos/rieltrack-promo-mobile.mp4" data-poster-short="assets/videos/rieltrack-promo-mobile-poster.webp" data-poster="assets/videos/rieltrack-promo-poster.webp" data-wide data-title="RielTrack promo video" aria-describedby="rieltrack-promo-desc">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
                   Watch video
                 </button>
@@ -383,7 +376,6 @@
     <section class="section" id="about" aria-labelledby="about-title">
       <div class="container about__layout">
         <div class="section__head reveal">
-          <p class="section-label">About</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
           <h2 class="section__title" id="about-title">My background</h2>
           <p class="tech__note">I design and ship web and Android apps: a halal marketplace, a learning app and a money tracker. I build them with AI coding tools.</p>
           <!-- BIO (your own words): remove the comment marks and write 2-3 short sentences.
@@ -421,7 +413,6 @@
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact__grid">
         <div class="contact__intro reveal">
-          <p class="section-label">Contact</p> <!-- taste-skill-ignore: DESIGN.md §6.5 -->
           <h2 class="contact__title" id="contact-title">Get in touch.</h2>
           <p class="contact__text">I'm open to full-time developer roles. Send me an email and I'll reply soon.</p>
           <!-- REPLY TIME (only if true): remove the comment marks.

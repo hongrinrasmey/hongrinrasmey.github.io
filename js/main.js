@@ -143,43 +143,100 @@
     });
   }
 
-  // Hero name: each word rises from behind a mask
+  // Hero name: each letter rises from behind its word's mask. Section headings: each word, when
+  // their .reveal block scrolls in (css/style.css). Plain text only (inner tags would be lost)
   function initSplitText() {
-    var title = document.querySelector('.hero__title');
-    if (!title || reduceMotion.matches) return;
-    var text = title.textContent.trim();
-    title.setAttribute('aria-label', text); // read once by screen readers
-    title.textContent = '';
-    text.split(/\s+/).forEach(function (word, i) {
-      var outer = document.createElement('span');
-      outer.className = 'word';
-      outer.setAttribute('aria-hidden', 'true');
-      outer.innerHTML = '<span class="word__inner" style="--i:' + i + '"></span>';
-      outer.firstChild.textContent = word;
-      title.append(outer, ' ');
+    if (reduceMotion.matches) return;
+    document.querySelectorAll('.hero__title, .reveal h2:not(.contact__title)').forEach(function (title) {
+      var text = title.textContent.trim(), n = 0, hero = title.matches('.hero__title');
+      title.setAttribute('aria-label', text); // read once by screen readers
+      title.textContent = '';
+      text.split(/\s+/).forEach(function (word) {
+        var outer = document.createElement('span');
+        outer.className = 'word';
+        outer.setAttribute('aria-hidden', 'true');
+        (hero ? Array.from(word) : [word]).forEach(function (ch) {
+          var s = document.createElement('span');
+          s.className = 'word__inner';
+          s.style.setProperty('--i', n++);
+          s.textContent = ch;
+          outer.append(s);
+        });
+        title.append(outer, ' ');
+      });
+      title.classList.add('is-split');
     });
-    title.classList.add('is-split');
+  }
+
+  // Role line decodes from random signs (~1s). The real text stays in place (transparent) under an
+  // aria-hidden overlay per word: no layout shift, screen readers read the real text
+  function decode(el, wait, ms) {
+    if (el.busy) return;
+    var text = el.textContent, t0 = performance.now() + wait;
+    el.busy = el.innerHTML = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\S+/g, '<span class="decode">$&<span aria-hidden="true"></span></span>');
+    var fakes = el.querySelectorAll('[aria-hidden]');
+    (function frame(t) {
+      var n = (t - t0) / ms * text.length, i = 0; // n letters done (NaN on the first call: none)
+      fakes.forEach(function (f) {
+        f.textContent = f.parentNode.firstChild.data.replace(/./g, function (c) { return i++ < n ? c : '!<>-_/[]{}=+*^?#'[Math.random() * 16 | 0]; });
+        i++; // the space
+      });
+      if (n > text.length) el.textContent = text, el.busy = 0; else requestAnimationFrame(frame);
+    })();
+  }
+  function initDecode() {
+    var role = document.querySelector('.hero__role');
+    if (reduceMotion.matches) return;
+    if (role) decode(role, 300, 900); // after the name starts rising
+    // nav links scramble on hover (mouse only)
+    if (finePointer.matches) document.querySelectorAll('.site-nav__link').forEach(function (a) { a.onmouseenter = function () { decode(a, 0, 350); }; });
   }
 
   // Project cards (mouse only): hover class + cursor spotlight.
   // offset* ignores transforms: the 4px lift never drops the hover at the edge
   function initSpotlight() {
     if (!finePointer.matches || reduceMotion.matches) return;
-    var cards = document.querySelectorAll('.project-card'), frameId, cx, cy, inMain;
+    var cards = document.querySelectorAll('.project-card'), frameId, cx, cy, inMain = false, moved;
+    var save = navigator.connection && navigator.connection.saveData;
+    // Hover preview: the card's promo plays silent over its screens, from data-preview seconds
+    function preview(card, on) {
+      var btn = card.querySelector('[data-preview]'), v = card.querySelector('.preview');
+      if (!btn || save) return;
+      clearTimeout(card.wait);
+      if (!on) { if (v) { v.pause(); v.classList.remove('is-on'); } return; }
+      card.wait = setTimeout(function () { // 300ms: a mouse passing by loads nothing
+        if (!v) {
+          v = document.createElement('video');
+          Object.assign(v, { muted: true, playsInline: true, disablePictureInPicture: true, className: 'preview', src: btn.dataset.video + '#t=' + btn.dataset.preview });
+          v.setAttribute('aria-hidden', 'true');
+          v.onplaying = function () { v.classList.add('is-on'); };
+          card.querySelector('.project-card__media').appendChild(v);
+        }
+        v.play().catch(function () {});
+      }, 300);
+    }
     function draw() {
-      frameId = null;
-      cards.forEach(function (card) {
+      // scroll alone only ends a hover: a new hover, preview or spotlight move each frame lagged the scroll
+      var m = moved;
+      frameId = moved = null;
+      // read every card first, then write: a read after a write forces a new layout (scroll lag)
+      var pos = [].map.call(cards, function (card) {
         var l = scrollX, t = scrollY, el = card;
         for (; el; el = el.offsetParent) { l -= el.offsetLeft; t -= el.offsetTop; }
-        var x = (cx + l) / card.offsetWidth, y = (cy + t) / card.offsetHeight;
+        return [(cx + l) / card.offsetWidth, (cy + t) / card.offsetHeight];
+      });
+      cards.forEach(function (card, i) {
+        var x = pos[i][0], y = pos[i][1];
         var on = inMain && x >= 0 && x <= 1 && y >= 0 && y <= 1;
+        if (on && !m) return;
+        if (on !== card.classList.contains('is-hover')) preview(card, on);
         card.classList.toggle('is-hover', on);
         if (on) { card.style.setProperty('--x', x * 100 + '%'); card.style.setProperty('--y', y * 100 + '%'); }
       });
     }
     function queue() { if (!frameId) frameId = requestAnimationFrame(draw); }
     addEventListener('mousemove', function (e) { // not over header, menu or pop-up
-      inMain = !!e.target.closest('main'); cx = e.clientX; cy = e.clientY; queue();
+      inMain = !!e.target.closest('main'); cx = e.clientX; cy = e.clientY; moved = 1; queue();
     }, { passive: true });
     addEventListener('scroll', queue, { passive: true });
     root.addEventListener('mouseleave', function () { inMain = false; queue(); });
@@ -319,6 +376,14 @@
       copyText(text).then(function (ok) {
         if (label) label.textContent = ok ? 'Copied!' : 'Copy failed';
         btn.classList.toggle('is-copied', ok);
+        if (ok && !reduceMotion.matches) for (var i = 0; i < 8; i++) {
+          var d = document.createElement('i'), a = i * Math.PI / 4;
+          d.className = 'dot';
+          btn.append(d);
+          var to = 'translate(' + Math.cos(a) * (btn.offsetWidth / 2 + 16) + 'px,' + Math.sin(a) * (btn.offsetHeight / 2 + 16) + 'px)'; // just past the edge, then shrink
+          d.animate([{ transform: 'none' }, { transform: to, offset: 0.6 }, { transform: to + ' scale(0)' }],
+            { duration: 700, easing: 'ease-out' }).onfinish = d.remove.bind(d);
+        }
         announce(ok ? 'Copied!' : 'Could not copy. Select the text and copy it.');
         clearTimeout(btn._copyTimer);
         btn._copyTimer = setTimeout(function () {
@@ -554,6 +619,7 @@
   initMenu();
   initActiveNav();
   initSplitText();
+  initDecode();
   initReveal();
   initSpotlight();
   initPhoneScreens();
