@@ -24,7 +24,7 @@ const report = (ok, msg) => { if (!ok) failed++; console.log((ok ? 'PASS ' : 'FA
 const html = readFileSync(page, 'utf8').replace(/<!--[\s\S]*?-->/g, '');
 const files = [...html.matchAll(/(?:src|data-next|data-poster)="([^"#:]+)"/g)].map(m => m[1])
   .concat([...html.matchAll(/srcset="([^"]+)"/g)].flatMap(m => m[1].split(',').map(s => s.trim().split(/\s+/)[0])));
-const missing = files.filter(f => !existsSync(resolve(f)));
+const missing = files.filter(f => !existsSync(resolve(f.split("?")[0])));   // "?v=..." = cache-busting tag, not part of the file name
 report(!missing.length, `${files.length} image/script files exist` + (missing.length ? ': missing ' + missing.join(', ') : ''));
 
 // srcset copies carry their src name and are not older than it (a replaced or renamed screenshot)
